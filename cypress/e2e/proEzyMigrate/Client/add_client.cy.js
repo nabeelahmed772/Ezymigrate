@@ -882,7 +882,7 @@ function randName(length) {
 
       //});
       //cy.type('{enter}')
-      cy.wait(9000)
+      cy.wait(10000)
 
 
     });
