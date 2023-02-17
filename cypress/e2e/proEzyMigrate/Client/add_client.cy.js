@@ -411,7 +411,7 @@ function randName(length) {
 
        cy.wait(3000)
 
-       cy.get('.ant-col > .ant-input').type('testing by NZ team')
+       cy.get('.ant-col > .ant-input').click({force:true}).type('testing by NZ team')
 
        cy.get('[style="justify-content: flex-end; margin-top: 10px;"] > .ant-col > .ant-btn > span').click()
 
