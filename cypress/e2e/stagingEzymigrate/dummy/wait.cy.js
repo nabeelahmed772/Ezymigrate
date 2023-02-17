@@ -64,23 +64,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
             cy.wait('@search')
             cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a').click()
             cy.wait(4000)    
-            cy.contains('munna mbbs').click()
-            cy.get(':nth-child(1) > [style="display: flex;"] > .contact-emp > :nth-child(2) > :nth-child(1) > .d-end > .contact-Head > .icons-client').click()
-            cy.get('#main_openDate').click()
-            cy.wait(3000)
-            cy.get('.ant-picker-cell.ant-picker-cell-in-view.ant-picker-cell-today').click()
-            cy.wait(3000)
-            cy.get('#main_closeDate').click()
-            cy.wait(3000)
-            cy.get('.ant-picker-cell.ant-picker-cell-in-view.ant-picker-cell-today').eq(1).click()
-            cy.wait(3000)
-            cy.get('#main_advertisingExpiry').click()
-            cy.wait(3000)
-            cy.get('body > div:nth-child(10) > div > div > div > div > div.ant-picker-date-panel > div.ant-picker-body > table > tbody > tr:nth-child(3) > td:nth-child(4) > div').click()
-            cy.wait(3000)
-            cy.get('#main_skillMatesReportExpiry').click()
-            cy.wait(3000)
-            cy.get('body > div:nth-child(11) > div > div > div > div > div.ant-picker-date-panel > div.ant-picker-body > table > tbody > tr:nth-child(4) > td:nth-child(4) > div').click()
+           
 
 
 

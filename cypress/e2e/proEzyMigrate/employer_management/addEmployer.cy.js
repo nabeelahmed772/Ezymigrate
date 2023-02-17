@@ -27,6 +27,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     const sms= '211267313';
     const user_name ='rananabeelahmed772@gmail.com';
     const password = 'Nabeel@123';
+    const futureDate = "25/02/2023"
   
   describe('Adding Employer', () => {
     it('Add employer', () => {
@@ -81,9 +82,9 @@ Cypress.on('uncaught:exception', (err, runnable) => {
       cy.get('#main_mobile').type(sms)
       cy.get('#main_website > :nth-child(2) > .ant-input').type('test website')
       cy.get(':nth-child(11) > [style="padding-left: 4px; padding-right: 4px;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-select > .ant-select-selector > .ant-select-selection-item').click()
-
+      cy.wait(2000)
       //need to fix later 
-      cy.xpath('/html/body/div[3]/div/div/div/div[2]/div[1]/div/div/div[2]', { timeout: 10000 }).click({force:true})
+      cy.get('div[title="Administrative"]').click({multiple:true, force:true})
         
         
       //cy.contains('Agriculture').eq(0).click()
@@ -109,8 +110,18 @@ Cypress.on('uncaught:exception', (err, runnable) => {
       
       cy.get('#main_name').should('be.visible')
       //cy.wait(9000)
+      cy.get('#main_business').clear()
+      cy.wait(2000)
       cy.get('#main_business').type('test sqa update')
       cy.wait(2000)
+      cy.get('#main_accredationStartDate').click({force:true})
+      cy.wait(2000)
+      cy.get(date).click({multiple:true, force:true})
+      cy.wait(2000)
+      cy.get('#main_accredationExpiryDate').type(futureDate, {force:true}).type('{enter}')
+      cy.wait(1000)
+      //cy.get(futureDate).type('{enter}').click({force:true})
+      cy.wait(1000)
       cy.contains('Save').scrollIntoView()
       cy.wait(1000)
       cy.get('.ant-form-item-control-input-content > .ant-btn > span').click()
