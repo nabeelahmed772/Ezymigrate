@@ -57,13 +57,16 @@ Cypress.on('uncaught:exception', (err, runnable) => {
           cy.get('#password > .profile-input-login').type(password)
           cy.get('.sus-modal-button-text').click()
           cy.wait('@login')
+          cy.wait(8000)
           
-            cy.contains('Client Analytics').should('be.visible')
 
-            cy.contains('All Clients').click()
-            cy.wait('@search')
-            cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a').click()
-            cy.wait(4000)    
+          cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a').click()
+          cy.wait(4000)
+          cy.contains('Export').click()
+          cy.readFile('cypress/download/EmployersList.xlsx').should('contain', 'munna mbbs')
+
+            
+
            
 
 

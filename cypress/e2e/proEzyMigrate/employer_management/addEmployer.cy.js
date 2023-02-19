@@ -183,21 +183,21 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
       cy.get('#rc-tabs-5-tab-1 > [style="display: block;"] > .rightbar-icons').click()
       cy.wait(2000)
-      cy.get(':nth-child(6) > :nth-child(2) > .ant-picker > .ant-picker-input > input').click()
+      cy.get(':nth-child(6) > :nth-child(2) > .ant-picker > .ant-picker-input > input').type(futureDate, {force:true}).type('{enter}')
       cy.wait(2000)
-      cy.get(date).click({multiple:true, force:true})
+      
 
-      cy.get(':nth-child(7) > :nth-child(2) > .ant-picker > .ant-picker-input > input').click()
+      cy.get(':nth-child(7) > :nth-child(2) > .ant-picker > .ant-picker-input > input').type(futureDate, {force:true}).type('{enter}')
       cy.wait(2000)
-      cy.get(date).click({multiple:true, force:true})
+     
 
       cy.get('[style="padding: 10px;"] > .ant-select > .ant-select-selector > .ant-select-selection-item').click({multiple:true, force:true})
       cy.wait(2000)
       cy.get('div[title="Client Awaiting Document Instructions"]').click({multiple:true, force:true})
       cy.wait(2000)
-      cy.get('.ant-form > [style="padding: 0px 10px 10px;"] > .ant-picker > .ant-picker-input > input').click({multiple:true, force:true})
+      cy.get('.ant-form > [style="padding: 0px 10px 10px;"] > .ant-picker > .ant-picker-input > input').click({multiple:true, force:true}).type(futureDate, {force:true}).type('{enter}')
       cy.wait(2000)
-      cy.get(date).click({multiple:true, force:true})
+      
       cy.wait(2000)
       cy.get('.ant-form > .button-blue-cont > .ant-btn > span').click({force:true})
       cy.wait(4000)
@@ -282,17 +282,17 @@ Cypress.on('uncaught:exception', (err, runnable) => {
       //cy.get('#main_policy').type('mzn3243')
       //cy.get('#main_visa_length')
       cy.get('#main_visa_length').type('2')
-      cy.get('#main_advertisingExpiry').click()
-      cy.get(date).click({multiple:true, force:true})
+      cy.get('#main_advertisingExpiry').click().type(futureDate, {force:true}).type('{enter}')
+      
       cy.wait(1000)
       //cy.get('.ant-picker-cell ant-picker-cell-in-view ant-picker-cell-today').eq(1).click
       cy.get(':nth-child(4) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > #main_address').type('test addreess')
       cy.get('#main_liaId').click()
       cy.wait(1000)
       //cy.get('.ant-select-item ant-select-item-option ant-select-item-option-active').click()
-      cy.get('#main_skillMatesReportExpiry').click()
+      cy.get('#main_skillMatesReportExpiry').click().type(futureDate, {force:true}).type('{enter}')
       cy.wait(1000)
-      cy.get(date).click({multiple:true, force:true})
+      
       //cy.get('.ant-picker-cell ant-picker-cell-in-view ant-picker-cell-today').eq(2).click()
       cy.get('#main_skill_level').type('basic')
       cy.get('#main_salesPersonId').click()
@@ -313,7 +313,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
       cy.get('.ant-tabs-tab-btn').eq(7).click()
       cy.wait(2000)
-      cy.get(':nth-child(2) > [style="margin-top: 8px;"] > .ant-select > .ant-select-selector').click()
+      cy.get(':nth-child(2) > [style="margin-top: 8px;"] > .ant-select > .ant-select-selector').click({force:true})
       cy.wait(2000)
       cy.get('div[title="mobile testing questionare"]').click({force:true})
       cy.wait(4000)
@@ -321,7 +321,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
         cy.visit(text2.text())
       })
       
-      cy.wait(5000)
+      cy.wait(6000)
       cy.get('#clientName').type('nabeel')
       cy.get('#sections_0_questions_0_answers_0_answer').type('test qw')
       cy.get('#sections_0_questions_1_answers_0_answer').type('test qw2')
@@ -361,7 +361,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
       .then(function(text1){
         cy.visit(text1.text())
       })
-      cy.wait(6000)
+      cy.wait(8000)
       cy.get('#write').click()
       cy.wait(2000)
       cy.get('#txtSign').type('nabeel')
@@ -386,9 +386,14 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
 
 
-      //deleting the employer
+      //exporting  the employer
       cy.contains('Employer Management').click()
-      cy.wait(1000)
+      cy.wait(2000)
+      cy.contains('Export').click()
+      cy.wait(7000)
+      cy.reload()
+
+      //deleting the employer
       cy.scrollTo('right')
       cy.wait(4000)
       //cy.get('#root > div > div > div > section > main > div > div.ant-spin-nested-loading > div > div > div > div > div > div:nth-child(2) > div > div > div > div > div > div > div > div > div > table > tbody > tr:nth-child(2) > td.ant-table-cell.ant-table-row-expand-icon-cell > div > span.anticon.anticon-delete > svg').scrollIntoView()
