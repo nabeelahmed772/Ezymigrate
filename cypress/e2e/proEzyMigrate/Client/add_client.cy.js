@@ -312,14 +312,14 @@ function randName(length) {
       cy.get(':nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-select > .ant-select-selector > .ant-select-selection-item').click()
       cy.wait(6000)
       cy.contains('signature contract').click({force:true})
-      cy.wait(7000)
+      cy.wait(8000)
       cy.contains('Generate Contract Link').click({force:true})
      cy.wait(8000)
      cy.get('[style="margin-top: 10px; display: flex;"] > a')
      .then(function(text1){
        cy.visit(text1.text())
      })
-     cy.wait(8000)
+     cy.wait(10000)
      cy.get('#write').click()
      cy.wait(2000)
      cy.get('#txtSign').type('nabeel')
@@ -327,12 +327,12 @@ function randName(length) {
      cy.wait(6000)
      cy.get('#signature-pad-').click()
      cy.contains('Save Signature').click()
-     cy.wait(8000)
+     cy.wait(10000)
 
      cy.visit('https://app.ezymigrate.com/client-email')
      cy.wait(6000)
      cy.get(':nth-child(4) > a > .header-bar-text-div > .header-text').click()
-     cy.wait(5000)
+     cy.wait(6000)
      cy.contains('Contract-Signed-PDF.pdf ').should('be.visible')
 
 
@@ -744,7 +744,9 @@ function randName(length) {
       cy.wait(2000)
       cy.get('[type="file"]').attachFile('ABC.jpg')
       cy.get('#visaCountryId').click()
+      cy.wait(4000)
       cy.contains('NEW ZEALAND').click()
+      cy.wait(2000)
       //cy.get('#visaCountryType').click()
       //cy.get('[title= "Visa"]').click()
       cy.get('#title').type('title')
@@ -882,7 +884,7 @@ function randName(length) {
 
       //});
       //cy.type('{enter}')
-      cy.wait(11000)
+      cy.wait(5000)
 
 
     });
