@@ -221,12 +221,12 @@ function randName(length) {
       cy.contains('mobile testing questionare.pdf..pdf ').should('be.visible')
 
 
-      //deleting the client
+      //exporting the client
       cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a').click()
       cy.wait(8000)
-
-      
-      
+      cy.contains('Export').click()
+      cy.wait(2000)
+      //deleting the client
       cy.contains('margalla').scrollIntoView()
       cy.wait(2000)
 
