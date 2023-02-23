@@ -27,20 +27,13 @@ function randName(length) {
 
        const sms= '211267313';
        const date = 'td[title="2023-02-05"]';
+       const futureDate = "25/02/2023"
   
   describe('Adding client', () => {
     it('Add client', () => {
 
       cy.viewport(1366, 657)
       //const sms= '211267313';
-
-      
-      //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-      cy.visit('https://app.ezymigrate.com/login')
-
-    
-
-      //cy.intercept('POST', '/ActiveSince*').as('login')
 
       cy.getCookies({log: true})
 
@@ -51,6 +44,16 @@ function randName(length) {
       cy.clearAllCookies({log:true})
       
       cy.clearAllLocalStorage({log:true})
+
+      
+      //cy.visit('https://app-stage.ezymigrate.co.nz/login')
+      cy.visit('https://app.ezymigrate.com/login')
+
+    
+
+      //cy.intercept('POST', '/ActiveSince*').as('login')
+
+     
 
     
 
@@ -69,18 +72,18 @@ function randName(length) {
       cy.wait(2000)
 
       cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[6]/span/a').click()
-      cy.wait(4000)
+      cy.wait(3000)
 
       cy.get('[type="file"]').attachFile('ABC.jpg' )
 
       cy.get('#visaCountryId').click()
 
-      cy.wait(6000)
+      cy.wait(3000)
 
       cy.contains('NEW ZEALAND').click({force:true})
       cy.wait(2000)
       cy.get('#visaCountyType').click()
-      cy.wait(3000)
+      cy.wait(2000)
       cy.get('.ant-select-item-option-content:visible').eq(1).contains('Visa').click()
       //cy.get(':nth-child(2) > .ant-form-item > .ant-row > .ant-form-item-control > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-select > .ant-select-selector > .ant-select-selection-item').click()
       cy.get('#clientSerial').type(randomNo(5))
@@ -176,6 +179,8 @@ function randName(length) {
       cy.get('[style="padding-bottom: 0px; justify-content: space-between;"] > :nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-select > .ant-select-selector > .ant-select-selection-item').click({force:true})
       cy.get('body > div:nth-child(9) > div > div > div > div.rc-virtual-list > div.rc-virtual-list-holder > div > div > div.ant-select-item.ant-select-item-option.ant-select-item-option-active > div').click({force:true})
       cy.get('#visaText').type('test visa')
+      cy.get('#currentNewZealandVisaExpiry').type(futureDate,{force:true}).type('{enter}')
+      cy.get('#travelConditionsValidTo').type(futureDate,{force:true}).type('{enter}')
       cy.get('#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(2) > form > div.denied-cont > div.ant-form-item > div > div > div > div > button > span').click()
       cy.wait(5000)
 
@@ -187,6 +192,7 @@ function randName(length) {
       cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({ multiple: true, force:true })
       cy.get('#medicalExpiryDate').click()
       cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
+      cy.get('#xrayExpiryDate').type(futureDate,{force:true}).type('{enter}')
       cy.get('#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(3) > form > div.denied-cont > div.ant-form-item > div > div > div > div > button > span').click()
       cy.wait(5000)
 
@@ -232,7 +238,7 @@ function randName(length) {
       cy.wait(1000)
       cy.get(':nth-child(2) > a > .header-bar-text-div > .header-text').click()
       cy.wait(6000)
-      cy.get('[style="cursor: pointer;"] > :nth-child(1) > .cv-top-lbtn-text').click()
+      cy.get('.cv-top-lbtn-text').eq(0).click()
       cy.get('[style="padding: 10px;"] > .ant-select > .ant-select-selector > .ant-select-selection-item').click()
       cy.get('div[title="Critical Purpose Visitor Visa"]').click({multiple:true , force:true})
       cy.get('.ant-picker-input > input').click()
