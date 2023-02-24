@@ -186,7 +186,7 @@ describe('potential client', () => {
      cy.wait(6000)
      cy.get('#signature-pad-').click()
      cy.contains('Save Signature').click()
-     cy.wait(8000)
+     cy.wait(11000)
      cy.visit('https://app.ezymigrate.com/potential-client/potential-clients')
      cy.wait(5000)
      //validating the digital signature
@@ -209,7 +209,16 @@ describe('potential client', () => {
 
       cy.contains('Export').click()
       cy.wait(7000)
-      cy.reload()
+
+      cy.readFile('cypress/downloads/PotentialClientsList.xlsx', 'binary').then(fileContent => {
+        const workbook = XLSX.read(fileContent, { type: 'binary' });
+        const sheetName = workbook.SheetNames[0]; // assuming data is in the first sheet
+        const worksheet = workbook.Sheets[sheetName];
+        const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+      
+        expect(data[0][4]).to.not.equal('nabeel123@gmail.com'); // assuming the data you're looking for is in the first cell of the fourth row
+      });
+      //cy.reload()
 
       
       cy.get('#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div > div > div > div > div > div:nth-child(2) > div > div > div.ant-row > div > div > div > div > div > div > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(8) > div > a:nth-child(5) > span > svg').click()

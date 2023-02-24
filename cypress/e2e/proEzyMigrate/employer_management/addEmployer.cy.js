@@ -369,7 +369,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
       cy.wait(6000)
       cy.get('#signature-pad-').click()
       cy.contains('Save Signature').click()
-      cy.wait(8000)
+      cy.wait(11000)
       cy.visit('https://app.ezymigrate.com/employer-management')
 
       //validating the digital signature
@@ -391,6 +391,16 @@ Cypress.on('uncaught:exception', (err, runnable) => {
       cy.wait(2000)
       cy.contains('Export').click()
       cy.wait(7000)
+
+      //adding assertion
+      cy.readFile('cypress/downloads/EmployersList.xlsx', 'binary').then(fileContent => {
+        const workbook = XLSX.read(fileContent, { type: 'binary' });
+        const sheetName = workbook.SheetNames[0]; // assuming data is in the first sheet
+        const worksheet = workbook.Sheets[sheetName];
+        const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+      
+        expect(data[1][0]).to.equal('cy new employer'); // assuming the data you're looking for is in the second cell of the first row
+      });
       cy.reload()
 
       //deleting the employer

@@ -35,7 +35,25 @@ Cypress.on('uncaught:exception', (err, runnable) => {
       
             cy.intercept('POST','https://beta-api.ezymigrate.co.nz/v1/dashboardbi/IdleSince').as('login')
           cy.intercept('POST','https://beta-api.ezymigrate.co.nz/v1/client/SearchClient').as('search')
-          
+          const XLSX = require('xlsx');
+
+cy.readFile('cypress/downloads/EmployersList.xlsx', 'binary').then(fileContent => {
+  const workbook = XLSX.read(fileContent, { type: 'binary' });
+  const sheetName = workbook.SheetNames[0]; // assuming data is in the first sheet
+  const worksheet = workbook.Sheets[sheetName];
+  const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+  expect(data[1][0]).to.equal('cy new employer'); // assuming the data you're looking for is in the first cell of the first row
+});
+
+cy.readFile('cypress/downloads/PotentialClientsList.xlsx', 'binary').then(fileContent => {
+    const workbook = XLSX.read(fileContent, { type: 'binary' });
+    const sheetName = workbook.SheetNames[0]; // assuming data is in the first sheet
+    const worksheet = workbook.Sheets[sheetName];
+    const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+  
+    expect(data[0][4]).to.not.equal('nabeel123@gmail.com'); // assuming the data you're looking for is in the first cell of the second row
+  });
           //cy.visit('https://app-stage.ezymigrate.co.nz/login')
           cy.visit('https://app.ezymigrate.com/login')
       
