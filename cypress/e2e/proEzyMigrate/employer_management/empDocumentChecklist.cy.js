@@ -116,7 +116,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
       cy.wait(8000)
       cy.get(':nth-child(2) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span').click()
       cy.wait(4000)
-      cy.reload()
+      cy.visit('https://app.ezymigrate.com/employer-management')
       cy.wait(8000)
 
       cy.scrollTo('left')

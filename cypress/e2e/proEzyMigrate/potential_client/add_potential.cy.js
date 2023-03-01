@@ -27,6 +27,7 @@ function randName(length) {
   const sms= '211267313';
   const user_name ='rananabeelahmed772@gmail.com';
   const password = 'Nabeel@123';
+  const futureDate = '01/03/2023'
 
 describe('potential client', () => {
   it('Add potential', () => {
@@ -100,8 +101,8 @@ describe('potential client', () => {
       cy.wait(2000)
       cy.get('#basic_task_title').type('potntial client ')
       cy.get('#basic_task_description').type('description for potential client')
-      cy.get('#basic_select_date').click()
-      cy.get(date).click({Multiple:true, force:true})
+      cy.get('#basic_select_date').type(futureDate, {force:true}).type('{enter}')
+      //cy.get(date).click({Multiple:true, force:true})
       cy.get('[style="text-align: right;"] > .ant-btn > span').click()
        
       cy.wait(5000)
@@ -122,8 +123,8 @@ describe('potential client', () => {
       cy.get('#clientName').type('nabeel')
       cy.get('#sections_0_questions_0_answers_0_answer').type('test qw')
       cy.get('#sections_0_questions_1_answers_0_answer').type('test qw2')
-      cy.get('#sections_0_questions_2_answers_0_answer').click()
-      cy.get(date).click({multiple:true, force:true})
+      cy.get('#sections_0_questions_2_answers_0_answer').type(futureDate, {force:true}).type('{enter}')
+      //cy.get(date).click({multiple:true, force:true})
       cy.get('#sections_0_questions_3_answers_0_answer').type('testing 123')
       cy.get('#sections_0_questions_4_answers_0_answer').type('testing limk')
 
@@ -209,7 +210,7 @@ describe('potential client', () => {
 
       cy.contains('Export').click()
       cy.wait(7000)
-
+      const XLSX = require('xlsx');
       cy.readFile('cypress/downloads/PotentialClientsList.xlsx', 'binary').then(fileContent => {
         const workbook = XLSX.read(fileContent, { type: 'binary' });
         const sheetName = workbook.SheetNames[0]; // assuming data is in the first sheet

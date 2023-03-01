@@ -89,7 +89,7 @@ function randName(length) {
       cy.get('#clientSerial').type(randomNo(5))
       cy.get('#title').click({force:true}).type('title')
       cy.get('#firstName').type('finame')
-      cy.get('#lastName').type(randName(5))
+      cy.get('#lastName').type('shuja')
       cy.get('#preferredName').type('pre name')
       cy.get('#email').type('nabeeloutsourcenz1@gmail.com')
       cy.get('#gender').click()
@@ -878,13 +878,29 @@ function randName(length) {
 
       //deleting the client
       
-      cy.contains('finame').scrollIntoView()
+      cy.contains('finame shuja').scrollIntoView()
       cy.wait(2000)
 
-      cy.get('#root > div > div > div > section > main > div > div > div > div > div.container-ui.w-100 > div.ant-spin-nested-loading > div > div > div > div > div > div > div > div.ant-table-container > div > table > tbody > tr:nth-child(3) > td:nth-child(8) > div > span > svg').click()
+      cy.get('.ant-table-row.ant-table-row-level-0').each(($el, index, $list) => {
+        
+        var del = $el.find('span[style="font-size: 12px; cursor: pointer; color: rgba(0, 0, 0, 0.85);"]').text().trim()
+        if(del==='finame shuja'){
+          cy.log(del)
+          cy.wrap($el).find('.anticon.anticon-delete').click()
+          
+          
+
+        }
+        
+
+      })
+
+      
+
+      //cy.get('#root > div > div > div > section > main > div > div > div > div > div.container-ui.w-100 > div.ant-spin-nested-loading > div > div > div > div > div > div > div > div.ant-table-container > div > table > tbody > tr:nth-child(3) > td:nth-child(8) > div > span > svg').click()
         //cy.get('#root > div > div > div > section > main > div > div > div > div > div.container-ui.w-100 > div.ant-spin-nested-loading > div > div > div > div > div > div > div > div.ant-table-container > div > table > tbody > tr:nth-child(2) > td:nth-child(8) > div > span > svg').click()
       //cy.get('#root > div > div > div > section > main > div > div > div > div > div.container-ui.w-100 > div.ant-spin-nested-loading > div > div > div > div > div > div > div > div.ant-table-container > div > table > tbody > tr:nth-child(1) > td:nth-child(8) > div > span > svg').click()
-      cy.wait(3000)
+      //cy.wait(3000)
       //cy.window().then(function(){
         //cy.contains('OK').click()
 

@@ -391,7 +391,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
       cy.wait(2000)
       cy.contains('Export').click()
       cy.wait(7000)
-
+      const XLSX = require('xlsx');
       //adding assertion
       cy.readFile('cypress/downloads/EmployersList.xlsx', 'binary').then(fileContent => {
         const workbook = XLSX.read(fileContent, { type: 'binary' });

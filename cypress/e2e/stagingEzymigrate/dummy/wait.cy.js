@@ -35,6 +35,32 @@ Cypress.on('uncaught:exception', (err, runnable) => {
       
             cy.intercept('POST','https://beta-api.ezymigrate.co.nz/v1/dashboardbi/IdleSince').as('login')
           cy.intercept('POST','https://beta-api.ezymigrate.co.nz/v1/client/SearchClient').as('search')
+
+          cy.visit('https://app.ezymigrate.com/login')
+
+    
+
+      cy.intercept('GET', 'https://beta-api.ezymigrate.co.nz/v1/reminder/All/651876e6-b0c8-4c31-aac2-2129d93a8c9b').as('allclients')
+
+     
+
+    
+
+      
+
+      cy.get('#userName > .profile-input-login').type('rananabeelahmed772@gmail.com')
+
+      cy.get('#password > .profile-input-login').type('Nabeel@123')
+      
+
+      cy.get('.sus-modal-button-text').click()
+
+      cy.wait(3000)
+
+
+          cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a').click()
+           cy.wait(6000)
+         
           const XLSX = require('xlsx');
 
 cy.readFile('cypress/downloads/EmployersList.xlsx', 'binary').then(fileContent => {
