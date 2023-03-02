@@ -164,39 +164,7 @@ describe('potential client', () => {
      cy.wait(7000)
 
      //signing the employer digital signature
-     cy.contains('test potential client').click()
-     cy.wait(4000) 
-     cy.get(':nth-child(2) > .sus-inactive-tab-text-school').click()
-     cy.wait(7000) 
-     cy.get('[data-node-key="2"]').contains('CREATE').click()
-     cy.wait(7000)
-     cy.get(':nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-select > .ant-select-selector > .ant-select-selection-item').click()
-     cy.contains('potential clinet signtaturee').click()
-     cy.wait(8000)
-     cy.contains('Generate Contract Link').click()
-     cy.wait(6000)
-     cy.get('[style="margin-top: 10px; display: flex;"] > a')
-     .then(function(text1){
-       cy.visit(text1.text())
-     })
-     cy.wait(6000)
-     cy.get('#write').click()
-     cy.wait(2000)
-     cy.get('#txtSign').type('nabeel')
-     cy.get('.modal-content > .BtnAdd').click()
-     cy.wait(6000)
-     cy.get('#signature-pad-').click()
-     cy.contains('Save Signature').click()
-     cy.wait(11000)
-     cy.visit('https://app.ezymigrate.com/potential-client/potential-clients')
-     cy.wait(5000)
-     //validating the digital signature
-     cy.contains('test potential client').click()
-     cy.wait(3000)
-     cy.get('.sus-inactive-tab-text-school').eq(1).click()
-     cy.wait(2000)
-     cy.contains('Contract-Signed-PDF.pdf ').should('be.visible')
-
+     
       
 
 

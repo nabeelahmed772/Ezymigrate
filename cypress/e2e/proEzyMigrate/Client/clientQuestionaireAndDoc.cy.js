@@ -27,6 +27,7 @@ function randName(length) {
 
        const sms= '211267313';
        const date = 'td[title="2023-02-05"]';
+       const futureDate = '05/03/2023'
   
   describe('Adding client', () => {
     it('Add client', () => {
@@ -86,15 +87,15 @@ function randName(length) {
       cy.get('#clientSerial').type(randomNo(5))
       cy.get('#title').click({force:true}).type('title')
       cy.get('#firstName').type('margalla')
-      cy.get('#lastName').type(randName(5))
+      cy.get('#lastName').type('hill')
       cy.get('#preferredName').type('pre name')
       //cy.get('#email').type('nabeeloutsourcenz1@gmail.com')
       cy.get('#gender').click()
       cy.wait(2000)
       cy.contains('Male').click({force:true})
       cy.get('#address').type('test addess')
-      cy.get('#dateOfBirth').click()
-      cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({ multiple: true, force: true })
+      cy.get('#dateOfBirth').type(futureDate, {force:true}).type('{enter}')
+      //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({ multiple: true, force: true })
 
       cy.get('#dealWorth').type('12')
       //cy.get('#countryCode').click()
@@ -132,12 +133,12 @@ function randName(length) {
       cy.get('#passportNo').type('543534')
       cy.get('#passportCountry').click()
       cy.get('div[title="AFGHANISTAN"]').click({multiple:true , force:true});
-      cy.get('#passportIssueDate').click()
+      cy.get('#passportIssueDate').type(futureDate, {force:true}).type('{enter}')
 
-      cy.get(date).click({multiple:true , force:true});
-      cy.get('#passportExpiryDate').click()
+      //cy.get(date).click({multiple:true , force:true});
+      cy.get('#passportExpiryDate').type(futureDate, {force:true}).type('{enter}')
 
-      cy.get(date).click({multiple:true , force:true});
+      //cy.get(date).click({multiple:true , force:true});
 
 
       //cy.get('.ant-picker-cell ant-picker-cell-in-view ant-picker-cell-today').click({force:true})
@@ -208,8 +209,8 @@ function randName(length) {
       cy.get('#clientName').type('nabeel')
       cy.get('#sections_0_questions_0_answers_0_answer').type('test qw')
       cy.get('#sections_0_questions_1_answers_0_answer').type('test qw2')
-      cy.get('#sections_0_questions_2_answers_0_answer').click()
-      cy.get(date).click({multiple:true, force:true})
+      cy.get('#sections_0_questions_2_answers_0_answer').type(futureDate, {force:true}).type('{enter}')
+      //cy.get(date).click({multiple:true, force:true})
       cy.get('#sections_0_questions_3_answers_0_answer').type('testing 123')
       cy.get('#sections_0_questions_4_answers_0_answer').type('testing limk')
       
@@ -226,8 +227,18 @@ function randName(length) {
       cy.wait(8000)
       cy.contains('Export').click()
       cy.wait(2000)
+      const XLSX = require('xlsx');
+      //adding assertion
+      cy.readFile('cypress/downloads/ClientsList.xlsx', 'binary').then(fileContent => {
+        const workbook = XLSX.read(fileContent, { type: 'binary' });
+        const sheetName = workbook.SheetNames[0]; // assuming data is in the first sheet
+        const worksheet = workbook.Sheets[sheetName];
+        const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+      
+        expect(data[1][1]).to.equal('margalla hill'); // assuming the data you're looking for is in the second cell of the first row
+      });
       //deleting the client
-      cy.contains('margalla').scrollIntoView()
+      cy.contains('margalla hill').scrollIntoView()
       cy.wait(2000)
 
       cy.get('#root > div > div > div > section > main > div > div > div > div > div.container-ui.w-100 > div.ant-spin-nested-loading > div > div > div > div > div > div > div > div.ant-table-container > div > table > tbody > tr:nth-child(1) > td:nth-child(8) > div > span > svg').click()

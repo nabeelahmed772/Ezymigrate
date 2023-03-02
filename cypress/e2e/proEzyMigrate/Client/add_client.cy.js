@@ -96,8 +96,8 @@ function randName(length) {
       cy.wait(2000)
       cy.contains('Male').click({force:true})
       cy.get('#address').type('test addess')
-      cy.get('#dateOfBirth').click()
-      cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({ multiple: true, force: true })
+      cy.get('#dateOfBirth').type(futureDate, {force:true}).type('{enter}')
+      //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({ multiple: true, force: true })
 
       cy.get('#dealWorth').type('12')
       //cy.get('#countryCode').click()
@@ -135,12 +135,12 @@ function randName(length) {
       cy.get('#passportNo').type('543534')
       cy.get('#passportCountry').click()
       cy.get('div[title="AFGHANISTAN"]').click({multiple:true , force:true});
-      cy.get('#passportIssueDate').click()
+      cy.get('#passportIssueDate').type(futureDate, {force:true}).type('{enter}')
 
-      cy.get(date).click({multiple:true , force:true});
-      cy.get('#passportExpiryDate').click()
+      //cy.get(date).click({multiple:true , force:true});
+      cy.get('#passportExpiryDate').type(futureDate, {force:true}).type('{enter}')
 
-      cy.get(date).click({multiple:true , force:true});
+      //cy.get(date).click({multiple:true , force:true});
 
 
       //cy.get('.ant-picker-cell ant-picker-cell-in-view ant-picker-cell-today').click({force:true})
@@ -187,20 +187,20 @@ function randName(length) {
       //updating the medical details
 
       cy.get('#er').clear({force:true}).type('123456')
-      cy.get('#medicalIssueDate').click()
+      cy.get('#medicalIssueDate').type(futureDate, {force:true}).type('{enter}')
       
-      cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({ multiple: true, force:true })
-      cy.get('#medicalExpiryDate').click()
-      cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
+      //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({ multiple: true, force:true })
+      cy.get('#medicalExpiryDate').type(futureDate, {force:true}).type('{enter}')
+      //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
       cy.get('#xrayExpiryDate').type(futureDate,{force:true}).type('{enter}')
       cy.get('#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(3) > form > div.denied-cont > div.ant-form-item > div > div > div > div > button > span').click()
       cy.wait(5000)
 
       //adding police certificate
-      cy.get('#certificateIssueDate').click()
-      cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
-      cy.get('#certificateExpiryDate').click()
-      cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
+      cy.get('#certificateIssueDate').type(futureDate, {force:true}).type('{enter}')
+      //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
+      cy.get('#certificateExpiryDate').type(futureDate, {force:true}).type('{enter}')
+      //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
       cy.get('#selectedCountry').click()
       cy.get('div[title="ALBANIA"]').click({multiple:true, force:true})
       cy.get('#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(4) > div:nth-child(2) > form > div.button-org-cont > button > span').click()
@@ -241,8 +241,8 @@ function randName(length) {
       cy.get('.cv-top-lbtn-text').eq(0).click()
       cy.get('[style="padding: 10px;"] > .ant-select > .ant-select-selector > .ant-select-selection-item').click()
       cy.get('div[title="Critical Purpose Visitor Visa"]').click({multiple:true , force:true})
-      cy.get('.ant-picker-input > input').click()
-      cy.get(date).click({multiple:true , force:true});
+      cy.get('.ant-picker-input > input').type(futureDate, {force:true}).type('{enter}')
+      //cy.get(date).click({multiple:true , force:true});
       cy.wait(1000)
       cy.get('.button-blue-cont > .ant-btn > span').click()
 
@@ -259,8 +259,8 @@ function randName(length) {
       cy.get('#trackingNumber').type('32323fr23')
       cy.get('#documentDescription').type('testing by nabeel')
       cy.get('#worth').type('323')
-      cy.get('#followupDate').click()
-      cy.get(date).click({multiple:true , force:true});
+      cy.get('#followupDate').type(futureDate, {force:true}).type('{enter}')
+      //cy.get(date).click({multiple:true , force:true});
       cy.get('.ant-form-item-control-input-content > .ant-btn > span').click()
       cy.wait(6000)
 
@@ -301,9 +301,9 @@ function randName(length) {
 
       cy.get('#description').type('testing description')
 
-      cy.get('#startDate').click()
+      cy.get('#startDate').type(futureDate, {force:true}).type('{enter}')
 
-      cy.get(date).click({multiple:true , force:true});
+      //cy.get(date).click({multiple:true , force:true});
 
       cy.get('.ant-form-item-control-input-content > .ant-btn > span').click()
 
@@ -380,9 +380,9 @@ function randName(length) {
 
       cy.get('div[title= " 2021 RV - Phase 1"]').click({multiple:true , force:true})
 
-      cy.get('#basic_date').click()
+      cy.get('#basic_date').type(futureDate, {force:true}).type('{enter}')
 
-      cy.get(date).click({multiple:true , force:true})
+      //cy.get(date).click({multiple:true , force:true})
 
       cy.get('.ant-form-item-control-input-content > .ant-btn > span').click()
 
@@ -395,13 +395,13 @@ function randName(length) {
 
       cy.wait(3000)
 
-      cy.get(':nth-child(1) > .form-container > .ant-form > :nth-child(5) > :nth-child(2) > .ant-picker > .ant-picker-input > input').click()
+      cy.get(':nth-child(1) > .form-container > .ant-form > :nth-child(5) > :nth-child(2) > .ant-picker > .ant-picker-input > input').type(futureDate, {force:true}).type('{enter}')
 
-      cy.get(date).click({multiple:true , force:true})
+      //cy.get(date).click({multiple:true , force:true})
 
-      cy.get(':nth-child(1) > .form-container > .ant-form > :nth-child(6) > :nth-child(2) > .ant-picker > .ant-picker-input > input').click()
+      cy.get(':nth-child(1) > .form-container > .ant-form > :nth-child(6) > :nth-child(2) > .ant-picker > .ant-picker-input > input').type(futureDate, {force:true}).type('{enter}')
 
-      cy.get(date).click({multiple:true , force:true})
+      //cy.get(date).click({multiple:true , force:true})
 
       cy.get(':nth-child(1) > .form-container > .ant-form > [style="padding: 10px;"] > .ant-select > .ant-select-selector > .ant-select-selection-item').click()
 
@@ -437,9 +437,9 @@ function randName(length) {
 
       cy.get('#basic_task_description').type('testing description')
 
-      cy.get('#basic_select_date').click()
+      cy.get('#basic_select_date').type(futureDate, {force:true}).type('{enter}')
 
-      cy.get(date).click({multiple:true , force:true})
+      //cy.get(date).click({multiple:true , force:true})
 
 
 
@@ -504,21 +504,21 @@ function randName(length) {
       //updating the medical details
 
       cy.get('#er').clear().type('123456')
-      cy.get('#medicalIssueDate').click()
+      cy.get('#medicalIssueDate').type(futureDate, {force:true}).type('{enter}')
       
-      cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({ multiple: true })
-      cy.get('#medicalExpiryDate').click()
-      cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
+      //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({ multiple: true })
+      cy.get('#medicalExpiryDate').type(futureDate, {force:true}).type('{enter}')
+      //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
       //cy.get('#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(3) > form > div.denied-cont > div.ant-form-item > div > div > div > div > button > span').click()
       cy.get(':nth-child(3) > .ant-form > [style="justify-content: space-between; align-items: center;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span').click()
 
       cy.wait(5000)
 
       //adding police certificate
-      cy.get('#certificateIssueDate').click()
-      cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
-      cy.get('#certificateExpiryDate').click()
-      cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
+      cy.get('#certificateIssueDate').type(futureDate, {force:true}).type('{enter}')
+      //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
+      cy.get('#certificateExpiryDate').type(futureDate, {force:true}).type('{enter}')
+      //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
       cy.get('#selectedCountry').click()
       cy.get('div[title="ALBANIA"]').click({multiple:true, force:true})
       //cy.get('#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(4) > div:nth-child(2) > form > div.button-org-cont > button > span').click()
@@ -569,8 +569,8 @@ function randName(length) {
         cy.get('[style="cursor: pointer;"] > :nth-child(1) > .cv-top-lbtn-text').click()
         cy.get('[style="padding: 10px;"] > .ant-select > .ant-select-selector > .ant-select-selection-item').click()
         cy.get('div[title="Critical Purpose Visitor Visa"]').click({multiple:true , force:true})
-        cy.get('.ant-picker-input > input').click()
-        cy.get(date).click({multiple:true , force:true});
+        cy.get('.ant-picker-input > input').type(futureDate, {force:true}).type('{enter}')
+        //cy.get(date).click({multiple:true , force:true});
         cy.wait(1000)
         cy.get('.button-blue-cont > .ant-btn > span').click()
   
@@ -587,8 +587,8 @@ function randName(length) {
         cy.get('#trackingNumber').type('32323fr23')
         cy.get('#documentDescription').type('testing by nabeel')
         cy.get('#worth').type('323')
-        cy.get('#followupDate').click()
-        cy.get('td[title="2023-01-30"]').click({multiple:true , force:true});
+        cy.get('#followupDate').type(futureDate, {force:true}).type('{enter}')
+        //cy.get('td[title="2023-01-30"]').click({multiple:true , force:true});
         cy.get('.ant-form-item-control-input-content > .ant-btn > span').click()
         cy.wait(4000)
   
@@ -628,9 +628,9 @@ function randName(length) {
   
         cy.get('#description').type('testing description')
   
-        cy.get('#startDate').click()
+        cy.get('#startDate').type(futureDate, {force:true}).type('{enter}')
   
-        cy.get(date).click({multiple:true , force:true});
+        //cy.get(date).click({multiple:true , force:true});
   
         cy.get('.ant-form-item-control-input-content > .ant-btn > span').click()
   
@@ -673,9 +673,9 @@ function randName(length) {
   
         cy.get('div[title= " 2021 RV - Phase 1"]').click({multiple:true , force:true})
   
-        cy.get('#basic_date').click()
+        cy.get('#basic_date').type(futureDate, {force:true}).type('{enter}')
   
-        cy.get(date).click({multiple:true , force:true})
+        //cy.get(date).click({multiple:true , force:true})
   
         cy.get('.ant-form-item-control-input-content > .ant-btn > span').click()
   
@@ -700,13 +700,13 @@ function randName(length) {
   
         cy.wait(3000)
   
-        cy.get(':nth-child(1) > .form-container > .ant-form > :nth-child(5) > :nth-child(2) > .ant-picker > .ant-picker-input > input').click()
+        cy.get(':nth-child(1) > .form-container > .ant-form > :nth-child(5) > :nth-child(2) > .ant-picker > .ant-picker-input > input').type(futureDate, {force:true}).type('{enter}')
   
-        cy.get(date).click({multiple:true , force:true})
+        //cy.get(date).click({multiple:true , force:true})
   
-        cy.get(':nth-child(1) > .form-container > .ant-form > :nth-child(6) > :nth-child(2) > .ant-picker > .ant-picker-input > input').click()
+        cy.get(':nth-child(1) > .form-container > .ant-form > :nth-child(6) > :nth-child(2) > .ant-picker > .ant-picker-input > input').type(futureDate, {force:true}).type('{enter}')
   
-        cy.get(date).click({multiple:true , force:true})
+        //cy.get(date).click({multiple:true , force:true})
   
         cy.get(':nth-child(1) > .form-container > .ant-form > [style="padding: 10px;"] > .ant-select > .ant-select-selector > .ant-select-selection-item').click()
   
@@ -728,9 +728,9 @@ function randName(length) {
 
       cy.get('#basic_task_description').type('testing description')
 
-      cy.get('#basic_select_date').click()
+      cy.get('#basic_select_date').type(futureDate, {force:true}).type('{enter}')
 
-      cy.get(date).click({multiple:true , force:true})
+      //cy.get(date).click({multiple:true , force:true})
 
 
 
@@ -802,24 +802,24 @@ function randName(length) {
       //updating the medical details
 
       cy.get('#er').clear().type('123456')
-      cy.get('#medicalIssueDate').click()
+      cy.get('#medicalIssueDate').type(futureDate, {force:true}).type('{enter}')
       
-      cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({ multiple: true })
-      cy.get('#medicalExpiryDate').click()
-      cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
+      //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({ multiple: true })
+      cy.get('#medicalExpiryDate').type(futureDate, {force:true}).type('{enter}')
+      //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
       //cy.get('#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(3) > form > div.denied-cont > div.ant-form-item > div > div > div > div > button > span').click()
       cy.get(':nth-child(3) > .ant-form > [style="justify-content: space-between; align-items: center;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span').click()
 
       cy.wait(5000)
 
       //adding police certificate
-      cy.get('#certificateIssueDate').click()
+      cy.get('#certificateIssueDate').type(futureDate, {force:true}).type('{enter}')
       cy.wait(1000)
-      cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
+      //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
       cy.wait(1000)
-      cy.get('#certificateExpiryDate').click()
+      cy.get('#certificateExpiryDate').type(futureDate, {force:true}).type('{enter}')
       cy.wait(1000)
-      cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
+      //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
       cy.get('#selectedCountry').click()
       cy.wait(1000)
       cy.get('div[title="ALBANIA"]').click({multiple:true, force:true})
