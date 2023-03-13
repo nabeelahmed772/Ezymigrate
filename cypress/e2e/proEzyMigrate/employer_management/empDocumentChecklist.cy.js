@@ -26,8 +26,8 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     const date = 'td[title="2023-02-05"]';
     const sms= '211267313';
     const user_name ='rananabeelahmed772@gmail.com';
-    const password = 'Nabeel@123';
-    const futureDate = "25/02/2023"
+    const password = 'nabeel@123';
+    const futureDate = "25/03/2023"
   
   describe('Adding Employer', () => {
     it('Add employer', () => {

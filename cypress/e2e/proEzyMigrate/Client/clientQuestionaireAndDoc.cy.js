@@ -27,7 +27,7 @@ function randName(length) {
 
        const sms= '211267313';
        const date = 'td[title="2023-02-05"]';
-       const futureDate = '05/03/2023'
+       const futureDate = '25/03/2023'
   
   describe('Adding client', () => {
     it('Add client', () => {
@@ -59,7 +59,7 @@ function randName(length) {
 
       cy.get('#userName > .profile-input-login').type('rananabeelahmed772@gmail.com')
 
-      cy.get('#password > .profile-input-login').type('Nabeel@123')
+      cy.get('#password > .profile-input-login').type('nabeel@123')
 
       cy.get('.sus-modal-button-text').click()
 
@@ -90,70 +90,70 @@ function randName(length) {
       cy.get('#lastName').type('hill')
       cy.get('#preferredName').type('pre name')
       //cy.get('#email').type('nabeeloutsourcenz1@gmail.com')
-      cy.get('#gender').click()
-      cy.wait(2000)
-      cy.contains('Male').click({force:true})
-      cy.get('#address').type('test addess')
-      cy.get('#dateOfBirth').type(futureDate, {force:true}).type('{enter}')
-      //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({ multiple: true, force: true })
+      // cy.get('#gender').click()
+      // cy.wait(2000)
+      // cy.contains('Male').click({force:true})
+      // cy.get('#address').type('test addess')
+      // cy.get('#dateOfBirth').type(futureDate, {force:true}).type('{enter}')
+      // //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({ multiple: true, force: true })
 
-      cy.get('#dealWorth').type('12')
-      //cy.get('#countryCode').click()
-      //cy.get('.body > div:nth-child(13) > div > div > div > div.rc-virtual-list > div.rc-virtual-list-holder > div > div > div.ant-select-item.ant-select-item-option.ant-select-item-option-active > div').click()
-      cy.get('#mobile').type(sms)
-      cy.get('#dependentChildren').type('2')
-      cy.get('#secondaryMobile').type('324324324')
-      cy.get('#overseasMobile').type('324324')
-      cy.get('#phone').type('3434324')
-      cy.get('#nationalityId').type('3535')
-      cy.get('#agentId').click()
-      cy.get('div[title="arsalan team member"]').and('have.class', 'ant-select-item ant-select-item-option').click({multiple: true, force:true})
+      // cy.get('#dealWorth').type('12')
+      // //cy.get('#countryCode').click()
+      // //cy.get('.body > div:nth-child(13) > div > div > div > div.rc-virtual-list > div.rc-virtual-list-holder > div > div > div.ant-select-item.ant-select-item-option.ant-select-item-option-active > div').click()
+      // cy.get('#mobile').type(sms)
+      // cy.get('#dependentChildren').type('2')
+      // cy.get('#secondaryMobile').type('324324324')
+      // cy.get('#overseasMobile').type('324324')
+      // cy.get('#phone').type('3434324')
+      // cy.get('#nationalityId').type('3535')
+      // cy.get('#agentId').click()
+      // cy.get('div[title="arsalan team member"]').and('have.class', 'ant-select-item ant-select-item-option').click({multiple: true, force:true})
 
-      cy.get('#jobSectorId').click()
-      cy.get('div[title="Administrative"]').and('have.class', 'ant-select-item ant-select-item-option ant-select-item-option-active').click({multiple: true, force:true})
-      cy.get('#occupation').type('test occupation')
-      cy.get('#companyOptional').type('test')
-      cy.get('[style="width: 101%;"] > .ant-col > .letter-froala > .froala-font-arial-use > .fr-box > .fr-wrapper > .fr-element > p').type('test')
+      // cy.get('#jobSectorId').click()
+      // cy.get('div[title="Administrative"]').and('have.class', 'ant-select-item ant-select-item-option ant-select-item-option-active').click({multiple: true, force:true})
+      // cy.get('#occupation').type('test occupation')
+      // cy.get('#companyOptional').type('test')
+      // cy.get('[style="width: 101%;"] > .ant-col > .letter-froala > .froala-font-arial-use > .fr-box > .fr-wrapper > .fr-element > p').type('test')
 
-      //adding billing
+      // //adding billing
 
-      cy.get('#contactPersonBilling').type('test')
-      cy.get('#flat').type('tst')
-      cy.get('#streetName').type('test')
-      cy.get('#suburb').type('test')
-      cy.get('#city').type('test')
-      cy.get('#country').click()
-      cy.wait(3000)
-      cy.get('div[title="ALGERIA"]').click({multiple:true , force:true});
+      // cy.get('#contactPersonBilling').type('test')
+      // cy.get('#flat').type('tst')
+      // cy.get('#streetName').type('test')
+      // cy.get('#suburb').type('test')
+      // cy.get('#city').type('test')
+      // cy.get('#country').click()
+      // cy.wait(3000)
+      // cy.get('div[title="ALGERIA"]').click({multiple:true , force:true});
 
-      cy.get('#zip').type('234')
-
-
-      //adding passport
-      cy.get('#passportNo').type('543534')
-      cy.get('#passportCountry').click()
-      cy.get('div[title="AFGHANISTAN"]').click({multiple:true , force:true});
-      cy.get('#passportIssueDate').type(futureDate, {force:true}).type('{enter}')
-
-      //cy.get(date).click({multiple:true , force:true});
-      cy.get('#passportExpiryDate').type(futureDate, {force:true}).type('{enter}')
-
-      //cy.get(date).click({multiple:true , force:true});
+      // cy.get('#zip').type('234')
 
 
-      //cy.get('.ant-picker-cell ant-picker-cell-in-view ant-picker-cell-today').click({force:true})
+      // //adding passport
+      // cy.get('#passportNo').type('543534')
+      // cy.get('#passportCountry').click()
+      // cy.get('div[title="AFGHANISTAN"]').click({multiple:true , force:true});
+      // cy.get('#passportIssueDate').type(futureDate, {force:true}).type('{enter}')
+
+      // //cy.get(date).click({multiple:true , force:true});
+      // cy.get('#passportExpiryDate').type(futureDate, {force:true}).type('{enter}')
+
+      // //cy.get(date).click({multiple:true , force:true});
+
+
+      // //cy.get('.ant-picker-cell ant-picker-cell-in-view ant-picker-cell-today').click({force:true})
 
 
 
-      //medical details
-      cy.get('#er').type('434')
-      cy.get('[style="width: 101%; margin-top: 40px;"] > .ant-col > .letter-froala > .froala-font-arial-use > .fr-box > .fr-wrapper > .fr-element > p').click()
+      // //medical details
+      // cy.get('#er').type('434')
+      // cy.get('[style="width: 101%; margin-top: 40px;"] > .ant-col > .letter-froala > .froala-font-arial-use > .fr-box > .fr-wrapper > .fr-element > p').click()
 
-      //inz login details
+      // //inz login details
 
-      cy.get('#clientNumber').type(randomNo(12))
-      cy.get('#inzUserName').type('name')
-      cy.get('#inzPassword').type('123')
+      // cy.get('#clientNumber').type(randomNo(12))
+      // cy.get('#inzUserName').type('name')
+      // cy.get('#inzPassword').type('123')
 
 
       cy.get(':nth-child(2) > .save-button-add-client > :nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span').click()
@@ -162,13 +162,13 @@ function randName(length) {
 
 
       //adding document checklist
-      cy.get(':nth-child(4) > a > .header-bar-text-div > .header-text').click()
+      cy.get(':nth-child(4) > a > .header-bar-text-div > .header-text').click({force:true})
       cy.wait(6000)
       cy.contains('DOCUMENT CHECKLIST').click()
       cy.wait(8000)
       cy.get('.ant-form-item-control-input-content > .ant-select > .ant-select-selector').click()
       cy.wait(4000)
-      cy.contains('test document checklist').click()
+      cy.contains('test document checklist').click({force:true})
       cy.wait(2000)
       cy.get(':nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span').click()
       cy.wait(8000)
@@ -188,7 +188,7 @@ function randName(length) {
       cy.get('input[type="file"]').attachFile('ABC.jpg')
       cy.wait(2000)
       cy.get('.btn.btn-default').click()
-      cy.wait(6000)
+      cy.wait(8000)
       cy.visit('https://app.ezymigrate.com/documents')
       cy.wait(8000)
       cy.contains('ABC.jpg').should('be.visible')

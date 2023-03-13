@@ -26,8 +26,8 @@ function randName(length) {
   const date = 'td[title="2023-02-05"]';
   const sms= '211267313';
   const user_name ='rananabeelahmed772@gmail.com';
-  const password = 'Nabeel@123';
-  const futureDate = '01/03/2023'
+  const password = 'nabeel@123';
+  const futureDate = '25/03/2023'
 
 describe('potential client', () => {
   it('Add potential', () => {
@@ -113,7 +113,7 @@ describe('potential client', () => {
       cy.wait(2000)
       cy.get(':nth-child(3) > [style="margin-top: 8px;"] > .ant-select > .ant-select-selector').click()
       cy.wait(2000)
-      cy.get('div[title="mobile testing questionare"]').click()
+      cy.get('div[title="mobile testing questionare"]').click({force:true})
       cy.wait(4000)
       cy.get('.pc-link-text').then(function(text2){
         cy.visit(text2.text())

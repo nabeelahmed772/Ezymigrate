@@ -26,7 +26,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     const date = 'td[title="2023-02-05"]';
     const sms= '211267313';
     const user_name ='rananabeelahmed772@gmail.com';
-    const password = 'Nabeel@123';
+    const password = 'nabeel@123';
   
   describe('potential client', () => {
     it('Add potential', () => {
@@ -156,7 +156,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
      cy.wait(6000)
      cy.get('#signature-pad-').click()
      cy.contains('Save Signature').click()
-     cy.wait(11000)
+     cy.wait(14000)
      cy.visit('https://app.ezymigrate.com/potential-client/potential-clients')
      cy.wait(5000)
      //validating the digital signature

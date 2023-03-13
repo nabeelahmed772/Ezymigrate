@@ -57,7 +57,68 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
       cy.wait(3000)
 
+      cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a').click()
+      cy.wait(6000)
 
+      //deleting the client
+      
+      cy.contains('amjad ali').scrollIntoView()
+      cy.wait(2000)
+
+      cy.get('.ant-table-row.ant-table-row-level-0').each(($el, index, $list) => {
+        
+        var del = $el.find('span[style="font-size: 12px; cursor: pointer; color: rgba(0, 0, 0, 0.85);"]').text().trim()
+        if(del==='amjad ali'){
+          cy.log(del)
+          cy.wrap($el).find('.anticon.anticon-delete').click()
+          
+          
+
+        }
+        
+
+      })
+
+       cy.pause()
+
+
+      cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[3]/div/span').click()
+      cy.contains('Checklist(S)').click()
+      cy.get('.ant-collapse-item').each(($el, index, $list) => {
+      
+        var ge = $el.find('.ant-collapse-header-text').text()
+        
+         
+        debugger
+        cy.log(ge)
+        if(ge.includes('cypress checklist')){
+            cy.wrap($el).find('.anticon.anticon-delete').click()
+            cy.get('.ant-btn.ant-btn-primary.ant-btn-sm').contains('Yes').click()
+  
+        }
+      })
+
+      cy.contains('Add Checklist').click()
+      cy.get('input[placeholder="Enter Category"]').type('cypress checklist')
+      cy.get('input[placeholder="Enter Checklist Name"]').type('checklist stage one')
+      cy.contains('Add Task').click()
+      cy.get('#basic_name').type('checklist documents arrived')
+      cy.get('#basic_description').type('test description for the arrived new documents')
+      cy.contains('Submit').click()
+
+      cy.contains('Add Task').click()
+      cy.get('#basic_name').type('checklist contract signed')
+      cy.get('#basic_description').type('test description for the checklist contract signed')
+      cy.contains('Submit').click()
+
+      cy.contains('Save').click()
+
+
+
+
+
+
+      cy.pause()
       cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a').click()
       cy.wait(8000)
       cy.contains('Export').click()

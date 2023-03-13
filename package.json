@@ -10,10 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cypress": "^12.3.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "cypress": "^12.7.0",
     "cypress-file-upload": "^5.0.8",
     "cypress-xpath": "^2.0.1"
   }

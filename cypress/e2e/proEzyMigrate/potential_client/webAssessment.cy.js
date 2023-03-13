@@ -27,6 +27,7 @@ function randName(length) {
 
        const sms= '211267313';
        const date = 'td[title="2023-02-05"]';
+       const futureDate ='25/03/2023';
 
 
 
@@ -55,7 +56,7 @@ beforeEach(() =>{
 
     cy.get('#userName > .profile-input-login').type('rananabeelahmed772@gmail.com')
 
-    cy.get('#password > .profile-input-login').type('Nabeel@123')
+    cy.get('#password > .profile-input-login').type('nabeel@123')
 
     cy.get('.sus-modal-button-text').click()
 
@@ -86,8 +87,8 @@ describe( 'Web Assessment ', ()=> {
         cy.get('#clientName').type('web inquiry client name')
         cy.get('#sections_0_questions_0_answers_0_answer').type('first name web detailed')
         cy.get('#sections_0_questions_1_answers_0_answer').type('last name')
-        cy.get('#sections_0_questions_2_answers_0_answer').click()
-        cy.get(date).click({multiple:true, force:true})
+        cy.get('#sections_0_questions_2_answers_0_answer').type(futureDate, {force:true}).type('{enter}')
+        //cy.get(date).click({multiple:true, force:true})
         cy.get('#sections_0_questions_3_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click({force:true})
         cy.get('#sections_0_questions_4_answers_0_answer').click()
         cy.get('div[title="ALBANIA"]').click({multiple:true, force:true})
@@ -108,8 +109,8 @@ describe( 'Web Assessment ', ()=> {
         cy.get(':nth-child(17) > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(1) > [style="width: 100%;"] > .row-style > .questionnaire-input-width-60 > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(1) > [style="width: 100%; margin-top: 0px;"] > :nth-child(1) > [style="border: 0px; margin-top: 10px;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-upload-picture-card-wrapper > .ant-upload-list > .ant-upload-select > .ant-upload').attachFile('ABC.jpg')
         cy.get('#sections_1_questions_0_answers_0_answer').type('spouse name')
         cy.get('#sections_1_questions_1_answers_0_answer').type('no sir name')
-        cy.get('#sections_1_questions_2_answers_0_answer').click()
-        cy.get(date).click({multiple:true, force:true})
+        cy.get('#sections_1_questions_2_answers_0_answer').type(futureDate, {force:true}).type('{enter}')
+        //cy.get(date).click({multiple:true, force:true})
         cy.get('#sections_1_questions_3_answers_0_answer').click()
         cy.get('div[title="3 yr Diploma"]').click({multiple:true, force:true})
         cy.get('#sections_1_questions_4_answers_0_answer').type('test')
@@ -160,8 +161,8 @@ describe( 'Web Assessment ', ()=> {
         cy.get('#sections_0_questions_1_answers_0_answer').type('last name')
         cy.get('#sections_0_questions_2_answers_0_answer').type('test@gmail.com')
         cy.get('#sections_0_questions_3_answers_0_answer').type('4545645')
-        cy.get('#sections_0_questions_4_answers_0_answer').click()
-        cy.get(date).click({multiple:true, force:true})
+        cy.get('#sections_0_questions_4_answers_0_answer').type(futureDate, {force:true}).type('{enter}')
+        //cy.get(date).click({multiple:true, force:true})
         cy.get('#sections_0_questions_5_answers_0_answer').click()
         cy.get('div[title="Never Married"]').click()
         cy.get('#sections_0_questions_6_answers_0_answer').type('23')
@@ -210,16 +211,16 @@ describe( 'Web Assessment ', ()=> {
         cy.get('#sections_0_questions_13_answers_0_answer').type('testing by nz team')
         cy.get('#sections_0_questions_14_answers_0_answer').type('testing by nz team')
         cy.get('#sections_0_questions_15_answers_0_answer').type('testing by nz team')
-        cy.get('#sections_0_questions_16_answers_0_answer').click()
-        cy.get(date).click({multiple:true, force:true})
+        cy.get('#sections_0_questions_16_answers_0_answer').type(futureDate, {force:true}).type('{enter}')
+        //cy.get(date).click({multiple:true, force:true})
         cy.get('#sections_0_questions_17_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
         cy.get('#sections_0_questions_18_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
         cy.get('#sections_0_questions_19_answers_0_answer').type('testing by nz team')
         cy.get('#sections_0_questions_20_answers_0_answer').type('testing by nz team')
         cy.get('#sections_0_questions_21_answers_0_answer').click()
         cy.get('div[title=" 2021 RV - Phase 1"]').click({force:true})
-        cy.get('#sections_0_questions_22_answers_0_answer').click()
-        cy.get(date).click({multiple:true, force:true})
+        cy.get('#sections_0_questions_22_answers_0_answer').type(futureDate, {force:true}).type('{enter}')
+        //cy.get(date).click({multiple:true, force:true})
         cy.get('#sections_0_questions_23_answers_0_answer').type('testing by nz team')
         cy.get('#sections_0_questions_24_answers_0_answer').type('testing by nz team')
         cy.get('#sections_0_questions_25_answers_0_answer').type('testing by nz team')
@@ -307,8 +308,8 @@ describe( 'Web Assessment ', ()=> {
             cy.get('#sections_0_questions_2_answers_0_answer').type('middle name')
             cy.get('#sections_0_questions_3_answers_0_answer').type('first name')
             cy.get('#sections_0_questions_4_answers_0_answer').type('np name')
-            cy.get('#sections_0_questions_5_answers_0_answer').click()
-            cy.get(date).click({multiple:true, force:true})
+            cy.get('#sections_0_questions_5_answers_0_answer').type(futureDate, {force:true}).type('{enter}')
+            //cy.get(date).click({multiple:true, force:true})
             cy.get('#sections_0_questions_6_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
             cy.get('#sections_0_questions_7_answers_0_answer').click()
             cy.get('div[title="ALBANIA"]').click({multiple:true, force:true})
@@ -316,12 +317,12 @@ describe( 'Web Assessment ', ()=> {
             cy.get('div[title="ALBANIA"]').click({multiple:true, force:true})
             cy.get('#sections_0_questions_9_answers_0_answer').type('testing by')
             cy.get('#sections_0_questions_10_answers_0_answer').type('testi g  nz team')
-            cy.get('#sections_0_questions_11_answers_0_answer').click()
-            cy.get(date).click({multiple:true, force:true})
+            cy.get('#sections_0_questions_11_answers_0_answer').type(futureDate, {force:true}).type('{enter}')
+            //cy.get(date).click({multiple:true, force:true})
             cy.get('#sections_0_questions_12_answers_0_answer').click()
             cy.get('div[title=" 2021 RV - Phase 1"]').click({multiple:true, force:true})
-            cy.get('#sections_0_questions_13_answers_0_answer').click()
-            cy.get(date).click({multiple:true, force:true})
+            cy.get('#sections_0_questions_13_answers_0_answer').type(futureDate, {force:true}).type('{enter}')
+            //cy.get(date).click({multiple:true, force:true})
             cy.get('#sections_0_questions_14_answers_0_answer').click()
             cy.get('div[title="ALBANIA"]').click({multiple:true, force:true})
             cy.get('#sections_0_questions_15_answers_0_answer').type(randName(5))

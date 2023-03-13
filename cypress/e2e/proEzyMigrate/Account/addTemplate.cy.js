@@ -26,7 +26,7 @@ function randName(length) {
 
        const sms= '211267313';
        const date = 'td[title="2023-02-05"]';
-       const futureDate = "25/02/2023"
+       const futureDate = "25/03/2023"
   
   describe('Adding client', () => {
     it('Add client', () => {
@@ -60,7 +60,7 @@ function randName(length) {
 
       cy.get('#userName > .profile-input-login').type('rananabeelahmed772@gmail.com')
 
-      cy.get('#password > .profile-input-login').type('Nabeel@123')
+      cy.get('#password > .profile-input-login').type('nabeel@123')
       
 
       cy.get('.sus-modal-button-text').click()
@@ -345,7 +345,7 @@ function randName(length) {
           
           }})
 
-          cy.wait(3000)
+          cy.wait(5000)
           cy.get('.ant-table-row.ant-table-row-level-0').each(($el, index, $list) =>{
             const zay= $el.find('p[style="font-size: 12px; font-weight: 400; font-style: normal; color: rgba(0, 0, 0, 0.85);"]').text()
             if(zay.includes('507.5')){

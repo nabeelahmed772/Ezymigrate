@@ -26,8 +26,8 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     const date = 'td[title="2023-02-05"]';
     const sms= '211267313';
     const user_name ='rananabeelahmed772@gmail.com';
-    const password = 'Nabeel@123';
-    const futureDate = "25/02/2023"
+    const password = 'nabeel@123';
+    const futureDate = "25/03/2023"
   
   describe('Adding Employer', () => {
     it('Add employer', () => {
@@ -164,8 +164,8 @@ Cypress.on('uncaught:exception', (err, runnable) => {
           .type(futureDate, {force:true})
           .type('{enter}')
 
-         cy.get(':nth-child(13) > .ant-modal-root > .ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-body > :nth-child(1) > [style="overflow: inherit; padding-bottom: 6px; align-items: center; justify-content: space-between; padding-right: 5px;"] > #basic > [style="text-align: end;"] > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [type="submit"] > span')
-           .click()
+          cy.contains('Save')
+            .click()
 
         cy.wait(3000)
 
@@ -210,8 +210,8 @@ Cypress.on('uncaught:exception', (err, runnable) => {
         cy.get('#basic_program')
           .type('4')
 
-          cy.get(':nth-child(14) > .ant-modal-root > .ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-body > .ant-spin-nested-loading > .ant-spin-container > :nth-child(1) > [style="overflow: inherit; padding-bottom: 6px; align-items: center; justify-content: space-between; padding-right: 5px;"] > #basic > [style="text-align: end;"] > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span')
-            .click()
+          cy.get('button[type="submit"]:visible')
+            .click({force:true})
 
             cy.wait(5000)
 

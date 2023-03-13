@@ -27,7 +27,7 @@ function randName(length) {
 
        const sms= '211267313';
        const date = 'td[title="2023-02-05"]';
-       const futureDate = "25/02/2023"
+       const futureDate = "25/03/2023"
   
   describe('Adding client', () => {
     it('Add client', () => {
@@ -61,7 +61,7 @@ function randName(length) {
 
       cy.get('#userName > .profile-input-login').type('rananabeelahmed772@gmail.com')
 
-      cy.get('#password > .profile-input-login').type('Nabeel@123')
+      cy.get('#password > .profile-input-login').type('nabeel@123')
 
       cy.get('.sus-modal-button-text').click()
 
@@ -177,7 +177,7 @@ function randName(length) {
       //updating the client current visa
 
       cy.get('[style="padding-bottom: 0px; justify-content: space-between;"] > :nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-select > .ant-select-selector > .ant-select-selection-item').click({force:true})
-      cy.get('body > div:nth-child(9) > div > div > div > div.rc-virtual-list > div.rc-virtual-list-holder > div > div > div.ant-select-item.ant-select-item-option.ant-select-item-option-active > div').click({force:true})
+      cy.get('div[title=" 2021 RV - Phase 1"]').click({multiple:true, force:true})
       cy.get('#visaText').type('test visa')
       cy.get('#currentNewZealandVisaExpiry').type(futureDate,{force:true}).type('{enter}')
       cy.get('#travelConditionsValidTo').type(futureDate,{force:true}).type('{enter}')
@@ -311,6 +311,8 @@ function randName(length) {
 
       //adding the digital signature 
 
+      cy.intercept('GET', 'https://app.ezymigrate.com/AgreementBuilder/Thanks.htm').as('thankyou')
+
       cy.get(':nth-child(5) > a > .header-bar-text-div > .header-text').click()
       cy.wait(7000)
       cy.get('.bg-white > .ant-tabs > .ant-tabs-nav > .ant-tabs-nav-wrap > .ant-tabs-nav-list > [data-node-key="2"]').contains('CREATE').click()
@@ -321,6 +323,7 @@ function randName(length) {
       cy.wait(8000)
       cy.contains('Generate Contract Link').click({force:true})
      cy.wait(8000)
+     cy.contains('Copy the link in the email to send this contract, contract should have signature key (@ClientSignature) as the link purpose is to get the documents signed.').should('exist')
      cy.get('[style="margin-top: 10px; display: flex;"] > a')
      .then(function(text1){
        cy.visit(text1.text())
@@ -334,6 +337,7 @@ function randName(length) {
      cy.get('#signature-pad-').click()
      cy.contains('Save Signature').click()
      cy.wait(10000)
+     cy.wait('@thankyou').its('response.statusCode').should('eq', 200)
 
      cy.visit('https://app.ezymigrate.com/client-email')
      cy.wait(6000)
@@ -749,6 +753,7 @@ function randName(length) {
       cy.contains('Add Child').click()
       cy.wait(2000)
       cy.get('[type="file"]').attachFile('ABC.jpg')
+      cy.wait(2000)
       cy.get('#visaCountryId').click()
       cy.wait(4000)
       cy.contains('NEW ZEALAND').click()
