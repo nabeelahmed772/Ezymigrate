@@ -377,7 +377,7 @@ function randName(length) {
         
         cy.wait('@getTemplate', { timeout: 15000 }).its('response.statusCode').should('eq', 200)
         cy.wait('@getTax', { timeout: 15000 }).its('response.statusCode').should('eq', 200)
-        cy.wait(2000)
+        cy.wait(3000)
       //cy.get('.anticon.anticon-delete').click()
       cy.get('.ant-col.ant-col-offset-1.ant-col-xs-23')
         .each(($el, index, $list) => {
