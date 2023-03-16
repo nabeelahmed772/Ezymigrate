@@ -19,10 +19,12 @@ import './commands'
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 require('cypress-xpath');
-const resizeObserverLoopErrRe = /^[^(ResizeObserver loop limit exceeded)]/
 Cypress.on('uncaught:exception', (err) => {
-    /* returning false here prevents Cypress from failing the test */
-    if (resizeObserverLoopErrRe.test(err.message)) {
-        return false
+    if (err.message.includes('ResizeObserver loop limit exceeded')) {
+      // returning false here prevents Cypress from
+      // failing the test
+      return false;
     }
-})
+    return true;
+  });
+
