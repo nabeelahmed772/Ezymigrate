@@ -10,7 +10,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
       
       
-      cy.visit('https://app.ezymigrate.com/login')
+      cy.visit('https://app-stage.ezymigrate.co.nz/login')
 
       //cy.intercept('POST', '/ActiveSince*').as('login')
 

@@ -34,8 +34,8 @@ function randName(length) {
 beforeEach(() =>{
     cy.viewport(1366, 657)
 
-    cy.visit('https://app.ezymigrate.com/login')
-    //cy.visit('https://app-stage.ezymigrate.co.nz/login')
+    //cy.visit('https://app.ezymigrate.com/login')
+    cy.visit('https://app-stage.ezymigrate.co.nz/login')
     
 
     //cy.intercept('POST', '/ActiveSince*').as('login')
@@ -82,7 +82,7 @@ describe( 'Web Assessment ', ()=> {
     it('Web Inquiry link detailed', ()=>{
         cy.contains('Web Inquiry Link (Detailed)').click()
         cy.wait(4000)
-        cy.visit('https://app.ezymigrate.com/CustomQuestionnaire/Survey?para=eyJDbGllbnRJZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIkJyYW5jaElkIjoiNjUxODc2ZTYtYjBjOC00YzMxLWFhYzItMjEyOWQ5M2E4YzliIiwiVXNlcklkIjoiYTBmMzFiYzctMjA2Ni00MTNiLThmMjctOGIxNWE5YTgyZWZmIiwiUXVlc3Rpb25uYWlyZUlkIjoxODE5LCJCcmFuY2giOm51bGwsInF1ZXN0aW9ubmFpcmUiOm51bGwsIkdyb3VwcyI6bnVsbCwiSXNHcm91cGVkIjpmYWxzZSwiSXNQb3RlbnRpYWwiOnRydWUsIklzRW1wbG95ZXIiOmZhbHNlLCJHcm91cElkIjowfQ==')
+        cy.visit('https://app-stage.ezymigrate.co.nz/CustomQuestionnaire/Survey?para=eyJDbGllbnRJZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIkJyYW5jaElkIjoiNmU4YWQ0M2YtZTdlMC00ZjJhLTgzZTEtZjQyMDlkYjg0MzJmIiwiVXNlcklkIjoiNTRlYTk3MTUtNmYyNC00YzYyLWEzZWMtNGYzMmE3MzRiOTJmIiwiUXVlc3Rpb25uYWlyZUlkIjoxODE5LCJCcmFuY2giOm51bGwsInF1ZXN0aW9ubmFpcmUiOm51bGwsIkdyb3VwcyI6bnVsbCwiSXNHcm91cGVkIjpmYWxzZSwiSXNQb3RlbnRpYWwiOnRydWUsIklzRW1wbG95ZXIiOmZhbHNlLCJHcm91cElkIjowfQ==')
         cy.wait(3000)
         cy.get('#clientName').type('web inquiry client name')
         cy.get('#sections_0_questions_0_answers_0_answer').type('first name web detailed')
@@ -130,7 +130,7 @@ describe( 'Web Assessment ', ()=> {
 
 
 
-        cy.visit('https://app.ezymigrate.com/web-inquiry-link-detailed')
+        cy.visit('https://app-stage.ezymigrate.co.nz/web-inquiry-link-detailed')
         cy.get(':nth-child(2) > .header-bar-text-div > .header-text').click()
         cy.get('.sus-inactive-tab-text').click()
         cy.get(':nth-child(2) > [style="text-align: left; padding: 5px; width: 132px;"] > [style="display: flex;"] > .pc-add-btn > .sus-modal-button-text').click()
@@ -154,7 +154,7 @@ describe( 'Web Assessment ', ()=> {
 
         cy.contains('Web Inquiry Link (Basic)').click()
         cy.wait(4000)
-        cy.visit('https://app.ezymigrate.com/CustomQuestionnaire/Survey?para=eyJDbGllbnRJZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIkJyYW5jaElkIjoiNjUxODc2ZTYtYjBjOC00YzMxLWFhYzItMjEyOWQ5M2E4YzliIiwiVXNlcklkIjoiYTBmMzFiYzctMjA2Ni00MTNiLThmMjctOGIxNWE5YTgyZWZmIiwiUXVlc3Rpb25uYWlyZUlkIjoxODIwLCJCcmFuY2giOm51bGwsInF1ZXN0aW9ubmFpcmUiOm51bGwsIkdyb3VwcyI6bnVsbCwiSXNHcm91cGVkIjpmYWxzZSwiSXNQb3RlbnRpYWwiOnRydWUsIklzRW1wbG95ZXIiOmZhbHNlLCJHcm91cElkIjowfQ==')
+        cy.visit('https://app-stage.ezymigrate.co.nz/CustomQuestionnaire/Survey?para=eyJDbGllbnRJZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIkJyYW5jaElkIjoiNmU4YWQ0M2YtZTdlMC00ZjJhLTgzZTEtZjQyMDlkYjg0MzJmIiwiVXNlcklkIjoiNTRlYTk3MTUtNmYyNC00YzYyLWEzZWMtNGYzMmE3MzRiOTJmIiwiUXVlc3Rpb25uYWlyZUlkIjoxODIwLCJCcmFuY2giOm51bGwsInF1ZXN0aW9ubmFpcmUiOm51bGwsIkdyb3VwcyI6bnVsbCwiSXNHcm91cGVkIjpmYWxzZSwiSXNQb3RlbnRpYWwiOnRydWUsIklzRW1wbG95ZXIiOmZhbHNlLCJHcm91cElkIjowfQ==')
         cy.wait(3000)
         cy.get('#clientName').type('basic web inquiry client name')
         cy.get('#sections_0_questions_0_answers_0_answer').type('first name web basic')
@@ -176,7 +176,7 @@ describe( 'Web Assessment ', ()=> {
         cy.get('#sections_0_questions_11_answers_0_answer').type('testing ')
         cy.contains('Save').click()
         cy.wait(4000)
-        cy.visit('https://app.ezymigrate.com/web-inquiry-detailed')
+        cy.visit('https://app-stage.ezymigrate.co.nz/web-inquiry-detailed')
         cy.wait(4000)
         cy.get('[style="display: flex; margin-top: 3px;"] > .pc-add-btn > .sus-modal-button-text').click()
         cy.wait(7000)
@@ -190,7 +190,7 @@ describe( 'Web Assessment ', ()=> {
 
         cy.contains('Web Assessment Link').click()
         cy.wait(4000)
-        cy.visit('https://app.ezymigrate.com/CustomQuestionnaire/Survey?para=eyJDbGllbnRJZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIkJyYW5jaElkIjoiNjUxODc2ZTYtYjBjOC00YzMxLWFhYzItMjEyOWQ5M2E4YzliIiwiVXNlcklkIjoiYTBmMzFiYzctMjA2Ni00MTNiLThmMjctOGIxNWE5YTgyZWZmIiwiUXVlc3Rpb25uYWlyZUlkIjoxODIxLCJCcmFuY2giOm51bGwsInF1ZXN0aW9ubmFpcmUiOm51bGwsIkdyb3VwcyI6bnVsbCwiSXNHcm91cGVkIjpmYWxzZSwiSXNQb3RlbnRpYWwiOnRydWUsIklzRW1wbG95ZXIiOmZhbHNlLCJHcm91cElkIjowfQ==')
+        cy.visit('https://app-stage.ezymigrate.co.nz/CustomQuestionnaire/Survey?para=eyJDbGllbnRJZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIkJyYW5jaElkIjoiNmU4YWQ0M2YtZTdlMC00ZjJhLTgzZTEtZjQyMDlkYjg0MzJmIiwiVXNlcklkIjoiNTRlYTk3MTUtNmYyNC00YzYyLWEzZWMtNGYzMmE3MzRiOTJmIiwiUXVlc3Rpb25uYWlyZUlkIjoxODIxLCJCcmFuY2giOm51bGwsInF1ZXN0aW9ubmFpcmUiOm51bGwsIkdyb3VwcyI6bnVsbCwiSXNHcm91cGVkIjpmYWxzZSwiSXNQb3RlbnRpYWwiOnRydWUsIklzRW1wbG95ZXIiOmZhbHNlLCJHcm91cElkIjowfQ==')
         cy.wait(4000)
         cy.get('#clientName').type('clie t name')
         cy.get('#sections_0_questions_0_answers_0_answer').type('firstname')
@@ -274,7 +274,7 @@ describe( 'Web Assessment ', ()=> {
         cy.get('.ant-btn > span').click()
         cy.wait(10000)
 
-        cy.visit('https://app.ezymigrate.com/web-assessment')
+        cy.visit('https://app-stage.ezymigrate.co.nz/web-assessment')
         cy.wait(4000)
         cy.get('.sus-inactive-tab-text').click()
         cy.wait(8000)
@@ -300,7 +300,7 @@ describe( 'Web Assessment ', ()=> {
 
             cy.contains('Basic Assessment Link').click()
             cy.wait(4000)
-            cy.visit('https://app.ezymigrate.com/CustomQuestionnaire/Survey?para=eyJDbGllbnRJZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIkJyYW5jaElkIjoiNjUxODc2ZTYtYjBjOC00YzMxLWFhYzItMjEyOWQ5M2E4YzliIiwiVXNlcklkIjoiYTBmMzFiYzctMjA2Ni00MTNiLThmMjctOGIxNWE5YTgyZWZmIiwiUXVlc3Rpb25uYWlyZUlkIjoxODM4LCJCcmFuY2giOm51bGwsInF1ZXN0aW9ubmFpcmUiOm51bGwsIkdyb3VwcyI6bnVsbCwiSXNHcm91cGVkIjpmYWxzZSwiSXNQb3RlbnRpYWwiOnRydWUsIklzRW1wbG95ZXIiOmZhbHNlLCJHcm91cElkIjowfQ==')
+            cy.visit('https://app-stage.ezymigrate.co.nz/CustomQuestionnaire/Survey?para=eyJDbGllbnRJZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIkJyYW5jaElkIjoiNmU4YWQ0M2YtZTdlMC00ZjJhLTgzZTEtZjQyMDlkYjg0MzJmIiwiVXNlcklkIjoiNTRlYTk3MTUtNmYyNC00YzYyLWEzZWMtNGYzMmE3MzRiOTJmIiwiUXVlc3Rpb25uYWlyZUlkIjoxODM4LCJCcmFuY2giOm51bGwsInF1ZXN0aW9ubmFpcmUiOm51bGwsIkdyb3VwcyI6bnVsbCwiSXNHcm91cGVkIjpmYWxzZSwiSXNQb3RlbnRpYWwiOnRydWUsIklzRW1wbG95ZXIiOmZhbHNlLCJHcm91cElkIjowfQ==')
             cy.wait(6000)
             cy.get('#clientName').type('basic name')
             cy.get('#sections_0_questions_0_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
@@ -469,7 +469,7 @@ describe( 'Web Assessment ', ()=> {
 
             cy.get('.ant-btn > span').click()
             cy.wait(10000)
-            cy.visit('https://app.ezymigrate.com/web-assessment')
+            cy.visit('https://app-stage.ezymigrate.co.nz/web-assessment')
             cy.wait(4000)
             cy.get('[style="display: flex; margin-top: 3px;"] > .pc-add-btn > .sus-modal-button-text').click()
             cy.wait(7000)

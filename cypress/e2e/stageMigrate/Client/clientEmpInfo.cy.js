@@ -38,8 +38,8 @@ const futureDate = "25/03/2023"
       //const sms= '211267313';
 
       
-      //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-      cy.visit('https://app.ezymigrate.com/login')
+      cy.visit('https://app-stage.ezymigrate.co.nz/login')
+      //cy.visit('https://app.ezymigrate.com/login')
 
     
 

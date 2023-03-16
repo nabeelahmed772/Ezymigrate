@@ -36,8 +36,8 @@ function randName(length) {
       //const sms= '211267313';
 
       
-      //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-      cy.visit('https://app.ezymigrate.com/login')
+      cy.visit('https://app-stage.ezymigrate.co.nz/login')
+      //cy.visit('https://app.ezymigrate.com/login')
 
     
 
@@ -189,7 +189,7 @@ function randName(length) {
       cy.wait(2000)
       cy.get('.btn.btn-default').click()
       cy.wait(8000)
-      cy.visit('https://app.ezymigrate.com/documents')
+      cy.visit('https://app-stage.ezymigrate.co.nz/documents')
       cy.wait(8000)
       cy.contains('ABC.jpg').should('be.visible')
 
@@ -217,7 +217,7 @@ function randName(length) {
 
       cy.get('.ant-btn > span').click()
       cy.wait(10000)
-      cy.visit('https://app.ezymigrate.com/documents')
+      cy.visit('https://app-stage.ezymigrate.co.nz/documents')
       cy.wait(8000)
       cy.contains('mobile testing questionare.pdf..pdf ').should('be.visible')
 

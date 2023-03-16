@@ -36,8 +36,8 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
       cy.intercept('POST','https://beta-api.ezymigrate.co.nz/v1/dashboardbi/AccountAnalytics').as('load')
       
-      //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-      cy.visit('https://app.ezymigrate.com/login')
+      cy.visit('https://app-stage.ezymigrate.co.nz/login')
+      //cy.visit('https://app.ezymigrate.com/login')
 
       cy.getCookies({log:true})
 

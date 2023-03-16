@@ -36,8 +36,8 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
       cy.intercept('POST','https://beta-api.ezymigrate.co.nz/v1/dashboardbi/AccountAnalytics').as('load')
       
-      //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-      cy.visit('https://app.ezymigrate.com/login')
+      cy.visit('https://app-stage.ezymigrate.co.nz/login')
+      //y.visit('https://app.ezymigrate.com/login')
 
       cy.getCookies({log:true})
 
@@ -333,7 +333,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
       cy.get('.ant-btn > span').click()
       cy.wait(10000)
-      cy.visit('https://app.ezymigrate.com/employer-management')
+      cy.visit('https://app-stage.ezymigrate.co.nz/employer-management')
 
       //validating questionaire has beeb submitted
 
@@ -370,7 +370,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
       cy.get('#signature-pad-').click()
       cy.contains('Save Signature').click()
       cy.wait(11000)
-      cy.visit('https://app.ezymigrate.com/employer-management')
+      cy.visit('https://app-stage.ezymigrate.co.nz/employer-management')
 
       //validating the digital signature
       cy.wait(7000)
