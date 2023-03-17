@@ -395,7 +395,7 @@ function randName(length) {
 
       //update visa case status in sidebar
 
-      cy.get('#rc-tabs-7-tab-1 > [style="display: block;"] > .rightbar-icons').click()
+      cy.get('#rc-tabs-7-tab-1 > [style="display: block;"] > .rightbar-icons').click({force:true})
 
       cy.wait(3000)
 
@@ -456,7 +456,7 @@ function randName(length) {
 
       //adding partner
       cy.get('.header-downarrow-cont > .ant-dropdown-trigger > img').scrollIntoView()
-      cy.get('.header-downarrow-cont > .ant-dropdown-trigger > img').click()
+      cy.get('.header-downarrow-cont > .ant-dropdown-trigger > img').click({force:true})
       cy.wait(5000)
       cy.contains('PARTNER DETAILS').click()
       cy.wait(3000)
@@ -599,7 +599,7 @@ function randName(length) {
         //adding partner admission of client
   
         cy.get(':nth-child(3) > a > .header-bar-text-div > .header-text').scrollIntoView()
-        cy.get(':nth-child(3) > a > .header-bar-text-div > .header-text').click()
+        cy.get(':nth-child(3) > a > .header-bar-text-div > .header-text').click({force:true})
         cy.wait(4000)
   
         cy.get('.cv-top-lbtn-text').click()
