@@ -355,8 +355,10 @@ Cypress.on('uncaught:exception', (err, runnable) => {
       cy.get('[style="margin-left: -4px; margin-right: -4px;"] > :nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-select > .ant-select-selector > .ant-select-selection-item').click()
       cy.contains('employer signature').click({force:true})
       cy.wait(8000)
+      cy.intercept('GET', 'https://app.ezymigrate.com/AgreementBuilder/Thanks.htm').as('thanksok')
       cy.contains('Generate Contract Link').click()
       cy.wait(6000)
+      cy.contains('Copy the link in the email to send this contract, contract should have signature key (@ClientSignature) as the link purpose is to get the documents signed.').should('exist')
       cy.get('[style="margin-top: 10px; display: flex;"] > a')
       .then(function(text1){
         cy.visit(text1.text())
@@ -370,6 +372,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
       cy.get('#signature-pad-').click()
       cy.contains('Save Signature').click()
       cy.wait(11000)
+      cy.wait('@thanksok').its('response.statusCode').should('eq', 200)
       cy.visit('https://app.ezymigrate.com/employer-management')
 
       //validating the digital signature

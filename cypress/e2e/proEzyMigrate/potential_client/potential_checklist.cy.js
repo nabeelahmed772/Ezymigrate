@@ -94,6 +94,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
       
 
       cy.scrollTo('left')
+      cy.intercept('GET', 'https://app.ezymigrate.com/AgreementBuilder/Thanks.htm').as('thanksd')
       cy.wait(4000)
       cy.contains('jason client')
         .click()
@@ -116,6 +117,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
       cy.get('.btn.btn-default').click()
       
       cy.wait(6000)
+      cy.wait('@thanksd').its('response.statusCode').should('eq', 200)
 
       
 
@@ -144,6 +146,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
      cy.wait(8000)
      cy.contains('Generate Contract Link').click()
      cy.wait(9000)
+     cy.contains('Copy the link in the email to send this contract, contract should have signature key (@ClientSignature) as the link purpose is to get the documents signed.').should('exist')
      cy.get('[style="margin-top: 10px; display: flex;"] > a')
      .then(function(text1){
        cy.visit(text1.text())
@@ -157,6 +160,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
      cy.get('#signature-pad-').click()
      cy.contains('Save Signature').click()
      cy.wait(14000)
+     cy.wait('@thanksd').its('response.statusCode').should('eq', 200)
      cy.visit('https://app.ezymigrate.com/potential-client/potential-clients')
      cy.wait(5000)
      //validating the digital signature

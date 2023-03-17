@@ -2,6 +2,7 @@ const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
   defaultCommandTimeout :15000,
+  requestTimeout:15000,
   CYPRESS_RESIZE_OBSERVER_LOOPS: 10,
   projectId: '9a1sqr',
   e2e: {
