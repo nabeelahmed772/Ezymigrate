@@ -32,39 +32,40 @@ function randName(length) {
 
 
 beforeEach(() =>{
-    cy.viewport(1366, 657)
+    // cy.viewport(1366, 657)
 
-    cy.visit('https://app.ezymigrate.com/login')
-    //cy.visit('https://app-stage.ezymigrate.co.nz/login')
+    // cy.visit('https://app.ezymigrate.com/login')
+    // //cy.visit('https://app-stage.ezymigrate.co.nz/login')
     
 
-    //cy.intercept('POST', '/ActiveSince*').as('login')
+    // //cy.intercept('POST', '/ActiveSince*').as('login')
 
-    cy.getCookies({log: true})
+    // cy.getCookies({log: true})
 
-    cy.clearCookies({log: true})
+    // cy.clearCookies({log: true})
 
-    cy.getCookies().should('be.empty')
+    // cy.getCookies().should('be.empty')
 
-    cy.clearAllCookies({log:true})
+    // cy.clearAllCookies({log:true})
     
-    cy.clearAllLocalStorage({log:true})
+    // cy.clearAllLocalStorage({log:true})
 
   
 
     
 
-    cy.get('#userName > .profile-input-login').type('rananabeelahmed772@gmail.com')
+    // cy.get('#userName > .profile-input-login').type('rananabeelahmed772@gmail.com')
 
-    cy.get('#password > .profile-input-login').type('nabeel@123')
+    // cy.get('#password > .profile-input-login').type('nabeel@123')
 
-    cy.get('.sus-modal-button-text').click()
+    // cy.get('.sus-modal-button-text').click()
 
-    cy.wait(9000)
+    // cy.wait(9000)
 
-    cy.contains('Client Analytics').should('be.visible')
+    // cy.contains('Client Analytics').should('be.visible')
     
-    cy.wait(2000)
+    // cy.wait(2000)
+    cy.login()
 
     cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[7]/div/span').click()
     cy.wait(2000)

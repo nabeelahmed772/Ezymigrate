@@ -34,42 +34,43 @@ const futureDate = "25/03/2023"
   describe('Adding client', () => {
     it('Add client', () => {
 
-      cy.viewport(1366, 657)
-      //const sms= '211267313';
+      // cy.viewport(1366, 657)
+      // //const sms= '211267313';
 
       
-      //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-      cy.visit('https://app.ezymigrate.com/login')
+      // //cy.visit('https://app-stage.ezymigrate.co.nz/login')
+      // cy.visit('https://app.ezymigrate.com/login')
 
     
 
-      //cy.intercept('POST', '/ActiveSince*').as('login')
+      // //cy.intercept('POST', '/ActiveSince*').as('login')
 
-      cy.getCookies({log: true})
+      // cy.getCookies({log: true})
 
-      cy.clearCookies({log: true})
+      // cy.clearCookies({log: true})
 
-      cy.getCookies().should('be.empty')
+      // cy.getCookies().should('be.empty')
 
-      cy.clearAllCookies({log:true})
+      // cy.clearAllCookies({log:true})
       
-      cy.clearAllLocalStorage({log:true})
+      // cy.clearAllLocalStorage({log:true})
 
     
 
       
 
-      cy.get('#userName > .profile-input-login').type(user_name)
+      // cy.get('#userName > .profile-input-login').type(user_name)
 
-      cy.get('#password > .profile-input-login').type(password)
+      // cy.get('#password > .profile-input-login').type(password)
 
-      cy.get('.sus-modal-button-text').click()
+      // cy.get('.sus-modal-button-text').click()
 
-      cy.wait(9000)
+      // cy.wait(9000)
 
-      cy.contains('Client Analytics').should('be.visible')
+      // cy.contains('Client Analytics').should('be.visible')
       
-      cy.wait(2000)
+      // cy.wait(2000)
+      cy.login()
 
       //adding client
 

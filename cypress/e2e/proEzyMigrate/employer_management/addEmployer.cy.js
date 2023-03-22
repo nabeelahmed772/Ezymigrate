@@ -31,35 +31,14 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   
   describe('Adding Employer', () => {
     it('Add employer', () => {
-      cy.viewport(1366, 657)
+      
 
 
       cy.intercept('POST','https://beta-api.ezymigrate.co.nz/v1/dashboardbi/AccountAnalytics').as('load')
       
       //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-      cy.visit('https://app.ezymigrate.com/login')
-
-      cy.getCookies({log:true})
-
-      cy.clearCookies({log:true})
-
-      cy.getCookies().should('be.empty')
-
-      cy.clearAllCookies({log:true})
-      
-      cy.clearAllLocalStorage({log:true})
-
-      
-
-      //cy.intercept('POST', '/ActiveSince*').as('login')
-
-      cy.get('#userName > .profile-input-login').type(user_name)
-      cy.get('#password > .profile-input-login').type(password)
-      cy.get('.sus-modal-button-text').click()
-      cy.wait(9000)
-      
-      
-      cy.contains('Client Analytics').should('be.visible')
+      // 
+      cy.login()
       
       //cy.wait(9000)
       cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a').click()

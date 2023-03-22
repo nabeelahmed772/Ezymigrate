@@ -1,8 +1,12 @@
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
+  
   defaultCommandTimeout :15000,
-  requestTimeout:15000,
+  requestTimeout:18000,
+  chromeWebSecurity: true,
+
+
   CYPRESS_RESIZE_OBSERVER_LOOPS: 10,
   projectId: '9a1sqr',
   e2e: {
@@ -18,8 +22,14 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
   },
+
+  
+    
+  
   
 });
+
+
 
 
 

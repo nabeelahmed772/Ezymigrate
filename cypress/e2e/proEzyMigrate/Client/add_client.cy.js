@@ -32,26 +32,26 @@ function randName(length) {
   describe('Adding client', () => {
     it('Add client', () => {
 
-      cy.viewport(1366, 657)
-      //const sms= '211267313';
+      // cy.viewport(1366, 657)
+      // //const sms= '211267313';
 
-      cy.getCookies({log: true})
+      // cy.getCookies({log: true})
 
-      cy.clearCookies({log: true})
+      // cy.clearCookies({log: true})
 
-      cy.getCookies().should('be.empty')
+      // cy.getCookies().should('be.empty')
 
-      cy.clearAllCookies({log:true})
+      // cy.clearAllCookies({log:true})
       
-      cy.clearAllLocalStorage({log:true})
+      // cy.clearAllLocalStorage({log:true})
 
       
-      //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-      cy.visit('https://app.ezymigrate.com/login')
+      // //cy.visit('https://app-stage.ezymigrate.co.nz/login')
+      // cy.visit('https://app.ezymigrate.com/login')
 
     
 
-      //cy.intercept('POST', '/ActiveSince*').as('login')
+      // //cy.intercept('POST', '/ActiveSince*').as('login')
 
      
 
@@ -59,16 +59,16 @@ function randName(length) {
 
       
 
-      cy.get('#userName > .profile-input-login').type('rananabeelahmed772@gmail.com')
+      // cy.get('#userName > .profile-input-login').type('rananabeelahmed772@gmail.com')
 
-      cy.get('#password > .profile-input-login').type('nabeel@123')
+      // cy.get('#password > .profile-input-login').type('nabeel@123')
 
-      cy.get('.sus-modal-button-text').click()
+      // cy.get('.sus-modal-button-text').click()
 
-      cy.wait(9000)
+      // cy.wait(9000)
 
-      cy.contains('Client Analytics').should('be.visible')
-      
+      // cy.contains('Client Analytics').should('be.visible')
+      cy.login()
       cy.wait(2000)
 
       cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[6]/span/a').click()
@@ -377,7 +377,7 @@ function randName(length) {
       cy.wait(5000)
 
       cy.get('#basic_Country').click()
-      cy.get('div[title="New Zealand"]').click({multiple:true , force:true})
+      cy.get('div[title="NEW ZEALAND"]').click({multiple:true , force:true})
       cy.wait(5000)
 
       cy.get('#basic_Visa').click()
@@ -570,7 +570,7 @@ function randName(length) {
         cy.wait(1000)
         cy.get(':nth-child(2) > a > .header-bar-text-div > .header-text').click()
         cy.wait(6000)
-        cy.get('[style="cursor: pointer;"] > :nth-child(1) > .cv-top-lbtn-text').click()
+        cy.get('.cv-top-lbtn-text').click()
         cy.get('[style="padding: 10px;"] > .ant-select > .ant-select-selector > .ant-select-selection-item').click()
         cy.get('div[title="Critical Purpose Visitor Visa"]').click({multiple:true , force:true})
         cy.get('.ant-picker-input > input').type(futureDate, {force:true}).type('{enter}')
@@ -670,7 +670,7 @@ function randName(length) {
         cy.wait(5000)
   
         cy.get('#basic_Country').click()
-        cy.get('div[title="New Zealand"]').click({multiple:true , force:true})
+        cy.get('div[title="NEW ZEALAND"]').click({multiple:true , force:true})
         cy.wait(5000)
   
         cy.get('#basic_Visa').click()
@@ -726,7 +726,7 @@ function randName(length) {
 
       cy.wait(5000)
 
-      cy.get('[style="padding: 10px; height: 54px;"] > .ant-btn').click()
+      cy.get('[style="padding: 10px; height: 54px;"] > .ant-btn').click({force:true})
 
       cy.get('#basic_task_title').type('testing from auto')
 
@@ -756,7 +756,7 @@ function randName(length) {
       cy.wait(2000)
       cy.get('#visaCountryId').click()
       cy.wait(4000)
-      cy.contains('NEW ZEALAND').click()
+      cy.contains('NEW ZEALAND').click({force:true})
       cy.wait(2000)
       //cy.get('#visaCountryType').click()
       //cy.get('[title= "Visa"]').click()

@@ -1,9 +1,6 @@
-/// <reference types= "cypress" />
-Cypress.on('uncaught:exception', (err, runnable) => {
-    // returning false here prevents Cypress from
-    // failing the test
-    return false
-    });
+
+
+
 
 function randomNo(y){
     let x = Math.floor(Math.random() * 10)+y
@@ -30,27 +27,29 @@ function randName(length) {
   
   describe('Adding client', () => {
     it('Add client', () => {
-
-      cy.viewport(1366, 657)
-      //const sms= '211267313';
-
-      cy.getCookies({log: true})
-
-      cy.clearCookies({log: true})
-
-      cy.getCookies().should('be.empty')
-
-      cy.clearAllCookies({log:true})
       
-      cy.clearAllLocalStorage({log:true})
+
+      // cy.viewport(1366, 657)
+      // //const sms= '211267313';
+
+      // cy.getCookies({log: true})
+
+      // cy.clearCookies({log: true})
+
+      // cy.getCookies().should('be.empty')
+
+      // cy.clearAllCookies({log:true})
+      
+      // cy.clearAllLocalStorage({log:true})
 
       
-      //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-      cy.visit('https://app.ezymigrate.com/login')
+      // //cy.visit('https://app-stage.ezymigrate.co.nz/login')
+       //cy.visit('https://app.ezymigrate.com/login')
+      cy.login()
 
     
 
-      cy.intercept('GET', 'https://beta-api.ezymigrate.co.nz/v1/reminder/All/651876e6-b0c8-4c31-aac2-2129d93a8c9b').as('allclients')
+       cy.intercept('GET', 'https://beta-api.ezymigrate.co.nz/v1/users/ddl/All/651876e6-b0c8-4c31-aac2-2129d93a8c9b').as('allclients')
 
      
 
@@ -58,18 +57,18 @@ function randName(length) {
 
       
 
-      cy.get('#userName > .profile-input-login').type('rananabeelahmed772@gmail.com')
+      // cy.get('#userName > .profile-input-login').type('rananabeelahmed772@gmail.com')
 
-      cy.get('#password > .profile-input-login').type('nabeel@123')
+      // cy.get('#password > .profile-input-login').type('nabeel@123')
       
 
-      cy.get('.sus-modal-button-text').click()
+      // cy.get('.sus-modal-button-text').click()
 
-      cy.wait(3000)
+      // cy.wait(3000)
 
-      cy.contains('Client Analytics').should('be.visible')
+      // cy.contains('Client Analytics').should('be.visible')
       
-      cy.wait(2000)
+      // cy.wait(2000)
 
       cy.get('.ant-menu-title-content').eq(4).click()
 

@@ -125,7 +125,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
          cy.wait(3000)
 
-       cy.contains('New Zealand')
+       cy.contains('NEW ZEALAND')
          .click({force:true})
 
          cy.wait(5000)
