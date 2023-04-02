@@ -167,11 +167,18 @@ function randName(length) {
       cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[9]/span/a').click()
       cy.contains('Daily Transactions').click()
       cy.get('.ant-tabs-tab-btn').eq(0).click()
+      cy.intercept('https://beta-api.ezymigrate.co.nz/v1/client/SearchClient').as('SearchClient')
       cy.wait('@getTemplate').its('response.statusCode').should('eq', 200)
       cy.wait('@getTax').its('response.statusCode').should('eq', 200)
       cy.wait(2000)
        cy.get('.ant-menu-title-content').eq(4).click()
         cy.wait('@allclients')
+
+      cy.get('#first_name')
+        .type('sufi')
+        .type('{enter}')
+      cy.wait('@SearchClient').its('response.statusCode').should('eq', 200)
+      cy.contains('sufi cup').should('be.visible')
       cy.get('.ant-table-row.ant-table-row-level-0')
         .each(($el, index, $list) => {
         
