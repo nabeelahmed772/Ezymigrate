@@ -45,7 +45,7 @@ Cypress.Commands.add('login', () =>{
     cy.visit('https://app.ezymigrate.com/login')
     cy.get('#userName > .profile-input-login').type('rananabeelahmed772@gmail.com')
 
-      cy.get('#password > .profile-input-login').type('nabeel@123')
+      cy.get('#password > .profile-input-login').type('Nabeel@123')
       
 
       cy.get('.sus-modal-button-text').click()

@@ -29,6 +29,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     const password = 'nabeel@123';
   
   describe('potential client', () => {
+    const futureDate = Cypress.env('futureDate')
     it('Add potential', () => {
       // cy.viewport(1366, 657)
   

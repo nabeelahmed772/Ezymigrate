@@ -22,10 +22,11 @@ function randName(length) {
 }
 
        const sms= '211267313';
-       const date = 'td[title="2023-02-05"]';
-       const futureDate = "25/03/2023"
+       
+       
   
   describe('Adding client', () => {
+    const futureDate = Cypress.env('futureDate')
     it('Add client', () => {
       
 

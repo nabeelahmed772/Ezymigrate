@@ -25,41 +25,42 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
     const date = 'td[title="2023-02-05"]';
     const sms= '211267313';
-    const user_name ='rananabeelahmed772@gmail.com';
-    const password = 'nabeel@123';
-    const futureDate = "25/03/2023"
+    
+    
   
   describe('Adding Employer', () => {
+    const futureDate = Cypress.env('futureDate')
     it('Add employer', () => {
-      cy.viewport(1366, 657)
+      cy.login()
+      // cy.viewport(1366, 657)
 
 
-      cy.intercept('POST','https://beta-api.ezymigrate.co.nz/v1/dashboardbi/AccountAnalytics').as('load')
+      // cy.intercept('POST','https://beta-api.ezymigrate.co.nz/v1/dashboardbi/AccountAnalytics').as('load')
       
-      //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-      cy.visit('https://app.ezymigrate.com/login')
+      // //cy.visit('https://app-stage.ezymigrate.co.nz/login')
+      // cy.visit('https://app.ezymigrate.com/login')
 
-      cy.getCookies({log:true})
+      // cy.getCookies({log:true})
 
-      cy.clearCookies({log:true})
+      // cy.clearCookies({log:true})
 
-      cy.getCookies().should('be.empty')
+      // cy.getCookies().should('be.empty')
 
-      cy.clearAllCookies({log:true})
+      // cy.clearAllCookies({log:true})
       
-      cy.clearAllLocalStorage({log:true})
+      // cy.clearAllLocalStorage({log:true})
 
       
 
-      //cy.intercept('POST', '/ActiveSince*').as('login')
+      // //cy.intercept('POST', '/ActiveSince*').as('login')
 
-      cy.get('#userName > .profile-input-login').type(user_name)
-      cy.get('#password > .profile-input-login').type(password)
-      cy.get('.sus-modal-button-text').click()
-      cy.wait(9000)
+      // cy.get('#userName > .profile-input-login').type(user_name)
+      // cy.get('#password > .profile-input-login').type(password)
+      // cy.get('.sus-modal-button-text').click()
+      // cy.wait(9000)
       
       
-      cy.contains('Client Analytics').should('be.visible')
+      // cy.contains('Client Analytics').should('be.visible')
       cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[6]/span/a').click()
       cy.wait(4000)
 

@@ -26,10 +26,10 @@ function randName(length) {
 }
 
        const sms= '211267313';
-       const date = 'td[title="2023-02-05"]';
-       const futureDate = "25/03/2023"
+       
   
   describe('Adding client', () => {
+    const futureDate = Cypress.env('futureDate')
     it('Add client', () => {
 
       // cy.viewport(1366, 657)
@@ -463,7 +463,7 @@ function randName(length) {
       cy.contains('ADD PARTNER').click()
       cy.get('[type="file"]').attachFile('ABC.jpg')
       cy.get('#visaCountryId').click()
-      cy.contains('NEW ZEALAND').click()
+      cy.contains('NEW ZEALAND').click({force:true})
       //cy.get('#visaCountryType').click()
       //cy.get('[title= "Visa"]').click()
       cy.get('#title').type('title')

@@ -29,9 +29,10 @@ const date = 'td[title="2023-02-05"]';
 const sms= '211267313';
 const user_name ='rananabeelahmed772@gmail.com';
 const password = 'nabeel@123';
-const futureDate = "25/03/2023"
+
   
   describe('Adding client', () => {
+    const futureDate = Cypress.env('futureDate')
     it('Add client', () => {
 
       // cy.viewport(1366, 657)
