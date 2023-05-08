@@ -26,6 +26,15 @@ describe('account setting', ()=>{
         cy.intercept('https://beta-api.ezymigrate.co.nz/v1/OutlookMail')
           .as('OutlookMail')
 
+        cy.intercept('https://beta-api.ezymigrate.co.nz/v1/users/GetUserIMAP/*')
+          .as('GetUserIMAP')
+
+        cy.intercept('GET','https://beta-api.ezymigrate.co.nz//v1/users/UserEmailSetting/**')
+          .as('UserEmailSetting')
+
+        cy.intercept('PUT', 'https://beta-api.ezymigrate.co.nz/v1/users/UserEmailSetting')
+          .as('UserEmailSetting1')
+
         cy.get('a[href="/account-settings"]')
           .click()
 
@@ -89,8 +98,61 @@ describe('account setting', ()=>{
         cy.get('.anticon.anticon-left-circle.ac-back-icon')
           .click()
 
+        cy.get('img[src="/static/media/imap.b98ed5fa.svg"]')  
+          .click()
+
+        cy.wait('@GetUserIMAP').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+            cy.wrap(interception.response.body.exportUserName).should('eq', 'Nabeel Ahmed')
+          })
+
+        cy.get('a[href="/account-settings"]')
+          .click()
+
+        cy.get('img[src="/static/media/daily-mail-settings.3d918485.svg"]')  
+          .click()
+
+
+        cy.wait('@UserEmailSetting').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+            cy.wrap(interception.response.body.dailyMeetingEmail).should('be.true')
+          })
+         
+          
+
+        cy.get('#dailyTaskEmail')
+          .click()
+        
+        cy.wait('@UserEmailSetting').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+            cy.wrap(interception.response.body.dailyTaskEmail).should('be.false')
+          })
+
+        cy.wait('@UserEmailSetting1').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+            cy.wrap(interception.request.body.dailyTaskEmail).should('be.false')
+          })
+
+        cy.get('#dailyTaskEmail')
+          .click()
+        
+        cy.wait('@UserEmailSetting').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+            cy.wrap(interception.response.body.dailyTaskEmail).should('be.true')
+          })
+
+        cy.wait('@UserEmailSetting1').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+            cy.wrap(interception.request.body.dailyTaskEmail).should('be.true')
+          })
+        
+        cy.get('.anticon.anticon-left-circle.ac-back-icon')
+          .click()
+
         cy.contains('Company/Branch Level Setting')
           .click()
+
+        
 
         
 
