@@ -125,7 +125,11 @@ describe('deals', ()=>{
           .click()
 
         cy.get('.ant-select-dropdown.ant-select-dropdown-placement-bottomLeft:visible')
-          .scrollTo('center', {ensureScrollable: false})
+          .scrollTo('bottom', {ensureScrollable: false})
+
+        cy.get('div[title="Initial Document Instructions Issued"]')
+          .eq(1)
+          .scrollIntoView()
 
         cy.get('div[title="Initial Document Instructions Issued"]')
           .click()
