@@ -61,6 +61,15 @@ describe('account setting', ()=>{
 
         cy.intercept('https://beta-api.ezymigrate.co.nz//v1/template/Attachments')
           .as('Attachments1')
+
+        cy.intercept('https://beta-api.ezymigrate.co.nz/v1/temp/document/checklist/All/*')
+          .as('checklist')
+
+        cy.intercept('https://beta-api.ezymigrate.co.nz/v1/template/documentCheckList/*')
+          .as('documentCheckList')
+
+        cy.intercept('https://beta-api.ezymigrate.co.nz/v1/temp/document/checklist')
+          .as('checklist1')
         
         cy.get('a[href="/account-settings"]')
           .click()
@@ -395,6 +404,11 @@ describe('account setting', ()=>{
     
         })
       
+ 
+          
+      cy.get('.anticon.anticon-left-circle.ac-back-icon')
+        .click()
+
 
       cy.get('img[src="/static/media/contract.d1118230.svg"]')
         .click()
@@ -408,7 +422,290 @@ describe('account setting', ()=>{
           cy.wrap(interception.response.statusCode).should('eq', 200)
     
         })
+      
+      cy.get('img[src="/static/media/add-icon.325d80ae.png"]')
+        .click()
+      
+      cy.get('#main_name')
+        .type('contract automation cypress testing')
 
+      cy.get('.fr-element > p')
+        .type('this is the descrition for the testoing of the contract')
+
+      cy.get('[type="submit"] > span')
+        .click()
+      
+      cy.wait('@template').then((interception) => {
+          cy.wrap(interception.response.statusCode).should('eq', 200)
+    
+        })
+
+      cy.wait('@template/All').then((interception) => {
+          cy.wrap(interception.response.statusCode).should('eq', 200)
+    
+        })
+      
+      cy.get('tr').each(($el, index, $list) => {
+          const mo = $el.find('.ant-table-cell').text().trim()
+         cy.log(mo)
+         debugger
+
+          if (mo.includes('contract automation cypress testing')) {
+            cy.wrap($el).find('.anticon.anticon-edit').click()
+            cy.wait('@template1').then((interception) => {
+              cy.wrap(interception.response.statusCode).should('eq', 200)
+        
+            })
+            cy.get('#main_name')
+              .type('test')
+
+            cy.get('.fr-element > p')
+              .type('test')
+
+            cy.get('[type="submit"] > span')
+              .click()
+      
+            
+            
+          }
+      })
+        
+
+      cy.wait('@template').then((interception) => {
+        cy.wrap(interception.response.statusCode).should('eq', 200)
+  
+      })
+
+      cy.wait('@template/All').then((interception) => {
+        cy.wrap(interception.response.statusCode).should('eq', 200)
+  
+      })
+
+      cy.get('tr').each(($el, index, $list) => {
+        const mo = $el.find('.ant-table-cell').text().trim()
+       cy.log(mo)
+       debugger
+
+        if (mo.includes('contract automation cypress testing')) {
+          cy.wrap($el).find('.anticon.anticon-delete').click()
+          
+          
+        }
+      })
+
+      cy.wait('@template').then((interception) => {
+        cy.wrap(interception.response.statusCode).should('eq', 200)
+  
+      })
+
+      cy.wait('@template/All').then((interception) => {
+        cy.wrap(interception.response.statusCode).should('eq', 200)
+  
+      })
+
+      cy.get('.anticon.anticon-left-circle.ac-back-icon')
+        .click()
+
+      
+      cy.contains('File Notes')
+        .click()
+      
+      cy.wait('@DynamicKeys').then((interception) => {
+          cy.wrap(interception.response.statusCode).should('eq', 200)
+    
+        })
+
+      cy.wait('@template/All').then((interception) => {
+          cy.wrap(interception.response.statusCode).should('eq', 200)
+    
+        })
+      
+      cy.get('img[src="/static/media/add-icon.325d80ae.png"]')
+        .click()
+
+      cy.get('#main_name')
+        .type('file notes automation testing cypress ')
+
+      cy.get('.fr-element > p')
+        .type('this is the description for the file notes testing the ')
+
+      cy.get('.ant-btn.ant-btn-primary.form-btn.button-blue')
+        .contains('Submit')
+        .click()
+
+      cy.wait('@template').then((interception) => {
+        cy.wrap(interception.response.statusCode).should('eq', 200)
+    
+      })
+  
+      cy.wait('@template/All').then((interception) => {
+        cy.wrap(interception.response.statusCode).should('eq', 200)
+    
+      })
+
+
+      cy.get('tr').each(($el, index, $list) => {
+        const mo = $el.find('.ant-table-cell').text().trim()
+       cy.log(mo)
+       debugger
+
+        if (mo.includes('file notes automation testing cypress')) {
+          cy.wrap($el).find('.anticon.anticon-edit').click()
+          cy.wait('@template1').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+      
+          })
+          cy.get('#main_name')
+            .type('test')
+
+          cy.get('.fr-element > p')
+            .type('test')
+
+          cy.get('.ant-btn.ant-btn-primary.form-btn.button-blue')
+            .contains('Submit')
+            .click()
+    
+          
+          
+        }
+    })
+
+
+    cy.wait('@template').then((interception) => {
+      cy.wrap(interception.response.statusCode).should('eq', 200)
+  
+    })
+
+    cy.wait('@template/All').then((interception) => {
+      cy.wrap(interception.response.statusCode).should('eq', 200)
+  
+    })
+    cy.get('tr').each(($el, index, $list) => {
+      const mo = $el.find('.ant-table-cell').text().trim()
+     cy.log(mo)
+     debugger
+
+      if (mo.includes('file notes automation testing cypress')) {
+        cy.wrap($el).find('.anticon.anticon-delete').click()
+        
+        
+      }
+    })
+
+    cy.wait('@template').then((interception) => {
+      cy.wrap(interception.response.statusCode).should('eq', 200)
+
+    })
+
+    cy.wait('@template/All').then((interception) => {
+      cy.wrap(interception.response.statusCode).should('eq', 200)
+
+    })
+
+    cy.get('.anticon.anticon-left-circle.ac-back-icon')
+      .click()
+    
+
+    cy.get('img[src="/static/media/doc-checklist.52f37436.svg"]')
+      .click()
+
+    cy.wait('@documentCheckList').then((interception) => {
+        cy.wrap(interception.response.statusCode).should('eq', 200)
+  
+      })
+  
+    cy.wait('@checklist').then((interception) => {
+        cy.wrap(interception.response.statusCode).should('eq', 200)
+  
+      })
+    cy.get('img[src="/static/media/add-icon.325d80ae.png"]')
+      .click()
+
+    cy.get('#main_name')
+      .type('cypress automation document checklist ')
+
+    cy.get('#main_description')
+      .type('this is the description for the cypress document checklist automation ')
+
+    cy.get('img[src="/static/media/add-icon.325d80ae.png"]')
+      .eq(1)
+      .click()
+    
+    cy.get('#main_checkListItems_0_name')
+      .type('testing by automation')
+
+    cy.get('.ant-btn.ant-btn-primary.login-form-button.save-btn')
+      .contains('SAVE')
+      .click()
+
+    cy.wait('@checklist1').then((interception) => {
+        cy.wrap(interception.response.statusCode).should('eq', 200)
+  
+      })
+  
+    cy.wait('@checklist').then((interception) => {
+        cy.wrap(interception.response.statusCode).should('eq', 200)
+  
+      })
+    
+    cy.get('tr').each(($el, index, $list) => {
+        const mo = $el.find('.ant-table-cell').text().trim()
+       cy.log(mo)
+       debugger
+
+        if (mo.includes('cypress automation document checklist')) {
+          cy.wrap($el).find('.anticon.anticon-edit').click()
+          
+          cy.get('#main_name')
+            .type('test')
+
+          cy.get('#main_description')
+            .type('test')
+
+          cy.get('.ant-btn.ant-btn-primary.login-form-button.save-btn')
+            .contains('SAVE')
+            .click()
+    
+          
+          
+        }
+    })
+
+    cy.wait('@checklist1').then((interception) => {
+      cy.wrap(interception.response.statusCode).should('eq', 200)
+
+    })
+   
+    cy.get('tr').each(($el, index, $list) => {
+      const mo = $el.find('.ant-table-cell').text().trim()
+     cy.log(mo)
+     debugger
+
+      if (mo.includes('cypress automation document checklist')) {
+        cy.wrap($el).find('.anticon.anticon-delete').click()
+        cy.get('.ant-btn.ant-btn-default.button.button-blue')
+          .contains('Delete')
+          .click()
+        
+        
+      }
+  })
+
+  cy.wait('@checklist1').then((interception) => {
+    cy.wrap(interception.response.statusCode).should('eq', 200)
+
+  })
+
+   cy.wait('@checklist').then((interception) => {
+    cy.wrap(interception.response.statusCode).should('eq', 200)
+
+  })
+   
+
+  cy.get('.anticon.anticon-left-circle.ac-back-icon')
+    .click()
+
+  
 
     })
 

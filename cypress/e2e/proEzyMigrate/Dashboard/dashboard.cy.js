@@ -128,7 +128,6 @@ describe('deals', ()=>{
           .scrollTo('bottom', {ensureScrollable: false})
 
         cy.get('div[title="Initial Document Instructions Issued"]')
-          .eq(1)
           .scrollIntoView()
 
         cy.get('div[title="Initial Document Instructions Issued"]')
@@ -164,6 +163,12 @@ describe('deals', ()=>{
         cy.get('.ant-select-selection-search-input')
           .eq(7)
           .click({force:true})
+
+        cy.get('.ant-select-dropdown.ant-select-dropdown-placement-bottomLeft:visible')
+          .scrollTo('bottom', {ensureScrollable: false})
+
+        cy.get('div[title="Initial Document Instructions Issued"]')
+          .scrollIntoView()
 
         cy.get('div[title="Client Awaiting Document Instructions"]')
           .click()

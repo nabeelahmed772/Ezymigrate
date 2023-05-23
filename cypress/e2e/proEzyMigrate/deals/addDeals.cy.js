@@ -71,7 +71,7 @@ describe('deals', ()=>{
           .its('response.statusCode')
           .should('eq', 200)
 
-        cy.contains('SALES PIPELINE')
+        cy.contains('PIPELINE')
           .should('be.visible')
 
         cy.get('.ant-select-selection-search-input').eq(4).click()
@@ -79,7 +79,7 @@ describe('deals', ()=>{
         cy.contains('first pipeline')
           .should('be.visible')
 
-        cy.contains('SALES PIPELINE')
+        cy.contains('PIPELINE')
           .click()
         
         cy.wait('@getAllDeals')
@@ -211,7 +211,7 @@ describe('deals', ()=>{
           cy.log(no)
           if (no.includes('diploma year')) {
             cy.wrap($el).find('img[src="/static/media/link-visa.4925a6d1.svg"]').click()
-            cy.get('span[title="00000000-0000-0000-0000-000000000000"]').click()
+            cy.get('.ant-select-selection-item').eq(3).click()
             cy.get('div[title="BackendDev"]').click()
             cy.contains('Save').click()
 
@@ -263,7 +263,7 @@ describe('deals', ()=>{
           .its('response.statusCode')
           .should('eq', 200)
 
-        cy.contains('SALES PIPELINE')
+        cy.contains('PIPELINE')
           .should('be.visible')
 
         cy.get('.ant-select-selection-search-input').eq(4).click()
@@ -482,7 +482,7 @@ describe('deals', ()=>{
           .its('response.statusCode')
           .should('eq', 200)
 
-        cy.contains('SALES PIPELINE')
+        cy.contains('PIPELINE')
           .should('be.visible')
 
         cy.get('.ant-select-selection-search-input').eq(4).click()
