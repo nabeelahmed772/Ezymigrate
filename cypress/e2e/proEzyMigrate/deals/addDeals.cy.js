@@ -61,6 +61,101 @@ describe('deals', ()=>{
 
         cy.intercept('https://beta-api.ezymigrate.co.nz/v1/employer/All/*')
           .as('employer')
+ 
+        cy.intercept('https://beta-api.ezymigrate.co.nz/v1/mailchimp/GetIsMailChimpOrSendGrid')
+          .as('GetIsMailChimpOrSendGrid')
+
+        cy.intercept('https://beta-api.ezymigrate.co.nz/v1/mailchimp')
+          .as('mailchimp')
+
+        cy.intercept('https://beta-api.ezymigrate.co.nz/v1/company/sendgridkey/*')
+          .as('company/sendgridkey')
+  
+
+        cy.intercept('https://beta-api.ezymigrate.co.nz/v1/company/sendgridkey')
+          .as('company/sendgridkey1')
+
+        cy.get('a[href="/account-settings"]')
+          .click()
+
+        cy.contains('Organization Level Setting')
+          .click()
+
+        cy.get('.sus-bottom-text')
+          .contains('SendGrid')
+          .click()
+        
+       
+        
+        cy.wait('@GetIsMailChimpOrSendGrid').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+            if(interception.response.body.includes('MailChimp')){
+
+
+            
+          
+
+        cy.get('.anticon.anticon-left-circle.ac-back-icon')
+          .click()
+
+        cy.get('img[src="/static/media/mail-chimp-icon.9b084db2.svg"]')
+          .click()
+        
+          cy.wait('@mailchimp').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+            cy.wrap(interception.response.body.mailChimpId).should('eq', 'b4eab670b71016dd21400d2f47c2a81d-us21')
+      
+          })
+        cy.get('.remove-account')
+          .click()
+        
+        cy.wait('@mailchimp').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+          
+      
+          })
+
+        cy.get('.anticon.anticon-left-circle.ac-back-icon')
+          .click()
+       
+        cy.get('.sus-bottom-text')
+          .contains('SendGrid')
+          .click()
+
+        cy.wait('@company/sendgridkey').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+          
+      
+          })
+        
+        cy.get('#gridKey')
+          .type('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')
+
+        cy.get('.ant-btn.ant-btn-primary.button-blue')
+          .contains('Save')
+          .click()
+
+        cy.wait('@company/sendgridkey1').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+          })}
+        else if(interception.response.body.includes('SendGrid')){
+          cy.get('.anticon.anticon-left-circle.ac-back-icon')
+          .click()
+
+        }
+        else{
+          cy.get('#gridKey')
+          .type('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')
+
+        cy.get('.ant-btn.ant-btn-primary.button-blue')
+          .contains('Save')
+          .click()
+
+        cy.wait('@company/sendgridkey1').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+          })
+        }
+      })
 
         cy.contains('Deals')
           .scrollIntoView()
