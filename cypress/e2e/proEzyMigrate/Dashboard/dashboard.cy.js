@@ -160,24 +160,36 @@ describe('deals', ()=>{
           .its('response.statusCode')
           .should('eq', 200)
 
+        cy.contains('Dashboard (Client)')
+          .click()
+
+        cy.get(':nth-child(2) > .ant-select > .ant-select-selector > .ant-select-selection-item')
+          .click()
+
+        cy.contains('PAKISTAN')
+          .click()
+
+        
+
+        cy.wait('@GetAllBranchVisaTypeByCountry')
+          .its('response.statusCode')
+          .should('eq', 200)
+
         cy.get('.ant-select-selection-search-input')
-          .eq(7)
-          .click({force:true})
+          .eq(6)
+          .click()
 
-        cy.get('.ant-select-dropdown.ant-select-dropdown-placement-bottomLeft:visible')
-          .scrollTo('bottom', {ensureScrollable: false})
-
-        cy.get('div[title="Initial Document Instructions Issued"]')
-          .scrollIntoView()
-
-        cy.get('div[title="Client Awaiting Document Instructions"]')
+        cy.get('div[title="Green Visa1"]')
           .click()
 
         cy.wait('@Client')
           .its('response.statusCode')
           .should('eq', 200)
 
-          cy.get('.ant-btn.ant-btn-default.ant-dropdown-trigger')
+        
+
+        
+        cy.get('.ant-btn.ant-btn-default.ant-dropdown-trigger')
           .click()
 
         cy.get('.ant-dropdown-menu.ant-dropdown-menu-root.ant-dropdown-menu-vertical.ant-dropdown-menu-light').contains('Initial Document Instructions Issued')
@@ -198,16 +210,7 @@ describe('deals', ()=>{
           .its('response.statusCode')
           .should('eq', 200)
 
-        cy.get('.ant-select-selection-search-input')
-          .eq(7)
-          .click({force:true})
-
-        cy.get('div[title="Initial Document Instructions Issued"]')
-          .click()
-
-        cy.wait('@Client')
-          .its('response.statusCode')
-          .should('eq', 200)
+        
         
         cy.wait(2000)
 
@@ -236,11 +239,14 @@ describe('deals', ()=>{
         cy.wait('@Client')
           .its('response.statusCode')
           .should('eq', 200)
+        
+        cy.get('.ant-table-body')
+          .scrollTo('left')
 
         cy.contains('sufi cup')
           .should('be.visible')
 
-        cy.get('[style="border-color: rgb(240, 173, 78); background-color: rgb(240, 173, 78);"]')
+        cy.get('.priority-button').eq(1)
           .click()
           
 
