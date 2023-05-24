@@ -159,7 +159,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
      cy.wait(6000)
      cy.get('#signature-pad-').click()
      cy.contains('Save Signature').click()
-     cy.wait(14000)
+     cy.wait(7000)
      cy.wait('@thanksd').its('response.statusCode').should('eq', 200)
      cy.visit('https://app.ezymigrate.com/potential-client/potential-clients')
      cy.wait(5000)

@@ -92,7 +92,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
         .contains('OK')
         .click()
 
-      cy.wait(5000)
+      cy.wait(8000)
       cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a').click()
       cy.contains('automation custom').click()
       cy.wait(2000)
@@ -165,7 +165,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
           .contains('OK')
           .click()
 
-        cy.wait(5000)
+        cy.wait(8000)
 
         cy.get('a[href="/all-clients"]')
           .click()
@@ -253,7 +253,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
           .contains('OK')
           .click()
 
-        cy.wait(5000)
+        cy.wait(8000)
 
       cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[7]/div/span').click()
       cy.wait(2000)
