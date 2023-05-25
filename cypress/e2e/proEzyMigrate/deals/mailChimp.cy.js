@@ -91,6 +91,7 @@ describe('mail chimp testing', ()=>{
         
         cy.wait('@GetIsMailChimpOrSendGrid').then((interception) => {
             cy.wrap(interception.response.statusCode).should('eq', 200)
+
             if(interception.response.body.includes('SendGrid')){
 
 
@@ -139,12 +140,15 @@ describe('mail chimp testing', ()=>{
 
         cy.wait('@mailchimp').then((interception) => {
             cy.wrap(interception.response.statusCode).should('eq', 200)
-          })}
+          })
+        }
+
         else if(interception.response.body.includes('MailChimp')){
           cy.get('.anticon.anticon-left-circle.ac-back-icon')
           .click()
 
         }
+        
         else{
           cy.get('#host_name')
           .type('b4eab670b71016dd21400d2f47c2a81d-us21')
