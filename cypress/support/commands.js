@@ -40,19 +40,27 @@ Cypress.Commands.add('login', () =>{
     
     cy.clearAllLocalStorage({log:true})
 
-    
+    cy.intercept('https://beta-api.ezymigrate.co.nz/v1/admin/EzyMigrateSettings/GetLoginPageImage')
+      .as('GetLoginPageImage')
+
     //cy.visit('https://app-stage.ezymigrate.co.nz/login')
+
     cy.visit('https://app.ezymigrate.com/login')
+
+    cy.wait('@GetLoginPageImage').then((interception) => {
+      cy.wrap(interception.response.statusCode).should('eq', 200)
+      
+    })
     cy.get('#userName > .profile-input-login').type('rananabeelahmed772@gmail.com')
 
-      cy.get('#password > .profile-input-login').type('Nabeel@123')
+    cy.get('#password > .profile-input-login').type('Nabeel@123')
       
 
-      cy.get('.sus-modal-button-text').click()
+    cy.get('.sus-modal-button-text').click()
 
-      cy.wait(3000)
+    cy.wait(3000)
 
-      cy.contains('Client Analytics').should('be.visible')
+    cy.contains('Client Analytics').should('be.visible')
       
-      cy.wait(2000)
+    cy.wait(2000)
   })

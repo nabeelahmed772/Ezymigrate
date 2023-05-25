@@ -42,6 +42,23 @@ describe('deals', ()=>{
         cy.intercept('https://beta-api.ezymigrate.co.nz/v1/dashboard/ClientExport')
           .as('ClientExport')
 
+        //potential client APIs
+
+        cy.intercept('https://beta-api.ezymigrate.co.nz/v1/users/ddl/All/*')
+          .as('allUser')
+
+        cy.intercept('https://beta-api.ezymigrate.co.nz/v1/company/clientstatus/potentialclient/All/*')
+          .as('potentialclient/All')
+
+        cy.intercept('https://beta-api.ezymigrate.co.nz/v1/dashboard/PotentialClient')
+          .as('PotentialClient')
+
+        cy.intercept('https://beta-api.ezymigrate.co.nz/v1/potentialclient/markedtags/All/*')
+          .as('markedtags/All')
+
+        cy.intercept('https://beta-api.ezymigrate.co.nz/v1/company/clientstatus/potentialclient/All/*')
+          .as('potentialclient/All')
+
         cy.get('a[href="/dashboard"]')
           .click()
 
@@ -331,6 +348,57 @@ describe('deals', ()=>{
         // cy.wait('@ClientExport')
         //   .its('response.statusCode')
         //   .should('eq', 200)
+
+        //potential client dashboard
+
+        cy.get('.cp-top-bar-text')
+          .contains('Potential Clients')
+          .click()
+
+        cy.wait('@allUser').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+        })
+
+        cy.wait('@potentialclient/All').then((interception) => {
+          cy.wrap(interception.response.statusCode).should('eq', 200)
+         })
+
+        cy.wait('@PotentialClient').then((interception) => {
+          cy.wrap(interception.response.statusCode).should('eq', 200)
+         })
+
+        cy.wait('@markedtags/All').then((interception) => {
+          cy.wrap(interception.response.statusCode).should('eq', 200)
+         })
+
+        cy.wait('@potentialclient/All').then((interception) => {
+          cy.wrap(interception.response.statusCode).should('eq', 200)
+         })
+
+        cy.contains('PROCESSING PERSON')
+          .click({force:true})
+
+        cy.get('div[title="Owner nabeel"]')
+          .click({force:true})
+        
+        cy.wait('@PotentialClient').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+            cy.wrap(interception.request.body.processingPerson).should('exist')
+          })
+        
+        cy.contains('Client Status')
+          .click({force:true})
+
+        cy.get('div[title="QC staus"]')
+          .click({force:true})
+
+        cy.wait('@PotentialClient').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+            cy.wrap(interception.request.body.clientStatus).should('eq', 'QC staus')
+          })
+
+          
+      
 
         
 
