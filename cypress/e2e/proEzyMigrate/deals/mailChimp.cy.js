@@ -130,9 +130,10 @@ describe('mail chimp testing', ()=>{
           
       
           })
+        cy.wait(2000)
         
         cy.get('#host_name')
-          .type('b4eab670b71016dd21400d2f47c2a81d-us21')
+          .type('d7b965de16913a1531a7a4436e23a668-us21')
 
         cy.get('.ant-btn.ant-btn-primary.button-blue')
           .contains('SAVE')
@@ -150,8 +151,9 @@ describe('mail chimp testing', ()=>{
         }
         
         else{
+          cy.wait(2000)
           cy.get('#host_name')
-          .type('b4eab670b71016dd21400d2f47c2a81d-us21')
+          .type('d7b965de16913a1531a7a4436e23a668-us21')
 
         cy.get('.ant-btn.ant-btn-primary.button-blue')
           .contains('SAVE')

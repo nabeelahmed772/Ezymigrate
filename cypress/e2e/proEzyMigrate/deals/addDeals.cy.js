@@ -127,7 +127,9 @@ describe('deals', ()=>{
           
       
           })
-        
+
+        cy.wait(2000)
+
         cy.get('#gridKey')
           .type('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')
 
@@ -144,6 +146,7 @@ describe('deals', ()=>{
 
         }
         else{
+          cy.wait(2000)
           cy.get('#gridKey')
           .type('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')
 

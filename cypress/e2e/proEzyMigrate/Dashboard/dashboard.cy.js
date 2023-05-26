@@ -177,9 +177,13 @@ describe('deals', ()=>{
           .its('response.statusCode')
           .should('eq', 200)
 
+        cy.wait(2000)
+
         cy.contains('Dashboard (Client)')
           .click()
-
+          
+        cy.wait(2000)
+        
         cy.get(':nth-child(2) > .ant-select > .ant-select-selector > .ant-select-selection-item')
           .click()
 
