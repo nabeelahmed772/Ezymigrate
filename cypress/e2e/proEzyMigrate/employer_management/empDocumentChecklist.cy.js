@@ -32,11 +32,62 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   describe('Adding Employer', () => {
     const futureDate = Cypress.env('futureDate')
     it('Add employer', () => {
+
+
       
+
 
 
       cy.intercept('POST','https://beta-api.ezymigrate.co.nz/v1/dashboardbi/AccountAnalytics').as('load')
+
+      cy.intercept('https://beta-api.ezymigrate.co.nz/v1/potentialclient/markedtags/All/*')
+        .as('markedtags/All')
+
+      cy.intercept('https://beta-api.ezymigrate.co.nz/v1/invoice/AllBySubjectIdWithPaging')
+        .as('AllBySubjectIdWithPaging')
       
+      cy.intercept('https://beta-api.ezymigrate.co.nz/v1/branch/bank/*')
+        .as('branch/bank')
+
+      cy.intercept('https://beta-api.ezymigrate.co.nz/v1/branch/tax/All/*')
+        .as('tax/All')
+
+      cy.intercept('https://beta-api.ezymigrate.co.nz/v1/invoice/LastInvoiceNumber/*')
+        .as('LastInvoiceNumber')
+
+      cy.intercept('https://beta-api.ezymigrate.co.nz/v1/invoice/status/GetAllInvoiceStatuses/1')
+        .as('GetAllInvoiceStatuses')
+
+      cy.intercept('https://beta-api.ezymigrate.co.nz/v1/branch/AllWithLinks')
+        .as('AllWithLinks')
+
+      cy.intercept('https://beta-api.ezymigrate.co.nz/v1/currency/GetAllCurrencies')
+        .as('GetAllCurrencies')
+
+
+      
+        cy.intercept('https://beta-api.ezymigrate.co.nz/v1/invoice/AddNewLine/*')
+          .as('AddNewLine')
+
+        cy.intercept('https://beta-api.ezymigrate.co.nz/v1/invoice')
+          .as('invoice')
+
+          cy.intercept('https://beta-api.ezymigrate.co.nz/v1/document/MultiUploadWithFileName')
+            .as('MultiUploadWithFileName')
+
+            cy.intercept('https://beta-api.ezymigrate.co.nz/v1/HtmlTemplate/SetHtmlTemplate')
+              .as('SetHtmlTemplate')
+
+              cy.intercept('https://beta-api.ezymigrate.co.nz/v1/emailtemplate/*')
+                .as('emailtemplate')
+      
+      
+
+              cy.intercept('https://beta-api.ezymigrate.co.nz/v1/invoice/payment/All/*')
+                .as('payment/All')
+
+
+
       //cy.visit('https://app-stage.ezymigrate.co.nz/login')
       // cy.visit('https://app.ezymigrate.com/login')
 
@@ -97,7 +148,177 @@ Cypress.on('uncaught:exception', (err, runnable) => {
       cy.contains('logic employer')
         .click()
 
-      cy.wait(6000)
+      
+
+      //adding invoice for the employer
+
+      cy.get('.ant-tabs-tab-btn')
+        .eq(6)
+        .contains('INVOICES')
+        .click()
+
+      cy.wait('@markedtags/All').then((interception) => {
+          cy.wrap(interception.response.statusCode).should('eq', 200)
+        })
+ 
+      cy.wait('@AllBySubjectIdWithPaging').then((interception) => {
+          cy.wrap(interception.response.statusCode).should('eq', 404)
+        })
+
+      cy.get('.ant-btn.ant-btn-primary.button-blue')
+        .contains('ADD')
+        .click()
+
+        cy.wait('@branch/bank').then((interception) => {
+          cy.wrap(interception.response.statusCode).should('eq', 200)
+        })
+
+
+        cy.wait('@tax/All').then((interception) => {
+          cy.wrap(interception.response.statusCode).should('eq', 200)
+        })
+
+
+        cy.wait('@LastInvoiceNumber').then((interception) => {
+          cy.wrap(interception.response.statusCode).should('eq', 200)
+        })
+
+
+        cy.wait('@GetAllInvoiceStatuses').then((interception) => {
+          cy.wrap(interception.response.statusCode).should('eq', 200)
+        })
+
+        cy.wait('@AllWithLinks').then((interception) => {
+          cy.wrap(interception.response.statusCode).should('eq', 200)
+        })
+
+        cy.wait('@GetAllCurrencies').then((interception) => {
+          cy.wrap(interception.response.statusCode).should('eq', 200)
+        })
+
+        cy.get('.ant-col-offset-1 > .ant-picker > .ant-picker-input > input').type(futureDate, {force:true}).type('{enter}', {force:true})
+
+        cy.get('[style="margin-left: 8px;"] > .ant-picker > .ant-picker-input > input').type(futureDate, {force:true}).type('{enter}', {force:true})
+
+        cy.get('.ant-col-xs-12 > .ant-row > .ant-col > .ant-select > .ant-select-selector')
+          .click({force:true})
+
+        cy.contains('NEW TESTING TEMPLATE')
+          .click()
+
+          cy.wait('@AddNewLine').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+          })
+
+          cy.get('.ant-input-number-input').should('have.value', 120)
+
+          cy.contains('Calculate Sub Total')
+          .click()
+
+        cy.get('#bankAccount').click()
+
+        cy.get('div[title="test nabeel"]').click()
+
+       cy.contains('SAVE INVOICE')
+         .click()
+
+
+         cy.wait('@invoice').then((interception) => {
+          cy.wrap(interception.response.statusCode).should('eq', 200)
+        })
+
+
+         cy.wait('@markedtags/All').then((interception) => {
+          cy.wrap(interception.response.statusCode).should('eq', 200)
+        })
+ 
+      cy.wait('@AllBySubjectIdWithPaging').then((interception) => {
+          cy.wrap(interception.response.statusCode).should('eq', 200)
+        })
+
+        cy.get('.ant-btn.ant-btn-primary.ant-btn-sm.button-blue')
+          .contains('Email')
+          .click()
+
+
+          cy.wait('@MultiUploadWithFileName').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+          })
+  
+  
+           cy.wait('@SetHtmlTemplate').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+          })
+   
+        cy.wait('@emailtemplate').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+          })
+  
+
+          cy.wait('@GetAllInvoiceStatuses').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+          })
+
+        cy.get('.ant-btn.ant-btn-primary.button-blue')
+          .contains('Close')
+          .click()
+
+        cy.contains('View Details')
+          .click()
+
+        cy.wait('@payment/All').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 404)
+          })
+
+          cy.wait('@branch/bank').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+          })
+
+          cy.wait('@tax/All').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+          })
+
+          cy.wait('@LastInvoiceNumber').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+          })
+
+          cy.wait('@GetAllInvoiceStatuses').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+          })
+
+          cy.wait('@AllWithLinks').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+          })
+
+          cy.wait('@GetAllCurrencies').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+          })
+
+        cy.get('#paymentAmount')
+          .type('120')
+
+        cy.get('#paymentDate')
+          .type(futureDate,{force:true})
+          .type('{enter}')
+
+        cy.get('#paymentBank')
+          .click()
+
+        cy.contains('test nabeel')
+          .click()
+
+        cy.contains('ADD PAYMENT')
+          .click()
+
+        cy.wait('@invoice').then((interception) => {
+            cy.wrap(interception.response.statusCode).should('eq', 200)
+          })
+
+
+
+
+
+          cy.wait(6000)
 
       cy.get('.ant-tabs-tab-btn')
         .eq(2)

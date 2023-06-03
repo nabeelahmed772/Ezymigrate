@@ -27,14 +27,15 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     const sms= '211267313';
     const user_name ='nabeeloutsourcenzhard@gmail.com';
     const password = 'nabeel@123';
+    const futureDate ='25/03/2023';
     describe('potential client', () => {
         it('Add potential', () => {
       
       
           //cy.intercept('POST','https://beta-api.ezymigrate.co.nz/v1/dashboardbi/AccountAnalytics').as('load')
           
-          //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-          cy.visit('https://app.ezymigrate.com/login')
+          cy.visit('https://app-stage.ezymigrate.co.nz/login')
+          //cy.visit('https://app.ezymigrate.com/login')
       
           cy.getCookies({log:true})
       
@@ -56,6 +57,181 @@ Cypress.on('uncaught:exception', (err, runnable) => {
           cy.wait(9000)
           
             cy.contains('Client Analytics').should('be.visible')
+            cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[7]/div/span').click()
+            cy.wait(2000)
+            cy.contains('Web Assessment').click()
+            cy.wait(5000)
+            cy.contains('Basic Assessment Link').click()
+            cy.wait(4000)
+            cy.visit('https://app-stage.ezymigrate.co.nz/CustomQuestionnaire/Survey?para=eyJDbGllbnRJZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIkJyYW5jaElkIjoiNmU4YWQ0M2YtZTdlMC00ZjJhLTgzZTEtZjQyMDlkYjg0MzJmIiwiVXNlcklkIjoiNTRlYTk3MTUtNmYyNC00YzYyLWEzZWMtNGYzMmE3MzRiOTJmIiwiUXVlc3Rpb25uYWlyZUlkIjoxODM4LCJCcmFuY2giOm51bGwsInF1ZXN0aW9ubmFpcmUiOm51bGwsIkdyb3VwcyI6bnVsbCwiSXNHcm91cGVkIjpmYWxzZSwiSXNQb3RlbnRpYWwiOnRydWUsIklzRW1wbG95ZXIiOmZhbHNlLCJHcm91cElkIjowfQ==')
+            cy.wait(6000)
+            cy.get('#clientName').type('basic name')
+            cy.get('#sections_0_questions_0_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+            cy.get('#sections_0_questions_1_answers_0_answer').type('first name')
+            cy.get('#sections_0_questions_2_answers_0_answer').type('middle name')
+            cy.get('#sections_0_questions_3_answers_0_answer').type('first name')
+            cy.get('#sections_0_questions_4_answers_0_answer').type('np name')
+            cy.get('#sections_0_questions_5_answers_0_answer').type(futureDate, {force:true}).type('{enter}')
+            //cy.get(date).click({multiple:true, force:true})
+            cy.get('#sections_0_questions_6_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+            cy.get('#sections_0_questions_7_answers_0_answer').click()
+            cy.get('div[title="ALBANIA"]').click({multiple:true, force:true})
+            cy.get('#sections_0_questions_8_answers_0_answer').click()
+            cy.get('div[title="ALBANIA"]').click({multiple:true, force:true})
+            cy.get('#sections_0_questions_9_answers_0_answer').type('testing by')
+            cy.get('#sections_0_questions_10_answers_0_answer').type('testi g  nz team')
+            cy.get('#sections_0_questions_11_answers_0_answer').type(futureDate, {force:true}).type('{enter}')
+            //cy.get(date).click({multiple:true, force:true})
+            cy.get('#sections_0_questions_12_answers_0_answer').click()
+            cy.get('div[title="Appeal - IPT"]').click({multiple:true, force:true})
+            cy.get('#sections_0_questions_13_answers_0_answer').type(futureDate, {force:true}).type('{enter}')
+            //cy.get(date).click({multiple:true, force:true})
+            cy.get('#sections_0_questions_14_answers_0_answer').click()
+            cy.get('div[title="ALBANIA"]').click({multiple:true, force:true})
+            cy.get('#sections_0_questions_15_answers_0_answer').type(randName(5))
+            cy.get('#sections_0_questions_16_answers_0_answer').type(randName(5))
+            cy.get('#sections_0_questions_17_answers_0_answer').type(randName(5))
+            cy.get('#sections_0_questions_18_answers_0_answer').type(randName(5))
+            cy.get('#sections_0_questions_19_answers_0_answer > :nth-child(2) > .ant-radio > .ant-radio-input').click()
+
+
+            cy.get('#sections_1_questions_0_answers_0_answer').type(randName(5))
+            cy.get('#sections_1_questions_1_answers_0_answer').type(randName(5))
+            cy.get('#sections_1_questions_2_answers_0_answer').type(randName(5))
+            cy.get('#sections_1_questions_3_answers_0_answer').type(randName(5))
+            cy.get('#sections_1_questions_4_answers_0_answer').type(randName(5))
+            cy.get('#sections_1_questions_5_answers_0_answer').type(randName(5))
+            cy.get('#sections_1_questions_6_answers_0_answer').type(randName(5))
+            cy.get('#sections_1_questions_7_answers_0_answer').type(randName(5))
+            cy.get('#sections_1_questions_8_answers_0_answer').type(randName(5))
+
+
+            cy.get('#sections_2_questions_0_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+            cy.get('#sections_2_questions_1_answers_0_answer > :nth-child(2) > .ant-radio > .ant-radio-input').click()
+            cy.get('#sections_2_questions_2_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+            cy.get('#sections_2_questions_3_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+            cy.get('#sections_2_questions_4_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+
+            cy.get('#sections_3_questions_0_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+            cy.get('#sections_3_questions_1_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+            cy.get('#sections_3_questions_2_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+            cy.get('#sections_3_questions_3_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+
+            cy.get('#sections_4_questions_1_answers_0_answer').type(randName(5))
+
+            cy.get('#sections_4_questions_2_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+            cy.get('#sections_4_questions_3_answers_0_answer').type(randName(5))
+            cy.get('#sections_4_questions_4_answers_0_answer').type(randName(5))
+            cy.get('#sections_4_questions_5_answers_0_answer').type(randName(5))
+
+
+            cy.get(':nth-child(6) > .title-container > .cq-add-button > img').click()
+            cy.get(':nth-child(6) > .title-container > .cq-add-button > img').click()
+            cy.get(':nth-child(6) > .title-container > .cq-add-button > img').click()
+
+            cy.get('#sections_5_questions_0_answers_0_answer').type(randName(5))
+            cy.get('#sections_5_questions_1_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+            cy.get('#sections_5_questions_3_answers_0_answer').type(randName(5))
+            cy.get('#sections_5_questions_4_answers_0_answer').type(randName(5))
+            cy.get('#sections_5_questions_5_answers_0_answer').type(randName(5))
+            cy.get('#sections_5_questions_6_answers_0_answer').type(randName(5))
+
+            cy.get('#sections_6_questions_0_answers_0_answer').type(randName(5))
+            cy.get('#sections_6_questions_1_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+            
+            cy.get('#sections_6_questions_3_answers_0_answer').type(randName(5))
+            cy.get('#sections_6_questions_4_answers_0_answer').type(randName(5))
+            cy.get('#sections_6_questions_5_answers_0_answer').type(randName(5))
+            cy.get('#sections_6_questions_6_answers_0_answer').type(randName(5))
+
+            cy.get('#sections_7_questions_0_answers_0_answer').type(randName(5))
+            cy.get('#sections_7_questions_1_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+            
+            cy.get('#sections_7_questions_3_answers_0_answer').type(randName(5))
+            cy.get('#sections_7_questions_4_answers_0_answer').type(randName(5))
+            cy.get('#sections_7_questions_5_answers_0_answer').type(randName(5))
+            cy.get('#sections_7_questions_6_answers_0_answer').type(randName(5))
+
+            cy.get('#sections_8_questions_0_answers_0_answer').type(randName(5))
+            cy.get('#sections_8_questions_1_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+            cy.get('#sections_8_questions_3_answers_0_answer').type(randName(5))
+            cy.get('#sections_8_questions_5_answers_0_answer').type(randName(5))
+            cy.get('#sections_8_questions_6_answers_0_answer').type(randName(5))
+
+
+            cy.get(':nth-child(10) > .title-container > .cq-add-button > img').click()
+            cy.get(':nth-child(10) > .title-container > .cq-add-button > img').click()
+
+            cy.get('#sections_9_questions_0_answers_0_answer').type(randName(5))
+            cy.get('#sections_9_questions_3_answers_0_answer').type(randName(5))
+            cy.get('#sections_9_questions_4_answers_0_answer').type(randName(5))
+            cy.get('#sections_9_questions_5_answers_0_answer').type(randName(5))
+            cy.get('#sections_9_questions_6_answers_0_answer').type(randName(5))
+
+            cy.get('#sections_10_questions_0_answers_0_answer').type(randName(5))
+            cy.get('#sections_10_questions_3_answers_0_answer').type(randName(5))
+            cy.get('#sections_10_questions_4_answers_0_answer').type(randName(5))
+            cy.get('#sections_10_questions_5_answers_0_answer').type(randName(5))
+            cy.get('#sections_10_questions_6_answers_0_answer').type(randName(5))
+
+            cy.get('#sections_11_questions_0_answers_0_answer').type(randName(5))
+            cy.get('#sections_11_questions_3_answers_0_answer').type(randName(5))
+            cy.get('#sections_11_questions_4_answers_0_answer').type(randName(5))
+            cy.get('#sections_11_questions_5_answers_0_answer').type(randName(5))
+            cy.get('#sections_11_questions_6_answers_0_answer').type(randName(5))
+
+
+            cy.get('#sections_12_questions_0_answers_0_answer').type(randName(5))
+            cy.get('#sections_12_questions_1_answers_0_answer').type(randName(5))
+            cy.get('#sections_12_questions_2_answers_0_answer').type(randName(5))
+            cy.get('#sections_12_questions_3_answers_0_answer').type(randName(5))
+            cy.get('#sections_12_questions_4_answers_0_answer').type(randName(5))
+            cy.get('#sections_12_questions_5_answers_0_answer').type(randName(5))
+            cy.get('#sections_12_questions_6_answers_0_answer').type(randName(5))
+            cy.get('#sections_12_questions_7_answers_0_answer').type(randName(5))
+
+            cy.get(':nth-child(14) > .title-container > .cq-add-button > img').click()
+            cy.get(':nth-child(14) > .title-container > .cq-add-button > img').click()
+
+            cy.get('#sections_13_questions_1_answers_0_answer').type(randName(5))
+            cy.get('#sections_13_questions_4_answers_0_answer').type(randName(5))
+            cy.get('#sections_13_questions_5_answers_0_answer').type(randName(5))
+
+
+            cy.get('#sections_14_questions_1_answers_0_answer').type(randName(5))
+            cy.get('#sections_14_questions_4_answers_0_answer').type(randName(5))
+            cy.get('#sections_14_questions_5_answers_0_answer').type(randName(5))
+
+            cy.get('#sections_15_questions_1_answers_0_answer').type(randName(5))
+            cy.get('#sections_15_questions_4_answers_0_answer').type(randName(5))
+            cy.get('#sections_15_questions_5_answers_0_answer').type(randName(5))
+
+
+            cy.get('#sections_16_questions_0_answers_0_answer').type(randName(5))
+            cy.get('#sections_16_questions_1_answers_0_answer').type(randName(5))
+            cy.get('#sections_16_questions_2_answers_0_answer').type(randName(5))
+            cy.get('#sections_16_questions_3_answers_0_answer').type(randName(5))
+            cy.get('#sections_16_questions_4_answers_0_answer').type(randName(5))
+            cy.get('#sections_16_questions_5_answers_0_answer').type(randName(5))
+            cy.get('#sections_16_questions_8_answers_0_answer').type(randName(5))
+
+            cy.get('#sections_16_questions_9_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+            cy.get('#sections_16_questions_10_answers_0_answer').type(randName(5))
+            cy.get('#sections_16_questions_11_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+            cy.get('#sections_16_questions_12_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+            cy.get('#sections_16_questions_13_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+
+            cy.get('#sections_16_questions_14_answers_0_answer').type(randName(5))
+            cy.get('#sections_17_questions_0_answers_0_answer > :nth-child(1) > .ant-radio > .ant-radio-input').click()
+
+            cy.get('#sections_17_questions_0_questionOptions_0_optionalQuestions_0_questions_0_answers_0_answer').type(randName(5))
+            cy.get('#sections_17_questions_0_questionOptions_0_optionalQuestions_0_questions_1_answers_0_answer').type(randName(5))
+            cy.get('#sections_17_questions_0_questionOptions_0_optionalQuestions_0_questions_2_answers_0_answer').type(randName(5))
+            cy.wait(15000)
+            cy.get('#clientName').scrollIntoView()
+
+            cy.get('.ant-btn > span').click()
+            cy.wait(10000)
             cy.visit('https://app.ezymigrate.com/CustomQuestionnaire/Survey?para=eyJDbGllbnRJZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIkJyYW5jaElkIjoiNjUxODc2ZTYtYjBjOC00YzMxLWFhYzItMjEyOWQ5M2E4YzliIiwiVXNlcklkIjoiYTBmMzFiYzctMjA2Ni00MTNiLThmMjctOGIxNWE5YTgyZWZmIiwiUXVlc3Rpb25uYWlyZUlkIjoxODM4LCJCcmFuY2giOm51bGwsInF1ZXN0aW9ubmFpcmUiOm51bGwsIkdyb3VwcyI6bnVsbCwiSXNHcm91cGVkIjpmYWxzZSwiSXNQb3RlbnRpYWwiOnRydWUsIklzRW1wbG95ZXIiOmZhbHNlLCJHcm91cElkIjowfQ==')
             cy.wait(6000)
             cy.get('#clientName').type('basic name')
