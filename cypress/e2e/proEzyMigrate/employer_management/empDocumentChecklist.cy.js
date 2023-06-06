@@ -1,408 +1,375 @@
-Cypress.on('uncaught:exception', (err, runnable) => {
-    // returning false here prevents Cypress from
-    // failing the test
-    return false
+Cypress.on("uncaught:exception", (err, runnable) => {
+  // returning false here prevents Cypress from
+  // failing the test
+  return false;
+});
+
+function randomNo(y) {
+  let x = Math.floor(Math.random() * 10) + y;
+  return x;
+}
+
+const characters =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+function randName(length) {
+  let result = " ";
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+
+  return result;
+}
+
+const date = 'td[title="2023-02-05"]';
+const sms = "211267313";
+const user_name = "rananabeelahmed772@gmail.com";
+const password = "nabeel@123";
+
+describe("Adding Employer", () => {
+  const futureDate = Cypress.env("futureDate");
+  it("Add employer", () => {
+    cy.intercept(
+      "POST",
+      "https://beta-api.ezymigrate.co.nz/v1/dashboardbi/AccountAnalytics"
+    ).as("load");
+
+    cy.intercept(
+      "https://beta-api.ezymigrate.co.nz/v1/potentialclient/markedtags/All/*"
+    ).as("markedtags/All");
+
+    cy.intercept(
+      "https://beta-api.ezymigrate.co.nz/v1/invoice/AllBySubjectIdWithPaging"
+    ).as("AllBySubjectIdWithPaging");
+
+    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/branch/bank/*").as(
+      "branch/bank"
+    );
+
+    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/branch/tax/All/*").as(
+      "tax/All"
+    );
+
+    cy.intercept(
+      "https://beta-api.ezymigrate.co.nz/v1/invoice/LastInvoiceNumber/*"
+    ).as("LastInvoiceNumber");
+
+    cy.intercept(
+      "https://beta-api.ezymigrate.co.nz/v1/invoice/status/GetAllInvoiceStatuses/1"
+    ).as("GetAllInvoiceStatuses");
+
+    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/branch/AllWithLinks").as(
+      "AllWithLinks"
+    );
+
+    cy.intercept(
+      "https://beta-api.ezymigrate.co.nz/v1/currency/GetAllCurrencies"
+    ).as("GetAllCurrencies");
+
+    cy.intercept(
+      "https://beta-api.ezymigrate.co.nz/v1/invoice/AddNewLine/*"
+    ).as("AddNewLine");
+
+    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/invoice").as("invoice");
+
+    cy.intercept(
+      "https://beta-api.ezymigrate.co.nz/v1/document/MultiUploadWithFileName"
+    ).as("MultiUploadWithFileName");
+
+    cy.intercept(
+      "https://beta-api.ezymigrate.co.nz/v1/HtmlTemplate/SetHtmlTemplate"
+    ).as("SetHtmlTemplate");
+
+    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/emailtemplate/*").as(
+      "emailtemplate"
+    );
+
+    cy.intercept(
+      "https://beta-api.ezymigrate.co.nz/v1/invoice/payment/All/*"
+    ).as("payment/All");
+
+    //cy.visit('https://app-stage.ezymigrate.co.nz/login')
+    // cy.visit('https://app.ezymigrate.com/login')
+
+    // cy.getCookies({log:true})
+
+    // cy.clearCookies({log:true})
+
+    // cy.getCookies().should('be.empty')
+
+    // cy.clearAllCookies({log:true})
+
+    // cy.clearAllLocalStorage({log:true})
+
+    // //cy.intercept('POST', '/ActiveSince*').as('login')
+
+    // cy.get('#userName > .profile-input-login')
+    //   .type(user_name)
+
+    // cy.get('#password > .profile-input-login')
+    //   .type(password)
+
+    // cy.get('.sus-modal-button-text')
+    //   .click()
+
+    // cy.wait(9000)
+
+    // cy.contains('Client Analytics').should('be.visible')
+    cy.login();
+    //cy.wait(9000)
+    cy.xpath(
+      '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a'
+    ).click();
+
+    cy.wait(5000);
+    cy.contains("Add New").scrollIntoView();
+
+    cy.wait(3000);
+    cy.get(
+      ":nth-child(4) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span"
+    ).click();
+
+    cy.wait(5000);
+    cy.get("#main_name").type("logic employer");
+
+    cy.get("#main_business").type("test sqa");
+
+    cy.get(
+      ".add-emp-btn > :nth-child(1) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span"
+    ).click();
+
+    cy.wait(5000);
+
+    cy.scrollTo("left");
+
+    cy.contains("logic employer").click();
+
+    //adding invoice for the employer
+
+    cy.get(".ant-tabs-tab-btn").eq(6).contains("INVOICES").click();
+
+    cy.wait("@markedtags/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    function randomNo(y){
-      let x = Math.floor(Math.random() * 10)+y
-      return x
-      
-  
-  }
-  
-  const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  
-  function randName(length) {
-      let result = ' ';
-      const charactersLength = characters.length;
-      for ( let i = 0; i < length; i++ ) {
-          result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      }
-  
-      return result;
-  }
+    cy.wait("@AllBySubjectIdWithPaging").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 404);
+    });
 
-    const date = 'td[title="2023-02-05"]';
-    const sms= '211267313';
-    const user_name ='rananabeelahmed772@gmail.com';
-    const password = 'nabeel@123';
-    
-  
-  describe('Adding Employer', () => {
-    const futureDate = Cypress.env('futureDate')
-    it('Add employer', () => {
+    cy.get(".ant-btn.ant-btn-primary.button-blue").contains("ADD").click();
 
+    cy.wait("@branch/bank").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      
+    cy.wait("@tax/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
+    cy.wait("@LastInvoiceNumber").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
+    cy.wait("@GetAllInvoiceStatuses").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.intercept('POST','https://beta-api.ezymigrate.co.nz/v1/dashboardbi/AccountAnalytics').as('load')
+    cy.wait("@AllWithLinks").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.intercept('https://beta-api.ezymigrate.co.nz/v1/potentialclient/markedtags/All/*')
-        .as('markedtags/All')
+    cy.wait("@GetAllCurrencies").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.intercept('https://beta-api.ezymigrate.co.nz/v1/invoice/AllBySubjectIdWithPaging')
-        .as('AllBySubjectIdWithPaging')
-      
-      cy.intercept('https://beta-api.ezymigrate.co.nz/v1/branch/bank/*')
-        .as('branch/bank')
+    cy.get(".ant-col-offset-1 > .ant-picker > .ant-picker-input > input")
+      .type(futureDate, { force: true })
+      .type("{enter}", { force: true });
 
-      cy.intercept('https://beta-api.ezymigrate.co.nz/v1/branch/tax/All/*')
-        .as('tax/All')
+    cy.get(
+      '[style="margin-left: 8px;"] > .ant-picker > .ant-picker-input > input'
+    )
+      .type(futureDate, { force: true })
+      .type("{enter}", { force: true });
 
-      cy.intercept('https://beta-api.ezymigrate.co.nz/v1/invoice/LastInvoiceNumber/*')
-        .as('LastInvoiceNumber')
+    cy.get(
+      ".ant-col-xs-12 > .ant-row > .ant-col > .ant-select > .ant-select-selector"
+    ).click({ force: true });
 
-      cy.intercept('https://beta-api.ezymigrate.co.nz/v1/invoice/status/GetAllInvoiceStatuses/1')
-        .as('GetAllInvoiceStatuses')
+    cy.contains("NEW TESTING TEMPLATE").click();
 
-      cy.intercept('https://beta-api.ezymigrate.co.nz/v1/branch/AllWithLinks')
-        .as('AllWithLinks')
+    cy.wait("@AddNewLine").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.intercept('https://beta-api.ezymigrate.co.nz/v1/currency/GetAllCurrencies')
-        .as('GetAllCurrencies')
+    cy.get(".ant-input-number-input").should("have.value", 120);
 
+    cy.contains("Calculate Sub Total").click();
 
-      
-        cy.intercept('https://beta-api.ezymigrate.co.nz/v1/invoice/AddNewLine/*')
-          .as('AddNewLine')
+    cy.get("#bankAccount").click();
 
-        cy.intercept('https://beta-api.ezymigrate.co.nz/v1/invoice')
-          .as('invoice')
+    cy.get('div[title="test nabeel"]').click();
 
-          cy.intercept('https://beta-api.ezymigrate.co.nz/v1/document/MultiUploadWithFileName')
-            .as('MultiUploadWithFileName')
+    cy.contains("SAVE INVOICE").click();
 
-            cy.intercept('https://beta-api.ezymigrate.co.nz/v1/HtmlTemplate/SetHtmlTemplate')
-              .as('SetHtmlTemplate')
+    cy.wait("@invoice").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-              cy.intercept('https://beta-api.ezymigrate.co.nz/v1/emailtemplate/*')
-                .as('emailtemplate')
-      
-      
+    cy.wait("@markedtags/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-              cy.intercept('https://beta-api.ezymigrate.co.nz/v1/invoice/payment/All/*')
-                .as('payment/All')
+    cy.wait("@AllBySubjectIdWithPaging").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
+    cy.get(".ant-btn.ant-btn-primary.ant-btn-sm.button-blue")
+      .contains("Email")
+      .click();
 
+    cy.wait("@MultiUploadWithFileName").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-      // cy.visit('https://app.ezymigrate.com/login')
+    cy.wait("@SetHtmlTemplate").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      // cy.getCookies({log:true})
+    cy.wait("@emailtemplate").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      // cy.clearCookies({log:true})
+    cy.wait("@GetAllInvoiceStatuses").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      // cy.getCookies().should('be.empty')
+    cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Close").click();
 
-      // cy.clearAllCookies({log:true})
-      
-      // cy.clearAllLocalStorage({log:true})
+    cy.contains("View Details").click();
 
-      
+    cy.wait("@payment/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 404);
+    });
 
-      // //cy.intercept('POST', '/ActiveSince*').as('login')
+    cy.wait("@branch/bank").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      // cy.get('#userName > .profile-input-login')
-      //   .type(user_name)
+    cy.wait("@tax/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      // cy.get('#password > .profile-input-login')
-      //   .type(password)
+    cy.wait("@LastInvoiceNumber").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      // cy.get('.sus-modal-button-text')
-      //   .click()
+    cy.wait("@GetAllInvoiceStatuses").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      // cy.wait(9000)
-      
-      
-      // cy.contains('Client Analytics').should('be.visible')
-      cy.login()
-      //cy.wait(9000)
-      cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a')
-        .click()
+    cy.wait("@AllWithLinks").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait(5000)
-      cy.contains('Add New')
-        .scrollIntoView()
+    cy.wait("@GetAllCurrencies").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait(3000)
-      cy.get(':nth-child(4) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span')
-        .click()
+    cy.get("#paymentAmount").type("120");
 
-      cy.wait(5000)
-      cy.get('#main_name')
-        .type('logic employer')
+    cy.get("#paymentDate").type(futureDate, { force: true }).type("{enter}");
 
-      cy.get('#main_business')
-        .type('test sqa')
+    cy.get("#paymentBank").click();
 
-      cy.get('.add-emp-btn > :nth-child(1) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span')
-        .click()
+    cy.contains("test nabeel").click();
 
-      cy.wait(5000)
+    cy.contains("ADD PAYMENT").click();
 
-      cy.scrollTo('left')
-      
-      cy.contains('logic employer')
-        .click()
+    cy.wait("@invoice").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      
+    cy.wait(6000);
 
-      //adding invoice for the employer
+    cy.get(".ant-tabs-tab-btn").eq(2).click();
 
-      cy.get('.ant-tabs-tab-btn')
-        .eq(6)
-        .contains('INVOICES')
-        .click()
+    cy.wait(8000);
 
-      cy.wait('@markedtags/All').then((interception) => {
-          cy.wrap(interception.response.statusCode).should('eq', 200)
-        })
- 
-      cy.wait('@AllBySubjectIdWithPaging').then((interception) => {
-          cy.wrap(interception.response.statusCode).should('eq', 404)
-        })
+    cy.contains("DOCUMENT CHECKLIST").click();
 
-      cy.get('.ant-btn.ant-btn-primary.button-blue')
-        .contains('ADD')
-        .click()
+    cy.wait(8000);
+    cy.get("#gender").click();
+    cy.wait(4000);
+    cy.contains("test document checklist").click();
+    cy.wait(2000);
+    cy.get(
+      ".flex-end > :nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span"
+    ).click();
+    cy.wait(8000);
+    cy.get(
+      ":nth-child(2) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span"
+    ).click();
+    cy.wait(4000);
+    cy.visit("https://app.ezymigrate.com/employer-management");
+    cy.wait(8000);
 
-        cy.wait('@branch/bank').then((interception) => {
-          cy.wrap(interception.response.statusCode).should('eq', 200)
-        })
+    cy.scrollTo("left");
 
+    cy.contains("logic employer").click();
 
-        cy.wait('@tax/All').then((interception) => {
-          cy.wrap(interception.response.statusCode).should('eq', 200)
-        })
+    cy.wait(6000);
 
+    cy.get(".ant-tabs-tab-btn").eq(2).click();
 
-        cy.wait('@LastInvoiceNumber').then((interception) => {
-          cy.wrap(interception.response.statusCode).should('eq', 200)
-        })
+    cy.contains("DOCUMENT CHECKLIST").click();
+    cy.wait(8000);
+    cy.get(".ant-space-item:visible")
+      .eq(0)
+      .then(function (text2) {
+        cy.visit(text2.text());
+        cy.wait(2000);
+      });
+    cy.wait(8000);
+    cy.get('input[type="file"]').attachFile("ABC.jpg");
+    cy.wait(2000);
+    cy.get(".btn.btn-default").click();
+    cy.wait(6000);
+    cy.visit("https://app.ezymigrate.com/employer-management");
+    cy.wait(8000);
 
+    cy.scrollTo("left");
 
-        cy.wait('@GetAllInvoiceStatuses').then((interception) => {
-          cy.wrap(interception.response.statusCode).should('eq', 200)
-        })
+    cy.contains("logic employer").click();
 
-        cy.wait('@AllWithLinks').then((interception) => {
-          cy.wrap(interception.response.statusCode).should('eq', 200)
-        })
+    cy.wait(6000);
 
-        cy.wait('@GetAllCurrencies').then((interception) => {
-          cy.wrap(interception.response.statusCode).should('eq', 200)
-        })
+    cy.get(".ant-tabs-tab-btn").eq(2).click();
 
-        cy.get('.ant-col-offset-1 > .ant-picker > .ant-picker-input > input').type(futureDate, {force:true}).type('{enter}', {force:true})
+    cy.wait(3000);
 
-        cy.get('[style="margin-left: 8px;"] > .ant-picker > .ant-picker-input > input').type(futureDate, {force:true}).type('{enter}', {force:true})
+    cy.contains("ABC.jpg").should("be.visible");
 
-        cy.get('.ant-col-xs-12 > .ant-row > .ant-col > .ant-select > .ant-select-selector')
-          .click({force:true})
+    cy.contains("Employer Management").click();
+    cy.wait(5000);
 
-        cy.contains('NEW TESTING TEMPLATE')
-          .click()
+    //deleting the employer
+    cy.scrollTo("right");
+    cy.wait(4000);
+    //cy.get('#root > div > div > div > section > main > div > div.ant-spin-nested-loading > div > div > div > div > div > div:nth-child(2) > div > div > div > div > div > div > div > div > div > table > tbody > tr:nth-child(2) > td.ant-table-cell.ant-table-row-expand-icon-cell > div > span.anticon.anticon-delete > svg').scrollIntoView()
+    cy.get(
+      '[data-row-key="4"] > .ant-table-row-expand-icon-cell'
+    ).scrollIntoView();
+    //cy.xpath('//*[@id="root"]/div/div/div/section/main/div/div[2]/div/div/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/table/tbody/tr[3]/td[8]/div/span[4]/svg')
+    cy.get(".anticon.anticon-delete")
+      .eq(0)
+      .scrollIntoView()
+      .click({ force: true });
+    //cy.get('.anticon.anticon-delete').eq(0).scrollIntoView().click({force:true})
 
-          cy.wait('@AddNewLine').then((interception) => {
-            cy.wrap(interception.response.statusCode).should('eq', 200)
-          })
-
-          cy.get('.ant-input-number-input').should('have.value', 120)
-
-          cy.contains('Calculate Sub Total')
-          .click()
-
-        cy.get('#bankAccount').click()
-
-        cy.get('div[title="test nabeel"]').click()
-
-       cy.contains('SAVE INVOICE')
-         .click()
-
-
-         cy.wait('@invoice').then((interception) => {
-          cy.wrap(interception.response.statusCode).should('eq', 200)
-        })
-
-
-         cy.wait('@markedtags/All').then((interception) => {
-          cy.wrap(interception.response.statusCode).should('eq', 200)
-        })
- 
-      cy.wait('@AllBySubjectIdWithPaging').then((interception) => {
-          cy.wrap(interception.response.statusCode).should('eq', 200)
-        })
-
-        cy.get('.ant-btn.ant-btn-primary.ant-btn-sm.button-blue')
-          .contains('Email')
-          .click()
-
-
-          cy.wait('@MultiUploadWithFileName').then((interception) => {
-            cy.wrap(interception.response.statusCode).should('eq', 200)
-          })
-  
-  
-           cy.wait('@SetHtmlTemplate').then((interception) => {
-            cy.wrap(interception.response.statusCode).should('eq', 200)
-          })
-   
-        cy.wait('@emailtemplate').then((interception) => {
-            cy.wrap(interception.response.statusCode).should('eq', 200)
-          })
-  
-
-          cy.wait('@GetAllInvoiceStatuses').then((interception) => {
-            cy.wrap(interception.response.statusCode).should('eq', 200)
-          })
-
-        cy.get('.ant-btn.ant-btn-primary.button-blue')
-          .contains('Close')
-          .click()
-
-        cy.contains('View Details')
-          .click()
-
-        cy.wait('@payment/All').then((interception) => {
-            cy.wrap(interception.response.statusCode).should('eq', 404)
-          })
-
-          cy.wait('@branch/bank').then((interception) => {
-            cy.wrap(interception.response.statusCode).should('eq', 200)
-          })
-
-          cy.wait('@tax/All').then((interception) => {
-            cy.wrap(interception.response.statusCode).should('eq', 200)
-          })
-
-          cy.wait('@LastInvoiceNumber').then((interception) => {
-            cy.wrap(interception.response.statusCode).should('eq', 200)
-          })
-
-          cy.wait('@GetAllInvoiceStatuses').then((interception) => {
-            cy.wrap(interception.response.statusCode).should('eq', 200)
-          })
-
-          cy.wait('@AllWithLinks').then((interception) => {
-            cy.wrap(interception.response.statusCode).should('eq', 200)
-          })
-
-          cy.wait('@GetAllCurrencies').then((interception) => {
-            cy.wrap(interception.response.statusCode).should('eq', 200)
-          })
-
-        cy.get('#paymentAmount')
-          .type('120')
-
-        cy.get('#paymentDate')
-          .type(futureDate,{force:true})
-          .type('{enter}')
-
-        cy.get('#paymentBank')
-          .click()
-
-        cy.contains('test nabeel')
-          .click()
-
-        cy.contains('ADD PAYMENT')
-          .click()
-
-        cy.wait('@invoice').then((interception) => {
-            cy.wrap(interception.response.statusCode).should('eq', 200)
-          })
-
-
-
-
-
-          cy.wait(6000)
-
-      cy.get('.ant-tabs-tab-btn')
-        .eq(2)
-        .click()
-
-       cy.wait(8000) 
-
-       cy.contains('DOCUMENT CHECKLIST').click()
-
-      cy.wait(8000)
-      cy.get('#gender').click()
-      cy.wait(4000)
-      cy.contains('test document checklist').click()
-      cy.wait(2000)
-      cy.get('.flex-end > :nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span')
-        .click()
-      cy.wait(8000)
-      cy.get(':nth-child(2) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span').click()
-      cy.wait(4000)
-      cy.visit('https://app.ezymigrate.com/employer-management')
-      cy.wait(8000)
-
-      cy.scrollTo('left')
-      
-      cy.contains('logic employer')
-        .click()
-
-      cy.wait(6000)
-
-      cy.get('.ant-tabs-tab-btn')
-        .eq(2)
-        .click()
-
-
-
-      cy.contains('DOCUMENT CHECKLIST').click()
-      cy.wait(8000)
-      cy.get('.ant-space-item:visible').eq(0).then(function(text2){
-        cy.visit(text2.text())
-        cy.wait(2000)
-      })
-      cy.wait(8000)
-      cy.get('input[type="file"]').attachFile('ABC.jpg')
-      cy.wait(2000)
-      cy.get('.btn.btn-default').click()
-      cy.wait(6000)
-      cy.visit('https://app.ezymigrate.com/employer-management')
-      cy.wait(8000)
-
-      cy.scrollTo('left')
-      
-      cy.contains('logic employer')
-        .click()
-
-      cy.wait(6000)
-
-      cy.get('.ant-tabs-tab-btn')
-        .eq(2)
-        .click()
-
-        cy.wait(3000)
-
-
-      cy.contains('ABC.jpg').should('be.visible')
-
-      cy.contains('Employer Management').click()
-      cy.wait(5000)
-      
-
-      //deleting the employer
-      cy.scrollTo('right')
-      cy.wait(4000)
-      //cy.get('#root > div > div > div > section > main > div > div.ant-spin-nested-loading > div > div > div > div > div > div:nth-child(2) > div > div > div > div > div > div > div > div > div > table > tbody > tr:nth-child(2) > td.ant-table-cell.ant-table-row-expand-icon-cell > div > span.anticon.anticon-delete > svg').scrollIntoView()
-      cy.get('[data-row-key="4"] > .ant-table-row-expand-icon-cell').scrollIntoView()
-      //cy.xpath('//*[@id="root"]/div/div/div/section/main/div/div[2]/div/div/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/table/tbody/tr[3]/td[8]/div/span[4]/svg')
-        cy.get('.anticon.anticon-delete').eq(0).scrollIntoView().click({force:true})
-        //cy.get('.anticon.anticon-delete').eq(0).scrollIntoView().click({force:true})
-      
-      //cy.get('.ant-btn ant-btn-primary').eq(5).click()
-      cy.get('.ant-modal-footer > .ant-btn-primary > span').click()
-      cy.wait(1000)
-
-
-
-    })
-
-})
+    //cy.get('.ant-btn ant-btn-primary').eq(5).click()
+    cy.get(".ant-modal-footer > .ant-btn-primary > span").click();
+    cy.wait(1000);
+  });
+});
