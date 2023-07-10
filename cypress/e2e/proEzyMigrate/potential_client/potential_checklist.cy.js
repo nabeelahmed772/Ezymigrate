@@ -58,6 +58,27 @@ describe("potential client", () => {
     //   cy.contains('Client Analytics').should('be.visible')
     cy.login();
 
+    cy.intercept('PUT', 'https://beta-api.ezymigrate.co.nz/v1/ClientTag/UpdateMultiple')
+      .as('UpdateMultiple')
+
+    cy.intercept('POST', 'https://beta-api.ezymigrate.co.nz/v1/ClientTag/InsertMultiple')
+      .as('ClientTag')
+
+    cy.intercept(
+      "POST",
+      "https://beta-api.ezymigrate.co.nz/v1/client/processingperson/InsertMultiple"
+    ).as("InsertMultiple");
+
+    cy.intercept(
+      "POST",
+      "https://beta-api.ezymigrate.co.nz/v1/potentialclient/All"
+    ).as("AllpotentialClinets");
+
+    cy.intercept(
+      "POST",
+      "https://beta-api.ezymigrate.co.nz/v1/client/processingperson/ChangeProcessingPerson"
+    ).as("ChangeProcessingPerson");
+
     cy.intercept("https://beta-api.ezymigrate.co.nz/v1/potentialclient/*").as(
       "potentialclient"
     );
@@ -261,6 +282,8 @@ describe("potential client", () => {
 
     cy.get("#paymentBank").click();
 
+    cy.wait(2000);
+
     cy.contains("test nabeel").click();
 
     cy.contains("ADD PAYMENT").click();
@@ -268,6 +291,9 @@ describe("potential client", () => {
     cy.wait("@invoice").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
+ 
+    cy.wait(3000);
+
 
     cy.contains("DOCUMENTS").click();
     cy.wait(4000);
@@ -354,7 +380,7 @@ describe("potential client", () => {
     cy.wait(6000);
     cy.get("#signature-pad-").click();
     cy.contains("Save Signature").click();
-    cy.wait(7000);
+    cy.wait(10000);
     cy.wait("@thanksd").its("response.statusCode").should("eq", 200);
     cy.visit("https://app.ezymigrate.com/potential-client/potential-clients");
     cy.wait(5000);
@@ -371,11 +397,132 @@ describe("potential client", () => {
 
     cy.contains("Inquiry").click();
 
-    cy.get(
-      "#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div > div > div > div > div > div:nth-child(2) > div > div > div.ant-row > div > div > div > div > div > div > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(8) > div > a:nth-child(5) > span > svg"
-    ).click();
+    cy.get('input[placeholder="First Name"]')
+      .type("jason client")
+      .type("{enter}");
+
+    cy.wait("@AllpotentialClinets").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.contains("Select sales person").click({ force: true });
+
+    cy.get('div[title="Owner nabeel"]').click();
+
+    cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Search").click();
+
+    cy.wait("@AllpotentialClinets").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".ant-checkbox-input").eq(2).click();
+
+    cy.get(".anticon.anticon-plus-circle").eq(0).click();
+
+    cy.get(".ant-select-selection-overflow").eq(1).click();
+
+    cy.wait(2000);
+
+    cy.get('div[title="Nabeel Ahmed"]').eq(1).click();
+    cy.wait("@InsertMultiple").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    // cy.wait("@AllpotentialClinets").then((interception) => {
+    //   cy.wrap(interception.response.statusCode).should("eq", 400);
+    // });
+
+    cy.wait(4000)
+
+    cy.get(".anticon.anticon-minus-circle").eq(0).click();
+
+    cy.get(".ant-select-selection-search-input").eq(9).click();
+
+    cy.get('div[title="Nabeel Ahmed"]').eq(1).click();
+
+    cy.get(".ant-select-selection-search-input").eq(10).click({force:true});
+
+    cy.wait(2000)
+
+    cy.get('div[title="team member nabeel"]').eq(2).click();
+
+    cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Save").click();
+
+    cy.wait("@ChangeProcessingPerson").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    // cy.wait("@AllpotentialClinets").then((interception) => {
+    //   cy.wrap(interception.response.statusCode).should("eq", 400);
+    // });
+
+    cy.get(".anticon.anticon-plus-circle").eq(1).click();
+
+    cy.get('.ant-select-selection-overflow').eq(1).click({force:true});
+
+    cy.get('div[title="tag 2"]')
+      .click()
+
+      cy.wait("@ClientTag").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+  
+      // cy.wait("@AllpotentialClinets").then((interception) => {
+      //   cy.wrap(interception.response.statusCode).should("eq", 400);
+      // });
+
+      cy.get('div[title="tag 3 "]')
+      .click()
+
+      cy.wait("@ClientTag").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+  
+      // cy.wait("@AllpotentialClinets").then((interception) => {
+      //   cy.wrap(interception.response.statusCode).should("eq", 400);
+      // });
+
+      cy.get(".anticon.anticon-minus-circle").eq(1).click();
+
+      cy.get('.ant-select-selection-overflow').eq(1).click({force:true});
+
+      cy.get('div[title="tag 2"]')
+      .click()
+
+      cy.wait("@UpdateMultiple").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+  
+      // cy.wait("@AllpotentialClinets").then((interception) => {
+      //   cy.wrap(interception.response.statusCode).should("eq", 400);
+      // });
+
+      cy.get('div[title="tag 3 "]')
+      .click()
+
+      cy.wait("@UpdateMultiple").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+  
+      // cy.wait("@AllpotentialClinets").then((interception) => {
+      //   cy.wrap(interception.response.statusCode).should("eq", 400);
+      // });
+
+
+
+
+
+
+
+    
+
+    cy.get(".anticon.anticon-delete").eq(0).click();
     cy.get(
       '[style="display: flex; margin-top: 40px;"] > :nth-child(2) > .ant-btn > span'
     ).click();
+
+    cy.wait("@AllpotentialClinets").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
   });
 });

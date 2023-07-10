@@ -129,7 +129,7 @@ describe("mail chimp testing", () => {
         });
         cy.wait(2000);
 
-        cy.get("#host_name").type("4231a02f5829e3e97f12a812cfe55fd4-us21");
+        cy.get("#host_name").type("fef45ea28487f8ef6709d1856ddcce8b-us21");
 
         cy.get(".ant-btn.ant-btn-primary.button-blue").contains("SAVE").click();
 
@@ -140,7 +140,7 @@ describe("mail chimp testing", () => {
         cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
       } else {
         cy.wait(2000);
-        cy.get("#host_name").type("4231a02f5829e3e97f12a812cfe55fd4-us21");
+        cy.get("#host_name").type("fef45ea28487f8ef6709d1856ddcce8b-us21");
 
         cy.get(".ant-btn.ant-btn-primary.button-blue").contains("SAVE").click();
 

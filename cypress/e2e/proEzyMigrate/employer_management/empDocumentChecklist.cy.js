@@ -358,9 +358,9 @@ describe("Adding Employer", () => {
     cy.scrollTo("right");
     cy.wait(4000);
     //cy.get('#root > div > div > div > section > main > div > div.ant-spin-nested-loading > div > div > div > div > div > div:nth-child(2) > div > div > div > div > div > div > div > div > div > table > tbody > tr:nth-child(2) > td.ant-table-cell.ant-table-row-expand-icon-cell > div > span.anticon.anticon-delete > svg').scrollIntoView()
-    cy.get(
-      '[data-row-key="4"] > .ant-table-row-expand-icon-cell'
-    ).scrollIntoView();
+    // cy.get(
+    //   '[data-row-key="4"] > .ant-table-row-expand-icon-cell'
+    // ).scrollIntoView();
     //cy.xpath('//*[@id="root"]/div/div/div/section/main/div/div[2]/div/div/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/table/tbody/tr[3]/td[8]/div/span[4]/svg')
     cy.get(".anticon.anticon-delete")
       .eq(0)

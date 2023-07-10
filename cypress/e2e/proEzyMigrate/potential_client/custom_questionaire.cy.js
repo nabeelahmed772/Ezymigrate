@@ -24,12 +24,12 @@ function randName(length) {
 
 const date = 'td[title="2023-02-05"]';
 const sms = "211267313";
-const user_name = "rananabeelahmed772@gmail.com";
-const password = "nabeel@123";
+
 
 describe("potential client", () => {
   const futureDate = Cypress.env("futureDate");
   it("Add potential", () => {
+    
     cy.login();
 
     cy.intercept(
@@ -306,9 +306,9 @@ describe("potential client", () => {
 
     cy.contains("Inquiry").click();
     cy.wait(4000);
-    cy.get(
-      "#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div > div > div > div > div > div:nth-child(2) > div > div > div.ant-row > div > div > div > div > div > div > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(8) > div > a:nth-child(5) > span > svg"
-    ).click();
+    cy.get('.anticon.anticon-delete')
+      .eq(0)
+      .click()
     cy.get(
       '[style="display: flex; margin-top: 40px;"] > :nth-child(2) > .ant-btn > span'
     ).click();

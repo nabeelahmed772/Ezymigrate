@@ -57,6 +57,103 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
       cy.wait(3000)
 
+
+      cy.xpath(
+        '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[7]/div/span'
+      ).click();
+  
+      cy.contains("Inquiry").click();
+  
+      cy.get('input[placeholder="First Name"]')
+        .type('jason client')
+        .type("{enter}")
+
+      cy.contains('Select sales person')
+        .click({force:true})
+
+      cy.get('div[title="Owner nabeel"]')
+        .click()
+
+      cy.get('.ant-btn.ant-btn-primary.button-blue')
+        .contains('Search')
+        .click()
+        cy.wait(5000)
+
+        cy.get('.ant-checkbox-input')
+          .eq(2)
+          .click()
+
+          cy.get('.anticon.anticon-plus-circle')
+            .eq(0)
+            .click()
+
+            cy.get('.ant-select-selection-overflow')
+              .eq(1)
+              .click()
+
+              cy.wait(2000)
+
+              cy.get('div[title="Nabeel Ahmed"]')
+                .eq(1)
+                .click()
+
+                cy.wait(4000)
+
+    cy.get(".anticon.anticon-minus-circle").eq(0).click();
+
+    cy.get(".ant-select-selection-search-input").eq(9).click();
+
+    cy.get('div[title="Nabeel Ahmed"]').eq(1).click();
+
+    cy.get(".ant-select-selection-search-input").eq(10).click({force:true});
+    cy.wait(2000)
+
+
+    cy.get('div[title="team member nabeel"]').eq(2).click({force:true});
+
+    cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Save").click();
+
+    cy.wait(6000)
+
+                //api 
+
+
+
+
+
+
+
+
+        
+
+      
+
+      cy.xpath(
+        '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[11]/span/a'
+      ).click();
+      cy.wait(5000);
+      cy.get(":nth-child(2) > .header-bar-text-div > .header-text").click();
+      cy.wait(5000);
+
+      cy.contains("HIGHSCHOOL").click();
+    cy.wait(7000);
+
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      const jay = $el.find('p[style="font-size: 12px; font-weight: 400; font-style: normal; color: rgba(0, 0, 0, 0.85);"]').eq(0).text();
+      cy.log(jay)
+      
+      if (jay === "test school name") {
+        cy.wrap($el).find(".anticon.anticon-edit").click();
+        cy.wait("@schoolget").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.get("#address").clear().type("new address");
+
+        cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Save").click();
+      }
+    });
+
       cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a').click()
       cy.wait(6000)
 

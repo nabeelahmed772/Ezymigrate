@@ -342,9 +342,9 @@ describe("Adding client", () => {
     ).click();
     cy.wait(7000);
     cy.scrollTo("left");
-    cy.get(
-      '[data-row-key="4"] > .ant-table-row-expand-icon-cell'
-    ).scrollIntoView();
+    // cy.get(
+    //   '[data-row-key="4"] > .ant-table-row-expand-icon-cell'
+    // ).scrollIntoView();
     cy.wait(1000);
     //cy.xpath('//*[@id="root"]/div/div/div/section/main/div/div[2]/div/div/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/table/tbody/tr[3]/td[8]/div/span[4]/svg')
     cy.get(".anticon.anticon-delete")

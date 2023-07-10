@@ -106,7 +106,7 @@ describe("deals", () => {
           cy.wrap(interception.response.statusCode).should("eq", 200);
           cy.wrap(interception.response.body.mailChimpId).should(
             "eq",
-            "4231a02f5829e3e97f12a812cfe55fd4-us21"
+            'fef45ea28487f8ef6709d1856ddcce8b-us21'
           );
         });
         cy.get(".remove-account").click();

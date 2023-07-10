@@ -190,9 +190,9 @@ describe("potential client", () => {
     );
     //cy.reload()
 
-    cy.get(
-      "#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div > div > div > div > div > div:nth-child(2) > div > div > div.ant-row > div > div > div > div > div > div > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(8) > div > a:nth-child(5) > span > svg"
-    ).click();
+    cy.get('.anticon.anticon-delete')
+      .eq(0)
+      .click()
     cy.get(
       '[style="display: flex; margin-top: 40px;"] > :nth-child(2) > .ant-btn > span'
     ).click();

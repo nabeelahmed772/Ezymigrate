@@ -1,11 +1,12 @@
+/// <reference types= "cypress" />
 Cypress.on("uncaught:exception", (err, runnable) => {
   // returning false here prevents Cypress from
   // failing the test
   return false;
 });
 
-describe("Adding Employer", () => {
-  it("Add employer", () => {
+describe("Adding school", () => {
+  it("Add school", () => {
     // cy.viewport(1366, 657)
 
     // cy.visit('https://app.ezymigrate.com/login')
@@ -20,6 +21,15 @@ describe("Adding Employer", () => {
     // cy.wait(9000)
     cy.login();
 
+    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/school/*").as(
+      "schoolget"
+    );
+
+    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/school").as("schoolput");
+
+    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/school/All/**").as(
+      "schoolall"
+    );
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[11]/span/a'
     ).click();
@@ -63,17 +73,57 @@ describe("Adding Employer", () => {
     ).click();
     cy.wait(6000);
 
-    //deleting school
+    //editing  school
 
     cy.contains("HIGHSCHOOL").click();
-    cy.wait(3000);
+    cy.wait(7000);
 
-    cy.get(
-      '[data-row-key="2"] > :nth-child(4) > :nth-child(1) > :nth-child(2)'
-    ).click();
-    cy.get(
-      '[style="display: flex; margin-top: 40px;"] > :nth-child(2) > .ant-btn > span'
-    ).click();
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      const jay = $el.find('p[style="font-size: 12px; font-weight: 400; font-style: normal; color: rgba(0, 0, 0, 0.85);"]').eq(0).text();
+      cy.log(jay)
+      
+      if (jay === "test school name") {
+        cy.wrap($el).find(".anticon.anticon-edit").click();
+        cy.wait("@schoolget").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.get("#address").clear().type("new address");
+
+        cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Save").click();
+      }
+    });
+
+    cy.wait("@schoolput").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@schoolall").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    
+
+    //deleting the school
+
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      const jay = $el.find('p[style="font-size: 12px; font-weight: 400; font-style: normal; color: rgba(0, 0, 0, 0.85);"]').eq(0).text();
+
+      if (jay === "test school name") {
+        cy.wrap($el).find(".anticon.anticon-delete").click();
+
+        cy.get(".ant-btn.ant-btn-default.button").contains("Delete").click();
+      }
+    });
+
+    cy.wait("@schoolput").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@schoolall").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
     cy.wait(2000);
   });
 });
