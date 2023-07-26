@@ -54,8 +54,122 @@ describe("Adding client", () => {
     // cy.wait(9000)
 
     // cy.contains('Client Analytics').should('be.visible')
+
+    cy.intercept("POST", "https://beta-api.ezymigrate.co.nz/v1/client").as(
+      "client"
+    );
+
+    cy.intercept(
+      "POST",
+      "https://beta-api.ezymigrate.co.nz/v1/client/ClientLog"
+    ).as("clientlog");
+
+    cy.intercept(
+      "POST",
+      "https://beta-api.ezymigrate.co.nz/v1/client/GetLink"
+    ).as("GetLink");
+
+    cy.intercept(
+      "POST",
+      "https://beta-api.ezymigrate.co.nz/v1/client/LastAgreementSigned"
+    ).as("LastAgreementSigned");
+
+    cy.intercept(
+      "PUT",
+      "https://beta-api.ezymigrate.co.nz/v1/client/UpdateClientSimple"
+    ).as("UpdateClientSimple");
+
+    cy.intercept(
+      "GET",
+      "https://beta-api.ezymigrate.co.nz/v1/client/AllData/*"
+    ).as("AllData");
+
+    cy.intercept("POST", "https://beta-api.ezymigrate.co.nz/v1/document").as(
+      "document"
+    );
+
+    cy.intercept(
+      "GET",
+      "https://beta-api.ezymigrate.co.nz/v1/document/AllByType/**"
+    ).as("AllByType");
+
+    cy.intercept(
+      "POST",
+      "https://beta-api.ezymigrate.co.nz/v1/visa/document"
+    ).as("visadocument");
+
+    cy.intercept(
+      "POST",
+      "https://beta-api.ezymigrate.co.nz/v1/client/SearchClient"
+    ).as("SearchClient");
+
+    cy.intercept(
+      "GET",
+      "https://beta-api.ezymigrate.co.nz/v1/emailimport/ClientImportSettings/*"
+    ).as("ClientImportSettings");
+
+    cy.intercept(
+      "GET",
+      "https://beta-api.ezymigrate.co.nz/v1/client/GetClientFamilyMembers/**"
+    ).as("GetClientFamilyMembers");
+
+    cy.intercept(
+      "GET",
+      "https://beta-api.ezymigrate.co.nz/v1/subject/case/All/*"
+    ).as("case/All");
+
+    cy.intercept(
+      "GET",
+      "https://beta-api.ezymigrate.co.nz/v1/emailtemplate/*"
+    ).as("emailtemplate");
+
+    cy.intercept(
+      "DELETE",
+      "https://beta-api.ezymigrate.co.nz/v1/imap/ClientEmail"
+    ).as("ClientEmail");
+
+    cy.intercept(
+      "GET",
+      "https://beta-api.ezymigrate.co.nz/v1/imap/ClientEmailHistory/00000000-0000-0000-0000-000000000000/651876e6-b0c8-4c31-aac2-2129d93a8c9b/aa5f1c18-3094-4d14-a128-484e00bb585b/0/10/1/0"
+    ).as("ClientEmailHistory");
+
+    cy.intercept(
+      "POST",
+      "https://beta-api.ezymigrate.co.nz/v1/email/visaemail"
+    ).as("visaemail");
+
+    cy.intercept(
+      "POST",
+      "https://beta-api.ezymigrate.co.nz//v1/document/MergeDoc"
+    ).as("MergeDoc");
+
     cy.login();
     cy.wait(2000);
+
+    cy.xpath(
+      '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'
+    ).click();
+    cy.wait("@SearchClient").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    //deleting the client
+
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var del = $el
+        .find(
+          'span[style="font-size: 12px; cursor: pointer; color: rgba(0, 0, 0, 0.85);"]'
+        )
+        .text()
+        .trim();
+      if (del === "finame shuja") {
+        cy.log(del);
+        cy.wrap($el).find(".anticon.anticon-delete").click();
+        cy.wait("@SearchClient").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+      }
+    });
 
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[6]/span/a'
@@ -165,7 +279,43 @@ describe("Adding client", () => {
 
     cy.wait(7000);
 
+    cy.wait("@client").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@clientlog").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+    cy.wait("@GetLink").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
     //updating the client profile
+
+    cy.wait(1000);
+
+    cy.get(".profile-btn-img").eq(0).click({ force: true });
+    cy.get("#sigedAgreementDate")
+      .type(futureDate, { force: true })
+      .type("{enter}");
+
+    cy.get(".ant-btn.ant-btn-primary").contains("Save").click();
+
+    cy.wait("@LastAgreementSigned").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@UpdateClientSimple").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@clientlog").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@AllData").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
     cy.get("#clientSerial").clear();
     cy.wait(1000);
@@ -390,6 +540,114 @@ describe("Adding client", () => {
     cy.get(":nth-child(4) > a > .header-bar-text-div > .header-text").click();
     cy.wait(6000);
     cy.contains("Contract-Signed-PDF.pdf ").should("be.visible");
+    cy.contains("Add Document").click();
+    cy.get('input[type="file"]').attachFile("sample.pdf");
+    cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Upload").click();
+    cy.wait("@clientlog").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@document").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+    cy.wait("@AllByType").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".ant-checkbox-input").eq(0).click();
+
+    cy.get(".anticon.anticon-ellipsis").eq(1).click();
+
+    cy.contains("Merge Selected").click();
+
+    cy.get(".ant-btn.ant-btn-primary").contains("OK").click();
+
+    cy.wait("@MergeDoc").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@AllByType").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait(3000)
+
+    cy.get(":nth-child(4) > a > .header-bar-text-div > .header-text").click();
+    cy.wait(3000);
+
+    cy.get('img[src="/static/media/del-blue.296a7465.svg"]').eq(1).click();
+
+    cy.get(".ant-btn.ant-btn-primary").contains("OK").click({force:true});
+
+    cy.wait("@clientlog").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(":nth-child(4) > a > .header-bar-text-div > .header-text").click();
+
+    cy.get('img[src="/static/media/link-visa.4925a6d1.svg"]').eq(0).click();
+
+    cy.get(".ant-checkbox-input").eq(3).click();
+
+    cy.get(".ant-btn.ant-btn-primary").contains("OK").click();
+
+    cy.wait("@visadocument").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(":nth-child(5) > a > .header-bar-text-div > .header-text").click();
+
+    cy.wait("@ClientImportSettings").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@GetClientFamilyMembers").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@case/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@emailtemplate").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get('img[src="/static/media/del-blue.296a7465.svg"]').eq(0).click();
+
+    cy.get(".ant-btn.ant-btn-primary").contains("OK").click();
+
+    cy.wait("@ClientEmail").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(":nth-child(5) > a > .header-bar-text-div > .header-text").click();
+
+    cy.wait("@ClientImportSettings").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@GetClientFamilyMembers").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@case/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@emailtemplate").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get('img[src="/static/media/multimedia-blue.f6e13199.svg"]').click();
+
+    cy.get(".ant-checkbox-input").eq(2).click();
+
+    cy.get(".ant-btn.ant-btn-primary").contains("OK").click({force:true});
+
+    cy.wait("@visaemail").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
     //adding file notes of client
 

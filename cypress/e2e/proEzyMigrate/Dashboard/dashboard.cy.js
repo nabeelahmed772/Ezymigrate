@@ -69,6 +69,36 @@ describe("deals", () => {
       "https://beta-api.ezymigrate.co.nz/v1/company/clientstatus/potentialclient/All/*"
     ).as("potentialclient/All");
 
+    cy.intercept(
+      "POST",
+      "https://beta-api.ezymigrate.co.nz/v1/dashboard/PotentialClientExport"
+    ).as("PotentialClientExport");
+
+    cy.intercept(
+      "POST",
+      "https://beta-api.ezymigrate.co.nz/v1/dashboard/Student"
+    ).as("Student");
+
+    cy.intercept(
+      "GET",
+      "https://beta-api.ezymigrate.co.nz/v1/client/programdetail/Status/*"
+    ).as("programdetail");
+
+    cy.intercept(
+      "POST",
+      "https://beta-api.ezymigrate.co.nz/v1/dashboard/StudentExport"
+    ).as("StudentExport");
+
+    cy.intercept(
+      "POST",
+      "https://beta-api.ezymigrate.co.nz/v1/dashboard/Employer"
+    ).as("Employer");
+
+    cy.intercept(
+      "POST",
+      "https://beta-api.ezymigrate.co.nz/v1/dashboard/EmployerExport"
+    ).as("EmployerExport");
+
     cy.get('a[href="/dashboard"]').click();
 
     cy.wait("@GetUserDashboardSettings")
@@ -335,5 +365,144 @@ describe("deals", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
       cy.wrap(interception.request.body.clientStatus).should("eq", "QC staus");
     });
+
+    cy.get('img[src="/static/media/export.8a51fd57.svg"]').click({
+      force: true,
+    });
+
+    cy.wait("@PotentialClientExport").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+      cy.wrap(interception.request.body.processingPerson).should("exist");
+    });
+
+    //adding assertion
+    cy.readFile(
+      "cypress/downloads/Potential_Client_Summary.xlsx",
+      "binary"
+    ).then((fileContent) => {
+      const workbook = XLSX.read(fileContent, { type: "binary" });
+      const sheetName = workbook.SheetNames[0]; // assuming data is in the first sheet
+      const worksheet = workbook.Sheets[sheetName];
+      const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+      const Name = "add potential client test";
+      const isContactNamePresent = data.flat().includes(Name);
+
+      expect(isContactNamePresent).to.be.true;
+    });
+
+    cy.get(".cp-top-bar-text").contains("Students").click();
+
+    cy.wait("@allUser").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@Student").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@programdetail").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".priority-button").eq(0).click({ force: true });
+
+    cy.wait("@Student").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@Priority").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".ant-select-selection-search-input").eq(5).click();
+
+    cy.get('div[title="Start"]').click({ force: true });
+
+    cy.wait("@Student").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get('img[src="/static/media/export.8a51fd57.svg"]').click();
+
+    cy.wait("@StudentExport").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait(2000);
+
+    //adding assertion
+    // cy.readFile("cypress/downloads/Student_Summary.xlsx", "binary").then(
+    //   (fileContent) => {
+    //     const workbook = XLSX.read(fileContent, { type: "binary" });
+    //     const sheetName = workbook.SheetNames[0]; // assuming data is in the first sheet
+    //     const worksheet = workbook.Sheets[sheetName];
+    //     const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+    //     const Name = "add potential client test";
+    //     const isContactNamePresent = data.flat().includes(Name);
+
+    //     expect(isContactNamePresent).to.be.true;
+    //   }
+    // );
+
+    cy.get(".cp-top-bar-text").contains("Employers").click();
+
+    cy.wait("@Employer").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@visastatus").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".priority-button").eq(1).click();
+
+    cy.wait("@Priority").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@Employer").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".ant-pagination-item.ant-pagination-item-2").click();
+
+    cy.wait("@Employer").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".ant-select-selection-item").eq(3).click();
+
+    cy.get('div[title="Approved"]').click();
+
+    cy.wait("@Employer").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".setting-export-cont").click();
+
+    cy.wait("@EmployerExport").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@Employer").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    //adding assertion
+    cy.readFile("cypress/downloads/Employer_Summary.xlsx", "binary").then(
+      (fileContent) => {
+        const workbook = XLSX.read(fileContent, { type: "binary" });
+        const sheetName = workbook.SheetNames[0]; // assuming data is in the first sheet
+        const worksheet = workbook.Sheets[sheetName];
+        const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+        const Name = "nimal";
+        const isContactNamePresent = data.flat().includes(Name);
+
+        expect(isContactNamePresent).to.be.true;
+      }
+    );
   });
 });
