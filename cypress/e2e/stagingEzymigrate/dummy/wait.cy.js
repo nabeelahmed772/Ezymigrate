@@ -57,6 +57,37 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
       cy.wait(3000)
 
+      cy.xpath(
+        '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'
+      ).click();
+
+      cy.contains('finame shuja').click()
+
+      cy.get(':nth-child(9) > a > .header-bar-text-div > .header-text').click()
+
+      cy.get(".cm-student-visa-cnt").each(($el, index, $list) => {
+        var del = $el
+          .find(
+            '.cm-student-visa-text'
+          )
+          .text()
+          .trim();
+
+        cy.log(del)
+        if (del ==="2021 RV - Phase 1") {
+          cy.log(del);
+          cy.wrap($el).find(".ant-btn.ant-btn-default.ant-dropdown-trigger").click();
+          cy.contains('Further Info Request Received').click()
+          cy.get('#basic_date').type('01/02/2022', { force: true }).type("{enter}");
+          cy.get('.ant-btn.ant-btn-primary').contains('Save').click()
+          cy.wait("@UpdateSubjectCaseStatus").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+        }
+      });
+
+      cy.pause()
+
 
       cy.xpath(
         '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[7]/div/span'

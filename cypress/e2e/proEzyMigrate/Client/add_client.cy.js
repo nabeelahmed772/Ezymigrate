@@ -1,3 +1,7 @@
+
+import { setupAPIIntercepts } from '../../../support/apiIntercepts';
+/// <reference types="cypress" />
+
 Cypress.on("uncaught:exception", (err, runnable) => {
   // returning false here prevents Cypress from
   // failing the test
@@ -24,9 +28,25 @@ function randName(length) {
 
 const sms = "211267313";
 
+// cypress/e2e/proEzyMigrate/Client/add_client.cy.js
+
+
+
+
+
+
+
 describe("Adding client", () => {
   const futureDate = Cypress.env("futureDate");
+
+  before(() => {
+    setupAPIIntercepts(); // Call the function to set up API intercepts
+    cy.login();
+  });
+  
+  
   it("Add client", () => {
+    
     // cy.viewport(1366, 657)
     // //const sms= '211267313';
 
@@ -55,95 +75,11 @@ describe("Adding client", () => {
 
     // cy.contains('Client Analytics').should('be.visible')
 
-    cy.intercept("POST", "https://beta-api.ezymigrate.co.nz/v1/client").as(
-      "client"
-    );
+    
 
-    cy.intercept(
-      "POST",
-      "https://beta-api.ezymigrate.co.nz/v1/client/ClientLog"
-    ).as("clientlog");
+    
 
-    cy.intercept(
-      "POST",
-      "https://beta-api.ezymigrate.co.nz/v1/client/GetLink"
-    ).as("GetLink");
-
-    cy.intercept(
-      "POST",
-      "https://beta-api.ezymigrate.co.nz/v1/client/LastAgreementSigned"
-    ).as("LastAgreementSigned");
-
-    cy.intercept(
-      "PUT",
-      "https://beta-api.ezymigrate.co.nz/v1/client/UpdateClientSimple"
-    ).as("UpdateClientSimple");
-
-    cy.intercept(
-      "GET",
-      "https://beta-api.ezymigrate.co.nz/v1/client/AllData/*"
-    ).as("AllData");
-
-    cy.intercept("POST", "https://beta-api.ezymigrate.co.nz/v1/document").as(
-      "document"
-    );
-
-    cy.intercept(
-      "GET",
-      "https://beta-api.ezymigrate.co.nz/v1/document/AllByType/**"
-    ).as("AllByType");
-
-    cy.intercept(
-      "POST",
-      "https://beta-api.ezymigrate.co.nz/v1/visa/document"
-    ).as("visadocument");
-
-    cy.intercept(
-      "POST",
-      "https://beta-api.ezymigrate.co.nz/v1/client/SearchClient"
-    ).as("SearchClient");
-
-    cy.intercept(
-      "GET",
-      "https://beta-api.ezymigrate.co.nz/v1/emailimport/ClientImportSettings/*"
-    ).as("ClientImportSettings");
-
-    cy.intercept(
-      "GET",
-      "https://beta-api.ezymigrate.co.nz/v1/client/GetClientFamilyMembers/**"
-    ).as("GetClientFamilyMembers");
-
-    cy.intercept(
-      "GET",
-      "https://beta-api.ezymigrate.co.nz/v1/subject/case/All/*"
-    ).as("case/All");
-
-    cy.intercept(
-      "GET",
-      "https://beta-api.ezymigrate.co.nz/v1/emailtemplate/*"
-    ).as("emailtemplate");
-
-    cy.intercept(
-      "DELETE",
-      "https://beta-api.ezymigrate.co.nz/v1/imap/ClientEmail"
-    ).as("ClientEmail");
-
-    cy.intercept(
-      "GET",
-      "https://beta-api.ezymigrate.co.nz/v1/imap/ClientEmailHistory/00000000-0000-0000-0000-000000000000/651876e6-b0c8-4c31-aac2-2129d93a8c9b/aa5f1c18-3094-4d14-a128-484e00bb585b/0/10/1/0"
-    ).as("ClientEmailHistory");
-
-    cy.intercept(
-      "POST",
-      "https://beta-api.ezymigrate.co.nz/v1/email/visaemail"
-    ).as("visaemail");
-
-    cy.intercept(
-      "POST",
-      "https://beta-api.ezymigrate.co.nz//v1/document/MergeDoc"
-    ).as("MergeDoc");
-
-    cy.login();
+    
     cy.wait(2000);
 
     cy.xpath(
@@ -491,7 +427,63 @@ describe("Adding client", () => {
 
     cy.get(".ant-form-item-control-input-content > .ant-btn > span").click();
 
-    cy.wait(3000);
+    cy.wait("@clientlog").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@programdetail/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@programdetail").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    //updating the admission 
+
+    cy.get('.anticon.anticon-down')
+      .eq(3)
+      .click()
+
+    cy.get('#visaApproveDate').type(futureDate, { force: true }).type("{enter}");
+
+    cy.get('#courseEffectiveDate').type(futureDate, { force: true }).type("{enter}");
+
+    cy.get('#formalOfferDate').type(futureDate, { force: true }).type("{enter}");
+
+    cy.get('.ant-btn.ant-btn-default.button-blue').contains('UPDATE').click()
+
+    
+    cy.wait("@clientlog").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@programdetail/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@putprogramdetail").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get('img[src="/static/media/multimedia.ca68629a.svg"]')
+      .click()
+
+    cy.get('.ant-radio-input')
+      .click()
+
+    cy.wait("@programdetail/All").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+  
+    cy.wait("@putprogramdetail").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+    
+
+
+
 
     //adding the digital signature
 
@@ -553,6 +545,10 @@ describe("Adding client", () => {
     cy.wait("@AllByType").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
+
+    cy.get(":nth-child(4) > a > .header-bar-text-div > .header-text").click();
+
+    cy.wait(2000)
 
     cy.get(".ant-checkbox-input").eq(0).click();
 
@@ -649,6 +645,26 @@ describe("Adding client", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
+    //checking activities
+
+    cy.get('img[src="/static/media/activities.afa64700.svg"]')
+      .click()
+
+    cy.wait("@GetAllClientSource").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+    cy.wait("@getclientlog").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+
+      });
+
+    cy.wait("@branch/permissions").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+    
+
     //adding file notes of client
 
     cy.get(
@@ -663,7 +679,92 @@ describe("Adding client", () => {
 
     cy.get(".button-container > .ant-btn > span").click();
 
-    cy.wait(5000);
+    cy.wait("@clientlog").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@filenote").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+  
+
+    cy.get(".fr-element > p").type("testing by naeel ,dont proceed this");
+
+    cy.get(".button-container > .ant-btn > span").click();
+
+    cy.wait("@clientlog").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@filenote").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait(2000);
+
+    cy.get('img[src="/static/media/del-blue.296a7465.svg"]').eq(0).click()
+
+    cy.wait("@clientlog").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@delfilenote").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get('img[src="/static/media/file-notes-blue.87f6a9f6.svg"]')
+      .click()
+
+    cy.get('.fr-element.fr-view').eq(1).type(' test again')
+
+    cy.get('.ant-btn.ant-btn-primary')
+      .contains('OK')
+      .click()
+
+    cy.wait("@clientlog").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+    cy.wait("@putfilenote").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+    cy.get('img[src="/static/media/link-visa.4925a6d1.svg"]')
+      .click()
+
+    cy.get('.ant-checkbox-input').eq(1).click()
+
+  
+
+    cy.get('.ant-btn.ant-btn-primary').eq(3).click()
+
+
+    cy.wait("@linkvisa").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get('img[src="/static/media/blue-add.a2194dfc.svg"]')
+      .click()
+
+    
+    cy.get('#basic_task_title').type('automation task adding from file note')
+
+    cy.get('#basic_select_date').type(futureDate, { force: true }).type("{enter}");
+
+    cy.get('.ant-btn.ant-btn-primary.button-blue')
+      .contains('Save')
+      .click()
+
+    cy.wait("@clientlog").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+    cy.wait("@TaskWithUsers").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+
 
     //open case management of client
 
@@ -696,13 +797,39 @@ describe("Adding client", () => {
 
     cy.get(".ant-form-item-control-input-content > .ant-btn > span").click();
 
-    cy.wait(7000);
+    cy.wait("@case").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait(4000)
+
+    cy.get(".cm-student-visa-cnt").each(($el, index, $list) => {
+      var del = $el
+        .find(
+          '.cm-student-visa-text'
+        )
+        .text()
+        .trim();
+      if (del.includes("2021 RV - Phase 1")) {
+        cy.log(del);
+        cy.wrap($el).find(".ant-btn.ant-btn-default.ant-dropdown-trigger").click();
+        cy.contains('Further Info Request Received').click()
+        cy.wait(2000)
+        cy.get('.ant-picker-input:visible').click()
+        cy.get('.ant-picker-cell.ant-picker-cell-in-view.ant-picker-cell-today').click()
+        //cy.get('#basic_date').type('01/02/2022', { force: true }).type("{enter}");
+        cy.get('.ant-btn.ant-btn-primary').contains('Save').click()
+        cy.wait("@UpdateSubjectCaseStatus").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+      }
+    });
 
     //update visa case status in sidebar
 
     cy.get(
-      '#rc-tabs-7-tab-1 > [style="display: block;"] > .rightbar-icons'
-    ).click({ force: true });
+      '.rightbar-icons'
+    ).contains('Update Visa Status').click({ force: true });
 
     cy.wait(3000);
 
@@ -740,8 +867,8 @@ describe("Adding client", () => {
     //send SMS to client
 
     cy.get(
-      '#rc-tabs-7-tab-5 > [style="display: flex;"] > .rightbar-icons'
-    ).click();
+      '.rightbar-icons'
+    ).contains('Send SMS').click();
 
     cy.wait(3000);
 
@@ -758,8 +885,8 @@ describe("Adding client", () => {
     //adding task for client
 
     cy.get(
-      '#rc-tabs-7-tab-6 > [style="display: flex;"] > .rightbar-icons'
-    ).click();
+      '.rightbar-icons'
+    ).contains('Tasks').click();
 
     cy.wait(5000);
 
@@ -1103,8 +1230,8 @@ describe("Adding client", () => {
     //partner adding task for client
 
     cy.get(
-      '#rc-tabs-12-tab-6 > [style="display: flex;"] > .rightbar-icons'
-    ).click();
+      '.rightbar-icons'
+    ).contains('Tasks').click();
 
     cy.wait(5000);
 
