@@ -172,8 +172,8 @@ describe("Adding Employer", () => {
     //updating the case status
 
     cy.get(
-      '#rc-tabs-5-tab-1 > [style="display: block;"] > .rightbar-icons'
-    ).click();
+      '.right-bar-icon'
+    ).eq(0).click();
     cy.wait(2000);
     cy.get(
       ":nth-child(6) > :nth-child(2) > .ant-picker > .ant-picker-input > input"
@@ -215,8 +215,8 @@ describe("Adding Employer", () => {
     //sending the SMS
 
     cy.get(
-      '#rc-tabs-5-tab-2 > [style="display: flex;"] > .rightbar-icons'
-    ).click();
+      '.rightbar-icons'
+    ).contains('Send SMS').click();
     cy.wait(2000);
     cy.get(".ant-col > .ant-input").type("employer SMS testing ");
     cy.get(
@@ -227,8 +227,8 @@ describe("Adding Employer", () => {
     //adding the task
 
     cy.get(
-      '#rc-tabs-5-tab-3 > [style="display: flex;"] > .rightbar-icons'
-    ).click();
+      '.rightbar-icons'
+    ).contains('Tasks').click();
     cy.wait(5000);
     cy.get('[style="padding: 10px; height: 54px;"] > .ant-btn').click();
     cy.wait(1000);

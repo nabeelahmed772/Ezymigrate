@@ -7,6 +7,7 @@ module.exports = defineConfig({
   defaultCommandTimeout :18000,
   requestTimeout:20000,
   chromeWebSecurity: true,
+  
 
 
   CYPRESS_RESIZE_OBSERVER_LOOPS: 10,

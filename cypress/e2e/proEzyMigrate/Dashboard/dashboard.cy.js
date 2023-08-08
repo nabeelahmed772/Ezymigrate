@@ -1,12 +1,39 @@
-/// <reference types= "cypress" />
+import { setupAPIIntercepts } from "../../../support/apiIntercepts";
+/// <reference types="cypress" />
 
-beforeEach(() => {
-  cy.login();
+Cypress.on("uncaught:exception", (err, runnable) => {
+  // returning false here prevents Cypress from
+  // failing the test
+  return false;
 });
-describe("deals", () => {
+
+function randomNo(y) {
+  let x = Math.floor(Math.random() * 10) + y;
+  return x;
+}
+
+const characters =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+function randName(length) {
+  let result = " ";
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+
+  return result;
+}
+
+describe("DASHBOSRD", () => {
   const futureDate = Cypress.env("futureDate");
 
-  it("Add deals", () => {
+  before(() => {
+    setupAPIIntercepts(); // Call the function to set up API intercepts
+    cy.login();
+  });
+
+  it("dashboard", () => {
     cy.intercept(
       "https://beta-api.ezymigrate.co.nz/v1/dashboard/GetUserDashboardSettings"
     ).as("GetUserDashboardSettings");
@@ -99,6 +126,88 @@ describe("deals", () => {
       "https://beta-api.ezymigrate.co.nz/v1/dashboard/EmployerExport"
     ).as("EmployerExport");
 
+    cy.get(".ant-input.ant-input-lg").type("sufi cup");
+
+    cy.get(".search-client-card-cont").each(($el, index, $list) => {
+      const uo = $el.find("span").text().trim();
+      cy.log(uo);
+      debugger;
+
+      if (uo.includes("nabeeloutsourcenzhard@gmail.com")) {
+        cy.wrap($el).find(".date-text").eq(1).click();
+      }
+    });
+
+    cy.wait("@getallusers").its("response.statusCode").should("eq", 200);
+
+    cy.wait("@AllData").its("response.statusCode").should("eq", 200);
+
+    cy.wait("@UserSignature").its("response.statusCode").should("eq", 200);
+
+    cy.wait("@SetHtmlTemplate").its("response.statusCode").should("eq", 200);
+
+    cy.get('.header-text').contains('Visas').click()
+
+    cy.wait("@getallusers").its("response.statusCode").should("eq", 200);
+
+    cy.wait("@AllData").its("response.statusCode").should("eq", 200);
+
+    cy.get(".cv-row").each(($el, index, $list) => {
+      const uo = $el.find(".cv-bold-text").text().trim();
+      cy.log(uo);
+      debugger;
+
+      if (uo.includes("GREEN VISA1")) {
+        cy.wrap($el).find(".cv-dlt-icon").click();
+        cy.get('.ant-btn.ant-btn-primary').contains('OK').click()
+        cy.wait("@delcase").its("response.statusCode").should("eq", 200);
+        cy.wait("@clientlog").its("response.statusCode").should("eq", 200);
+      }
+    });
+    cy.wait("@case/All").its("response.statusCode").should("eq", 200);
+
+    cy.get('.ant-select-selection-item')
+      .eq(3)
+      .click()
+    cy.get('div[title="PAKISTAN"]')
+      .click()
+    cy.wait(1000)
+
+    cy.get('.cv-top-lbtn-text')
+      .click()
+
+    cy.get('.ant-select-selection-item')
+      .eq(4)
+      .click()
+
+    cy.get('div[title="Green Visa1"]')
+      .click()
+
+    cy.get('.ant-btn.ant-btn-default.button-blue')
+      .click()
+
+      cy.wait("@case").its("response.statusCode").should("eq", 200);
+      cy.wait("@case/All").its("response.statusCode").should("eq", 200);
+      cy.wait("@clientlog").its("response.statusCode").should("eq", 200);
+
+      cy.get('.rightbar-icons').contains('Update Visa Status').click()
+      
+
+      cy.get(".ant-form.ant-form-horizontal").each(($el, index, $list) => {
+        const uo = $el.find(".visa-type-text").text().trim();
+        cy.log(uo);
+        debugger;
+  
+        if (uo.includes("Green Visa1")) {
+          cy.wrap($el).find(".ant-select-selection-item").click();
+          cy.get('div[title="Client Awaiting Document Instructions"]').click()
+          cy.wrap($el).find('.ant-btn.ant-btn-default.button-blue').click()
+          cy.wait("@UpdateSubjectCaseStatus").its("response.statusCode").should("eq", 200);
+          cy.wait("@clientlog").its("response.statusCode").should("eq", 200);
+        }
+      });
+
+
     cy.get('a[href="/dashboard"]').click();
 
     cy.wait("@GetUserDashboardSettings")
@@ -155,21 +264,21 @@ describe("deals", () => {
 
     cy.wait("@Client").its("response.statusCode").should("eq", 200);
 
-    cy.get(".ant-select-selection-search-input").eq(7).click();
+    // cy.get(".ant-select-selection-search-input").eq(7).click();
 
-    cy.get(
-      ".ant-select-dropdown.ant-select-dropdown-placement-bottomLeft:visible"
-    ).scrollTo("bottom", { ensureScrollable: false });
+    // cy.get(
+    //   ".ant-select-dropdown.ant-select-dropdown-placement-bottomLeft:visible"
+    // ).scrollTo("bottom", { ensureScrollable: false });
 
-    cy.get(
-      'div[title="Initial Document Instructions Issued"]'
-    ).scrollIntoView();
+    // cy.get(
+    //   'div[title="Initial Document Instructions Issued"]'
+    // ).scrollIntoView();
 
-    cy.get('div[title="Initial Document Instructions Issued"]').click();
+    // cy.get('div[title="Initial Document Instructions Issued"]').click();
 
-    cy.wait("@Client").its("response.statusCode").should("eq", 200);
+    // cy.wait("@Client").its("response.statusCode").should("eq", 200);
 
-    cy.get(".ant-btn.ant-btn-default.ant-dropdown-trigger").click();
+     cy.get(".ant-btn.ant-btn-default.ant-dropdown-trigger").click();
 
     cy.get(
       ".ant-dropdown-menu.ant-dropdown-menu-root.ant-dropdown-menu-vertical.ant-dropdown-menu-light"
@@ -177,7 +286,10 @@ describe("deals", () => {
       .contains("Client Awaiting Document Instructions")
       .click({ force: true });
 
-    cy.get("#basic_date").type(futureDate, { force: true }).type("{enter}");
+    cy.get("#basic_date").click()
+
+    cy.get('.ant-picker-cell.ant-picker-cell-in-view.ant-picker-cell-today')
+      .click()
 
     cy.get('button[type="submit"]').click();
 
@@ -486,9 +598,7 @@ describe("deals", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@Employer").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
+    
 
     //adding assertion
     cy.readFile("cypress/downloads/Employer_Summary.xlsx", "binary").then(

@@ -1,3 +1,5 @@
+import { setupAPIIntercepts } from '../../../support/apiIntercepts';
+/// <reference types="cypress" />
 Cypress.on("uncaught:exception", (err, runnable) => {
   // returning false here prevents Cypress from
   // failing the test
@@ -25,10 +27,16 @@ function randName(length) {
 const date = 'td[title="2023-02-05"]';
 const sms = "211267313";
 
-describe("Adding Employer", () => {
+describe("case management", () => {
   const futureDate = Cypress.env("futureDate");
-  it("Add employer", () => {
+
+  before(() => {
+    setupAPIIntercepts(); // Call the function to set up API intercepts
     cy.login();
+  });
+  
+  it("testing case management", () => {
+  
     // cy.viewport(1366, 657)
 
     // cy.intercept('POST','https://beta-api.ezymigrate.co.nz/v1/dashboardbi/AccountAnalytics').as('load')
@@ -54,6 +62,30 @@ describe("Adding Employer", () => {
     // cy.wait(9000)
 
     // cy.contains('Client Analytics').should('be.visible')
+    cy.xpath(
+      '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'
+    ).click();
+    cy.wait("@SearchClient").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    //deleting the client
+
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var del = $el
+        .find(
+          'span[style="font-size: 12px; cursor: pointer; color: rgba(0, 0, 0, 0.85);"]'
+        )
+        .text()
+        .trim();
+      if (del === "amjad ali") {
+        cy.log(del);
+        cy.wrap($el).find(".anticon.anticon-delete").click();
+        cy.wait("@SearchClient").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+      }
+    });
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[6]/span/a'
     ).click();

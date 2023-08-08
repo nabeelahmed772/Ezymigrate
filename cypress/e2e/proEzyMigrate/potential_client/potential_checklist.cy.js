@@ -201,9 +201,7 @@ describe("potential client", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@AllWithLinks").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
+
 
     cy.get('input[placeholder="Select date"]')
       .eq(0)

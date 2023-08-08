@@ -155,7 +155,7 @@ describe("Reports", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.contains("SERVICE MANAGEMENT").click();
+    cy.contains("SERVICE AGREEMENT").click();
 
     cy.wait("@ClientContractAll").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);

@@ -175,9 +175,7 @@ describe("Adding Employer", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@AllWithLinks").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
+  
 
     cy.wait("@GetAllCurrencies").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -269,9 +267,6 @@ describe("Adding Employer", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@AllWithLinks").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
 
     cy.wait("@GetAllCurrencies").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);

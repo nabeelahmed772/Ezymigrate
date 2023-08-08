@@ -157,8 +157,8 @@ describe("Web Assessment ", () => {
     cy.wait(5000);
 
     cy.get(
-      ":nth-child(1) > :nth-child(8) > .display-inline-block > :nth-child(5)"
-    ).click();
+      ".anticon.anticon-delete"
+    ).eq(0).click();
     cy.get(
       '[style="display: flex; margin-top: 40px;"] > :nth-child(2) > .ant-btn > span'
     ).click();
@@ -434,8 +434,8 @@ describe("Web Assessment ", () => {
     cy.wait(5000);
 
     cy.get(
-      ":nth-child(1) > :nth-child(8) > .display-inline-block > :nth-child(5)"
-    ).click();
+      ".anticon.anticon-delete"
+    ).eq(0).click();
     cy.get(
       '[style="display: flex; margin-top: 40px;"] > :nth-child(2) > .ant-btn > span'
     ).click();
