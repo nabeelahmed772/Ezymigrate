@@ -1,3 +1,5 @@
+import { setupAPIIntercepts } from '../../../support/apiIntercepts';
+/// <reference types="cypress" />
 Cypress.on("uncaught:exception", (err, runnable) => {
   // returning false here prevents Cypress from
   // failing the test
@@ -26,37 +28,34 @@ const sms = "211267313";
 
 describe("Adding client", () => {
   const futureDate = Cypress.env("futureDate");
-  it("Add client", () => {
-    // cy.viewport(1366, 657)
-    // //const sms= '211267313';
 
-    // //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-    // cy.visit('https://app.ezymigrate.com/login')
-
-    // //cy.intercept('POST', '/ActiveSince*').as('login')
-
-    // cy.getCookies({log: true})
-
-    // cy.clearCookies({log: true})
-
-    // cy.getCookies().should('be.empty')
-
-    // cy.clearAllCookies({log:true})
-
-    // cy.clearAllLocalStorage({log:true})
-
-    // cy.get('#userName > .profile-input-login').type('rananabeelahmed772@gmail.com')
-
-    // cy.get('#password > .profile-input-login').type('nabeel@123')
-
-    // cy.get('.sus-modal-button-text').click()
-
-    // cy.wait(9000)
-
-    // cy.contains('Client Analytics').should('be.visible')
-
-    // cy.wait(2000)
+  before(() => {
+    setupAPIIntercepts(); // Call the function to set up API intercepts
     cy.login();
+  });
+  it("Add client", () => {
+
+    cy.xpath(
+      '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'
+    ).click();
+
+    cy.wait(2000)
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var del = $el
+        .find(
+          'span[style="font-size: 12px; cursor: pointer; color: rgba(0, 0, 0, 0.85);"]'
+        )
+        .text()
+        .trim();
+      if (del === "margalla hill") {
+        cy.log(del);
+        cy.wrap($el).find(".anticon.anticon-delete").click();
+        cy.wait("@SearchClient").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+      }
+    });
+    
 
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[6]/span/a'
@@ -83,68 +82,7 @@ describe("Adding client", () => {
     cy.get("#firstName").type("margalla");
     cy.get("#lastName").type("hill");
     cy.get("#preferredName").type("pre name");
-    //cy.get('#email').type('nabeeloutsourcenz1@gmail.com')
-    // cy.get('#gender').click()
-    // cy.wait(2000)
-    // cy.contains('Male').click({force:true})
-    // cy.get('#address').type('test addess')
-    // cy.get('#dateOfBirth').type(futureDate, {force:true}).type('{enter}')
-    // //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({ multiple: true, force: true })
-
-    // cy.get('#dealWorth').type('12')
-    // //cy.get('#countryCode').click()
-    // //cy.get('.body > div:nth-child(13) > div > div > div > div.rc-virtual-list > div.rc-virtual-list-holder > div > div > div.ant-select-item.ant-select-item-option.ant-select-item-option-active > div').click()
-    // cy.get('#mobile').type(sms)
-    // cy.get('#dependentChildren').type('2')
-    // cy.get('#secondaryMobile').type('324324324')
-    // cy.get('#overseasMobile').type('324324')
-    // cy.get('#phone').type('3434324')
-    // cy.get('#nationalityId').type('3535')
-    // cy.get('#agentId').click()
-    // cy.get('div[title="arsalan team member"]').and('have.class', 'ant-select-item ant-select-item-option').click({multiple: true, force:true})
-
-    // cy.get('#jobSectorId').click()
-    // cy.get('div[title="Administrative"]').and('have.class', 'ant-select-item ant-select-item-option ant-select-item-option-active').click({multiple: true, force:true})
-    // cy.get('#occupation').type('test occupation')
-    // cy.get('#companyOptional').type('test')
-    // cy.get('[style="width: 101%;"] > .ant-col > .letter-froala > .froala-font-arial-use > .fr-box > .fr-wrapper > .fr-element > p').type('test')
-
-    // //adding billing
-
-    // cy.get('#contactPersonBilling').type('test')
-    // cy.get('#flat').type('tst')
-    // cy.get('#streetName').type('test')
-    // cy.get('#suburb').type('test')
-    // cy.get('#city').type('test')
-    // cy.get('#country').click()
-    // cy.wait(3000)
-    // cy.get('div[title="ALGERIA"]').click({multiple:true , force:true});
-
-    // cy.get('#zip').type('234')
-
-    // //adding passport
-    // cy.get('#passportNo').type('543534')
-    // cy.get('#passportCountry').click()
-    // cy.get('div[title="AFGHANISTAN"]').click({multiple:true , force:true});
-    // cy.get('#passportIssueDate').type(futureDate, {force:true}).type('{enter}')
-
-    // //cy.get(date).click({multiple:true , force:true});
-    // cy.get('#passportExpiryDate').type(futureDate, {force:true}).type('{enter}')
-
-    // //cy.get(date).click({multiple:true , force:true});
-
-    // //cy.get('.ant-picker-cell ant-picker-cell-in-view ant-picker-cell-today').click({force:true})
-
-    // //medical details
-    // cy.get('#er').type('434')
-    // cy.get('[style="width: 101%; margin-top: 40px;"] > .ant-col > .letter-froala > .froala-font-arial-use > .fr-box > .fr-wrapper > .fr-element > p').click()
-
-    // //inz login details
-
-    // cy.get('#clientNumber').type(randomNo(12))
-    // cy.get('#inzUserName').type('name')
-    // cy.get('#inzPassword').type('123')
-
+   
     cy.get(
       ":nth-child(2) > .save-button-add-client > :nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span"
     ).click();

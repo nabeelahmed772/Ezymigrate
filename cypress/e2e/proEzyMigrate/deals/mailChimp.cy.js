@@ -397,6 +397,12 @@ describe("mail chimp testing", () => {
     cy.wait("@usersignature").its("response.statusCode").should("eq", 200);
 
     cy.wait("@template").its("response.statusCode").should("eq", 200);
+    cy.get('.ant-tabs-nav-operations-hidden').should('exist').then(($element) => {
+      // Use JavaScript to modify the element's style
+      cy.window().then((win) => {
+        win.document.querySelector('.ant-tabs-nav-operations-hidden').style.position = 'static';
+      });
+    });
 
     cy.get('img[src="/static/media/deals.4108e19d.png"]').click();
 
@@ -838,9 +844,18 @@ describe("mail chimp testing", () => {
       }
     });
 
+    cy.get('.ant-tabs-nav-operations-hidden').should('exist').then(($element) => {
+      // Use JavaScript to modify the element's style
+      cy.window().then((win) => {
+        win.document.querySelector('.ant-tabs-nav-operations-hidden').style.position = 'static';
+      });
+    });
+
     cy.wait("@employer").its("response.statusCode").should("eq", 200);
 
     cy.wait("@allusers").its("response.statusCode").should("eq", 200);
+
+    
 
     cy.get(".right-bar-icon").eq(5).click();
 

@@ -1,3 +1,5 @@
+import { setupAPIIntercepts } from "../../../support/apiIntercepts";
+/// <reference types= "cypress" />
 Cypress.on("uncaught:exception", (err, runnable) => {
   // returning false here prevents Cypress from
   // failing the test
@@ -25,13 +27,13 @@ function randName(length) {
 const date = 'td[title="2023-02-05"]';
 const sms = "211267313";
 
-
 describe("potential client", () => {
   const futureDate = Cypress.env("futureDate");
-  it("Add potential", () => {
-    
+  before(() => {
+    setupAPIIntercepts(); // Call the function to set up API intercepts
     cy.login();
-
+  });
+  it("Add potential", () => {
     cy.intercept(
       "https://beta-api.ezymigrate.co.nz/v1/filledquestionnaire/All/**"
     ).as("filledquestionnaire");
@@ -306,9 +308,7 @@ describe("potential client", () => {
 
     cy.contains("Inquiry").click();
     cy.wait(4000);
-    cy.get('.anticon.anticon-delete')
-      .eq(0)
-      .click()
+    cy.get(".anticon.anticon-delete").eq(0).click();
     cy.get(
       '[style="display: flex; margin-top: 40px;"] > :nth-child(2) > .ant-btn > span'
     ).click();

@@ -1,22 +1,21 @@
-
 const { defineConfig } = require("cypress");
 
-
 module.exports = defineConfig({
-  
-  defaultCommandTimeout :18000,
-  requestTimeout:20000,
+  defaultCommandTimeout: 18000,
+  requestTimeout: 20000,
   chromeWebSecurity: true,
+  numTestsKeptInMemory: 0,
+  chromeWebSecurity: false,
+  chromeArgs: ["--disable-gpu", "--disable-software-rasterizer"],
+  experimentalMemoryManagement: true,
   
-
 
   CYPRESS_RESIZE_OBSERVER_LOOPS: 10,
-  
-    
-  projectId: '9a1sqr',
+
+  projectId: "9a1sqr",
   e2e: {
     setupNodeEvents(on, config) {
-      experimentalStudio: true
+      experimentalStudio: true;
       on("before:browser:launch", (browser, launchOptions) => {
         console.log(launchOptions.args);
         if (browser.name === "chrome") {
@@ -27,14 +26,4 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
   },
-
-  
-    
-  
-  
 });
-
-
-
-
-

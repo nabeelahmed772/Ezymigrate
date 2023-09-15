@@ -1,3 +1,6 @@
+import { setupAPIIntercepts } from "../../../support/apiIntercepts";
+/// <reference types="cypress" />
+
 function randomNo(y) {
   let x = Math.floor(Math.random() * 10) + y;
   return x;
@@ -18,9 +21,15 @@ function randName(length) {
 
 const sms = "211267313";
 
-describe("Adding client", () => {
+describe("account template", () => {
   const futureDate = Cypress.env("futureDate");
-  it("Add client", () => {
+
+  before(() => {
+    setupAPIIntercepts(); // Call the function to set up API intercepts
+    cy.login();
+  });
+
+  it("Add template", () => {
     // cy.viewport(1366, 657)
     // //const sms= '211267313';
 
@@ -36,12 +45,6 @@ describe("Adding client", () => {
 
     // //cy.visit('https://app-stage.ezymigrate.co.nz/login')
     //cy.visit('https://app.ezymigrate.com/login')
-    cy.login();
-
-    cy.intercept(
-      "GET",
-      "https://beta-api.ezymigrate.co.nz/v1/users/ddl/All/651876e6-b0c8-4c31-aac2-2129d93a8c9b"
-    ).as("allclients");
 
     // cy.get('#userName > .profile-input-login').type('rananabeelahmed772@gmail.com')
 
@@ -58,19 +61,6 @@ describe("Adding client", () => {
     cy.get(".ant-menu-title-content").eq(4).click();
 
     //cy.find('sufi cup').scrollIntoView()
-
-    cy.intercept(
-      "GET",
-      "https://beta-api.ezymigrate.co.nz/v1/invoice/template/All/*"
-    ).as("getTemplate");
-    cy.intercept(
-      "GET",
-      "https://beta-api.ezymigrate.co.nz/v1/branch/tax/All/*"
-    ).as("getTax");
-    cy.intercept(
-      "POST",
-      "https://beta-api.ezymigrate.co.nz/v1/payment/dailytransaction"
-    ).as("dailytran");
 
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[9]/span/a'
@@ -155,14 +145,12 @@ describe("Adding client", () => {
     ).click();
     cy.contains("Daily Transactions").click();
     cy.get(".ant-tabs-tab-btn").eq(0).click();
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/client/SearchClient").as(
-      "SearchClient"
-    );
+
     cy.wait("@getTemplate").its("response.statusCode").should("eq", 200);
     cy.wait("@getTax").its("response.statusCode").should("eq", 200);
     cy.wait(2000);
     cy.get(".ant-menu-title-content").eq(4).click();
-    cy.wait("@allclients");
+    cy.wait("@getallusers");
 
     cy.get("#first_name").type("sufi").type("{enter}");
     cy.wait("@SearchClient").its("response.statusCode").should("eq", 200);
@@ -178,6 +166,17 @@ describe("Adding client", () => {
             'span[style="font-size: 12px; cursor: pointer; color: rgba(0, 0, 0, 0.85);"]'
           )
           .click();
+
+        cy.get(".ant-tabs-nav-operations-hidden")
+          .should("exist")
+          .then(($element) => {
+            // Use JavaScript to modify the element's style
+            cy.window().then((win) => {
+              win.document.querySelector(
+                ".ant-tabs-nav-operations-hidden"
+              ).style.position = "static";
+            });
+          });
         cy.get(".right-bar-icon").eq(8).click();
       }
     });
@@ -231,20 +230,13 @@ describe("Adding client", () => {
     cy.get(
       '[style="display: flex; justify-content: flex-end; width: 100%;"] > .ant-col > .ant-image > .ant-image-img'
     ).click();
-    cy.intercept(
-      "GET",
-      "https://beta-api.ezymigrate.co.nz/v1/client/AllData/d0d34647-4a9a-49ff-aade-941a8fc4c738"
-    ).as("accountspage");
-    cy.intercept(
-      "GET",
-      "https://beta-api.ezymigrate.co.nz/v1/branch/bank/651876e6-b0c8-4c31-aac2-2129d93a8c9b"
-    ).as("accountspagebank");
+
     cy.get(".header-bar-text-div")
       .eq(7)
       .contains("Accounts")
       .click({ force: true });
-    cy.wait("@accountspage").its("response.statusCode").should("eq", 200);
-    cy.wait("@accountspagebank").its("response.statusCode").should("eq", 200);
+    cy.wait("@AllData").its("response.statusCode").should("eq", 200);
+    cy.wait("@branch/bank").its("response.statusCode").should("eq", 200);
 
     cy.get(".ant-collapse-item.ant-collapse-item-active").each(
       ($el, index, $list) => {
@@ -348,12 +340,11 @@ describe("Adding client", () => {
       }
     );
     cy.wait(3000);
-    cy.intercept(
-      "POST",
-      "https://beta-api.ezymigrate.co.nz/v1/invoice/AllBySubjectIdWithPaging"
-    ).as("invoice");
+
     cy.get(".sus-inactive-tab-text-school").contains("INVOICES").click();
-    cy.wait("@invoice").its("response.statusCode").should("eq", 200);
+    cy.wait("@AllBySubjectIdWithPaging")
+      .its("response.statusCode")
+      .should("eq", 200);
     cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
       const tay = $el
         .find(

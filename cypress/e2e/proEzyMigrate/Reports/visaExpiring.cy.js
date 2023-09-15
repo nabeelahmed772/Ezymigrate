@@ -1,77 +1,19 @@
-/// <reference types= "cypress" />
+import { setupAPIIntercepts } from '../../../support/apiIntercepts';
+/// <reference types="cypress" />
 
 beforeEach(() => {
+  setupAPIIntercepts();
   cy.login();
 });
 describe("Reports", () => {
   const futureDate = Cypress.env("futureDate");
 
   it("Visa Expiring", () => {
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/users/ddl/All/*").as(
-      "allUsers"
-    );
 
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/report/VisaExpiry").as(
-      "VisaExpiry"
-    );
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/report/VisaExpiryExport"
-    ).as("VisaExpiryExport");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/report/ClientEmployerExport"
-    ).as("ClientEmployerExport");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/report/ClientEmployer"
-    ).as("ClientEmployer");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/report/DocumentCheckList"
-    ).as("DocumentCheckList");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/report/DocumentCheckList"
-    ).as("ClientContractAll");
-
-    cy.intercept(
-      "GET",
-      "https://beta-api.ezymigrate.co.nz/v1/client/contract/Contractpdf/*"
-    ).as("Contractpdf");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/company/BranchVisaType/All/*"
-    ).as("BranchVisaType");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/company/visastatus/All/*"
-    ).as("visastatus");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/company/BranchVisaType/GetAllBranchVisaTypeByCountry/All/**"
-    ).as("GetAllBranchVisaTypeByCountry");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/config/GetAllVisaDestination"
-    ).as("GetAllVisaDestination");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/company/visastatus/AllWithHide/*"
-    ).as("AllWithHide");
-
-    cy.intercept("POST", "https://beta-api.ezymigrate.co.nz/v1/report/Visa").as(
-      "Visa"
-    );
-
-    cy.intercept(
-      "POST",
-      "https://beta-api.ezymigrate.co.nz/v1/report/VisaExport"
-    ).as("VisaExport");
 
     cy.get('a[href="/reports"]').click();
 
-    cy.wait("@allUsers").then((interception) => {
+    cy.wait("@getallusers").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
@@ -145,13 +87,13 @@ describe("Reports", () => {
 
     cy.contains("DOCUMENT CHECKLIST").click();
 
-    cy.wait("@DocumentCheckList").then((interception) => {
+    cy.wait("@reportDocumentCheckList").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
     cy.get(".ant-pagination-item.ant-pagination-item-2").click();
 
-    cy.wait("@DocumentCheckList").then((interception) => {
+    cy.wait("@reportDocumentCheckList").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
@@ -177,11 +119,11 @@ describe("Reports", () => {
 
     cy.contains("Visa Reports").click();
 
-    cy.wait("@allUsers").then((interception) => {
+    cy.wait("@getallusers").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@BranchVisaType").then((interception) => {
+    cy.wait("@BranchVisaType/All").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 

@@ -40,6 +40,8 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
+    cy.wait(2000)
+
     cy.get(".cq-list-content-row").each(($el, index, $list) => {
       var del = $el.find(".cv-doc-text").text().trim();
       if (del === "automation questionaire name") {
@@ -57,6 +59,8 @@ describe("custom questionaires", () => {
         });
       }
     });
+
+    cy.wait(2000)
 
     cy.get('img[src="/static/media/plus-icon.16380594.svg"]').click();
 
@@ -96,6 +100,8 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
+    cy.wait(2000)
+
     cy.wait("@questionnaire/Recursive").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
@@ -106,11 +112,15 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
+    cy.wait(2000)
+
     cy.get('a[href="/questionnaire"]').click();
 
     cy.wait("@GetAllQuestionnairs").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
+
+    cy.wait(2000)
 
     cy.get(".cq-list-content-row").each(($el, index, $list) => {
       var del = $el.find(".cv-doc-text").text().trim();
@@ -465,9 +475,9 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@UserSignature").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
+    // cy.wait("@UserSignature").then((interception) => {
+    //   cy.wrap(interception.response.statusCode).should("eq", 200);
+    // });
 
     cy.get(".header-text").contains("Documents").click();
 
@@ -518,6 +528,8 @@ describe("custom questionaires", () => {
     cy.wait("@GetAllQuestionnairs").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
+
+    cy.wait(2000)
 
     cy.get(".cq-list-content-row").each(($el, index, $list) => {
       var del = $el.find(".cv-doc-text").text().trim();

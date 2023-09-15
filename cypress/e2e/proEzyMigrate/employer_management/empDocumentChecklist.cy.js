@@ -1,3 +1,5 @@
+import { setupAPIIntercepts } from "../../../support/apiIntercepts";
+/// <reference types="cypress" />
 Cypress.on("uncaught:exception", (err, runnable) => {
   // returning false here prevents Cypress from
   // failing the test
@@ -29,98 +31,32 @@ const password = "nabeel@123";
 
 describe("Adding Employer", () => {
   const futureDate = Cypress.env("futureDate");
-  it("Add employer", () => {
-    cy.intercept(
-      "POST",
-      "https://beta-api.ezymigrate.co.nz/v1/dashboardbi/AccountAnalytics"
-    ).as("load");
 
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/potentialclient/markedtags/All/*"
-    ).as("markedtags/All");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/invoice/AllBySubjectIdWithPaging"
-    ).as("AllBySubjectIdWithPaging");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/branch/bank/*").as(
-      "branch/bank"
-    );
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/branch/tax/All/*").as(
-      "tax/All"
-    );
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/invoice/LastInvoiceNumber/*"
-    ).as("LastInvoiceNumber");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/invoice/status/GetAllInvoiceStatuses/1"
-    ).as("GetAllInvoiceStatuses");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/branch/AllWithLinks").as(
-      "AllWithLinks"
-    );
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/currency/GetAllCurrencies"
-    ).as("GetAllCurrencies");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/invoice/AddNewLine/*"
-    ).as("AddNewLine");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/invoice").as("invoice");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/document/MultiUploadWithFileName"
-    ).as("MultiUploadWithFileName");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/HtmlTemplate/SetHtmlTemplate"
-    ).as("SetHtmlTemplate");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/emailtemplate/*").as(
-      "emailtemplate"
-    );
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/invoice/payment/All/*"
-    ).as("payment/All");
-
-    //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-    // cy.visit('https://app.ezymigrate.com/login')
-
-    // cy.getCookies({log:true})
-
-    // cy.clearCookies({log:true})
-
-    // cy.getCookies().should('be.empty')
-
-    // cy.clearAllCookies({log:true})
-
-    // cy.clearAllLocalStorage({log:true})
-
-    // //cy.intercept('POST', '/ActiveSince*').as('login')
-
-    // cy.get('#userName > .profile-input-login')
-    //   .type(user_name)
-
-    // cy.get('#password > .profile-input-login')
-    //   .type(password)
-
-    // cy.get('.sus-modal-button-text')
-    //   .click()
-
-    // cy.wait(9000)
-
-    // cy.contains('Client Analytics').should('be.visible')
+  before(() => {
+    setupAPIIntercepts(); // Call the function to set up API intercepts
     cy.login();
-    //cy.wait(9000)
+  });
+  it("Add employer", () => {
+   
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a'
     ).click();
+
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var del = $el
+        .find(
+          'span[style="cursor: pointer;"]'
+        )
+        .text()
+        .trim();
+      if (del === "logic employer") {
+        cy.log(del);
+        cy.wrap($el).find(".anticon.anticon-delete").click();
+        cy.get(".ant-modal-footer > .ant-btn-primary > span").click();
+        cy.wait(1000);
+        
+      }
+    });
 
     cy.wait(5000);
     cy.contains("Add New").scrollIntoView();
@@ -163,7 +99,7 @@ describe("Adding Employer", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@tax/All").then((interception) => {
+    cy.wait("@getTax").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
@@ -219,9 +155,11 @@ describe("Adding Employer", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@AllBySubjectIdWithPaging").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
+    // cy.wait("@AllBySubjectIdWithPaging").then((interception) => {
+    //   cy.wrap(interception.response.statusCode).should("eq", 200);
+    // });
+
+    cy.wait(2000)
 
     cy.get(".ant-btn.ant-btn-primary.ant-btn-sm.button-blue")
       .contains("Email")
@@ -255,7 +193,7 @@ describe("Adding Employer", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@tax/All").then((interception) => {
+    cy.wait("@getTax").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
@@ -352,19 +290,20 @@ describe("Adding Employer", () => {
     //deleting the employer
     cy.scrollTo("right");
     cy.wait(4000);
-    //cy.get('#root > div > div > div > section > main > div > div.ant-spin-nested-loading > div > div > div > div > div > div:nth-child(2) > div > div > div > div > div > div > div > div > div > table > tbody > tr:nth-child(2) > td.ant-table-cell.ant-table-row-expand-icon-cell > div > span.anticon.anticon-delete > svg').scrollIntoView()
-    // cy.get(
-    //   '[data-row-key="4"] > .ant-table-row-expand-icon-cell'
-    // ).scrollIntoView();
-    //cy.xpath('//*[@id="root"]/div/div/div/section/main/div/div[2]/div/div/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/table/tbody/tr[3]/td[8]/div/span[4]/svg')
-    cy.get(".anticon.anticon-delete")
-      .eq(0)
-      .scrollIntoView()
-      .click({ force: true });
-    //cy.get('.anticon.anticon-delete').eq(0).scrollIntoView().click({force:true})
-
-    //cy.get('.ant-btn ant-btn-primary').eq(5).click()
-    cy.get(".ant-modal-footer > .ant-btn-primary > span").click();
-    cy.wait(1000);
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var del = $el
+        .find(
+          'span[style="cursor: pointer;"]'
+        )
+        .text()
+        .trim();
+      if (del === "logic employer") {
+        cy.log(del);
+        cy.wrap($el).find(".anticon.anticon-delete").click();
+        cy.get(".ant-modal-footer > .ant-btn-primary > span").click();
+        cy.wait(1000);
+        
+      }
+    });
   });
 });

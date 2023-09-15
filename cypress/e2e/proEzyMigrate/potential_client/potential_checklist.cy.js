@@ -1,3 +1,5 @@
+import { setupAPIIntercepts } from "../../../support/apiIntercepts";
+/// <reference types= "cypress" />
 Cypress.on("uncaught:exception", (err, runnable) => {
   // returning false here prevents Cypress from
   // failing the test
@@ -29,128 +31,30 @@ const password = "nabeel@123";
 
 describe("potential client", () => {
   const futureDate = Cypress.env("futureDate");
-  it("Add potential", () => {
-    // defaultCommandTimeout: 10000
-    // cy.viewport(1366, 657)
-
-    // //cy.intercept('POST','https://beta-api.ezymigrate.co.nz/v1/dashboardbi/AccountAnalytics').as('load')
-
-    // //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-    // cy.visit('https://app.ezymigrate.com/login')
-
-    // cy.getCookies({log:true})
-
-    // cy.clearCookies({log:true})
-
-    // cy.getCookies().should('be.empty')
-
-    // cy.clearAllCookies({log:true})
-
-    // cy.clearAllLocalStorage({log:true})
-
-    // //cy.intercept('POST', '/ActiveSince*').as('login')
-
-    // cy.get('#userName > .profile-input-login').type(user_name)
-    // cy.get('#password > .profile-input-login').type(password)
-    // cy.get('.sus-modal-button-text').click()
-    // //cy.wait(9000)
-
-    //   cy.contains('Client Analytics').should('be.visible')
+  before(() => {
+    setupAPIIntercepts(); // Call the function to set up API intercepts
     cy.login();
-
-    cy.intercept('PUT', 'https://beta-api.ezymigrate.co.nz/v1/ClientTag/UpdateMultiple')
-      .as('UpdateMultiple')
-
-    cy.intercept('POST', 'https://beta-api.ezymigrate.co.nz/v1/ClientTag/InsertMultiple')
-      .as('ClientTag')
-
-    cy.intercept(
-      "POST",
-      "https://beta-api.ezymigrate.co.nz/v1/client/processingperson/InsertMultiple"
-    ).as("InsertMultiple");
-
-    cy.intercept(
-      "POST",
-      "https://beta-api.ezymigrate.co.nz/v1/potentialclient/All"
-    ).as("AllpotentialClinets");
-
-    cy.intercept(
-      "POST",
-      "https://beta-api.ezymigrate.co.nz/v1/client/processingperson/ChangeProcessingPerson"
-    ).as("ChangeProcessingPerson");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/potentialclient/*").as(
-      "potentialclient"
-    );
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/potentialclient/markedtags/All/*"
-    ).as("markedtags/All");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/company/BranchVisaType/All/*"
-    ).as("BranchVisaType/All");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/config/GetAllCountries"
-    ).as("GetAllCountries");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/company/*").as(
-      "company"
-    );
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/company/BranchVisaType/*"
-    ).as("BranchVisaType");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/branch/bank/*").as(
-      "bank"
-    );
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/branch/tax/All/*").as(
-      "tax"
-    );
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/invoice/LastInvoiceNumber/*"
-    ).as("LastInvoiceNumber");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/branch/AllWithLinks").as(
-      "AllWithLinks"
-    );
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/invoice/AddNewLine/*"
-    ).as("AddNewLine");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/invoice").as("invoice");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/invoice/*").as(
-      "invoice1"
-    );
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/invoice/status/GetAllInvoiceStatuses/*"
-    ).as("GetAllInvoiceStatuses");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/HtmlTemplate/SetHtmlTemplate"
-    ).as("SetHtmlTemplate");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/document/MultiUploadWithFileName"
-    ).as("MultiUploadWithFileName");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/emailtemplate/*").as(
-      "emailtemplate"
-    );
-
+  });
+  it("Add potential", () => {
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[7]/div/span'
     ).click();
     cy.wait(2000);
     cy.contains("Inquiry").click();
     cy.wait(4000);
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var del = $el
+        .find('span[style="font-size: 12px; color: black;"]')
+        .text()
+        .trim();
+      cy.log(del);
+      if (del === "jason client  mia") {
+        cy.log(del);
+        cy.wrap($el).find(".anticon.anticon-delete").click();
+        cy.get(".ant-btn.ant-btn-default.button").click();
+        cy.wait(1000);
+      }
+    });
     cy.contains("ADD POTENTIAL CLIENT").click();
     cy.wait(2000);
     cy.get("#firstName").type("jason client");
@@ -173,35 +77,33 @@ describe("potential client", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@markedtags/All").then((interception) => {
+    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@potentialclient").then((interception) => {
+    cy.wait("@getpotentialclient").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
     cy.contains("INVOICES").click();
 
-    cy.wait("@markedtags/All").then((interception) => {
+    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
     cy.get(".ant-btn.ant-btn-primary.button-blue").contains("ADD").click();
 
-    cy.wait("@bank").then((interception) => {
+    cy.wait("@branch/bank").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@tax").then((interception) => {
+    cy.wait("@getTax").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
     cy.wait("@LastInvoiceNumber").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
-
-
 
     cy.get('input[placeholder="Select date"]')
       .eq(0)
@@ -236,7 +138,7 @@ describe("potential client", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@markedtags/All").then((interception) => {
+    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
@@ -270,7 +172,7 @@ describe("potential client", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@bank").then((interception) => {
+    cy.wait("@branch/bank").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
@@ -289,9 +191,8 @@ describe("potential client", () => {
     cy.wait("@invoice").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
- 
-    cy.wait(3000);
 
+    cy.wait(3000);
 
     cy.contains("DOCUMENTS").click();
     cy.wait(4000);
@@ -399,7 +300,7 @@ describe("potential client", () => {
       .type("jason client")
       .type("{enter}");
 
-    cy.wait("@AllpotentialClinets").then((interception) => {
+    cy.wait("@potentialclientAll").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
@@ -409,7 +310,7 @@ describe("potential client", () => {
 
     cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Search").click();
 
-    cy.wait("@AllpotentialClinets").then((interception) => {
+    cy.wait("@potentialclientAll").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
@@ -430,7 +331,7 @@ describe("potential client", () => {
     //   cy.wrap(interception.response.statusCode).should("eq", 400);
     // });
 
-    cy.wait(4000)
+    cy.wait(4000);
 
     cy.get(".anticon.anticon-minus-circle").eq(0).click();
 
@@ -438,9 +339,9 @@ describe("potential client", () => {
 
     cy.get('div[title="Nabeel Ahmed"]').eq(1).click();
 
-    cy.get(".ant-select-selection-search-input").eq(10).click({force:true});
+    cy.get(".ant-select-selection-search-input").eq(10).click({ force: true });
 
-    cy.wait(2000)
+    cy.wait(2000);
 
     cy.get('div[title="team member nabeel"]').eq(2).click();
 
@@ -456,70 +357,64 @@ describe("potential client", () => {
 
     cy.get(".anticon.anticon-plus-circle").eq(1).click();
 
-    cy.get('.ant-select-selection-overflow').eq(1).click({force:true});
+    cy.get(".ant-select-selection-overflow").eq(1).click({ force: true });
 
-    cy.get('div[title="tag 2"]')
-      .click()
+    cy.get('div[title="tag 2"]').click();
 
-      cy.wait("@ClientTag").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-  
-      // cy.wait("@AllpotentialClinets").then((interception) => {
-      //   cy.wrap(interception.response.statusCode).should("eq", 400);
-      // });
+    cy.wait("@ClientTag").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.get('div[title="tag 3 "]')
-      .click()
+    // cy.wait("@AllpotentialClinets").then((interception) => {
+    //   cy.wrap(interception.response.statusCode).should("eq", 400);
+    // });
 
-      cy.wait("@ClientTag").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-  
-      // cy.wait("@AllpotentialClinets").then((interception) => {
-      //   cy.wrap(interception.response.statusCode).should("eq", 400);
-      // });
+    cy.get('div[title="tag 3 "]').click();
 
-      cy.get(".anticon.anticon-minus-circle").eq(1).click();
+    cy.wait("@ClientTag").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.get('.ant-select-selection-overflow').eq(1).click({force:true});
+    // cy.wait("@AllpotentialClinets").then((interception) => {
+    //   cy.wrap(interception.response.statusCode).should("eq", 400);
+    // });
 
-      cy.get('div[title="tag 2"]')
-      .click()
+    cy.get(".anticon.anticon-minus-circle").eq(1).click();
 
-      cy.wait("@UpdateMultiple").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-  
-      // cy.wait("@AllpotentialClinets").then((interception) => {
-      //   cy.wrap(interception.response.statusCode).should("eq", 400);
-      // });
+    cy.get(".ant-select-selection-overflow").eq(1).click({ force: true });
 
-      cy.get('div[title="tag 3 "]')
-      .click()
+    cy.get('div[title="tag 2"]').click();
 
-      cy.wait("@UpdateMultiple").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-  
-      // cy.wait("@AllpotentialClinets").then((interception) => {
-      //   cy.wrap(interception.response.statusCode).should("eq", 400);
-      // });
+    cy.wait("@UpdateMultiple").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
+    // cy.wait("@AllpotentialClinets").then((interception) => {
+    //   cy.wrap(interception.response.statusCode).should("eq", 400);
+    // });
 
+    cy.get('div[title="tag 3 "]').click();
 
+    cy.wait("@UpdateMultiple").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
+    cy.contains("Inquiry").click();
+    cy.wait(4000);
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var del = $el
+        .find('span[style="font-size: 12px; color: black;"]')
+        .text()
+        .trim();
+      if (del === "jason client mia") {
+        cy.log(del);
+        cy.wrap($el).find(".anticon.anticon-delete").click();
+        cy.get(".ant-btn.ant-btn-default.button").click();
+        cy.wait(1000);
+      }
+    });
 
-
-
-    
-
-    cy.get(".anticon.anticon-delete").eq(0).click();
-    cy.get(
-      '[style="display: flex; margin-top: 40px;"] > :nth-child(2) > .ant-btn > span'
-    ).click();
-
-    cy.wait("@AllpotentialClinets").then((interception) => {
+    cy.wait("@potentialclientAll").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
   });

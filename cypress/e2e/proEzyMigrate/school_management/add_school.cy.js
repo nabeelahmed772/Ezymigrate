@@ -1,3 +1,4 @@
+import { setupAPIIntercepts } from "../../../support/apiIntercepts";
 /// <reference types= "cypress" />
 Cypress.on("uncaught:exception", (err, runnable) => {
   // returning false here prevents Cypress from
@@ -6,30 +7,11 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 });
 
 describe("Adding school", () => {
-  it("Add school", () => {
-    // cy.viewport(1366, 657)
-
-    // cy.visit('https://app.ezymigrate.com/login')
-
-    // //cy.intercept('POST', '/ActiveSince*').as('login')
-
-    // cy.get('#userName > .profile-input-login').type('rananabeelahmed772@gmail.com')
-    // cy.get('#password > .profile-input-login').type('nabeel@123')
-    // cy.get('.sus-modal-button-text').click()
-    // cy.contains('Client Analytics').should('be.visible')
-
-    // cy.wait(9000)
+  before(() => {
+    setupAPIIntercepts(); // Call the function to set up API intercepts
     cy.login();
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/school/*").as(
-      "schoolget"
-    );
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/school").as("schoolput");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/school/All/**").as(
-      "schoolall"
-    );
+  });
+  it("Add school", () => {
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[11]/span/a'
     ).click();
@@ -79,9 +61,14 @@ describe("Adding school", () => {
     cy.wait(7000);
 
     cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
-      const jay = $el.find('p[style="font-size: 12px; font-weight: 400; font-style: normal; color: rgba(0, 0, 0, 0.85);"]').eq(0).text();
-      cy.log(jay)
-      
+      const jay = $el
+        .find(
+          'p[style="font-size: 12px; font-weight: 400; font-style: normal; color: rgba(0, 0, 0, 0.85);"]'
+        )
+        .eq(0)
+        .text();
+      cy.log(jay);
+
       if (jay === "test school name") {
         cy.wrap($el).find(".anticon.anticon-edit").click();
         cy.wait("@schoolget").then((interception) => {
@@ -102,12 +89,17 @@ describe("Adding school", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    
+    cy.wait(2000)
 
     //deleting the school
 
     cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
-      const jay = $el.find('p[style="font-size: 12px; font-weight: 400; font-style: normal; color: rgba(0, 0, 0, 0.85);"]').eq(0).text();
+      const jay = $el
+        .find(
+          'p[style="font-size: 12px; font-weight: 400; font-style: normal; color: rgba(0, 0, 0, 0.85);"]'
+        )
+        .eq(0)
+        .text();
 
       if (jay === "test school name") {
         cy.wrap($el).find(".anticon.anticon-delete").click();

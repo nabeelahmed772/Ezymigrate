@@ -35,7 +35,7 @@ describe("ALL MAIL", () => {
 
   it("MAIL", () => {
 
-    cy.get('a[href="/email"]')
+    cy.get('a[href="/email"]').click()
 
     cy.wait("@IMAPImportSettings").then((interception) => {
         cy.wrap(interception.response.statusCode).should("eq", 200);

@@ -1,4 +1,4 @@
-import { setupAPIIntercepts } from '../../../support/apiIntercepts';
+import { setupAPIIntercepts } from "../../../support/apiIntercepts";
 /// <reference types="cypress" />
 Cypress.on("uncaught:exception", (err, runnable) => {
   // returning false here prevents Cypress from
@@ -34,34 +34,8 @@ describe("case management", () => {
     setupAPIIntercepts(); // Call the function to set up API intercepts
     cy.login();
   });
-  
+
   it("testing case management", () => {
-  
-    // cy.viewport(1366, 657)
-
-    // cy.intercept('POST','https://beta-api.ezymigrate.co.nz/v1/dashboardbi/AccountAnalytics').as('load')
-
-    // //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-    // cy.visit('https://app.ezymigrate.com/login')
-
-    // cy.getCookies({log:true})
-
-    // cy.clearCookies({log:true})
-
-    // cy.getCookies().should('be.empty')
-
-    // cy.clearAllCookies({log:true})
-
-    // cy.clearAllLocalStorage({log:true})
-
-    // //cy.intercept('POST', '/ActiveSince*').as('login')
-
-    // cy.get('#userName > .profile-input-login').type(user_name)
-    // cy.get('#password > .profile-input-login').type(password)
-    // cy.get('.sus-modal-button-text').click()
-    // cy.wait(9000)
-
-    // cy.contains('Client Analytics').should('be.visible')
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'
     ).click();
@@ -132,17 +106,27 @@ describe("case management", () => {
 
     cy.get("#basic_client").click().type("amjad ali").type("{enter}");
 
-    cy.wait(2000);
-
     cy.get(".ant-form-item-control-input-content > .ant-btn > span").click({
       force: true,
     });
 
     cy.wait(5000);
 
-    cy.get(".top-row-button > :nth-child(1) > .ant-btn > span").click();
+    cy.wait(2000);
+    cy.get(".top-row").each(($el, index, $list) => {
+      var del = $el
+        .find(
+          'span[style="margin-top: 6px; margin-bottom: 6px; color: rgb(0, 0, 0); font-weight: 600; cursor: pointer; font-size: 14px;"]'
+        )
+        .text()
+        .trim();
+      if (del.includes("amjad")) {
+        cy.log(del);
+        cy.wrap($el).find(".ant-btn.ant-btn-primary").eq(0).click();
 
-    cy.wait(1000);
+        cy.wait(1000);
+      }
+    });
 
     cy.get("#basic_Country").click();
 
@@ -168,8 +152,22 @@ describe("case management", () => {
 
     cy.wait(5000);
 
-    cy.get(".cm-status-approved > .ant-btn > :nth-child(1)").click({
-      force: true,
+    cy.get(".top-row").each(($el, index, $list) => {
+      var del = $el
+        .find(
+          'span[style="margin-top: 6px; margin-bottom: 6px; color: rgb(0, 0, 0); font-weight: 600; cursor: pointer; font-size: 14px;"]'
+        )
+        .text()
+        .trim();
+      if (del.includes("amjad")) {
+        cy.log(del);
+        cy.wrap($el)
+          .find(".ant-btn.ant-btn-default.ant-dropdown-trigger")
+          .eq(0)
+          .click();
+
+        cy.wait(1000);
+      }
     });
 
     cy.wait(1000);
@@ -187,8 +185,20 @@ describe("case management", () => {
     cy.contains("Save").click();
 
     cy.wait(3000);
+    cy.get(".top-row").each(($el, index, $list) => {
+      var del = $el
+        .find(
+          'span[style="margin-top: 6px; margin-bottom: 6px; color: rgb(0, 0, 0); font-weight: 600; cursor: pointer; font-size: 14px;"]'
+        )
+        .text()
+        .trim();
+      if (del.includes("amjad")) {
+        cy.log(del);
+        cy.wrap($el).find(".ant-btn.ant-btn-primary").eq(1).click();
 
-    cy.get(".top-row-button > :nth-child(2) > .ant-btn > span").click();
+        cy.wait(1000);
+      }
+    });
 
     cy.wait(3000);
 

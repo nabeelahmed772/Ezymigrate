@@ -1,3 +1,5 @@
+import { setupAPIIntercepts } from "../../../support/apiIntercepts";
+/// <reference types="cypress" />
 Cypress.on("uncaught:exception", (err, runnable) => {
   // returning false here prevents Cypress from
   // failing the test
@@ -29,21 +31,33 @@ const password = "nabeel@123";
 
 describe("Adding Employer", () => {
   const futureDate = Cypress.env("futureDate");
-  it("Add employer", () => {
-    cy.intercept(
-      "POST",
-      "https://beta-api.ezymigrate.co.nz/v1/dashboardbi/AccountAnalytics"
-    ).as("load");
 
-    //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-    //
+  before(() => {
+    setupAPIIntercepts(); // Call the function to set up API intercepts
     cy.login();
+  });
+  it("Add employer", () => {
+    
 
-    //cy.wait(9000)
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a'
     ).click();
     cy.wait(5000);
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var del = $el
+        .find(
+          'span[style="cursor: pointer;"]'
+        )
+        .text()
+        .trim();
+      if (del === "cy new employer") {
+        cy.log(del);
+        cy.wrap($el).find(".anticon.anticon-delete").click();
+        cy.get(".ant-modal-footer > .ant-btn-primary > span").click();
+        cy.wait(1000);
+        
+      }
+    });
     cy.contains("Add New").scrollIntoView();
     cy.wait(3000);
     cy.get(
@@ -445,19 +459,21 @@ describe("Adding Employer", () => {
     //deleting the employer
     cy.scrollTo("right");
     cy.wait(4000);
-    //cy.get('#root > div > div > div > section > main > div > div.ant-spin-nested-loading > div > div > div > div > div > div:nth-child(2) > div > div > div > div > div > div > div > div > div > table > tbody > tr:nth-child(2) > td.ant-table-cell.ant-table-row-expand-icon-cell > div > span.anticon.anticon-delete > svg').scrollIntoView()
-    // cy.get(
-    //   '[data-row-key="4"] > .ant-table-row-expand-icon-cell'
-    // ).scrollIntoView();
-    //cy.xpath('//*[@id="root"]/div/div/div/section/main/div/div[2]/div/div/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/table/tbody/tr[3]/td[8]/div/span[4]/svg')
-    cy.get(".anticon.anticon-delete")
-      .eq(0)
-      .scrollIntoView()
-      .click({ force: true });
-    //cy.get('.anticon.anticon-delete').eq(0).scrollIntoView().click({force:true})
-
-    //cy.get('.ant-btn ant-btn-primary').eq(5).click()
-    cy.get(".ant-modal-footer > .ant-btn-primary > span").click();
-    cy.wait(1000);
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var del = $el
+        .find(
+          'span'
+        )
+        .text()
+        .trim();
+      if (del === "cy new employer") {
+        cy.log(del);
+        cy.wrap($el).find(".anticon.anticon-delete").click();
+        cy.get(".ant-modal-footer > .ant-btn-primary > span").click();
+        cy.wait(1000);
+        
+      }
+    });
+   
   });
 });

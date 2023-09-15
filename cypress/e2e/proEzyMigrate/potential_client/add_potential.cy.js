@@ -1,3 +1,5 @@
+import { setupAPIIntercepts } from "../../../support/apiIntercepts";
+/// <reference types= "cypress" />
 Cypress.on("uncaught:exception", (err, runnable) => {
   // returning false here prevents Cypress from
   // failing the test
@@ -29,34 +31,12 @@ const password = "nabeel@123";
 
 describe("potential client", () => {
   const futureDate = Cypress.env("futureDate");
-  it("Add potential", () => {
-    // cy.viewport(1366, 657)
-
-    // //cy.intercept('POST','https://beta-api.ezymigrate.co.nz/v1/dashboardbi/AccountAnalytics').as('load')
-
-    // //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-    // cy.visit('https://app.ezymigrate.com/login')
-
-    // cy.getCookies({log:true})
-
-    // cy.clearCookies({log:true})
-
-    // cy.getCookies().should('be.empty')
-
-    // cy.clearAllCookies({log:true})
-
-    // cy.clearAllLocalStorage({log:true})
-
-    // //cy.intercept('POST', '/ActiveSince*').as('login')
-
-    // cy.get('#userName > .profile-input-login').type(user_name)
-    // cy.get('#password > .profile-input-login').type(password)
-    // cy.get('.sus-modal-button-text').click()
-    // cy.wait(9000)
-
-    //   cy.contains('Client Analytics').should('be.visible')
-
+  before(() => {
+    setupAPIIntercepts(); // Call the function to set up API intercepts
     cy.login();
+  });
+  it("Add potential", () => {
+    
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[7]/div/span'
     ).click();

@@ -62,6 +62,37 @@ Cypress.on('uncaught:exception', (err, runnable) => {
       ).click();
 
       cy.contains('finame shuja').click()
+      cy.wait(6000)
+
+      cy.get(
+        ":nth-child(2) > a > .header-bar-text-div > .header-text"
+      ).scrollIntoView();
+      cy.wait(1000);
+  
+      cy.get(":nth-child(2) > a > .header-bar-text-div > .header-text").click();
+      cy.wait(6000);
+      // Locate the element you want to modify by its class name
+      cy.get('.ant-tabs-nav-operations-hidden').should('exist').then(($element) => {
+        // Use JavaScript to modify the element's style
+        cy.window().then((win) => {
+          win.document.querySelector('.ant-tabs-nav-operations-hidden').style.position = 'static';
+        });
+      });
+
+
+  
+  // Continue with your Cypress test steps
+  
+      cy.get(".cv-top-lbtn-text").click();
+     
+      
+      cy.get(
+        '[style="padding: 10px;"] > .ant-select > .ant-select-selector > .ant-select-selection-item'
+      ).click();
+      cy.get('div[title="Critical Purpose Visitor Visa"]').click({
+        multiple: true,
+        force: true,
+      });
 
       cy.get(':nth-child(9) > a > .header-bar-text-div > .header-text').click()
 

@@ -1,3 +1,5 @@
+import { setupAPIIntercepts } from '../../../support/apiIntercepts';
+/// <reference types="cypress" />
 Cypress.on("uncaught:exception", (err, runnable) => {
   // returning false here prevents Cypress from
   // failing the test
@@ -29,39 +31,37 @@ const password = "nabeel@123";
 
 describe("Adding client", () => {
   const futureDate = Cypress.env("futureDate");
-  it("Add client", () => {
-    // cy.viewport(1366, 657)
-    // //const sms= '211267313';
 
-    // //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-    // cy.visit('https://app.ezymigrate.com/login')
-
-    // //cy.intercept('POST', '/ActiveSince*').as('login')
-
-    // cy.getCookies({log: true})
-
-    // cy.clearCookies({log: true})
-
-    // cy.getCookies().should('be.empty')
-
-    // cy.clearAllCookies({log:true})
-
-    // cy.clearAllLocalStorage({log:true})
-
-    // cy.get('#userName > .profile-input-login').type(user_name)
-
-    // cy.get('#password > .profile-input-login').type(password)
-
-    // cy.get('.sus-modal-button-text').click()
-
-    // cy.wait(9000)
-
-    // cy.contains('Client Analytics').should('be.visible')
-
-    // cy.wait(2000)
+  before(() => {
+    setupAPIIntercepts(); // Call the function to set up API intercepts
     cy.login();
+  });
+  
+  it("Add client", () => {
 
-    //adding client
+    cy.xpath(
+      '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'
+    ).click();
+    cy.wait(6000);
+
+    //deleting the client
+
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var del = $el
+        .find(
+          'span[style="font-size: 12px; cursor: pointer; color: rgba(0, 0, 0, 0.85);"]'
+        )
+        .text()
+        .trim();
+      if (del.includes("toyota")) {
+        cy.log(del);
+        cy.wrap($el).find(".anticon.anticon-delete").click();
+        cy.wait("@SearchClient").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+      }
+    });
+    
 
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[6]/span/a'
@@ -118,6 +118,24 @@ describe("Adding client", () => {
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a'
     ).click();
     cy.wait(5000);
+
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var del = $el
+        .find(
+          'span[style="cursor: pointer;"]'
+        )
+        .text()
+        .trim();
+      if (del === "toyota employer") {
+        cy.log(del);
+        cy.wrap($el).find(".anticon.anticon-delete").click();
+        cy.get(".ant-modal-footer > .ant-btn-primary > span").click();
+        cy.wait(1000);
+        
+      }
+    });
+
+    cy.wait(2000)
     cy.contains("Add New").scrollIntoView();
     cy.wait(3000);
     cy.get(
@@ -341,21 +359,23 @@ describe("Adding client", () => {
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a'
     ).click();
     cy.wait(7000);
-    cy.scrollTo("left");
-    // cy.get(
-    //   '[data-row-key="4"] > .ant-table-row-expand-icon-cell'
-    // ).scrollIntoView();
-    cy.wait(1000);
-    //cy.xpath('//*[@id="root"]/div/div/div/section/main/div/div[2]/div/div/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/table/tbody/tr[3]/td[8]/div/span[4]/svg')
-    cy.get(".anticon.anticon-delete")
-      .eq(0)
-      .scrollIntoView()
-      .click({ force: true });
-    //cy.get('.anticon.anticon-delete').eq(0).scrollIntoView().click({force:true})
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var del = $el
+        .find(
+          'span[style="cursor: pointer;"]'
+        )
+        .text()
+        .trim();
+      if (del === "toyota employer") {
+        cy.log(del);
+        cy.wrap($el).find(".anticon.anticon-delete").click();
+        cy.get(".ant-modal-footer > .ant-btn-primary > span").click();
+        cy.wait(1000);
+        
+      }
+    });
 
-    //cy.get('.ant-btn ant-btn-primary').eq(5).click()
-    cy.get(".ant-modal-footer > .ant-btn-primary > span").click();
-    cy.wait(5000);
+    cy.wait(2000)
 
     //deleting the client
     cy.xpath(
@@ -365,14 +385,20 @@ describe("Adding client", () => {
 
     //deleting the client
 
-    cy.contains("toyota").scrollIntoView();
-    cy.wait(2000);
-
-    cy.get(
-      "#root > div > div > div > section > main > div > div > div > div > div.container-ui.w-100 > div.ant-spin-nested-loading > div > div > div > div > div > div > div > div.ant-table-container > div > table > tbody > tr:nth-child(1) > td:nth-child(8) > div > span > svg"
-    ).click();
-    //cy.get('#root > div > div > div > section > main > div > div > div > div > div.container-ui.w-100 > div.ant-spin-nested-loading > div > div > div > div > div > div > div > div.ant-table-container > div > table > tbody > tr:nth-child(2) > td:nth-child(8) > div > span > svg').click()
-    //cy.get('#root > div > div > div > section > main > div > div > div > div > div.container-ui.w-100 > div.ant-spin-nested-loading > div > div > div > div > div > div > div > div.ant-table-container > div > table > tbody > tr:nth-child(1) > td:nth-child(8) > div > span > svg').click()
-    cy.wait(3000);
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var del = $el
+        .find(
+          'span[style="font-size: 12px; cursor: pointer; color: rgba(0, 0, 0, 0.85);"]'
+        )
+        .text()
+        .trim();
+      if (del.includes("toyota")) {
+        cy.log(del);
+        cy.wrap($el).find(".anticon.anticon-delete").click();
+        cy.wait("@SearchClient").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+      }
+    });
   });
 });

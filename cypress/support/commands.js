@@ -24,43 +24,50 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+import { setupAPIIntercepts } from "./apiIntercepts";
 
-Cypress.Commands.add('login', () =>{
-    
-    cy.viewport(1366, 657)
-    //const sms= '211267313';
+Cypress.Commands.add("login", () => {
+  const environment = Cypress.env("environment");
 
-    cy.getCookies({log: true})
+  console.log("Environment:", environment);
+  const envConfig = Cypress.env(environment);
+  console.log("Environment Configuration:", envConfig);
 
-    cy.clearCookies({log: true})
+  const loginUrl = Cypress.env(environment).loginUrl;
+  const password = Cypress.env(environment).password;
 
-    cy.getCookies().should('be.empty')
+  cy.viewport(1366, 657);
+  //const sms= '211267313';
 
-    cy.clearAllCookies({log:true})
-    
-    cy.clearAllLocalStorage({log:true})
+  cy.getCookies({ log: true });
 
-    cy.intercept('https://beta-api.ezymigrate.co.nz/v1/admin/EzyMigrateSettings/GetLoginPageImage')
-      .as('GetLoginPageImage')
+  cy.clearCookies({ log: true });
 
-    //cy.visit('https://app-stage.ezymigrate.co.nz/login')
+  cy.getCookies().should("be.empty");
 
-    cy.visit('https://app.ezymigrate.com/login')
+  cy.clearAllCookies({ log: true });
 
-    cy.wait('@GetLoginPageImage').then((interception) => {
-      cy.wrap(interception.response.statusCode).should('eq', 200)
-      
-    })
-    cy.get('#userName > .profile-input-login').type('rananabeelahmed772@gmail.com')
+  cy.clearAllLocalStorage({ log: true });
 
-    cy.get('#password > .profile-input-login').type('Nabeel@123')
-      
+  //cy.visit('https://app-stage.ezymigrate.co.nz/login')
 
-    cy.get('.sus-modal-button-text').click()
+  cy.visit(loginUrl);
 
-    cy.wait(3000)
+  setupAPIIntercepts();
+  cy.wait("@GetLoginPageImage").then((interception) => {
+    cy.wrap(interception.response.statusCode).should("eq", 200);
+  });
+  cy.get("#userName > .profile-input-login").type(
+    "rananabeelahmed772@gmail.com"
+  );
 
-    cy.contains('Client Analytics').should('be.visible')
-      
-    cy.wait(2000)
-  })
+  cy.get("#password > .profile-input-login").type(password);
+
+  cy.get(".sus-modal-button-text").click();
+
+  cy.wait(3000);
+
+  cy.contains("Client Analytics").should("be.visible");
+
+  cy.wait(2000);
+});
