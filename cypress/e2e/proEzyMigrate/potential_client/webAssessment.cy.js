@@ -1,3 +1,4 @@
+import { setupAPIIntercepts } from "../../../support/apiIntercepts";
 /// <reference types= "cypress" />
 
 Cypress.on("uncaught:exception", (err, runnable) => {
@@ -29,34 +30,7 @@ const date = 'td[title="2023-02-05"]';
 const futureDate = "25/03/2023";
 
 beforeEach(() => {
-  // cy.viewport(1366, 657)
-
-  // cy.visit('https://app.ezymigrate.com/login')
-  // //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-
-  // //cy.intercept('POST', '/ActiveSince*').as('login')
-
-  // cy.getCookies({log: true})
-
-  // cy.clearCookies({log: true})
-
-  // cy.getCookies().should('be.empty')
-
-  // cy.clearAllCookies({log:true})
-
-  // cy.clearAllLocalStorage({log:true})
-
-  // cy.get('#userName > .profile-input-login').type('rananabeelahmed772@gmail.com')
-
-  // cy.get('#password > .profile-input-login').type('nabeel@123')
-
-  // cy.get('.sus-modal-button-text').click()
-
-  // cy.wait(9000)
-
-  // cy.contains('Client Analytics').should('be.visible')
-
-  // cy.wait(2000)
+  setupAPIIntercepts(); 
   cy.login();
 
   cy.xpath(
@@ -68,6 +42,7 @@ beforeEach(() => {
 });
 
 describe("Web Assessment ", () => {
+  const futureDate = Cypress.env("futureDate");
   it("Web Inquiry link detailed", () => {
     cy.contains("Web Inquiry Link (Detailed)").click();
     cy.wait(4000);
