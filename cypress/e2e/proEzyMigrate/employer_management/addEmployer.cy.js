@@ -231,6 +231,13 @@ describe("Adding Employer", () => {
     cy.get(
       '.rightbar-icons'
     ).contains('Send SMS').click();
+    cy.get('.ant-tabs-nav-operations-hidden').should('exist').then(($element) => {
+      // Use JavaScript to modify the element's style
+      cy.window().then((win) => {
+        win.document.querySelector('.ant-tabs-nav-operations-hidden').style.position = 'static';
+      });
+    });
+
     cy.wait(2000);
     cy.get(".ant-col > .ant-input").type("employer SMS testing ");
     cy.get(
@@ -243,6 +250,13 @@ describe("Adding Employer", () => {
     cy.get(
       '.rightbar-icons'
     ).contains('Tasks').click();
+    cy.get('.ant-tabs-nav-operations-hidden').should('exist').then(($element) => {
+      // Use JavaScript to modify the element's style
+      cy.window().then((win) => {
+        win.document.querySelector('.ant-tabs-nav-operations-hidden').style.position = 'static';
+      });
+    });
+
     cy.wait(5000);
     cy.get('[style="padding: 10px; height: 54px;"] > .ant-btn').click();
     cy.wait(1000);
@@ -459,10 +473,11 @@ describe("Adding Employer", () => {
     //deleting the employer
     cy.scrollTo("right");
     cy.wait(4000);
+    cy.wait("@employer").its("response.statusCode").should("eq", 200);
     cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
       var del = $el
         .find(
-          'span'
+          'span[style="cursor: pointer;"]'
         )
         .text()
         .trim();

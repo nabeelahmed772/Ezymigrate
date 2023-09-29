@@ -16,7 +16,46 @@ export function setupAPIIntercepts() {
 
   cy.intercept(`${baseURL}admin/EzyMigrateSettings/GetLoginPageImage`).as(
     "GetLoginPageImage"
+  );  
+ 
+  cy.intercept("GET", `${baseURL}client/contract/GetCount`).as(
+    "contract/GetCount"
   );
+
+
+  cy.intercept("GET", `${baseURL}dashboardbi/ChecklistQuestionnaireCount`).as(
+    "ChecklistQuestionnaireCount"
+  );
+
+
+  cy.intercept("POST", `${baseURL}dashboardbi/ClientAnalytics`).as(
+    "dashboardbi/ClientAnalytics"
+  );
+
+
+  cy.intercept("POST", `${baseURL}dashboardbi/AccountAnalytics`).as(
+    "dashboardbi/AccountAnalytics"
+  );
+
+  cy.intercept("POST", `${baseURL}dashboardbi/VisaAnalytic`).as(
+    "dashboardbi/VisaAnalytic"
+  );
+
+  cy.intercept("POST", `${baseURL}dashboardbi/IdleSince`).as(
+    "dashboardbi/IdleSince"
+  );
+
+
+
+  cy.intercept("POST", `${baseURL}dashboardbi/ActiveSince`).as(
+    "dashboardbi/ActiveSince"
+  );
+
+  cy.intercept("POST", `${baseURL}dashboardbi/ActiveClientBalance`).as(
+    "dashboardbi/ActiveClientBalance"
+  );
+
+
   cy.intercept("GET", `${baseURL}deal/pipeline/GetByBranchId`).as(
     "getAllDeals"
   );
@@ -190,7 +229,7 @@ export function setupAPIIntercepts() {
 
   //questionaires api
 
-  cy.intercept("GET", `${baseURL}questionnaire/GetAllQuestionnairs/*`).as(
+  cy.intercept("GET", `${baseURL}questionnaire/GetAllQuestionnairs`).as(
     "GetAllQuestionnairs"
   );
 
@@ -284,7 +323,7 @@ export function setupAPIIntercepts() {
     "searchemployer"
   );
 
-  cy.intercept(`${baseURL}employer/All/*`).as("employer");
+  cy.intercept(`${baseURL}employer/All`).as("employer");
 
   cy.intercept(`${baseURL}potentialclient/SearchPotentialClientMain/**`).as(
     "searchpotential"
@@ -342,7 +381,7 @@ export function setupAPIIntercepts() {
     "AllEmailImportSettings"
   );
 
-  cy.intercept("GET", `${baseURL}reminder/All/*`).as("getallreminders");
+  cy.intercept("GET", `${baseURL}reminder/All`).as("getallreminders");
 
   cy.intercept("GET", `${baseURL}task/AllByUserId/**`).as("AllByUserId");
 
@@ -467,5 +506,52 @@ export function setupAPIIntercepts() {
       "POST",
       `${baseURL}dashboard/EmployerExport`
     ).as("EmployerExport");
+
+    
+
+    cy.intercept(
+      `${baseURL}mailchimp/GetAllList`
+    ).as("mailchimp/GetAllList");
+
+    cy.intercept(
+      "GET",
+      `${baseURL}client/balance/All/*`
+    ).as("AllClientBalance");
+
+    cy.intercept(
+      'GET',
+      `${baseURL}branch/All`
+    ).as("AllBranch");
+
+    cy.intercept(
+      'GET',
+      `${baseURL}invoice/TemplateAddNewLine/00000000-0000-0000-0000-000000000000`
+    ).as("TemplateAddNewLine");
+
+    cy.intercept(
+      'PUT',
+      `${baseURL}client/contract/BranchDetails`
+    ).as("clientConstractBranchDetails");
+
+    cy.intercept(
+      'GET',
+      `${baseURL}branch/note/All`
+    ).as("AllBranchNote");
+
+    cy.intercept(
+      'GET',
+      `${baseURL}client/AssignTag/All/*`
+    ).as("AllClientAssignTag");
+
+    cy.intercept(
+      'GET',
+      `${baseURL}invoice/type/GetAllInvoiceTypes`
+    ).as("GetAllInvoiceTypes");
+
+    
+
+    
+
+
 
 }

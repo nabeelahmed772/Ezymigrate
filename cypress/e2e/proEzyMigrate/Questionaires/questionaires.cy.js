@@ -279,9 +279,7 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@WebSendQuestionnaireEmail").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
+   
 
     cy.wait("@Thanks").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);

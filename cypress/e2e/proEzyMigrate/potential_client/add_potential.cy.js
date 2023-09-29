@@ -42,7 +42,34 @@ describe("potential client", () => {
     ).click();
     cy.wait(2000);
     cy.contains("Inquiry").click();
-    cy.wait(4000);
+
+    cy.wait("@potentialclientAll").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+
+    cy.wait(2000);
+
+
+
+    
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var del = $el
+        .find('span[style="font-size: 12px; color: black;"]')
+        .text()
+        .trim();
+      if (del.includes("test potential client")) {
+        cy.log(del);
+        cy.wrap($el).find(".anticon.anticon-delete").click();
+        cy.get(".ant-btn.ant-btn-default.button").click();
+        cy.wait(1000);
+      }
+    });
+
+    cy.wait("@potentialclientAll").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+    cy.wait(7000);
     cy.contains("ADD POTENTIAL CLIENT").click();
     cy.wait(2000);
     cy.get("#firstName").type("test potential client");
@@ -170,13 +197,24 @@ describe("potential client", () => {
     );
     //cy.reload()
 
-    cy.get('.anticon.anticon-delete')
-      .eq(0)
-      .click()
-    cy.get(
-      '[style="display: flex; margin-top: 40px;"] > :nth-child(2) > .ant-btn > span'
-    ).click();
-    cy.wait(4000);
+    cy.wait(2000)
+
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var del = $el
+        .find('span[style="font-size: 12px; color: black;"]')
+        .text()
+        .trim();
+      if (del.includes("test potential client")) {
+        cy.log(del);
+        cy.wrap($el).find(".anticon.anticon-delete").click();
+        cy.get(".ant-btn.ant-btn-default.button").click();
+        cy.wait(1000);
+      }
+    });
+
+    cy.wait("@potentialclientAll").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
     cy.wait(7000);
   });
 });

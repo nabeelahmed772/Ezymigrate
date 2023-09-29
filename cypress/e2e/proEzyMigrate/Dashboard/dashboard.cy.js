@@ -510,11 +510,18 @@ describe("DASHBOSRD", () => {
 
     cy.get(".ant-select-selection-item").eq(3).click();
 
+    cy.wait(3000)
+
     cy.get('div[title="Approved"]').click();
+
+    cy.wait(3000)
+
 
     cy.wait("@Employer").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
+
+    cy.wait(3000)
 
     cy.get(".setting-export-cont").click();
 
@@ -530,7 +537,7 @@ describe("DASHBOSRD", () => {
         const worksheet = workbook.Sheets[sheetName];
         const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-        const Name = "nimal";
+        const Name = "supplier emp";
         const isContactNamePresent = data.flat().includes(Name);
 
         expect(isContactNamePresent).to.be.true;

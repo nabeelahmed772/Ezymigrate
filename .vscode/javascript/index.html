@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            background-color: #333;
+            color: white;
+            padding: 10px;
+        }
+
+        #inventory {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 5px;
+        }
+
+        .item-name {
+            flex-grow: 2;
+        }
+
+        .item-actions {
+            flex-grow: 1;
+            text-align: right;
+        }
+
+        button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            padding: 5px;
+        }
+   /* Add some spacing to the buttons */
+   .item-actions button {
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="inventory">
+        <h2>Inventory</h2>
+        <ul id="inventory-list">
+            <!-- Inventory items will be added here -->
+        </ul>
+    </div>
+
+    <div id="add-item">
+        <h2>Add Item</h2>
+        <input type="text" id="item-name" placeholder="Item Name">
+        <input type="number" id="item-quantity" placeholder="Quantity">
+        <button onclick="addItem()">Add</button>
+    </div>
+
+    <script>
+        // Initialize inventory with data from localStorage, or an empty array if no data is stored
+        let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+
+        // Function to save the inventory data to localStorage
+        function saveInventory() {
+            localStorage.setItem('inventory', JSON.stringify(inventory));
+        }
+
+        // Function to add an item to the inventory
+        function addItem() {
+            const itemName = document.getElementById('item-name').value;
+            const itemQuantity = parseInt(document.getElementById('item-quantity').value);
+
+            if (itemName && !isNaN(itemQuantity) && itemQuantity > 0) {
+                const existingItemIndex = inventory.findIndex(item => item.name === itemName);
+
+                if (existingItemIndex !== -1) {
+                    inventory[existingItemIndex].quantity += itemQuantity;
+                } else {
+                    inventory.push({ name: itemName, quantity: itemQuantity });
+                }
+
+                document.getElementById('item-name').value = '';
+                document.getElementById('item-quantity').value = '';
+
+                updateInventoryList();
+                saveInventory(); // Save the updated inventory
+            } else {
+                alert('Please enter a valid item name and quantity.');
+            }
+        }
+
+        // Function to update the inventory list
+        function updateInventoryList() {
+            const inventoryList = document.getElementById('inventory-list');
+            inventoryList.innerHTML = '';
+
+            inventory.forEach((item, index) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <input type="text" class="item-name" value="${item.name}" onchange="editItemName(${index}, this)">
+                    <input type="number" class="item-quantity" value="${item.quantity}" onchange="editItemQuantity(${index}, this)">
+                    <span class="item-actions">
+                        <button onclick="increaseQuantity(${index})">+</button>
+                        <button onclick="decreaseQuantity(${index})">-</button>
+                        <button onclick="deleteItem(${index})">Delete</button>
+                    </span>
+                `;
+                inventoryList.appendChild(listItem);
+            });
+
+            saveInventory(); // Save the inventory after each update
+        }
+
+        // Function to edit an item's name
+        function editItemName(index, inputElement) {
+            const newName = inputElement.value.trim();
+            if (newName !== '') {
+                inventory[index].name = newName;
+                saveInventory(); // Save the updated inventory
+            }
+        }
+
+        // Function to edit an item's quantity
+        function editItemQuantity(index, inputElement) {
+            const newQuantity = parseInt(inputElement.value);
+            if (!isNaN(newQuantity) && newQuantity >= 0) {
+                inventory[index].quantity = newQuantity;
+                saveInventory(); // Save the updated inventory
+            }
+        }
+
+        // Function to increase an item's quantity
+        function increaseQuantity(index) {
+            inventory[index].quantity++;
+            updateInventoryList();
+        }
+
+        // Function to decrease an item's quantity
+        function decreaseQuantity(index) {
+            if (inventory[index].quantity > 0) {
+                inventory[index].quantity--;
+                updateInventoryList();
+            }
+        }
+
+        // Function to delete an item
+        function deleteItem(index) {
+            if (confirm(`Are you sure you want to delete "${inventory[index].name}"?`)) {
+                inventory.splice(index, 1);
+                updateInventoryList();
+            }
+        }
+
+        // Initial update of the inventory list
+        updateInventoryList();
+    </script>
+</body>
+</html>

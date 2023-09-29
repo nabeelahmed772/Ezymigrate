@@ -24,8 +24,7 @@ function randName(length) {
   return result;
 }
 
-const date = 'td[title="2023-02-05"]';
-const sms = "211267313";
+
 
 describe("case management", () => {
   const futureDate = Cypress.env("futureDate");
@@ -247,6 +246,203 @@ describe("case management", () => {
     cy.wait(7000);
 
     cy.get(".cv-bold-text").should("contain", "CRITICAL PURPOSE VISITOR VISA");
+
+
+    cy.get('.header-text').contains('Accounts').click()
+
+    cy.wait("@branch/permissions").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@getcompany").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@AllData").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+
+    cy.wait("@AllClientBalance").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 404);
+    });
+
+    cy.get('.sus-inactive-tab-text-school')
+      .contains('INVOICES')
+      .click()
+
+    cy.wait("@markedtags/All").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+    cy.wait("@AllBySubjectIdWithPaging").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 404);
+      });
+
+    cy.get('.ant-btn.ant-btn-primary.button-blue')
+      .contains('ADD')
+      .click()
+
+      cy.wait("@AllBranch").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+
+      cy.wait("@LastInvoiceNumber").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+
+      cy.wait("@GetAllInvoiceStatuses").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@TemplateAddNewLine").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@clientConstractBranchDetails").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@AllBranchNote").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@AllData").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@getcompany").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@AllClientAssignTag").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+      
+
+      cy.wait("@GetAllInvoiceTypes").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@branch/bank").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@GetAllCurrencies").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@getTax").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+
+      cy.get('input[placeholder="Select date"]')
+        .eq(0)
+        .type(futureDate, { force: true })
+        .type("{enter}");
+      cy.get('input[placeholder="Select date"]')
+        .eq(1)
+        .type(futureDate, { force: true })
+        .type("{enter}");
+
+      cy.get(
+          ".ant-col-xs-12 > .ant-row > .ant-col > .ant-select > .ant-select-selector"
+        ).click({ force: true });
+    
+      cy.contains("NEW TESTING TEMPLATE").click();
+      cy.wait("@AddNewLine").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+      cy.get(".ant-input-number-input").should("have.value", 120);
+      cy.contains("Calculate Sub Total").click();
+      cy.get('#taxName')
+        .click();
+      cy.contains("Nsbeel -1.5").click().wait(1000);
+      cy.get("#bankAccount").click();
+      cy.wait(1000);
+      cy.get('div[title="test nabeel"]').click();
+      cy.contains("SAVE INVOICE").click();
+      cy.wait(5000);
+      cy.wait("@invoice").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+  
+      cy.wait("@markedtags/All").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait(2000)
+
+    cy.get(".ant-btn.ant-btn-primary.ant-btn-sm.button-blue")
+      .contains("Email")
+      .click();
+
+    cy.wait("@MultiUploadWithFileName").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@SetHtmlTemplate").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@emailtemplate").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@GetAllInvoiceStatuses").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Close").click();
+
+    cy.contains("View Details").click();
+
+    cy.wait("@payment/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 404);
+    });
+
+    cy.wait("@branch/bank").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@getTax").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@LastInvoiceNumber").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@GetAllInvoiceStatuses").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+
+    cy.wait("@GetAllCurrencies").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get("#paymentAmount").type("121.8");
+
+    cy.get("#paymentDate").type(futureDate, { force: true }).type("{enter}");
+
+    cy.get("#paymentBank").click();
+
+    cy.contains("test nabeel").click();
+
+    cy.contains("ADD PAYMENT").click();
+
+    cy.wait("@invoice").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait(6000);
+
+
+
 
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'

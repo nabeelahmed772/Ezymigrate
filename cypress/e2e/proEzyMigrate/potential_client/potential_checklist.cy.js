@@ -406,7 +406,7 @@ describe("potential client", () => {
         .find('span[style="font-size: 12px; color: black;"]')
         .text()
         .trim();
-      if (del === "jason client mia") {
+      if (del.includes("jason")) {
         cy.log(del);
         cy.wrap($el).find(".anticon.anticon-delete").click();
         cy.get(".ant-btn.ant-btn-default.button").click();

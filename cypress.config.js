@@ -4,13 +4,7 @@ module.exports = defineConfig({
   defaultCommandTimeout: 18000,
   requestTimeout: 20000,
   chromeWebSecurity: true,
-  numTestsKeptInMemory: 0,
-  chromeWebSecurity: false,
-  chromeArgs: ["--disable-gpu", "--disable-software-rasterizer"],
-  experimentalMemoryManagement: true,
   
-
-  CYPRESS_RESIZE_OBSERVER_LOOPS: 10,
 
   projectId: "9a1sqr",
   e2e: {

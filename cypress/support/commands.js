@@ -1,28 +1,3 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import { setupAPIIntercepts } from "./apiIntercepts";
 
@@ -65,9 +40,51 @@ Cypress.Commands.add("login", () => {
 
   cy.get(".sus-modal-button-text").click();
 
-  cy.wait(3000);
+  
 
   cy.contains("Client Analytics").should("be.visible");
+  
+  cy.wait("@getallreminders").then((interception) => {
+    cy.wrap(interception.response.statusCode).should("not.equal", 500);
+  });
 
-  cy.wait(2000);
+  cy.wait("@contract/GetCount").then((interception) => {
+    cy.wrap(interception.response.statusCode).should("eq", 200);
+  });
+
+  cy.wait("@ChecklistQuestionnaireCount").then((interception) => {
+    cy.wrap(interception.response.statusCode).should("eq", 200);
+  });
+
+  cy.wait("@dashboardbi/ClientAnalytics").then((interception) => {
+    cy.wrap(interception.response.statusCode).should("eq", 200);
+  });
+
+  cy.wait("@dashboardbi/AccountAnalytics").then((interception) => {
+    cy.wrap(interception.response.statusCode).should("eq", 200);
+  });
+
+  cy.wait("@dashboardbi/VisaAnalytic").then((interception) => {
+    cy.wrap(interception.response.statusCode).should("eq", 200);
+  });
+
+  cy.wait("@dashboardbi/IdleSince").then((interception) => {
+    cy.wrap(interception.response.statusCode).should("eq", 200);
+  });
+
+  cy.wait("@dashboardbi/ActiveSince").then((interception) => {
+    cy.wrap(interception.response.statusCode).should("eq", 200);
+  });
+
+  cy.wait("@visastatus").then((interception) => {
+    cy.wrap(interception.response.statusCode).should("eq", 200);
+  });
+
+  cy.wait("@dashboardbi/ActiveClientBalance").then((interception) => {
+    cy.wrap(interception.response.statusCode).should("eq", 200);
+  });
+
+  cy.wait("@getallusers").then((interception) => {
+    cy.wrap(interception.response.statusCode).should("eq", 200);
+  });
 });

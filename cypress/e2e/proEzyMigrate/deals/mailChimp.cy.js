@@ -1,98 +1,15 @@
+import { setupAPIIntercepts } from "../../../support/apiIntercepts";
 /// <reference types= "cypress" />
 
 beforeEach(() => {
+  setupAPIIntercepts();
   cy.login();
 });
 describe("mail chimp testing", () => {
   const futureDate = Cypress.env("futureDate");
 
   it("Add deals", () => {
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/mailchimp/GetIsMailChimpOrSendGrid"
-    ).as("GetIsMailChimpOrSendGrid");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/company/sendgridkey/*"
-    ).as("sendgridkey");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/company/sendgridkey").as(
-      "sendgridkey1"
-    );
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/mailchimp").as(
-      "mailchimp"
-    );
-
-    cy.intercept(
-      "GET",
-      "https://beta-api.ezymigrate.co.nz/v1/deal/pipeline/GetByBranchId/*"
-    ).as("getAllDeals");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/deal/pipeline").as(
-      "pipeline"
-    );
-
-    cy.intercept(
-      "GET",
-      "https://beta-api.ezymigrate.co.nz/v1/deal/sendgridmap/GetSendGridList/*"
-    ).as("getGridList");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/deal/stage").as("stage");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/deal/sendgridmap").as(
-      "sendGridMap"
-    );
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/deal/GetDealByPipelineId/*"
-    ).as("getDealByPipelineId");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/deal").as("deal");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/users/ddl/All/*").as(
-      "allusers"
-    );
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/client/AllData/*").as(
-      "alldata"
-    );
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/users/UserSignature/*"
-    ).as("usersignature");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/HtmlTemplate/SetHtmlTemplate"
-    ).as("template");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/deal/GetDealBySubjectId/*"
-    ).as("GetDealBySubjectId");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/potentialclient/*").as(
-      "potentialclients"
-    );
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/company/clientstatus/potentialclient/All/*"
-    ).as("potentialclientstatus");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/potentialclient/SearchPotentialClientMain/**"
-    ).as("searchpotential");
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/employer/SearchEmployersMain/supplier/*"
-    ).as("searchemployer");
-
-    cy.intercept("https://beta-api.ezymigrate.co.nz/v1/employer/All/*").as(
-      "employer"
-    );
-
-    cy.intercept(
-      "https://beta-api.ezymigrate.co.nz/v1/mailchimp/GetAllList"
-    ).as("mailchimp/GetAllList");
-
+  
     cy.get('a[href="/account-settings"]').click();
 
     cy.contains("Organization Level Setting").click();
@@ -107,7 +24,7 @@ describe("mail chimp testing", () => {
 
         cy.get(".sus-bottom-text").contains("SendGrid").click();
 
-        cy.wait("@sendgridkey").then((interception) => {
+        cy.wait("@company/sendgridkey").then((interception) => {
           cy.wrap(interception.response.statusCode).should("eq", 200);
           cy.wrap(interception.response.body.key).should(
             "eq",
@@ -116,7 +33,7 @@ describe("mail chimp testing", () => {
         });
         cy.get(".remove-icon-cross > a").click();
 
-        cy.wait("@sendgridkey1").then((interception) => {
+        cy.wait("@company/sendgridkey1").then((interception) => {
           cy.wrap(interception.response.statusCode).should("eq", 200);
         });
 
@@ -157,7 +74,7 @@ describe("mail chimp testing", () => {
 
     cy.get(".ant-select-selection-search-input").eq(4).click();
 
-    cy.contains("first pipeline").should("be.visible");
+    cy.contains("PIPELINE").should("be.visible");
 
     cy.contains("PIPELINE").click();
 
@@ -390,13 +307,13 @@ describe("mail chimp testing", () => {
       }
     });
 
-    cy.wait("@allusers").its("response.statusCode").should("eq", 200);
+    cy.wait("@getallusers").its("response.statusCode").should("eq", 200);
 
-    cy.wait("@alldata").its("response.statusCode").should("eq", 200);
+    cy.wait("@AllData").its("response.statusCode").should("eq", 200);
 
-    cy.wait("@usersignature").its("response.statusCode").should("eq", 200);
+    cy.wait("@UserSignature").its("response.statusCode").should("eq", 200);
 
-    cy.wait("@template").its("response.statusCode").should("eq", 200);
+    cy.wait("@SetHtmlTemplate").its("response.statusCode").should("eq", 200);
     cy.get('.ant-tabs-nav-operations-hidden').should('exist').then(($element) => {
       // Use JavaScript to modify the element's style
       cy.window().then((win) => {
@@ -504,7 +421,7 @@ describe("mail chimp testing", () => {
 
     cy.contains("Create Deal").should("be.visible").click();
 
-    cy.wait("@allusers").its("response.statusCode").should("eq", 200);
+    cy.wait("@getallusers").its("response.statusCode").should("eq", 200);
 
     cy.get("#main_name").type("potential client deal");
 
@@ -632,11 +549,11 @@ describe("mail chimp testing", () => {
       }
     });
 
-    cy.wait("@allusers").its("response.statusCode").should("eq", 200);
+    cy.wait("@getallusers").its("response.statusCode").should("eq", 200);
 
-    cy.wait("@potentialclients").its("response.statusCode").should("eq", 200);
+    cy.wait("@getpotentialclient").its("response.statusCode").should("eq", 200);
 
-    cy.wait("@potentialclientstatus")
+    cy.wait("@getclientstatus")
       .its("response.statusCode")
       .should("eq", 200);
 
@@ -664,7 +581,7 @@ describe("mail chimp testing", () => {
 
     cy.contains("Add Deal").click();
 
-    cy.wait("@allusers").its("response.statusCode").should("eq", 200);
+    cy.wait("@getallusers").its("response.statusCode").should("eq", 200);
 
     cy.wait("@getAllDeals").its("response.statusCode").should("eq", 200);
 
@@ -712,7 +629,7 @@ describe("mail chimp testing", () => {
 
     cy.contains("Create Deal").should("be.visible").click();
 
-    cy.wait("@allusers").its("response.statusCode").should("eq", 200);
+    cy.wait("@getallusers").its("response.statusCode").should("eq", 200);
 
     cy.get("#main_name").type("employer deal");
 
@@ -853,7 +770,7 @@ describe("mail chimp testing", () => {
 
     cy.wait("@employer").its("response.statusCode").should("eq", 200);
 
-    cy.wait("@allusers").its("response.statusCode").should("eq", 200);
+    cy.wait("@getallusers").its("response.statusCode").should("eq", 200);
 
     
 

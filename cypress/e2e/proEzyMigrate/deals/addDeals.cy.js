@@ -177,7 +177,7 @@ describe("deals", () => {
     cy.wait("@stage").its("response.statusCode").should("eq", 200);
     cy.wait("@getAllDeals").its("response.statusCode").should("eq", 200);
 
-    cy.wait(2000)
+    cy.wait(4000)
 
     cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
       const no = $el.find("p").text().trim();
@@ -219,6 +219,8 @@ describe("deals", () => {
     cy.contains("PIPELINE").should("be.visible");
 
     cy.get(".ant-select-selection-search-input").eq(4).click();
+
+    cy.wait(2000)
 
     cy.contains("my deal").should("be.visible").click();
 
@@ -765,9 +767,16 @@ describe("deals", () => {
 
       if (uo.includes("rananabeelahmed772@gmail.com")) {
         cy.wrap($el).find(".date-text").eq(1).click();
+        cy.get('.ant-tabs-nav-operations-hidden').should('exist').then(($element) => {
+          // Use JavaScript to modify the element's style
+          cy.window().then((win) => {
+            win.document.querySelector('.ant-tabs-nav-operations-hidden').style.position = 'static';
+          });
+        });
       }
     });
 
+    cy.wait("@markedtags/All").its("response.statusCode").should("eq", 200);
     cy.get('.ant-tabs-nav-operations-hidden').should('exist').then(($element) => {
       // Use JavaScript to modify the element's style
       cy.window().then((win) => {

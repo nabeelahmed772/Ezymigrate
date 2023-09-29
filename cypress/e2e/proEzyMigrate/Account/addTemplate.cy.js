@@ -360,13 +360,27 @@ describe("account template", () => {
         cy.get("#paymentBank").click();
         cy.wait(1000);
         cy.get('div[title="test nabeel"]').click();
-        cy.get('input[type="text"]').eq(1).type("testing by nabeel");
+        cy.get('input[type="text"]').eq(1).type("testing by nabeel",{force:true});
         cy.get('button[type="submit"]').eq(4).click();
       }
     });
 
+    cy.wait("@invoice").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+
+    cy.wait("@clientlog").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+
+    
+
+
     cy.wait(3000);
     cy.get(".sus-active-tab-text-school").contains("INVOICES").click();
+    cy.wait(2000);
     cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
       const pay = $el
         .find(

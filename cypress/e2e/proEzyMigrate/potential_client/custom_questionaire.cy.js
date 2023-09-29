@@ -110,6 +110,8 @@ describe("potential client", () => {
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a'
     ).click();
+
+    
     cy.contains("automation custom").click();
     cy.wait(2000);
     cy.get(".ant-tabs-tab-btn").eq(1).click();
@@ -119,11 +121,21 @@ describe("potential client", () => {
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a'
     ).click();
-    cy.get(".anticon.anticon-delete")
-      .eq(0)
-      .scrollIntoView()
-      .click({ force: true });
-    cy.get(".ant-modal-footer > .ant-btn-primary > span").click();
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var del = $el
+        .find(
+          'span[style="cursor: pointer;"]'
+        )
+        .text()
+        .trim();
+      if (del === "automation custom") {
+        cy.log(del);
+        cy.wrap($el).find(".anticon.anticon-delete").click();
+        cy.get(".ant-modal-footer > .ant-btn-primary > span").click();
+        cy.wait(1000);
+        
+      }
+    });
     cy.wait(1000);
     //move to client
 
