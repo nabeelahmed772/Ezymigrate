@@ -723,6 +723,8 @@ describe("Adding client", () => {
 
     cy.get('div[title="team member nabeel"]').click()
 
+    cy.get('label[title="Task Description"]').click()
+
     cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Save").click();
 
     cy.wait("@clientlog").then((interception) => {
@@ -898,7 +900,7 @@ describe("Adding client", () => {
     cy.get('.ant-select-selection-overflow').click()
     
     cy.get('div[title="team member nabeel"]').click()
-    //cy.get(date).click({multiple:true , force:true})
+    cy.get('label[title="Task Description"]').click()
 
     cy.get('[style="text-align: right;"] > .ant-btn > span').click();
 

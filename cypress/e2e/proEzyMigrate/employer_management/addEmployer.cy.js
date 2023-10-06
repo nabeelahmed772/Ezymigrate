@@ -271,7 +271,7 @@ describe("Adding Employer", () => {
     cy.get('.ant-select-selection-overflow').click()
 
     cy.get('div[title="team member nabeel"]').click()
-    //cy.get(date).click({multiple:true, force:true})
+    cy.get('label[title="Task Description"]').click()
     cy.get('[style="text-align: right;"] > .ant-btn > span').click({
       force: true,
     });

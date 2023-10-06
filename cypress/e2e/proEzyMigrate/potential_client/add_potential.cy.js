@@ -69,7 +69,7 @@ describe("potential client", () => {
     cy.wait("@potentialclientAll").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
-    cy.wait(7000);
+    
     cy.contains("ADD POTENTIAL CLIENT").click();
     cy.wait(2000);
     cy.get("#firstName").type("test potential client");
@@ -117,6 +117,7 @@ describe("potential client", () => {
       .type("{enter}");
     cy.get('.ant-select-selection-overflow').click()
     cy.get('div[title="team member nabeel"]').click()
+    cy.get('label[title="Task Description"]').click()
     cy.get('[style="text-align: right;"] > .ant-btn > span').click();
     cy.wait("@TaskWithUsers").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -135,7 +136,7 @@ describe("potential client", () => {
       .type("{enter}");
     cy.get('.ant-select-selection-overflow').click()
     cy.get('div[title="team member nabeel"]').click()
-    //cy.get(date).click({Multiple:true, force:true})
+    cy.get('label[title="Task Description"]').click()
     cy.get('[style="text-align: right;"] > .ant-btn > span').click();
     cy.wait("@TaskWithUsers").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
