@@ -267,6 +267,10 @@ describe("Adding Employer", () => {
     cy.get("#basic_select_date")
       .type(futureDate, { force: true })
       .type("{enter}");
+
+    cy.get('.ant-select-selection-overflow').click()
+
+    cy.get('div[title="team member nabeel"]').click()
     //cy.get(date).click({multiple:true, force:true})
     cy.get('[style="text-align: right;"] > .ant-btn > span').click({
       force: true,

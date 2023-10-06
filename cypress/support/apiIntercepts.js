@@ -219,6 +219,8 @@ export function setupAPIIntercepts() {
 
   cy.intercept("GET", `${baseURL}client/filenote/All/***`).as("filenote/All");
 
+  cy.intercept("GET", `${baseURL}client/filenote/All/*`).as("Getfilenote");
+
   cy.intercept("POST", `${baseURL}client/filenote/linkvisa`).as("linkvisa");
 
   cy.intercept("POST", `${baseURL}task/TaskWithUsers`).as("TaskWithUsers");

@@ -640,7 +640,7 @@ describe("Web Assessment ", () => {
     cy.get(
       "#sections_17_questions_0_questionOptions_0_optionalQuestions_0_questions_2_answers_0_answer"
     ).type(randName(5));
-    cy.wait(15000);
+    
     cy.get("#clientName").scrollIntoView();
 
     cy.get(".ant-btn > span").click();

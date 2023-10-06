@@ -98,7 +98,29 @@ describe("potential client", () => {
     cy.get(":nth-child(4) > .sus-inactive-tab-text-school").click();
     cy.get(".fr-element > p").type("potential client file note");
     cy.get(".ant-form-item-control-input-content > .ant-btn > span").click();
-    cy.wait(3000);
+    cy.wait("@filenote").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+    cy.wait("@filenote/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+    cy.wait("@Getfilenote").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    //adding task from fi;e note
+
+    cy.get('.anticon.anticon-plus').click()
+    cy.get("#basic_task_title").type("potntial client from file note");
+    cy.get("#basic_select_date")
+      .type(futureDate, { force: true })
+      .type("{enter}");
+    cy.get('.ant-select-selection-overflow').click()
+    cy.get('div[title="team member nabeel"]').click()
+    cy.get('[style="text-align: right;"] > .ant-btn > span').click();
+    cy.wait("@TaskWithUsers").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
     //adding task for potential client
 
@@ -111,10 +133,15 @@ describe("potential client", () => {
     cy.get("#basic_select_date")
       .type(futureDate, { force: true })
       .type("{enter}");
+    cy.get('.ant-select-selection-overflow').click()
+    cy.get('div[title="team member nabeel"]').click()
     //cy.get(date).click({Multiple:true, force:true})
     cy.get('[style="text-align: right;"] > .ant-btn > span').click();
+    cy.wait("@TaskWithUsers").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-    cy.wait(5000);
+    cy.wait(3000);
 
     //adding questionaire
 
@@ -215,6 +242,6 @@ describe("potential client", () => {
     cy.wait("@potentialclientAll").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
-    cy.wait(7000);
+   
   });
 });
