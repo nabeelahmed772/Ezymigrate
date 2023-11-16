@@ -750,33 +750,20 @@ describe("deals", () => {
       }
     );
 
-    cy.get(".ant-select-selection-search-input").eq(2).click({ force: true });
-
-    cy.get('div[title="Employer"]').click();
-
-    cy.get(".ant-input.ant-input-lg").clear().type("supplier");
-
-    cy.wait(2000);
-
-    cy.wait("@searchemployer").its("response.statusCode").should("eq", 200);
-
-    cy.get(".search-client-card-cont:visible").each(($el, index, $list) => {
-      const uo = $el.find("span").text().trim();
-      cy.log(uo);
-      debugger;
-
-      if (uo.includes("rananabeelahmed772@gmail.com")) {
-        cy.wrap($el).find(".date-text").eq(1).click();
-        cy.get('.ant-tabs-nav-operations-hidden').should('exist').then(($element) => {
-          // Use JavaScript to modify the element's style
-          cy.window().then((win) => {
-            win.document.querySelector('.ant-tabs-nav-operations-hidden').style.position = 'static';
-          });
-        });
-      }
-    });
+    cy.get('a[href="/employer-management"]').click()
 
     cy.wait("@markedtags/All").its("response.statusCode").should("eq", 200);
+
+    cy.wait("@employer").its("response.statusCode").should("eq", 200);
+
+    cy.get('#employer-form_name').type('supplier emp{enter}')
+
+    cy.wait("@postsearchemployer").its("response.statusCode").should("eq", 200);
+
+    cy.wait("@employer").its("response.statusCode").should("eq", 200);
+
+    cy.contains('supplier emp').click()
+
     cy.get('.ant-tabs-nav-operations-hidden').should('exist').then(($element) => {
       // Use JavaScript to modify the element's style
       cy.window().then((win) => {
@@ -784,13 +771,73 @@ describe("deals", () => {
       });
     });
 
-    cy.wait("@employer").its("response.statusCode").should("eq", 200);
+    cy.wait("@markedtags/All").its("response.statusCode").should("eq", 200);
 
     cy.wait("@getallusers").its("response.statusCode").should("eq", 200);
 
+    cy.wait("@GetAllCountries").its("response.statusCode").should("eq", 200);
+
+    cy.wait("@allbranchUsers").its("response.statusCode").should("eq", 200);
+
+    cy.wait("@getcompany").its("response.statusCode").should("eq", 200);
+
+    cy.get('.ant-tabs-tab-btn').contains('REPORTS').click()
+
+    cy.get('.right-bar-icon').eq(5).click()
+
+    cy.get('.ant-tabs-nav-operations-hidden').should('exist').then(($element) => {
+      // Use JavaScript to modify the element's style
+      cy.window().then((win) => {
+        win.document.querySelector('.ant-tabs-nav-operations-hidden').style.position = 'static';
+      });
+    });
+
+
+
     
 
-    cy.get(".right-bar-icon").eq(5).click();
+
+    // cy.get(".ant-select-selection-search-input").eq(2).click({ force: true });
+
+    // cy.get('div[title="Employer"]').click();
+
+    // cy.get(".ant-input.ant-input-lg").clear().type("supplier");
+
+    // cy.wait(2000);
+
+    // cy.wait("@searchemployer").its("response.statusCode").should("eq", 200);
+
+    // cy.get(".search-client-card-cont:visible").each(($el, index, $list) => {
+    //   const uo = $el.find("span").text().trim();
+    //   cy.log(uo);
+    //   debugger;
+
+    //   if (uo.includes("rananabeelahmed772@gmail.com")) {
+    //     cy.wrap($el).find(".date-text").eq(1).click();
+    //     cy.get('.ant-tabs-nav-operations-hidden').should('exist').then(($element) => {
+    //       // Use JavaScript to modify the element's style
+    //       cy.window().then((win) => {
+    //         win.document.querySelector('.ant-tabs-nav-operations-hidden').style.position = 'static';
+    //       });
+    //     });
+    //   }
+    // });
+
+    // cy.wait("@markedtags/All").its("response.statusCode").should("eq", 200);
+    // cy.get('.ant-tabs-nav-operations-hidden').should('exist').then(($element) => {
+    //   // Use JavaScript to modify the element's style
+    //   cy.window().then((win) => {
+    //     win.document.querySelector('.ant-tabs-nav-operations-hidden').style.position = 'static';
+    //   });
+    // });
+
+    // cy.wait("@employer").its("response.statusCode").should("eq", 200);
+
+    // cy.wait("@getallusers").its("response.statusCode").should("eq", 200);
+
+    
+
+    // cy.get(".right-bar-icon").eq(5).click();
 
     cy.get('img[src="/static/media/edit-border.099c03bf.svg"]').click();
 
@@ -798,13 +845,46 @@ describe("deals", () => {
 
     cy.get('div[title="business"]').click({ force: true });
 
-    cy.wait(1000);
+    cy.wait(3000);
 
-    cy.get(".ant-btn.ant-btn-primary.button-blue:visible").eq(1).click();
+    cy.get(".ant-btn.ant-btn-primary.button-blue").contains('Save').click({force:true});
 
     cy.wait("@deal").its("response.statusCode").should("eq", 200);
 
     cy.wait("@GetDealBySubjectId").its("response.statusCode").should("eq", 200);
+
+    cy.wait(3000)
+
+    cy.contains('supplier emp').click()
+
+    cy.get('.ant-tabs-nav-operations-hidden').should('exist').then(($element) => {
+      // Use JavaScript to modify the element's style
+      cy.window().then((win) => {
+        win.document.querySelector('.ant-tabs-nav-operations-hidden').style.position = 'static';
+      });
+    });
+
+    cy.wait("@markedtags/All").its("response.statusCode").should("eq", 200);
+
+    cy.wait("@getallusers").its("response.statusCode").should("eq", 200);
+
+    cy.wait("@GetAllCountries").its("response.statusCode").should("eq", 200);
+
+    cy.wait("@allbranchUsers").its("response.statusCode").should("eq", 200);
+
+    cy.wait("@getcompany").its("response.statusCode").should("eq", 200);
+
+    cy.get('.ant-tabs-tab-btn').contains('REPORTS').click()
+
+    cy.get('.right-bar-icon').eq(5).click()
+
+    cy.get('.ant-tabs-nav-operations-hidden').should('exist').then(($element) => {
+      // Use JavaScript to modify the element's style
+      cy.window().then((win) => {
+        win.document.querySelector('.ant-tabs-nav-operations-hidden').style.position = 'static';
+      });
+    });
+
 
     cy.get('img[src="/static/media/plus-icon.16380594.svg"]').click({
       force: true,
@@ -836,7 +916,7 @@ describe("deals", () => {
 
     cy.get('div[title="Low"]').click();
 
-    cy.get('.document-checklist--btn > [type="submit"] > span').click();
+    cy.get('.document-checklist--btn > [type="submit"] > span').click({force:true});
 
     cy.wait("@deal").its("response.statusCode").should("eq", 200);
 

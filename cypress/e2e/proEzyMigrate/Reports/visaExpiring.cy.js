@@ -149,7 +149,7 @@ describe("Reports", () => {
 
     cy.get(".ant-select-selection-search-input").eq(4).click({force:true});
 
-    cy.get('div[title=" 2021 RV - Phase 1"]').click({force:true});
+    cy.get('div[title="Appeal - IPT"]').click({force:true});
 
     cy.get(".ant-select-selection-search-input").eq(10).click({force:true});
 
@@ -176,7 +176,7 @@ describe("Reports", () => {
         const worksheet = workbook.Sheets[sheetName];
         const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-        const NAME = "new last";
+        const NAME = "test test";
         const isContactNamePresent = data.flat().includes(NAME);
 
         expect(isContactNamePresent).to.be.true;

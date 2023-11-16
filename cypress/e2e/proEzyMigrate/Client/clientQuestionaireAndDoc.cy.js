@@ -192,12 +192,16 @@ describe("Adding client", () => {
     ).click();
     //cy.get('#root > div > div > div > section > main > div > div > div > div > div.container-ui.w-100 > div.ant-spin-nested-loading > div > div > div > div > div > div > div > div.ant-table-container > div > table > tbody > tr:nth-child(2) > td:nth-child(8) > div > span > svg').click()
     //cy.get('#root > div > div > div > section > main > div > div > div > div > div.container-ui.w-100 > div.ant-spin-nested-loading > div > div > div > div > div > div > div > div.ant-table-container > div > table > tbody > tr:nth-child(1) > td:nth-child(8) > div > span > svg').click()
-    cy.wait(3000);
+    cy.wait("@delclient").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
     //cy.window().then(function(){
     //cy.contains('OK').click()
 
     //});
     //cy.type('{enter}')
-    cy.wait(5000);
+    cy.wait("@SearchClient").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
   });
 });

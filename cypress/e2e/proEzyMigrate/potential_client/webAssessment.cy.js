@@ -243,7 +243,7 @@ describe("Web Assessment ", () => {
       "testing by nz team"
     );
     cy.get("#sections_0_questions_21_answers_0_answer").click();
-    cy.get('div[title=" 2021 RV - Phase 1"]').click({ force: true });
+    cy.get('div[title="2021 RV  -Phase 1"]').click({ force: true });
     cy.get("#sections_0_questions_22_answers_0_answer")
       .type(futureDate, { force: true })
       .type("{enter}");
@@ -452,7 +452,7 @@ describe("Web Assessment ", () => {
       .type("{enter}");
     //cy.get(date).click({multiple:true, force:true})
     cy.get("#sections_0_questions_12_answers_0_answer").click();
-    cy.get('div[title=" 2021 RV - Phase 1"]').click({
+    cy.get('div[title="2021 RV  -Phase 1"]').click({
       multiple: true,
       force: true,
     });

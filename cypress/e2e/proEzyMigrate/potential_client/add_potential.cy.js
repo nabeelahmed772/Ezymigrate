@@ -192,7 +192,7 @@ describe("potential client", () => {
     cy.get(
       ":nth-child(11) > .ant-col-xs-24 > .ant-form-item > .ant-row > .ant-col-11 > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-select > .ant-select-selector > .ant-select-selection-item"
     ).click();
-    cy.get('div[title=" 2021 RV - Phase 1"]').click({
+    cy.get('div[title="2021 RV  -Phase 1"]').click({
       Multiple: true,
       force: true,
     });

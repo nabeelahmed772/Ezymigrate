@@ -268,7 +268,7 @@ describe("Adding Employer", () => {
       .type(futureDate, { force: true })
       .type("{enter}");
 
-    cy.get('.ant-select-selection-overflow').click()
+      cy.get('.ant-select-selection-overflow').eq(2).click()
 
     cy.get('div[title="team member nabeel"]').click()
     cy.get('label[title="Task Description"]').click()

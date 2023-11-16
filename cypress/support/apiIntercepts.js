@@ -273,6 +273,8 @@ export function setupAPIIntercepts() {
 
   cy.intercept("GET", `${baseURL}config/GetAllCountries`).as("GetAllCountries");
 
+  cy.intercept("GET", `${baseURL}users/ddl/PermisionUser/true`).as("allbranchUsers");
+
   cy.intercept(
     "POST",
     `${baseURL}questionnairefilledanswer/InsertFilledAnswers`
@@ -323,6 +325,10 @@ export function setupAPIIntercepts() {
 
   cy.intercept(`${baseURL}employer/SearchEmployersMain/**`).as(
     "searchemployer"
+  );
+
+  cy.intercept("POST",`${baseURL}employer/SearchEmployers`).as(
+    "postsearchemployer"
   );
 
   cy.intercept(`${baseURL}employer/All`).as("employer");

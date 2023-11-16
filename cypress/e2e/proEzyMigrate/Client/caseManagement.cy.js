@@ -139,7 +139,7 @@ describe("case management", () => {
 
     cy.wait(3000);
 
-    cy.contains("Critical Purpose Visitor Visa").click();
+    cy.contains("Critical Purpose Visitor Visa").click({force:true});
 
     cy.get("#basic_date").type(futureDate, { force: true }).type("{enter}");
 

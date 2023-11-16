@@ -232,7 +232,7 @@ describe("Adding Employer", () => {
 
     cy.contains("DOCUMENT CHECKLIST").click();
 
-    cy.wait(8000);
+    cy.wait(4000);
     cy.get("#gender").click();
     cy.wait(4000);
     cy.contains("test document checklist").click();
@@ -240,37 +240,25 @@ describe("Adding Employer", () => {
     cy.get(
       ".flex-end > :nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span"
     ).click();
-    cy.wait(8000);
+    cy.wait(4000);
     cy.get(
       ":nth-child(2) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span"
     ).click();
     cy.wait(4000);
-    cy.visit("https://app.ezymigrate.com/employer-management");
-    cy.wait(8000);
-
-    cy.scrollTo("left");
-
-    cy.contains("logic employer").click();
-
-    cy.wait(6000);
-
-    cy.get(".ant-tabs-tab-btn").eq(2).click();
-
-    cy.contains("DOCUMENT CHECKLIST").click();
-    cy.wait(8000);
+   
     cy.get(".ant-space-item:visible")
       .eq(0)
       .then(function (text2) {
         cy.visit(text2.text());
         cy.wait(2000);
       });
-    cy.wait(8000);
+    cy.wait(4000);
     cy.get('input[type="file"]').attachFile("ABC.jpg");
     cy.wait(2000);
     cy.get(".btn.btn-default").click();
     cy.wait(6000);
     cy.visit("https://app.ezymigrate.com/employer-management");
-    cy.wait(8000);
+    cy.wait(5000);
 
     cy.scrollTo("left");
 

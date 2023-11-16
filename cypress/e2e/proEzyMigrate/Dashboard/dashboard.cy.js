@@ -114,7 +114,8 @@ describe("DASHBOSRD", () => {
 
       if (uo.includes("Green Visa1")) {
         cy.wrap($el).find(".ant-select-selection-item").click();
-        cy.get('div[title="Client Awaiting Document Instructions"]').click();
+        cy.wait(3000)
+        cy.get('div[title="Awaiting Allocations"]').click()
         cy.wrap($el).find(".ant-btn.ant-btn-default.button-blue").click();
         cy.wait("@UpdateSubjectCaseStatus")
           .its("response.statusCode")
@@ -247,7 +248,7 @@ describe("DASHBOSRD", () => {
       .contains("Initial Document Instructions Issued")
       .click({ force: true });
 
-    cy.get("#basic_date").type(futureDate, { force: true }).type("{enter}");
+    cy.get("#basic_date").type(futureDate, { force: true }).type("{enter}", { force: true });
 
     cy.get('button[type="submit"]').click();
 
@@ -512,16 +513,22 @@ describe("DASHBOSRD", () => {
 
     cy.wait(3000)
 
-    cy.get('div[title="Approved"]').click();
-
-    cy.wait(3000)
+    cy.get('div[title="Preparing"]').click();
 
 
     cy.wait("@Employer").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(3000)
+    cy.get(".cp-top-bar-text").contains("Employers").click();
+
+    cy.wait("@Employer").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@visastatus").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
     cy.get(".setting-export-cont").click();
 

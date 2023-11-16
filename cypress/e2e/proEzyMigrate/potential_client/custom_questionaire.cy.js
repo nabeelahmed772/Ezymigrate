@@ -45,6 +45,8 @@ describe("potential client", () => {
     cy.wait(2000);
     cy.get(":nth-child(1) > .ant-select > .ant-select-selector").click();
     cy.wait(2000);
+    cy.get('.rc-virtual-list-holder').eq(0).scrollTo('bottom', { ensureScrollable: false })
+    cy.wait(2000)
     cy.get(
       '[title="unique questionaire"] > .ant-select-item-option-content'
     ).click();
@@ -147,9 +149,12 @@ describe("potential client", () => {
     cy.wait(2000);
     cy.get(":nth-child(1) > .ant-select > .ant-select-selector").click();
     cy.wait(2000);
+    cy.get('.rc-virtual-list-holder').eq(0).scrollTo('bottom', { ensureScrollable: false })
+    cy.wait(3000)
     cy.get(
-      '[title="unique questionaire"] > .ant-select-item-option-content:visible'
-    ).click();
+      '.ant-select-item-option-content:visible'
+    ).contains('unique questionaire')
+     .click();
     cy.wait(4000);
     cy.get(".pc-link-text").then(function (text2) {
       cy.visit(text2.text());

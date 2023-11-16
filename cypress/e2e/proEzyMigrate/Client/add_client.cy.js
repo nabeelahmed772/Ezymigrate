@@ -217,6 +217,11 @@ describe("Adding client", () => {
     cy.get("#secondaryEmail").type("test@gmail.com");
     cy.get("#visaDenied > label:nth-child(1) > span.ant-radio > input").click();
     cy.get("#deniedText").type("testing");
+    cy.get('.ant-select-selection-item')
+      .eq(15)
+      .click({force:true})
+    cy.get('div[title="arsalan team member"]')
+      .click({force:true})
     cy.contains("Update").click();
     cy.wait(5000);
     //cy.get('#clientSerial').should('have.value', '546')
@@ -226,7 +231,7 @@ describe("Adding client", () => {
     cy.get(
       '[style="padding-bottom: 0px; justify-content: space-between;"] > :nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-select > .ant-select-selector > .ant-select-selection-item'
     ).click({ force: true });
-    cy.get('div[title=" 2021 RV - Phase 1"]').click({
+    cy.get('div[title="2021 RV  -Phase 1"]').click({
       multiple: true,
       force: true,
     });
@@ -755,7 +760,7 @@ describe("Adding client", () => {
 
     cy.get("#basic_Visa").click();
 
-    cy.get('div[title= " 2021 RV - Phase 1"]').click({
+    cy.get('div[title= "2021 RV  -Phase 1"]').click({
       multiple: true,
       force: true,
     });
@@ -903,8 +908,16 @@ describe("Adding client", () => {
     cy.get('label[title="Task Description"]').click()
 
     cy.get('[style="text-align: right;"] > .ant-btn > span').click();
+   
+    cy.wait("@clientlog").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-    cy.wait(5000);
+    cy.wait("@TaskWithUsers").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+    cy.wait(3000);
+
 
     //adding partner
     cy.get(
@@ -952,6 +965,11 @@ describe("Adding client", () => {
     //updating the partner details
     cy.get("#clientSerial").click({ force: true }).type(randomNo(40));
     cy.get("#middleName").type("middlename");
+    cy.get('.ant-select-selection-item')
+      .eq(12)
+      .click({force:true})
+    cy.get('div[title="arsalan team member"]')
+      .click({force:true})
     cy.get(
       '[style="display: flex; justify-content: space-between; margin-right: 30px;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span'
     ).click();
@@ -961,7 +979,7 @@ describe("Adding client", () => {
     cy.get(
       '[style="padding-bottom: 0px; justify-content: space-between;"] > :nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-select > .ant-select-selector > .ant-select-selection-item'
     ).click();
-    cy.get('div[title=" 2021 RV - Phase 1"]').click({
+    cy.get('div[title="2021 RV  -Phase 1"]').click({
       multiple: true,
       force: true,
     });
@@ -1186,7 +1204,7 @@ describe("Adding client", () => {
 
     cy.get("#basic_Visa").click();
 
-    cy.get('div[title= " 2021 RV - Phase 1"]').click({
+    cy.get('div[title= "2021 RV  -Phase 1"]').click({
       multiple: true,
       force: true,
     });
@@ -1287,11 +1305,26 @@ describe("Adding client", () => {
       .type(futureDate, { force: true })
       .type("{enter}");
 
+    cy.get('.ant-select-selection-overflow').click()
+    
+    cy.get('div[title="team member nabeel"]').click()
+    cy.get('label[title="Task Description"]').click()
+  
+    cy.get('[style="text-align: right;"] > .ant-btn > span').click();
+     
+    cy.wait("@clientlog").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+  
+    cy.wait("@TaskWithUsers").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
     //cy.get(date).click({multiple:true , force:true})
 
-    cy.get('[style="text-align: right;"] > .ant-btn > span').click();
+    
 
-    cy.wait(5000);
+    cy.wait(3000);
 
     //adding a child
 
@@ -1358,7 +1391,7 @@ describe("Adding client", () => {
     cy.get(
       '[style="padding-bottom: 0px; justify-content: space-between;"] > :nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-select > .ant-select-selector > .ant-select-selection-item'
     ).click();
-    cy.get('div[title=" 2021 RV - Phase 1"]').click({
+    cy.get('div[title="2021 RV  -Phase 1"]').click({
       multiple: true,
       force: true,
     });
