@@ -1,4 +1,4 @@
-import { setupAPIIntercepts } from '../../../support/apiIntercepts';
+import { setupAPIIntercepts } from "../../../support/apiIntercepts";
 /// <reference types="cypress" />
 
 beforeEach(() => {
@@ -9,7 +9,6 @@ describe("account setting", () => {
   const futureDate = Cypress.env("futureDate");
 
   it("Settings", () => {
-
     cy.get('a[href="/account-settings"]').click();
 
     cy.get('img[src="/static/media/signature.f768e9da.svg"]').click();
@@ -64,7 +63,9 @@ describe("account setting", () => {
 
     cy.get('a[href="/account-settings"]').click();
 
-    cy.get('img[src="/static/media/daily-mail-settings.3d918485.svg"]').eq(0).click();
+    cy.get('img[src="/static/media/daily-mail-settings.3d918485.svg"]')
+      .eq(0)
+      .click();
 
     cy.wait("@UserEmailSetting").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -80,7 +81,6 @@ describe("account setting", () => {
 
     cy.wait("@UserEmailSetting1").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
-      
     });
 
     cy.get("#dailyTaskEmail").click();
@@ -129,7 +129,7 @@ describe("account setting", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(2000)
+    cy.wait(2000);
 
     cy.get(".ant-collapse-item.ant-collapse-item-active").each(
       ($el, index, $list) => {
@@ -215,7 +215,7 @@ describe("account setting", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(2000)
+    cy.wait(2000);
 
     cy.get("tr").each(($el, index, $list) => {
       const mo = $el.find(".ant-table-cell").text().trim();
@@ -241,7 +241,7 @@ describe("account setting", () => {
       .contains("Submit")
       .click();
 
-      cy.wait(2000);
+    cy.wait(2000);
 
     cy.wait("@template").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -287,8 +287,6 @@ describe("account setting", () => {
 
     //   })
 
-    
-
     cy.get("tr").each(($el, index, $list) => {
       const mo = $el.find(".ant-table-cell").text().trim();
       cy.log(mo);
@@ -322,7 +320,6 @@ describe("account setting", () => {
     cy.wait("@template/All").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
-
 
     cy.wait(2000);
     cy.get('img[src="/static/media/add-icon.325d80ae.png"]').click();
@@ -411,7 +408,6 @@ describe("account setting", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-
     cy.wait(2000);
     cy.get('img[src="/static/media/add-icon.325d80ae.png"]').click();
 
@@ -425,7 +421,7 @@ describe("account setting", () => {
       .contains("Submit")
       .click();
 
-      cy.wait(2000);
+    cy.wait(2000);
 
     cy.wait("@template").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -525,7 +521,7 @@ describe("account setting", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(2000)
+    cy.wait(2000);
 
     cy.get("tr").each(($el, index, $list) => {
       const mo = $el.find(".ant-table-cell").text().trim();
@@ -549,7 +545,7 @@ describe("account setting", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(2000)
+    cy.wait(2000);
     cy.get("tr").each(($el, index, $list) => {
       const mo = $el.find(".ant-table-cell").text().trim();
       cy.log(mo);
@@ -571,8 +567,327 @@ describe("account setting", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(2000)
+    cy.wait(2000);
 
     cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
+
+    cy.get('span[style="margin-left: 20px;"]').contains("Client Tags").click();
+
+    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".icons-client").click();
+
+    cy.get("#main_name").type("Test tag automation");
+
+    cy.get(".ant-btn.ant-btn-primary.form-btn").contains("Submit").click();
+
+    cy.wait("@postmarkedtags").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get("tr").each(($el, index, $list) => {
+      const mo = $el.find(".ant-table-cell").text().trim();
+      cy.log(mo);
+      debugger;
+
+      if (mo.includes("test tag automation")) {
+        cy.wrap($el).find(".anticon.anticon-edit").click();
+
+        cy.get("#main_name").type(" test");
+
+        cy.get(".ant-btn.ant-btn-primary.form-btn").contains("Submit").click();
+      }
+    });
+
+    cy.wait("@putmarkedtags").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait(2000);
+
+    cy.get("tr").each(($el, index, $list) => {
+      const mo = $el.find(".ant-table-cell").text().trim();
+      cy.log(mo);
+      debugger;
+
+      if (mo.includes("test tag automation")) {
+        cy.wrap($el).find(".anticon.anticon-delete").click();
+      }
+    });
+
+    cy.wait("@deletemarkedtags").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
+
+    cy.get('span[style="margin-left: 20px;"]')
+      .contains("Custom Message")
+      .click();
+
+    cy.wait("@QuestionnaireMessageSetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".ant-btn.ant-btn-primary.form-btn.button-blue")
+      .contains("Update")
+      .click();
+
+    cy.wait("@putQuestionnaireMessageSetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".sus-active-tab-text")
+      .contains("Company/Branch Level Setting")
+      .click();
+
+    cy.get('span[style="margin-left: 20px;"]')
+      .contains("Ezyforms API Key")
+      .click();
+
+    cy.wait("@getezyformapikey").then((interception) => {
+      if (interception.response.statusCode == 200) {
+        cy.get(".ant-btn.ant-btn-default.button-blue")
+          .contains("Re-Create")
+          .click();
+
+        cy.get("#ipAddress").type(
+          "EZM_ff949095c3364963a33bed6cbe4096f2e894cff894d12f565d11144887b9dad9cfdb13b4e6d5a04f"
+        );
+
+        cy.get(".ant-btn.ant-btn-primary").contains("Save Key").click();
+
+        cy.wait("@ThirdPartyKey").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.wait("@getezyformapikey").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+      } else {
+        console.log("Status code is not 200. Doing something else...");
+      }
+    });
+
+    cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
+
+    cy.get('span[style="margin-left: 20px;"]')
+      .contains("Email Import Setting")
+      .click();
+
+    cy.wait("@BranchCCAndBCCImportSetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".ant-checkbox-input").eq(0).click();
+
+    cy.wait("@putBranchCCAndBCCImportSetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@BranchCCAndBCCImportSetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
+
+    cy.get('span[style="margin-left: 20px;"]')
+      .contains("Reminder Settings")
+      .click();
+
+    cy.wait("@ReminderSetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".ant-btn.ant-btn-primary.button-blue")
+      .contains("Update")
+      .scrollIntoView()
+      .click();
+
+    cy.wait("@postReminderSetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".anticon.anticon-left-circle.ac-back-icon")
+      .scrollIntoView()
+      .click();
+
+    cy.get('span[style="margin-left: 20px;"]').contains("API Key").click();
+
+    cy.wait("@apikeygetbyid").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.contains("Genereate API Key").click();
+
+    cy.get(".ant-btn.ant-btn-primary").contains("Generate Key").click();
+
+    cy.wait("@postapikey").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@apikeygetbyid").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".ant-btn.ant-btn-default.button-blue")
+      .contains("Revoke")
+      .eq(0)
+      .click();
+
+    cy.wait("@deleteapikey").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@apikeygetbyid").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".anticon.anticon-left-circle.ac-back-icon")
+      .scrollIntoView()
+      .click();
+
+    cy.get('span[style="margin-left: 20px;"]')
+      .contains("Visa Update Notification")
+      .click();
+
+    cy.wait(2000);
+
+    cy.get(".ant-btn.ant-btn-primary").contains("UPDATE").click();
+
+    cy.wait("@UpdateBranchVisaNotification").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".anticon.anticon-left-circle.ac-back-icon")
+      .scrollIntoView()
+      .click();
+
+    cy.get('span[style="margin-left: 20px;"]')
+      .contains("Questionnaire Settings")
+      .click();
+
+    cy.wait("@branchQuestionnaireSetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".ant-btn.ant-btn-primary")
+      .contains("SAVE NOW")
+      .scrollIntoView()
+      .click();
+
+    cy.wait("@putbranchQuestionnaireSetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".anticon.anticon-left-circle.ac-back-icon")
+      .scrollIntoView()
+      .click();
+
+    cy.get('span[style="margin-left: 20px;"]')
+      .contains("EZM Common Docs")
+      .click();
+
+    cy.wait("@CompanyDocumentAll").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".ant-btn.ant-btn-primary.button-blue")
+      .contains("ADD NEW DOCUMENT")
+      .click();
+
+    cy.get(".anticon.anticon-plus").attachFile("ABC.jpg");
+
+    cy.contains("Upload").click();
+
+    cy.wait("@postCompanyDocument").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@CompanyDocumentAll").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".anticon.anticon-delete").eq(1).click();
+
+    cy.wait("@deleteCompanyDocument").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@CompanyDocumentAll").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".anticon.anticon-left-circle.ac-back-icon")
+      .scrollIntoView()
+      .click();
+
+    cy.get('span[style="margin-left: 20px;"]')
+      .contains("Check MyVisa FAQs")
+      .click();
+
+    cy.wait("@faqAll").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get('img[src="/static/media/plus-icon.16380594.svg"]').click();
+
+    cy.get("#question").type("what is your name");
+
+    cy.get("#answer").type("my name is nabeel ahmed");
+
+    cy.get(".ant-btn.ant-btn-default.button-blue").contains("SAVE").click();
+
+    cy.wait("@postfaq").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@faqAll").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get('img[src="/static/media/edit-border-blue.a5c788a8.svg"]')
+      .eq(1)
+      .click();
+
+    cy.get(".ant-btn.ant-btn-default.button-blue").contains("SAVE").click();
+
+    cy.wait("@putfaq").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@faqAll").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get('img[src="/static/media/delete-blue.983ea6be.svg"]')
+      .eq(1)
+      .click()
+
+    cy.get('.ant-btn.ant-btn-primary')
+      .contains('OK')
+      .click()
+
+      cy.wait("@deletefaq").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+  
+      cy.wait("@faqAll").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
   });
 });

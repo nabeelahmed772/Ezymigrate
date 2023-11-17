@@ -556,10 +556,126 @@ export function setupAPIIntercepts() {
       `${baseURL}invoice/type/GetAllInvoiceTypes`
     ).as("GetAllInvoiceTypes");
 
+    cy.intercept(
+      'POST',
+      `${baseURL}potentialclient/markedtags`
+    ).as("postmarkedtags");
+
+    cy.intercept(
+      'PUT',
+      `${baseURL}potentialclient/markedtags`
+    ).as("putmarkedtags");
+
+    cy.intercept(
+      'DELETE',
+      `${baseURL}potentialclient/markedtags`
+    ).as("deletemarkedtags");
     
 
+    cy.intercept(
+      'GET',
+      `${baseURL}branch/QuestionnaireMessageSetting`
+    ).as("QuestionnaireMessageSetting");
     
+    cy.intercept(
+      'PUT',
+      `${baseURL}branch/QuestionnaireMessageSetting`
+    ).as("putQuestionnaireMessageSetting");
+
+    cy.intercept(
+      'GET',
+      `${baseURL}ThirdPartyKey/GetByBranchId/EzyForm`
+    ).as("getezyformapikey");
+
+    cy.intercept(
+      'PUT',
+      `${baseURL}ThirdPartyKey`
+    ).as("ThirdPartyKey");
+
+    cy.intercept(
+      'GET',
+      `${baseURL}branch/BranchCCAndBCCImportSetting`
+    ).as("BranchCCAndBCCImportSetting");
+
+    cy.intercept(
+      'PUT',
+      `${baseURL}branch/BranchCCAndBCCImportSetting`
+    ).as("putBranchCCAndBCCImportSetting");
+
+    cy.intercept(
+      'GET',
+      `${baseURL}reminder/setting`
+    ).as("ReminderSetting");
+
+    cy.intercept(
+      'POST',
+      `${baseURL}reminder/setting`
+    ).as("postReminderSetting");
+
+    cy.intercept(
+      'GET',
+      `${baseURL}EzmApiKey/GetByBranchId`
+    ).as("apikeygetbyid");
+
+    cy.intercept(
+      'POST',
+      `${baseURL}EzmApiKey`
+    ).as("postapikey");
+
+    cy.intercept(
+      'DELETE',
+      `${baseURL}EzmApiKey`
+    ).as("deleteapikey");
+
+    cy.intercept(
+      'PUT',
+      `${baseURL}branch/UpdateBranchVisaNotification`
+    ).as("UpdateBranchVisaNotification");
+
+    cy.intercept(
+      'GET',
+      `${baseURL}branch/QuestionnaireSetting`
+    ).as("branchQuestionnaireSetting");
+
+    cy.intercept(
+      'PUT',
+      `${baseURL}branch/QuestionnaireSetting`
+    ).as("putbranchQuestionnaireSetting");
+
+    cy.intercept(
+      'GET',
+      `${baseURL}company/document/All`
+    ).as("CompanyDocumentAll");
+
+    cy.intercept(
+      'POST',
+      `${baseURL}company/document`
+    ).as("postCompanyDocument");
+
+    cy.intercept(
+      'DELETE',
+      `${baseURL}company/document`
+    ).as("deleteCompanyDocument");
+
+    cy.intercept(
+      'GET',
+      `${baseURL}faq/All`
+    ).as("faqAll");
+
+    cy.intercept(
+      'POST',
+      `${baseURL}faq`
+    ).as("postfaq");
 
 
+    cy.intercept(
+      'PUT',
+      `${baseURL}faq`
+    ).as("putfaq");
+
+    cy.intercept(
+      'DELETE',
+      `${baseURL}faq`
+    ).as("deletefaq");
 
 }
