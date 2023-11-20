@@ -57,295 +57,33 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
       cy.wait(3000)
 
-      cy.xpath(
-        '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'
-      ).click();
+      cy.get('a[href="/account-settings"]').click();
 
-      cy.contains('finame shuja').click()
-      cy.wait(6000)
+      cy.contains("Company/Branch Level Setting").click();
 
-      cy.get(
-        ":nth-child(2) > a > .header-bar-text-div > .header-text"
-      ).scrollIntoView();
-      cy.wait(1000);
-  
-      cy.get(":nth-child(2) > a > .header-bar-text-div > .header-text").click();
-      cy.wait(6000);
-      // Locate the element you want to modify by its class name
-      cy.get('.ant-tabs-nav-operations-hidden').should('exist').then(($element) => {
-        // Use JavaScript to modify the element's style
-        cy.window().then((win) => {
-          win.document.querySelector('.ant-tabs-nav-operations-hidden').style.position = 'static';
-        });
-      });
+      cy.get('span[style="margin-left: 20px;"]').contains("Client Tags").click();
+      cy.wait(5000)
 
+    
 
-  
-  // Continue with your Cypress test steps
-  
-      cy.get(".cv-top-lbtn-text").click();
-     
-      
-      cy.get(
-        '[style="padding: 10px;"] > .ant-select > .ant-select-selector > .ant-select-selection-item'
-      ).click();
-      cy.get('div[title="Critical Purpose Visitor Visa"]').click({
-        multiple: true,
-        force: true,
-      });
-
-      cy.get(':nth-child(9) > a > .header-bar-text-div > .header-text').click()
-
-      cy.get(".cm-student-visa-cnt").each(($el, index, $list) => {
-        var del = $el
-          .find(
-            '.cm-student-visa-text'
-          )
-          .text()
-          .trim();
-
-        cy.log(del)
-        if (del ==="2021 RV - Phase 1") {
-          cy.log(del);
-          cy.wrap($el).find(".ant-btn.ant-btn-default.ant-dropdown-trigger").click();
-          cy.contains('Further Info Request Received').click()
-          cy.get('#basic_date').type('01/02/2022', { force: true }).type("{enter}");
-          cy.get('.ant-btn.ant-btn-primary').contains('Save').click()
-          cy.wait("@UpdateSubjectCaseStatus").then((interception) => {
-            cy.wrap(interception.response.statusCode).should("eq", 200);
-          });
-        }
-      });
-
-      cy.pause()
-
-
-      cy.xpath(
-        '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[7]/div/span'
-      ).click();
-  
-      cy.contains("Inquiry").click();
-  
-      cy.get('input[placeholder="First Name"]')
-        .type('jason client')
-        .type("{enter}")
-
-      cy.contains('Select sales person')
-        .click({force:true})
-
-      cy.get('div[title="Owner nabeel"]')
-        .click()
-
-      cy.get('.ant-btn.ant-btn-primary.button-blue')
-        .contains('Search')
-        .click()
-        cy.wait(5000)
-
-        cy.get('.ant-checkbox-input')
-          .eq(2)
-          .click()
-
-          cy.get('.anticon.anticon-plus-circle')
-            .eq(0)
-            .click()
-
-            cy.get('.ant-select-selection-overflow')
-              .eq(1)
-              .click()
-
-              cy.wait(2000)
-
-              cy.get('div[title="Nabeel Ahmed"]')
-                .eq(1)
-                .click()
-
-                cy.wait(4000)
-
-    cy.get(".anticon.anticon-minus-circle").eq(0).click();
-
-    cy.get(".ant-select-selection-search-input").eq(9).click();
-
-    cy.get('div[title="Nabeel Ahmed"]').eq(1).click();
-
-    cy.get(".ant-select-selection-search-input").eq(10).click({force:true});
-    cy.wait(2000)
-
-
-    cy.get('div[title="team member nabeel"]').eq(2).click({force:true});
-
-    cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Save").click();
-
-    cy.wait(6000)
-
-                //api 
-
-
-
-
-
-
-
-
-        
-
+    cy.get("tr").each(($el, index, $list) => {
+      const mo = $el.find(".ant-table-cell").text().trim();
+      cy.log(mo);
       
 
-      cy.xpath(
-        '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[11]/span/a'
-      ).click();
-      cy.wait(5000);
-      cy.get(":nth-child(2) > .header-bar-text-div > .header-text").click();
-      cy.wait(5000);
-
-      cy.contains("HIGHSCHOOL").click();
-    cy.wait(7000);
-
-    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
-      const jay = $el.find('p[style="font-size: 12px; font-weight: 400; font-style: normal; color: rgba(0, 0, 0, 0.85);"]').eq(0).text();
-      cy.log(jay)
+    if (mo==='Test tag automation test') {
       
-      if (jay === "test school name") {
-        cy.wrap($el).find(".anticon.anticon-edit").click();
-        cy.wait("@schoolget").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
-        });
 
-        cy.get("#address").clear().type("new address");
+      cy.wrap($el).find(".anticon.anticon-delete").should('be.visible').click();
 
-        cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Save").click();
-      }
+        cy.get("#main_name").type(" test");
+
+        cy.get(".ant-btn.ant-btn-primary.form-btn").contains("Submit").click();
+    }
     });
-
-      cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a').click()
-      cy.wait(6000)
-
-      //deleting the client
-      
-      cy.contains('amjad ali').scrollIntoView()
-      cy.wait(2000)
-
-      cy.get('.ant-table-row.ant-table-row-level-0').each(($el, index, $list) => {
-        
-        var del = $el.find('span[style="font-size: 12px; cursor: pointer; color: rgba(0, 0, 0, 0.85);"]').text().trim()
-        if(del==='amjad ali'){
-          cy.log(del)
-          cy.wrap($el).find('.anticon.anticon-delete').click()
-          
-          
-
-        }
-        
-
-      })
-
-       cy.pause()
-
-
-      cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[3]/div/span').click()
-      cy.contains('Checklist(S)').click()
-      cy.get('.ant-collapse-item').each(($el, index, $list) => {
-      
-        var ge = $el.find('.ant-collapse-header-text').text()
-        
-         
-        debugger
-        cy.log(ge)
-        if(ge.includes('cypress checklist')){
-            cy.wrap($el).find('.anticon.anticon-delete').click()
-            cy.get('.ant-btn.ant-btn-primary.ant-btn-sm').contains('Yes').click()
   
-        }
-      })
 
-      cy.contains('Add Checklist').click()
-      cy.get('input[placeholder="Enter Category"]').type('cypress checklist')
-      cy.get('input[placeholder="Enter Checklist Name"]').type('checklist stage one')
-      cy.contains('Add Task').click()
-      cy.get('#basic_name').type('checklist documents arrived')
-      cy.get('#basic_description').type('test description for the arrived new documents')
-      cy.contains('Submit').click()
-
-      cy.contains('Add Task').click()
-      cy.get('#basic_name').type('checklist contract signed')
-      cy.get('#basic_description').type('test description for the checklist contract signed')
-      cy.contains('Submit').click()
-
-      cy.contains('Save').click()
-
-
-
-
-
-
-      cy.pause()
-      cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a').click()
-      cy.wait(8000)
-      cy.contains('Export').click()
-      cy.wait(2000)
-      const XLSX = require('xlsx');
-      //adding assertion
-      cy.readFile('cypress/downloads/ClientsList.xlsx', 'binary').then(fileContent => {
-        const workbook = XLSX.read(fileContent, { type: 'binary' });
-        const sheetName = workbook.SheetNames[0]; // assuming data is in the first sheet
-        const worksheet = workbook.Sheets[sheetName];
-        const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-      
-        expect(data[2][1]).to.equal('margalla hill'); // assuming the data you're looking for is in the second cell of the first row
-      });
-
-
-          cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a').click()
-           cy.wait(6000)
-         
-          //const XLSX = require('xlsx');
-
-cy.readFile('cypress/downloads/EmployersList.xlsx', 'binary').then(fileContent => {
-  const workbook = XLSX.read(fileContent, { type: 'binary' });
-  const sheetName = workbook.SheetNames[0]; // assuming data is in the first sheet
-  const worksheet = workbook.Sheets[sheetName];
-  const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-  expect(data[1][0]).to.equal('cy new employer'); // assuming the data you're looking for is in the first cell of the first row
-});
-
-cy.readFile('cypress/downloads/PotentialClientsList.xlsx', 'binary').then(fileContent => {
-    const workbook = XLSX.read(fileContent, { type: 'binary' });
-    const sheetName = workbook.SheetNames[0]; // assuming data is in the first sheet
-    const worksheet = workbook.Sheets[sheetName];
-    const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-  
-    expect(data[0][4]).to.not.equal('nabeel123@gmail.com'); // assuming the data you're looking for is in the first cell of the second row
-  });
-          //cy.visit('https://app-stage.ezymigrate.co.nz/login')
-          cy.visit('https://app.ezymigrate.com/login')
-      
-          cy.getCookies({log:true})
-      
-          cy.clearCookies({log:true})
-      
-          cy.getCookies().should('be.empty')
-      
-          cy.clearAllCookies({log:true})
-          
-          cy.clearAllLocalStorage({log:true})
-      
-          
-      
-          //cy.intercept('POST', '/ActiveSince*').as('login')
-      
-          cy.get('#userName > .profile-input-login').type(user_name)
-          cy.get('#password > .profile-input-login').type(password)
-          cy.get('.sus-modal-button-text').click()
-          cy.wait('@login')
-          cy.wait(8000)
-          
-
-          cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a').click()
-          cy.wait(4000)
-          cy.contains('Export').click()
-          cy.readFile('cypress/download/EmployersList.xlsx').should('contain', 'munna mbbs')
-
-            
+    
 
            
 

@@ -265,10 +265,6 @@ export function setupAPIIntercepts() {
     "filledquestionnaire"
   );
 
-  cy.intercept("GET", `${baseURL}potentialclient/markedtags/All/*`).as(
-    "markedtags/All"
-  );
-
   cy.intercept("POST", `${baseURL}questionnaire/GetLink`).as("GetLink");
 
   cy.intercept("GET", `${baseURL}config/GetAllCountries`).as("GetAllCountries");
@@ -371,6 +367,10 @@ export function setupAPIIntercepts() {
 
   cy.intercept("GET", `${baseURL}BranchCountryLinking/ByBranchId`).as(
     "BranchCountryLinking"
+  );
+
+  cy.intercept("POST", `${baseURL}BranchCountryLinking`).as(
+    "postBranchCountryLinking"
   );
 
   cy.intercept("POST", `${baseURL}HtmlTemplate/SetHtmlTemplate`).as(
@@ -677,5 +677,52 @@ export function setupAPIIntercepts() {
       'DELETE',
       `${baseURL}faq`
     ).as("deletefaq");
+
+    cy.intercept(
+      'GET',
+      `${baseURL}company/BranchVisaType/WithHidden/All`
+    ).as("allbranchvisatypes");
+
+    cy.intercept(
+      'POST',
+      `${baseURL}company/BranchVisaType`
+    ).as("postcombranchvisatypes");
+
+    cy.intercept(
+      'PUT',
+      `${baseURL}company/BranchVisaType`
+    ).as("putcombranchvisatypes");
+
+    cy.intercept(
+      'PUT',
+      `${baseURL}company/BranchVisaType/Hide`
+    ).as("putbranchvisahide");
+
+    cy.intercept(
+      'PUT',
+      `${baseURL}company/visastatus`
+    ).as("putcompanyvisastatus");
+
+    cy.intercept(
+      'PUT',
+      `${baseURL}company/visastatus/Hide`
+    ).as("putvisastatushide");
+
+    cy.intercept(
+      'PUT',
+      `${baseURL}company/clientstatus`
+    ).as("putcompanyclientstatus");
+
+    cy.intercept(
+      'GET',
+      `${baseURL}openAI/UserMaxToken`
+    ).as("openAI/UserMaxToken");
+
+    cy.intercept(
+      'DELETE',
+      `${baseURL}BranchCountryLinking`
+    ).as("deleteBranchCountryLinking");
+
+
 
 }

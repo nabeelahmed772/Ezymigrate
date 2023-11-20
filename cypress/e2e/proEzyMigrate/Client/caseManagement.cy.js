@@ -271,7 +271,7 @@ describe("case management", () => {
       .contains('INVOICES')
       .click()
 
-    cy.wait("@markedtags/All").then((interception) => {
+    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
         cy.wrap(interception.response.statusCode).should("eq", 200);
       });
 
@@ -370,7 +370,7 @@ describe("case management", () => {
         cy.wrap(interception.response.statusCode).should("eq", 200);
       });
   
-      cy.wait("@markedtags/All").then((interception) => {
+      cy.wait("@getmarkedtagspotentialclient").then((interception) => {
         cy.wrap(interception.response.statusCode).should("eq", 200);
       });
 

@@ -237,7 +237,7 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@markedtags/All").then((interception) => {
+    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
     cy.get(":nth-child(1) > .ant-select > .ant-select-selector").click();
@@ -345,7 +345,7 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@markedtags/All").then((interception) => {
+    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
@@ -393,7 +393,7 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@markedtags/All").then((interception) => {
+    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 

@@ -562,7 +562,7 @@ describe("deals", () => {
 
     cy.wait("@getpotentialclient").its("response.statusCode").should("eq", 200);
 
-    cy.wait("@markedtags/All")
+    cy.wait("@getmarkedtagspotentialclient")
       .its("response.statusCode")
       .should("eq", 200);
 
@@ -752,7 +752,7 @@ describe("deals", () => {
 
     cy.get('a[href="/employer-management"]').click()
 
-    cy.wait("@markedtags/All").its("response.statusCode").should("eq", 200);
+    cy.wait("@getmarkedtagspotentialclient").its("response.statusCode").should("eq", 200);
 
     cy.wait("@employer").its("response.statusCode").should("eq", 200);
 
@@ -771,7 +771,7 @@ describe("deals", () => {
       });
     });
 
-    cy.wait("@markedtags/All").its("response.statusCode").should("eq", 200);
+    cy.wait("@getmarkedtagspotentialclient").its("response.statusCode").should("eq", 200);
 
     cy.wait("@getallusers").its("response.statusCode").should("eq", 200);
 
@@ -823,7 +823,7 @@ describe("deals", () => {
     //   }
     // });
 
-    // cy.wait("@markedtags/All").its("response.statusCode").should("eq", 200);
+    // cy.wait("@getmarkedtagspotentialclient").its("response.statusCode").should("eq", 200);
     // cy.get('.ant-tabs-nav-operations-hidden').should('exist').then(($element) => {
     //   // Use JavaScript to modify the element's style
     //   cy.window().then((win) => {
@@ -864,7 +864,7 @@ describe("deals", () => {
       });
     });
 
-    cy.wait("@markedtags/All").its("response.statusCode").should("eq", 200);
+    cy.wait("@getmarkedtagspotentialclient").its("response.statusCode").should("eq", 200);
 
     cy.wait("@getallusers").its("response.statusCode").should("eq", 200);
 

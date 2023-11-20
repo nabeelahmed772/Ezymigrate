@@ -85,7 +85,7 @@ describe("Adding Employer", () => {
 
     cy.get(".ant-tabs-tab-btn").eq(6).contains("INVOICES").click();
 
-    cy.wait("@markedtags/All").then((interception) => {
+    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
@@ -151,7 +151,7 @@ describe("Adding Employer", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@markedtags/All").then((interception) => {
+    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 

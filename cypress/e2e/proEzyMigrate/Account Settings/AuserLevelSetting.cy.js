@@ -577,6 +577,8 @@ describe("account setting", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
+    cy.wait(2000);
+
     cy.get(".icons-client").click();
 
     cy.get("#main_name").type("Test tag automation");
@@ -591,47 +593,51 @@ describe("account setting", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.get("tr").each(($el, index, $list) => {
-      const mo = $el.find(".ant-table-cell").text().trim();
-      cy.log(mo);
-      debugger;
+    cy.wait(5000);
 
-      if (mo.includes("test tag automation")) {
-        cy.wrap($el).find(".anticon.anticon-edit").click();
+    cy.get("tr").each(($el, index, $list) => {
+      const mil = $el.find(".ant-table-cell").text().trim();
+      cy.log(mil);
+
+      if (mil === "Test tag automation") {
+        cy.wrap($el).find(".anticon.anticon-edit").should("be.visible").click();
 
         cy.get("#main_name").type(" test");
 
         cy.get(".ant-btn.ant-btn-primary.form-btn").contains("Submit").click();
+
+        cy.wait("@putmarkedtags").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.wait("@getmarkedtagspotentialclient").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
       }
     });
 
-    cy.wait("@putmarkedtags").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
-
-    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
-
-    cy.wait(2000);
+    cy.wait(3000);
 
     cy.get("tr").each(($el, index, $list) => {
       const mo = $el.find(".ant-table-cell").text().trim();
       cy.log(mo);
-      debugger;
 
-      if (mo.includes("test tag automation")) {
-        cy.wrap($el).find(".anticon.anticon-delete").click();
+      if (mo === "Test tag automation test") {
+        cy.wrap($el)
+          .find(".anticon.anticon-delete")
+          .should("be.visible")
+          .click();
+        cy.wait("@deletemarkedtags").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.wait("@getmarkedtagspotentialclient").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
       }
     });
 
-    cy.wait("@deletemarkedtags").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
-
-    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
+    cy.wait(5000);
 
     cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
 
@@ -726,7 +732,7 @@ describe("account setting", () => {
       .scrollIntoView()
       .click();
 
-    cy.get('span[style="margin-left: 20px;"]').contains("API Key").click();
+    cy.get('img[src="/static/media/api-key-icon.b6835271.png"]').eq(1).click();
 
     cy.wait("@apikeygetbyid").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -810,9 +816,9 @@ describe("account setting", () => {
       .contains("ADD NEW DOCUMENT")
       .click();
 
-    cy.get(".anticon.anticon-plus").attachFile("ABC.jpg");
+    cy.get('input[type="file"]').attachFile("ABC.jpg");
 
-    cy.contains("Upload").click();
+    cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Upload").click();
 
     cy.wait("@postCompanyDocument").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -874,20 +880,16 @@ describe("account setting", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.get('img[src="/static/media/delete-blue.983ea6be.svg"]')
-      .eq(1)
-      .click()
+    cy.get('img[src="/static/media/delete-blue.983ea6be.svg"]').eq(1).click();
 
-    cy.get('.ant-btn.ant-btn-primary')
-      .contains('OK')
-      .click()
+    cy.get(".ant-btn.ant-btn-primary").contains("OK").click();
 
-      cy.wait("@deletefaq").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-  
-      cy.wait("@faqAll").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@deletefaq").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@faqAll").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
   });
 });
