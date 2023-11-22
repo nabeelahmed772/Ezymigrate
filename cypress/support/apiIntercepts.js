@@ -16,22 +16,19 @@ export function setupAPIIntercepts() {
 
   cy.intercept(`${baseURL}admin/EzyMigrateSettings/GetLoginPageImage`).as(
     "GetLoginPageImage"
-  );  
- 
+  );
+
   cy.intercept("GET", `${baseURL}client/contract/GetCount`).as(
     "contract/GetCount"
   );
-
 
   cy.intercept("GET", `${baseURL}dashboardbi/ChecklistQuestionnaireCount`).as(
     "ChecklistQuestionnaireCount"
   );
 
-
   cy.intercept("POST", `${baseURL}dashboardbi/ClientAnalytics`).as(
     "dashboardbi/ClientAnalytics"
   );
-
 
   cy.intercept("POST", `${baseURL}dashboardbi/AccountAnalytics`).as(
     "dashboardbi/AccountAnalytics"
@@ -45,8 +42,6 @@ export function setupAPIIntercepts() {
     "dashboardbi/IdleSince"
   );
 
-
-
   cy.intercept("POST", `${baseURL}dashboardbi/ActiveSince`).as(
     "dashboardbi/ActiveSince"
   );
@@ -54,7 +49,6 @@ export function setupAPIIntercepts() {
   cy.intercept("POST", `${baseURL}dashboardbi/ActiveClientBalance`).as(
     "dashboardbi/ActiveClientBalance"
   );
-
 
   cy.intercept("GET", `${baseURL}deal/pipeline/GetByBranchId`).as(
     "getAllDeals"
@@ -269,7 +263,9 @@ export function setupAPIIntercepts() {
 
   cy.intercept("GET", `${baseURL}config/GetAllCountries`).as("GetAllCountries");
 
-  cy.intercept("GET", `${baseURL}users/ddl/PermisionUser/true`).as("allbranchUsers");
+  cy.intercept("GET", `${baseURL}users/ddl/PermisionUser/true`).as(
+    "allbranchUsers"
+  );
 
   cy.intercept(
     "POST",
@@ -323,7 +319,7 @@ export function setupAPIIntercepts() {
     "searchemployer"
   );
 
-  cy.intercept("POST",`${baseURL}employer/SearchEmployers`).as(
+  cy.intercept("POST", `${baseURL}employer/SearchEmployers`).as(
     "postsearchemployer"
   );
 
@@ -456,273 +452,208 @@ export function setupAPIIntercepts() {
     `${baseURL}client/processingperson/ChangeProcessingPerson`
   ).as("ChangeProcessingPerson");
 
-  cy.intercept(`${baseURL}company`).as("company");
+  cy.intercept("PUT", `${baseURL}company`).as("putcompany");
+
+  cy.intercept(`${baseURL}dashboard/GetUserDashboardSettings`).as(
+    "GetUserDashboardSettings"
+  );
+
+  cy.intercept(`${baseURL}dashboard/Client`).as("Client");
+
+  cy.intercept(`${baseURL}subject/case/UpdateFromDashboard`).as(
+    "UpdateFromDashboard"
+  );
+
+  cy.intercept(`${baseURL}subject/type/Priority`).as("Priority");
+
+  cy.intercept(`${baseURL}dashboard/ClientExport`).as("ClientExport");
+
+  cy.intercept(`${baseURL}dashboard/PotentialClient`).as("PotentialClient");
+
+  cy.intercept("POST", `${baseURL}dashboard/PotentialClientExport`).as(
+    "PotentialClientExport"
+  );
+
+  cy.intercept("POST", `${baseURL}dashboard/Student`).as("Student");
+
+  cy.intercept("GET", `${baseURL}client/programdetail/Status`).as(
+    "programdetail"
+  );
+
+  cy.intercept("POST", `${baseURL}dashboard/StudentExport`).as("StudentExport");
+
+  cy.intercept("POST", `${baseURL}dashboard/Employer`).as("Employer");
+
+  cy.intercept("POST", `${baseURL}dashboard/EmployerExport`).as(
+    "EmployerExport"
+  );
+
+  cy.intercept(`${baseURL}mailchimp/GetAllList`).as("mailchimp/GetAllList");
+
+  cy.intercept("GET", `${baseURL}client/balance/All/*`).as("AllClientBalance");
+
+  cy.intercept("GET", `${baseURL}branch/All`).as("AllBranch");
 
   cy.intercept(
-    `${baseURL}dashboard/GetUserDashboardSettings`
-  ).as("GetUserDashboardSettings");
+    "GET",
+    `${baseURL}invoice/TemplateAddNewLine/00000000-0000-0000-0000-000000000000`
+  ).as("TemplateAddNewLine");
 
-  cy.intercept(`${baseURL}dashboard/Client`).as(
-      "Client"
-    );
+  cy.intercept("PUT", `${baseURL}client/contract/BranchDetails`).as(
+    "clientConstractBranchDetails"
+  );
 
-    
-    cy.intercept(
-      `${baseURL}subject/case/UpdateFromDashboard`
-    ).as("UpdateFromDashboard");
+  cy.intercept("GET", `${baseURL}branch/note/All`).as("AllBranchNote");
 
-    cy.intercept(
-      `${baseURL}subject/type/Priority`
-    ).as("Priority");
+  cy.intercept("GET", `${baseURL}client/AssignTag/All/*`).as(
+    "AllClientAssignTag"
+  );
 
-    cy.intercept(
-      `${baseURL}dashboard/ClientExport`
-    ).as("ClientExport");
+  cy.intercept("GET", `${baseURL}invoice/type/GetAllInvoiceTypes`).as(
+    "GetAllInvoiceTypes"
+  );
 
-     
-    cy.intercept(
-      `${baseURL}dashboard/PotentialClient`
-    ).as("PotentialClient");
+  cy.intercept("POST", `${baseURL}potentialclient/markedtags`).as(
+    "postmarkedtags"
+  );
 
-    
-    cy.intercept(
-      "POST",
-      `${baseURL}dashboard/PotentialClientExport`
-    ).as("PotentialClientExport");
+  cy.intercept("PUT", `${baseURL}potentialclient/markedtags`).as(
+    "putmarkedtags"
+  );
 
-    cy.intercept(
-      "POST",
-      `${baseURL}dashboard/Student`
-    ).as("Student");
+  cy.intercept("DELETE", `${baseURL}potentialclient/markedtags`).as(
+    "deletemarkedtags"
+  );
 
-    cy.intercept(
-      "GET",
-      `${baseURL}client/programdetail/Status`
-    ).as("programdetail");
+  cy.intercept("GET", `${baseURL}branch/QuestionnaireMessageSetting`).as(
+    "QuestionnaireMessageSetting"
+  );
 
-    cy.intercept(
-      "POST",
-      `${baseURL}dashboard/StudentExport`
-    ).as("StudentExport");
+  cy.intercept("PUT", `${baseURL}branch/QuestionnaireMessageSetting`).as(
+    "putQuestionnaireMessageSetting"
+  );
 
-    cy.intercept(
-      "POST",
-      `${baseURL}dashboard/Employer`
-    ).as("Employer");
+  cy.intercept("GET", `${baseURL}ThirdPartyKey/GetByBranchId/EzyForm`).as(
+    "getezyformapikey"
+  );
 
-    cy.intercept(
-      "POST",
-      `${baseURL}dashboard/EmployerExport`
-    ).as("EmployerExport");
+  cy.intercept("PUT", `${baseURL}ThirdPartyKey`).as("ThirdPartyKey");
 
-    
+  cy.intercept("GET", `${baseURL}branch/BranchCCAndBCCImportSetting`).as(
+    "BranchCCAndBCCImportSetting"
+  );
 
-    cy.intercept(
-      `${baseURL}mailchimp/GetAllList`
-    ).as("mailchimp/GetAllList");
+  cy.intercept("PUT", `${baseURL}branch/BranchCCAndBCCImportSetting`).as(
+    "putBranchCCAndBCCImportSetting"
+  );
 
-    cy.intercept(
-      "GET",
-      `${baseURL}client/balance/All/*`
-    ).as("AllClientBalance");
+  cy.intercept("GET", `${baseURL}reminder/setting`).as("ReminderSetting");
 
-    cy.intercept(
-      'GET',
-      `${baseURL}branch/All`
-    ).as("AllBranch");
+  cy.intercept("POST", `${baseURL}reminder/setting`).as("postReminderSetting");
 
-    cy.intercept(
-      'GET',
-      `${baseURL}invoice/TemplateAddNewLine/00000000-0000-0000-0000-000000000000`
-    ).as("TemplateAddNewLine");
+  cy.intercept("GET", `${baseURL}EzmApiKey/GetByBranchId`).as("apikeygetbyid");
 
-    cy.intercept(
-      'PUT',
-      `${baseURL}client/contract/BranchDetails`
-    ).as("clientConstractBranchDetails");
+  cy.intercept("POST", `${baseURL}EzmApiKey`).as("postapikey");
 
-    cy.intercept(
-      'GET',
-      `${baseURL}branch/note/All`
-    ).as("AllBranchNote");
+  cy.intercept("DELETE", `${baseURL}EzmApiKey`).as("deleteapikey");
 
-    cy.intercept(
-      'GET',
-      `${baseURL}client/AssignTag/All/*`
-    ).as("AllClientAssignTag");
+  cy.intercept("PUT", `${baseURL}branch/UpdateBranchVisaNotification`).as(
+    "UpdateBranchVisaNotification"
+  );
 
-    cy.intercept(
-      'GET',
-      `${baseURL}invoice/type/GetAllInvoiceTypes`
-    ).as("GetAllInvoiceTypes");
+  cy.intercept("GET", `${baseURL}branch/QuestionnaireSetting`).as(
+    "branchQuestionnaireSetting"
+  );
 
-    cy.intercept(
-      'POST',
-      `${baseURL}potentialclient/markedtags`
-    ).as("postmarkedtags");
+  cy.intercept("PUT", `${baseURL}branch/QuestionnaireSetting`).as(
+    "putbranchQuestionnaireSetting"
+  );
 
-    cy.intercept(
-      'PUT',
-      `${baseURL}potentialclient/markedtags`
-    ).as("putmarkedtags");
+  cy.intercept("GET", `${baseURL}company/document/All`).as(
+    "CompanyDocumentAll"
+  );
 
-    cy.intercept(
-      'DELETE',
-      `${baseURL}potentialclient/markedtags`
-    ).as("deletemarkedtags");
-    
+  cy.intercept("POST", `${baseURL}company/document`).as("postCompanyDocument");
 
-    cy.intercept(
-      'GET',
-      `${baseURL}branch/QuestionnaireMessageSetting`
-    ).as("QuestionnaireMessageSetting");
-    
-    cy.intercept(
-      'PUT',
-      `${baseURL}branch/QuestionnaireMessageSetting`
-    ).as("putQuestionnaireMessageSetting");
+  cy.intercept("DELETE", `${baseURL}company/document`).as(
+    "deleteCompanyDocument"
+  );
 
-    cy.intercept(
-      'GET',
-      `${baseURL}ThirdPartyKey/GetByBranchId/EzyForm`
-    ).as("getezyformapikey");
+  cy.intercept("GET", `${baseURL}faq/All`).as("faqAll");
 
-    cy.intercept(
-      'PUT',
-      `${baseURL}ThirdPartyKey`
-    ).as("ThirdPartyKey");
+  cy.intercept("POST", `${baseURL}faq`).as("postfaq");
 
-    cy.intercept(
-      'GET',
-      `${baseURL}branch/BranchCCAndBCCImportSetting`
-    ).as("BranchCCAndBCCImportSetting");
+  cy.intercept("PUT", `${baseURL}faq`).as("putfaq");
 
-    cy.intercept(
-      'PUT',
-      `${baseURL}branch/BranchCCAndBCCImportSetting`
-    ).as("putBranchCCAndBCCImportSetting");
+  cy.intercept("DELETE", `${baseURL}faq`).as("deletefaq");
 
-    cy.intercept(
-      'GET',
-      `${baseURL}reminder/setting`
-    ).as("ReminderSetting");
+  cy.intercept("GET", `${baseURL}company/BranchVisaType/WithHidden/All`).as(
+    "allbranchvisatypes"
+  );
 
-    cy.intercept(
-      'POST',
-      `${baseURL}reminder/setting`
-    ).as("postReminderSetting");
+  cy.intercept("POST", `${baseURL}company/BranchVisaType`).as(
+    "postcombranchvisatypes"
+  );
 
-    cy.intercept(
-      'GET',
-      `${baseURL}EzmApiKey/GetByBranchId`
-    ).as("apikeygetbyid");
+  cy.intercept("PUT", `${baseURL}company/BranchVisaType`).as(
+    "putcombranchvisatypes"
+  );
 
-    cy.intercept(
-      'POST',
-      `${baseURL}EzmApiKey`
-    ).as("postapikey");
+  cy.intercept("PUT", `${baseURL}company/BranchVisaType/Hide`).as(
+    "putbranchvisahide"
+  );
 
-    cy.intercept(
-      'DELETE',
-      `${baseURL}EzmApiKey`
-    ).as("deleteapikey");
+  cy.intercept("PUT", `${baseURL}company/visastatus`).as(
+    "putcompanyvisastatus"
+  );
 
-    cy.intercept(
-      'PUT',
-      `${baseURL}branch/UpdateBranchVisaNotification`
-    ).as("UpdateBranchVisaNotification");
+  cy.intercept("PUT", `${baseURL}company/visastatus/Hide`).as(
+    "putvisastatushide"
+  );
 
-    cy.intercept(
-      'GET',
-      `${baseURL}branch/QuestionnaireSetting`
-    ).as("branchQuestionnaireSetting");
+  cy.intercept("PUT", `${baseURL}company/clientstatus`).as(
+    "putcompanyclientstatus"
+  );
 
-    cy.intercept(
-      'PUT',
-      `${baseURL}branch/QuestionnaireSetting`
-    ).as("putbranchQuestionnaireSetting");
+  cy.intercept("GET", `${baseURL}openAI/UserMaxToken`).as(
+    "openAI/UserMaxToken"
+  );
 
-    cy.intercept(
-      'GET',
-      `${baseURL}company/document/All`
-    ).as("CompanyDocumentAll");
+  cy.intercept("DELETE", `${baseURL}BranchCountryLinking`).as(
+    "deleteBranchCountryLinking"
+  );
 
-    cy.intercept(
-      'POST',
-      `${baseURL}company/document`
-    ).as("postCompanyDocument");
+  cy.intercept("GET", `${baseURL}user/identity/Logout`).as("accountlogout");
 
-    cy.intercept(
-      'DELETE',
-      `${baseURL}company/document`
-    ).as("deleteCompanyDocument");
+  cy.intercept("GET", `${baseURL}users`).as("companyusers");
 
-    cy.intercept(
-      'GET',
-      `${baseURL}faq/All`
-    ).as("faqAll");
+  cy.intercept("GET", `${baseURL}group`).as("companygroup");
 
-    cy.intercept(
-      'POST',
-      `${baseURL}faq`
-    ).as("postfaq");
+  cy.intercept("GET", `${baseURL}users/Owners`).as("companyuserowner");
 
+  cy.intercept("GET", `${baseURL}users/storage`).as("companyuserstorage");
 
-    cy.intercept(
-      'PUT',
-      `${baseURL}faq`
-    ).as("putfaq");
+  cy.intercept("POST", `${baseURL}user/identity/ChangePassword`).as(
+    "changepassword"
+  );
 
-    cy.intercept(
-      'DELETE',
-      `${baseURL}faq`
-    ).as("deletefaq");
+  cy.intercept("GET", `${baseURL}users/All`).as("companyallusers");
 
-    cy.intercept(
-      'GET',
-      `${baseURL}company/BranchVisaType/WithHidden/All`
-    ).as("allbranchvisatypes");
+  cy.intercept("GET", `${baseURL}users/OwnerCount`).as("totalowners");
 
-    cy.intercept(
-      'POST',
-      `${baseURL}company/BranchVisaType`
-    ).as("postcombranchvisatypes");
+  cy.intercept("PUT", `${baseURL}users`).as("putusers");
 
-    cy.intercept(
-      'PUT',
-      `${baseURL}company/BranchVisaType`
-    ).as("putcombranchvisatypes");
+  cy.intercept("GET", `${baseURL}user/Branch/users/*`).as("branchusersdefault");
 
-    cy.intercept(
-      'PUT',
-      `${baseURL}company/BranchVisaType/Hide`
-    ).as("putbranchvisahide");
+  cy.intercept("PUT", `${baseURL}branch`).as("putbranchin");
 
-    cy.intercept(
-      'PUT',
-      `${baseURL}company/visastatus`
-    ).as("putcompanyvisastatus");
+  cy.intercept("PUT", `${baseURL}user/Branch`).as("putbranchuser");
 
-    cy.intercept(
-      'PUT',
-      `${baseURL}company/visastatus/Hide`
-    ).as("putvisastatushide");
+  cy.intercept("PUT", `${baseURL}user/permission`).as("putuserpermission");
 
-    cy.intercept(
-      'PUT',
-      `${baseURL}company/clientstatus`
-    ).as("putcompanyclientstatus");
+  cy.intercept("GET", `${baseURL}user/permission`).as("getuserpermission");
 
-    cy.intercept(
-      'GET',
-      `${baseURL}openAI/UserMaxToken`
-    ).as("openAI/UserMaxToken");
-
-    cy.intercept(
-      'DELETE',
-      `${baseURL}BranchCountryLinking`
-    ).as("deleteBranchCountryLinking");
-
-
-
+  cy.intercept("POST", `${baseURL}user/identity/ChangeBranchInToken`).as(
+    "changebranchtoken"
+  );
 }
