@@ -37,9 +37,8 @@ describe("Adding Employer", () => {
     cy.login();
   });
   it("Add employer", () => {
-   
-    cy.xpath(
-      '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a'
+    cy.get(
+      'a[href="/employer-management"]'
     ).click();
 
     cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
@@ -216,7 +215,11 @@ describe("Adding Employer", () => {
 
     cy.get("#paymentBank").click();
 
+    cy.wait(2000)
+
     cy.contains("test nabeel").click();
+
+    cy.wait(2000)
 
     cy.contains("ADD PAYMENT").click();
 

@@ -65,7 +65,7 @@ describe("potential client", () => {
     cy.contains("jason client").click();
     cy.wait(4000);
 
-    cy.wait("@company").then((interception) => {
+    cy.wait("@getcompany").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
@@ -130,7 +130,11 @@ describe("potential client", () => {
 
     cy.get("#bankAccount").click();
 
+    cy.wait(2000)
+
     cy.get('div[title="test nabeel"]').click();
+
+    cy.wait(2000)
 
     cy.contains("SAVE INVOICE").click();
 
@@ -168,7 +172,7 @@ describe("potential client", () => {
 
     cy.contains("View Details").click();
 
-    cy.wait("@company").then((interception) => {
+    cy.wait("@getcompany").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
@@ -185,6 +189,7 @@ describe("potential client", () => {
     cy.wait(2000);
 
     cy.contains("test nabeel").click();
+    cy.wait(2000);
 
     cy.contains("ADD PAYMENT").click();
 

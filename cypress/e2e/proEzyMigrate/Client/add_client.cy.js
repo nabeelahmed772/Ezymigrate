@@ -218,7 +218,7 @@ describe("Adding client", () => {
     cy.get("#visaDenied > label:nth-child(1) > span.ant-radio > input").click();
     cy.get("#deniedText").type("testing");
     cy.get('.ant-select-selection-item')
-      .eq(15)
+      .eq(16)
       .click({force:true})
     cy.get('div[title="arsalan team member"]')
       .click({force:true})
@@ -329,7 +329,23 @@ describe("Adding client", () => {
 
     // Continue with your Cypress test steps
 
+    cy.get('.ant-select-selection-search-input')
+      .eq(4)
+      .click()
+
+    cy.get('div[title="NEW ZEALAND"]')
+      .click()
+
     cy.get(".cv-top-lbtn-text").eq(0).click();
+
+    cy.wait("@BranchCountryLinking").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@GetAllBranchVisaTypeByCountry").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
     cy.get(
       '[style="padding: 10px;"] > .ant-select > .ant-select-selector > .ant-select-selection-item'
     ).click();
@@ -825,11 +841,7 @@ describe("Adding client", () => {
 
     //cy.get(date).click({multiple:true , force:true})
 
-    cy.get(
-      ":nth-child(1) > .form-container > .ant-form > :nth-child(6) > :nth-child(2) > .ant-picker > .ant-picker-input > input"
-    )
-      .type(futureDate, { force: true })
-      .type("{enter}");
+  
 
     //cy.get(date).click({multiple:true , force:true})
 
@@ -966,7 +978,7 @@ describe("Adding client", () => {
     cy.get("#clientSerial").click({ force: true }).type(randomNo(40));
     cy.get("#middleName").type("middlename");
     cy.get('.ant-select-selection-item')
-      .eq(12)
+      .eq(13)
       .click({force:true})
     cy.get('div[title="arsalan team member"]')
       .click({force:true})
@@ -1068,6 +1080,23 @@ describe("Adding client", () => {
     cy.wait(1000);
     cy.get(":nth-child(2) > a > .header-bar-text-div > .header-text").click();
     cy.wait(6000);
+
+    cy.get('.ant-select-selection-search-input')
+      .eq(4)
+      .click()
+
+    cy.get('div[title="NEW ZEALAND"]')
+      .click()
+
+    cy.get(".cv-top-lbtn-text").eq(0).click();
+
+    cy.wait("@BranchCountryLinking").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@GetAllBranchVisaTypeByCountry").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
     cy.get(".ant-tabs-nav-operations-hidden")
       .should("exist")
       .then(($element) => {
@@ -1253,11 +1282,7 @@ describe("Adding client", () => {
 
     //cy.get(date).click({multiple:true , force:true})
 
-    cy.get(
-      ":nth-child(1) > .form-container > .ant-form > :nth-child(6) > :nth-child(2) > .ant-picker > .ant-picker-input > input"
-    )
-      .type(futureDate, { force: true })
-      .type("{enter}");
+    
 
     //cy.get(date).click({multiple:true , force:true})
 

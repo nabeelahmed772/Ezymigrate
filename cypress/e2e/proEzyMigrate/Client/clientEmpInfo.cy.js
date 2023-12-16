@@ -114,8 +114,8 @@ describe("Adding client", () => {
 
     //adding employer
 
-    cy.xpath(
-      '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a'
+    cy.get(
+      'a[href="/employer-management"]'
     ).click();
     cy.wait(5000);
 
@@ -281,15 +281,18 @@ describe("Adding client", () => {
       .type(futureDate, { force: true })
       .type("{enter}");
     cy.wait(2000);
-    cy.get(":nth-child(4) > .ant-input").type("honda");
+    cy.get('input[placeholder="Job Title"]').type("honda");
     cy.wait(3000);
     cy.get(
-      ".form-container > :nth-child(5) > .ant-select > .ant-select-selector > .ant-select-selection-item"
-    ).click();
+      'span[title="Select Job"]'
+    )
+    .click();
     cy.wait(3000);
     cy.get('div[title="software12"]').click({ multiple: true, force: true });
     cy.wait(3000);
-    cy.get(".button-blue-cont > .ant-btn > span").click();
+    cy.get('.ant-btn.ant-btn-default.button-blue:visible')
+      .contains('Save')
+      .click();
     cy.wait(6000);
 
     //adding employer to client from client side
@@ -333,8 +336,8 @@ describe("Adding client", () => {
     cy.wait(6000);
 
     //going back to employer
-    cy.xpath(
-      '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a'
+    cy.get(
+      'a[href="/employer-management"]'
     ).click();
     cy.wait(7000);
     cy.scrollTo("left");
@@ -355,8 +358,8 @@ describe("Adding client", () => {
     cy.wait(6000);
 
     //deleting the employer
-    cy.xpath(
-      '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a'
+    cy.get(
+      'a[href="/employer-management"]'
     ).click();
     cy.wait(7000);
     cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {

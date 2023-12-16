@@ -109,9 +109,8 @@ describe("potential client", () => {
     cy.get(".ant-btn.ant-btn-primary").contains("OK").click();
 
     cy.wait(8000);
-    cy.xpath(
-      '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a'
-    ).click();
+    cy.get(
+      'a[href="/employer-management"]').click();
 
     
     cy.contains("automation custom").click();
@@ -120,9 +119,8 @@ describe("potential client", () => {
     cy.wait(5000);
     cy.get(".ant-tabs-tab-btn").eq(2).click();
     cy.contains("unique questionaire.pdf..pdf ").should("be.visible");
-    cy.xpath(
-      '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a'
-    ).click();
+    cy.get(
+      'a[href="/employer-management"]').click();
     cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
       var del = $el
         .find(

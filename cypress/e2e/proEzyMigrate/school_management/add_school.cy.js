@@ -12,9 +12,7 @@ describe("Adding school", () => {
     cy.login();
   });
   it("Add school", () => {
-    cy.xpath(
-      '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[11]/span/a'
-    ).click();
+    cy.get('a[href="/school-management"]').click();
     cy.wait(5000);
     cy.get(":nth-child(2) > .header-bar-text-div > .header-text").click();
     cy.wait(5000);

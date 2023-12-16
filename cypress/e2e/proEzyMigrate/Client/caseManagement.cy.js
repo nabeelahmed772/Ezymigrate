@@ -431,7 +431,11 @@ describe("case management", () => {
 
     cy.get("#paymentBank").click();
 
+    cy.wait(2000)
+
     cy.contains("test nabeel").click();
+
+    cy.wait(2000)
 
     cy.contains("ADD PAYMENT").click();
 

@@ -39,9 +39,8 @@ describe("Adding Employer", () => {
   it("Add employer", () => {
     
 
-    cy.xpath(
-      '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[12]/span/a'
-    ).click();
+    cy.get(
+      'a[href="/employer-management"]').click();
     cy.wait(5000);
     cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
       var del = $el
@@ -177,10 +176,10 @@ describe("Adding Employer", () => {
       .type("{enter}");
     //cy.get(date).click({multiple:true, force:true})
     cy.get(
-      ":nth-child(4) > .ant-select > .ant-select-selector > .ant-select-selection-item"
+      'span[title="Select Accreditation Type"]'
     ).click();
     cy.get('div[title="High-Volume"]').click({ multiple: true, force: true });
-    cy.get(".button-blue-cont > .ant-btn > span").click({ force: true });
+    cy.get(".ant-btn.ant-btn-default.button-blue").click({ force: true });
     cy.wait(7000);
 
     //updating the case status
@@ -196,12 +195,6 @@ describe("Adding Employer", () => {
       .type("{enter}");
     cy.wait(2000);
 
-    cy.get(
-      ":nth-child(7) > :nth-child(2) > .ant-picker > .ant-picker-input > input"
-    )
-      .type(futureDate, { force: true })
-      .type("{enter}");
-    cy.wait(2000);
 
     cy.get(
       '[style="padding: 10px;"] > .ant-select > .ant-select-selector > .ant-select-selection-item'
@@ -212,9 +205,7 @@ describe("Adding Employer", () => {
       force: true,
     });
     cy.wait(2000);
-    cy.get(
-      '.ant-form > [style="padding: 0px 10px 10px;"] > .ant-picker > .ant-picker-input > input'
-    )
+    cy.get(':nth-child(1) > .form-container > .ant-form > [style="padding: 0px 10px 10px;"] > .ant-picker > .ant-picker-input > input')
       .click({ multiple: true, force: true })
       .type(futureDate, { force: true })
       .type("{enter}");
@@ -393,7 +384,7 @@ describe("Adding Employer", () => {
     //cy.get(date).click({multiple:true, force:true})
     cy.get("#sections_0_questions_3_answers_0_answer").type("testing 123");
     cy.get("#sections_0_questions_4_answers_0_answer").type("testing limk");
-
+    cy.get('#declaration').click()
     cy.get(".ant-btn > span").click();
     cy.wait(10000);
     cy.visit("https://app.ezymigrate.com/employer-management");

@@ -401,9 +401,9 @@ export function setupAPIIntercepts() {
 
   cy.intercept(`${baseURL}school/All/**`).as("schoolall");
 
-  cy.intercept(`${baseURL}report/VisaExpiry`).as("VisaExpiry");
+  cy.intercept(`${baseURL}report/CurrentVisaExpiry`).as("VisaExpiry");
 
-  cy.intercept(`${baseURL}report/VisaExpiryExport`).as("VisaExpiryExport");
+  cy.intercept(`${baseURL}report/CurrentVisaExpiryExport`).as("VisaExpiryExport");
 
   cy.intercept(`${baseURL}report/ClientEmployerExport`).as(
     "ClientEmployerExport"
@@ -656,4 +656,13 @@ export function setupAPIIntercepts() {
   cy.intercept("POST", `${baseURL}user/identity/ChangeBranchInToken`).as(
     "changebranchtoken"
   );
+  cy.intercept("POST", `${baseURL}questionnaire/ShortLink`).as(
+    "shortlink"
+  );
+
+  cy.intercept("GETT", `${baseURL}questionnaire/QuestionnaireMessageSetting/*`).as(
+    "thankyoumessage"
+  );
 }
+
+

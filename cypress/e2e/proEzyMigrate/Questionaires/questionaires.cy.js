@@ -246,7 +246,7 @@ describe("custom questionaires", () => {
       '[title="automation questionaire name"] > .ant-select-item-option-content'
     ).click();
     cy.wait(4000);
-    cy.wait("@GetLink").then((interception) => {
+    cy.wait("@shortlink").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
     cy.get(".pc-link-text").then(function (text2) {

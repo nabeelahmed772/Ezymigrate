@@ -154,6 +154,7 @@ describe("Adding client", () => {
     //cy.get(date).click({multiple:true, force:true})
     cy.get("#sections_0_questions_3_answers_0_answer").type("testing 123");
     cy.get("#sections_0_questions_4_answers_0_answer").type("testing limk");
+    cy.get('#declaration').click()
 
     cy.get(".ant-btn > span").click();
     cy.wait(10000);

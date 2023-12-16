@@ -21,7 +21,7 @@ describe("Reports", () => {
 
     cy.get(".ant-picker-input").eq(1).type(futureDate).type("{enter}");
 
-    cy.contains("VISA EXPIRING").click();
+    cy.contains("CURRENT VISA EXPIRY").click();
 
     cy.wait("@VisaExpiry").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);

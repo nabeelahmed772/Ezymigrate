@@ -85,11 +85,20 @@ describe("DASHBOSRD", () => {
         });
       });
 
-    cy.get(".ant-select-selection-item").eq(3).click();
+      cy.get('.ant-select-selection-search-input')
+      .eq(4)
+      .click()
     cy.get('div[title="PAKISTAN"]').click();
     cy.wait(1000);
 
     cy.get(".cv-top-lbtn-text").click();
+    cy.wait("@BranchCountryLinking").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@GetAllBranchVisaTypeByCountry").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
     cy.get(".ant-select-selection-item").eq(4).click();
 
