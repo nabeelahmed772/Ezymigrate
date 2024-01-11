@@ -259,7 +259,8 @@ describe("Adding Employer", () => {
     cy.get('input[type="file"]').attachFile("ABC.jpg");
     cy.wait(2000);
     cy.get(".btn.btn-default").click();
-    cy.wait(6000);
+    cy.wait("@thankyoumessage").its("response.statusCode").should("eq", 200);
+    cy.wait(3000)
     cy.visit("https://app.ezymigrate.com/employer-management");
     cy.wait(5000);
 

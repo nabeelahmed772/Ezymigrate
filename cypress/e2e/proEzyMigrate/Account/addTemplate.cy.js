@@ -358,7 +358,7 @@ describe("account template", () => {
           .type(futureDate, { force: true })
           .type("{enter}");
         cy.get("#paymentBank").click();
-        cy.wait(1000);
+        cy.wait(2000);
         cy.get('div[title="test nabeel"]').click();
         cy.get('input[type="text"]').eq(1).type("testing by nabeel",{force:true});
         cy.get('button[type="submit"]').eq(4).click();

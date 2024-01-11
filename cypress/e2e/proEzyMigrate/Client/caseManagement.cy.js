@@ -433,7 +433,7 @@ describe("case management", () => {
 
     cy.wait(2000)
 
-    cy.contains("test nabeel").click();
+    cy.get('div[title="test nabeel"]').click();
 
     cy.wait(2000)
 

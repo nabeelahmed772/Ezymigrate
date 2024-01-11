@@ -331,7 +331,7 @@ describe("Adding client", () => {
 
     cy.get('.ant-select-selection-search-input')
       .eq(4)
-      .click()
+      .click({force:true})
 
     cy.get('div[title="NEW ZEALAND"]')
       .click()
@@ -525,8 +525,8 @@ describe("Adding client", () => {
     cy.wait(6000);
     cy.get("#signature-pad-").click();
     cy.contains("Save Signature").click();
-    cy.wait(10000);
-    cy.wait("@thankyou").its("response.statusCode").should("eq", 200);
+    cy.wait(3000);
+    cy.wait("@thankyoumessage").its("response.statusCode").should("eq", 200);
 
     cy.visit("https://app.ezymigrate.com/client-email");
     cy.wait(6000);
@@ -1083,7 +1083,7 @@ describe("Adding client", () => {
 
     cy.get('.ant-select-selection-search-input')
       .eq(4)
-      .click()
+      .click({force:true})
 
     cy.get('div[title="NEW ZEALAND"]')
       .click()

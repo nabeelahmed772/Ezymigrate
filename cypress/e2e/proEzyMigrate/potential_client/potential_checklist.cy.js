@@ -242,8 +242,8 @@ describe("potential client", () => {
 
     cy.get(".btn.btn-default").click();
 
-    cy.wait(6000);
-    cy.wait("@thanksd").its("response.statusCode").should("eq", 200);
+    cy.wait("@thankyoumessage").its("response.statusCode").should("eq", 200);
+    cy.wait(3000)
 
     cy.visit("https://app.ezymigrate.com/potential-client/potential-clients");
 
@@ -284,8 +284,9 @@ describe("potential client", () => {
     cy.wait(6000);
     cy.get("#signature-pad-").click();
     cy.contains("Save Signature").click();
-    cy.wait(10000);
-    cy.wait("@thanksd").its("response.statusCode").should("eq", 200);
+    cy.wait(8000);
+    cy.wait("@thankyoumessage").its("response.statusCode").should("eq", 200);
+    cy.wait(3000)
     cy.visit("https://app.ezymigrate.com/potential-client/potential-clients");
     cy.wait(5000);
     //validating the digital signature

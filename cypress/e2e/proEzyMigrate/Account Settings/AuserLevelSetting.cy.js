@@ -233,9 +233,9 @@ describe("account setting", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.get("#main_name").type("test");
+    cy.get("#main_name").type(" test");
 
-    cy.get(".fr-element > p").type("test");
+    cy.get(".fr-element.fr-view").type(" test");
 
     cy.get(".ant-btn.ant-btn-primary.form-btn.button-blue")
       .contains("Submit")
@@ -354,9 +354,9 @@ describe("account setting", () => {
         cy.wait("@template/All").then((interception) => {
           cy.wrap(interception.response.statusCode).should("eq", 200);
         });
-        cy.get("#main_name").type("test");
+        cy.get("#main_name").type(" test");
 
-        cy.get(".fr-element > p").type("test");
+        cy.get(".fr-element.fr-view").type(" test");
 
         cy.get('[type="submit"] > span').click();
       }
@@ -413,7 +413,7 @@ describe("account setting", () => {
 
     cy.get("#main_name").type("file notes automation testing cypress ");
 
-    cy.get(".fr-element > p").type(
+    cy.get(".fr-element.fr-view").type(
       "this is the description for the file notes testing the "
     );
 
@@ -445,7 +445,7 @@ describe("account setting", () => {
         });
         cy.get("#main_name").type("test");
 
-        cy.get(".fr-element > p").type("test");
+        cy.get(".fr-element.fr-view").type(" test");
 
         cy.get(".ant-btn.ant-btn-primary.form-btn.button-blue")
           .contains("Submit")

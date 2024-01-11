@@ -122,11 +122,11 @@ describe("Adding client", () => {
         cy.visit(text2.text());
         cy.wait(2000);
       });
-    cy.wait(8000);
+    cy.wait(4000);
     cy.get('input[type="file"]').attachFile("ABC.jpg");
     cy.wait(2000);
     cy.get(".btn.btn-default").click();
-    cy.wait(8000);
+    cy.wait("@thankyoumessage").its("response.statusCode").should("eq", 200);
     cy.visit("https://app.ezymigrate.com/documents");
     cy.wait(8000);
     cy.contains("ABC.jpg").should("be.visible");
@@ -157,11 +157,13 @@ describe("Adding client", () => {
     cy.get('#declaration').click()
 
     cy.get(".ant-btn > span").click();
-    cy.wait(10000);
+    
+    cy.wait("@thankyoumessage").its("response.statusCode").should("eq", 200);
+    cy.wait(5000)
     cy.visit("https://app.ezymigrate.com/documents");
-    cy.wait(8000);
+    cy.wait(7000);
     cy.contains("mobile testing questionare.pdf..pdf ").should("be.visible");
-
+    
     //exporting the client
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'

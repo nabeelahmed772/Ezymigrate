@@ -161,7 +161,7 @@ describe("account setting", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.get(".ant-btn.ant-btn-primary.sus-add-btn").eq(0).click();
+    cy.get(".ant-btn.ant-btn-primary.sus-add-btn:visible").eq(1).click();
 
     cy.wait("@totalowners").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -312,10 +312,14 @@ describe("account setting", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
+    cy.wait(2000)
+
 
     cy.get(".ant-select-selection-item").eq(0).click();
 
     cy.get('div[title="2bvoutsource"]').click();
+
+    cy.wait(2000)
 
      cy.wait("@changebranchtoken").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -374,6 +378,8 @@ describe("account setting", () => {
     cy.wait("@getallusers").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
+
+    
 
 
   });

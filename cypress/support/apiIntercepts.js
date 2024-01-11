@@ -660,8 +660,12 @@ export function setupAPIIntercepts() {
     "shortlink"
   );
 
-  cy.intercept("GETT", `${baseURL}questionnaire/QuestionnaireMessageSetting/*`).as(
+  cy.intercept("GET", `${baseURL}questionnaire/QuestionnaireMessageSetting/*`).as(
     "thankyoumessage"
+  );
+
+  cy.intercept("GET", `${baseURL}childbinding/GetAllChildBindingByParentId/*`).as(
+    "getparentschild"
   );
 }
 

@@ -432,8 +432,9 @@ describe("Adding Employer", () => {
     cy.wait(6000);
     cy.get("#signature-pad-").click();
     cy.contains("Save Signature").click();
-    cy.wait(11000);
-    cy.wait("@thanksok").its("response.statusCode").should("eq", 200);
+    cy.wait(3000);
+    cy.wait("@thankyoumessage").its("response.statusCode").should("eq", 200);
+    cy.wait(3000);
     cy.visit("https://app.ezymigrate.com/employer-management");
 
     //validating the digital signature

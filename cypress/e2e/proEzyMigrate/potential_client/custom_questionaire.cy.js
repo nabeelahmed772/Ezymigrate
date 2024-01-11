@@ -83,7 +83,8 @@ describe("potential client", () => {
       "#sections_4_questions_0_questionOptions_0_optionalQuestions_0_questions_0_answers_0_answer"
     ).type("child name ");
     cy.get(".ant-btn > span").click();
-    cy.wait(7000);
+    cy.wait("@thankyoumessage").its("response.statusCode").should("eq", 200);
+    cy.wait(3000)
 
     cy.visit("https://app.ezymigrate.com/potential-client-questionnaire");
 
@@ -114,8 +115,6 @@ describe("potential client", () => {
 
     
     cy.contains("automation custom").click();
-    cy.wait(2000);
-    cy.get(".ant-tabs-tab-btn").eq(1).click();
     cy.wait(5000);
     cy.get(".ant-tabs-tab-btn").eq(2).click();
     cy.contains("unique questionaire.pdf..pdf ").should("be.visible");
@@ -186,7 +185,8 @@ describe("potential client", () => {
       "#sections_4_questions_0_questionOptions_0_optionalQuestions_0_questions_0_answers_0_answer"
     ).type("child name ");
     cy.get(".ant-btn > span").click();
-    cy.wait(7000);
+    cy.wait("@thankyoumessage").its("response.statusCode").should("eq", 200);
+    cy.wait(3000)
 
     cy.visit("https://app.ezymigrate.com/potential-client-questionnaire");
 
@@ -280,7 +280,8 @@ describe("potential client", () => {
       "#sections_4_questions_0_questionOptions_0_optionalQuestions_0_questions_0_answers_0_answer"
     ).type("child name ");
     cy.get(".ant-btn > span").click();
-    cy.wait(7000);
+    cy.wait("@thankyoumessage").its("response.statusCode").should("eq", 200);
+    cy.wait(3000)
 
     cy.visit("https://app.ezymigrate.com/potential-client-questionnaire");
 

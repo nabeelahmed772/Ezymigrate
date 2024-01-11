@@ -281,9 +281,7 @@ describe("custom questionaires", () => {
 
    
 
-    cy.wait("@Thanks").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
+    cy.wait("@thankyoumessage").its("response.statusCode").should("eq", 200);
 
     cy.visit("https://app.ezymigrate.com/potential-client-questionnaire");
 

@@ -111,8 +111,8 @@ describe("Web Assessment ", () => {
     cy.get(
       '[style="display: flex; justify-content: flex-end;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content'
     ).click();
-    cy.wait(8000);
-
+    cy.wait("@thankyoumessage").its("response.statusCode").should("eq", 200);
+    cy.wait(3000)
     // cy.get('.pc-link-text').then(function(read){
     //     cy.visit(read.text())
     //   })
@@ -393,8 +393,8 @@ describe("Web Assessment ", () => {
       "testing by nz team"
     );
     cy.get(".ant-btn > span").click();
-    cy.wait(10000);
-
+    cy.wait("@thankyoumessage").its("response.statusCode").should("eq", 200);
+    cy.wait(3000)
     cy.visit("https://app.ezymigrate.com/web-assessment");
     cy.wait(4000);
     cy.get(".sus-inactive-tab-text").click();
@@ -644,7 +644,8 @@ describe("Web Assessment ", () => {
     cy.get("#clientName").scrollIntoView();
 
     cy.get(".ant-btn > span").click();
-    cy.wait(10000);
+    cy.wait("@thankyoumessage").its("response.statusCode").should("eq", 200);
+    cy.wait(3000)
     cy.visit("https://app.ezymigrate.com/web-assessment");
     cy.wait(4000);
     cy.get(

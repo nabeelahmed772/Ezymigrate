@@ -143,15 +143,25 @@ describe("Reports", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
+    cy.wait("@BranchCountryLinking").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
     cy.get(".ant-picker-input").eq(0).type("01/01/2023").type("{enter}");
 
     cy.get(".ant-picker-input").eq(1).type(futureDate).type("{enter}");
 
     cy.get(".ant-select-selection-search-input").eq(4).click({force:true});
 
+    cy.get('div[title="NEW ZEALAND"]').click()
+
+    cy.wait(2000)
+
+    cy.get(".ant-select-selection-search-input").eq(5).click({force:true});
+
     cy.get('div[title="Appeal - IPT"]').click({force:true});
 
-    cy.get(".ant-select-selection-search-input").eq(10).click({force:true});
+    cy.get(".ant-select-selection-search-input").eq(7).click({force:true});
 
     cy.get('div[title="Active"]').click({force:true});
 
@@ -182,5 +192,11 @@ describe("Reports", () => {
         expect(isContactNamePresent).to.be.true;
       }
     );
+
+    cy.contains('CLEAR').click()
+
+    cy.wait("@Visa").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
   });
 });

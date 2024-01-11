@@ -87,7 +87,7 @@ describe("DASHBOSRD", () => {
 
       cy.get('.ant-select-selection-search-input')
       .eq(4)
-      .click()
+      .click({force:true})
     cy.get('div[title="PAKISTAN"]').click();
     cy.wait(1000);
 
