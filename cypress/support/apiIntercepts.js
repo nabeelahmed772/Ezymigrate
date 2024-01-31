@@ -667,6 +667,26 @@ export function setupAPIIntercepts() {
   cy.intercept("GET", `${baseURL}childbinding/GetAllChildBindingByParentId/*`).as(
     "getparentschild"
   );
+
+  cy.intercept("PUT", `${baseURL}task`).as(
+    "puttask"
+  );
+
+  cy.intercept("DELETE", `${baseURL}task`).as(
+    "deletetask"
+  );
+
+  cy.intercept("PUT", `${baseURL}task/CompleteTask`).as(
+    "completedtask"
+  );
+
+  cy.intercept("GET", `${baseURL}servicetype/All`).as(
+    "allservicetype"
+  );
+
+  cy.intercept("GET", `${baseURL}task/AllByUserIdPagination/***`).as(
+    "completedtasks"
+  );
 }
 
 

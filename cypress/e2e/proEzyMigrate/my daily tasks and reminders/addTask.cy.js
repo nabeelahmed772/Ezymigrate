@@ -53,6 +53,14 @@ describe("Adding task and reminders", () => {
         cy.wrap(interception.response.statusCode).should("eq", 200);
       });
 
+    cy.wait("@getallreminders").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("not.equal", 500);
+      });
+
+    cy.wait("@allbranchUsers").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
       
 
     cy.wait("@AllByUserId").then((interception) => {
@@ -63,11 +71,33 @@ describe("Adding task and reminders", () => {
         cy.wrap(interception.response.statusCode).should("eq", 200);
       }); 
 
+    cy.wait(2000)
+
+    cy.get("div[style='display: flex; align-items: center; width: 100%;']").each(($el, index, $list) => {
+      var del = $el
+        .find(
+          '.cv-normal-text'
+        )
+        .text();
+      if (del.includes("automation cypress task")) {
+        cy.log(del);
+        cy.wrap($el).find('img[src="/static/media/del-blue.296a7465.svg"]').click();
+        
+        cy.get('.ant-btn.ant-btn-primary.margin-right').contains('OK').click()
+        cy.wait("@deletetask").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+        cy.wait("@AllByUserId").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+      }
+    });
+
     cy.get('.ant-btn.ant-btn-default')
       .eq(0)
       .click()
 
-    cy.wait("@getallusers").then((interception) => {
+    cy.wait("@allbranchUsers").then((interception) => {
         cy.wrap(interception.response.statusCode).should("eq", 200);
       });
 
@@ -89,6 +119,10 @@ describe("Adding task and reminders", () => {
     cy.get('.ant-picker-cell.ant-picker-cell-in-view.ant-picker-cell-today')
       .click({force:true})
 
+    cy.get('.ant-select-selection-overflow').click()
+    
+    cy.get('div[title="team member nabeel"]').click()
+
     cy.get('.ant-btn.ant-btn-primary.button-blue')
       .contains('Save')
       .click()
@@ -109,12 +143,76 @@ describe("Adding task and reminders", () => {
         cy.wrap(interception.response.statusCode).should("eq", 200);
       }); 
 
+      cy.wait(2000)
 
+      cy.get("div[style='display: flex; align-items: center; width: 100%;']").each(($el, index, $list) => {
+        var del = $el
+          .find(
+            '.cv-normal-text'
+          )
+          .text();
+        if (del.includes("automation cypress task")) {
+          cy.log(del);
+          cy.wrap($el).find('img[src="/static/media/file-notes.2d0a54c0.svg"]').click();
+          cy.get('#basic_title').type(' test')
+          cy.get('.ant-btn.ant-btn-primary.task-blue').contains('SAVE').click()
+          cy.wait("@puttask").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+          cy.wait("@AllByUserId").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+        }
+      });
+
+      cy.wait(3000)
 
     
+      cy.get("div[style='display: flex; align-items: center; width: 100%;']").each(($el, index, $list) => {
+        var del = $el
+          .find(
+            '.cv-normal-text'
+          )
+          .text();
+        if (del.includes("automation cypress task")) {
+          cy.log(del);
+          cy.wrap($el).find('.sus-checkbox').click();
+          cy.wait("@completedtask").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+          cy.wait("@AllByUserId").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+          cy.wait("@BranchVisaType/All").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+          cy.wait("@clientlog").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+        }
+      });
+
+      cy.wait(3000)
+
+      cy.wait('@allservicetype').then((xhr) => {
+        if (xhr.status === 200) {
+
+          cy.get('.ant-btn.ant-btn-primary.button-blue')
+            .contains('Close')
+            .click()}
+
+            else {
+
+              console.log('API was not called');
+            }})
 
 
+      cy.contains('Completed Tasks')
+        .click()
 
+        cy.wait("@completedtasks").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
 
 
 

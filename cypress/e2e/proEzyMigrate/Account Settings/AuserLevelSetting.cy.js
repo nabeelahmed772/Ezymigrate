@@ -204,7 +204,7 @@ describe("account setting", () => {
     );
 
     cy.get(".ant-btn.ant-btn-primary.form-btn.button-blue")
-      .contains("Submit")
+      .contains("Save")
       .click();
 
     cy.wait("@template").then((interception) => {
@@ -238,7 +238,7 @@ describe("account setting", () => {
     cy.get(".fr-element.fr-view").type(" test");
 
     cy.get(".ant-btn.ant-btn-primary.form-btn.button-blue")
-      .contains("Submit")
+      .contains("Save")
       .click();
 
     cy.wait(2000);
@@ -418,7 +418,7 @@ describe("account setting", () => {
     );
 
     cy.get(".ant-btn.ant-btn-primary.form-btn.button-blue")
-      .contains("Submit")
+      .contains("Save")
       .click();
 
     cy.wait(2000);
@@ -448,7 +448,7 @@ describe("account setting", () => {
         cy.get(".fr-element.fr-view").type(" test");
 
         cy.get(".ant-btn.ant-btn-primary.form-btn.button-blue")
-          .contains("Submit")
+          .contains("Save")
           .click();
       }
     });
@@ -583,7 +583,7 @@ describe("account setting", () => {
 
     cy.get("#main_name").type("Test tag automation");
 
-    cy.get(".ant-btn.ant-btn-primary.form-btn").contains("Submit").click();
+    cy.get(".ant-btn.ant-btn-primary.form-btn").contains("Save").click();
 
     cy.wait("@postmarkedtags").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -604,7 +604,7 @@ describe("account setting", () => {
 
         cy.get("#main_name").type(" test");
 
-        cy.get(".ant-btn.ant-btn-primary.form-btn").contains("Submit").click();
+        cy.get(".ant-btn.ant-btn-primary.form-btn").contains("Save").click();
 
         cy.wait("@putmarkedtags").then((interception) => {
           cy.wrap(interception.response.statusCode).should("eq", 200);

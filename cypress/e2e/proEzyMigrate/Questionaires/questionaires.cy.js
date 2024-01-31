@@ -308,7 +308,7 @@ describe("custom questionaires", () => {
 
     cy.get(".ant-btn.ant-btn-primary").contains("OK").click();
 
-    cy.wait(2000);
+    cy.wait(8000);
 
     cy.wait("@potentialclient").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);

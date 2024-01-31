@@ -89,7 +89,7 @@ describe("DASHBOSRD", () => {
       .eq(4)
       .click({force:true})
     cy.get('div[title="PAKISTAN"]').click();
-    cy.wait(1000);
+    cy.wait(4000);
 
     cy.get(".cv-top-lbtn-text").click();
     cy.wait("@BranchCountryLinking").then((interception) => {

@@ -521,11 +521,13 @@ describe("Adding client", () => {
     cy.get("#write").click();
     cy.wait(2000);
     cy.get("#txtSign").type("nabeel");
+    cy.wait(2000);
     cy.get(".modal-content > .BtnAdd").click();
-    cy.wait(6000);
+    cy.wait(7000);
     cy.get("#signature-pad-").click();
+    cy.wait(4000);
     cy.contains("Save Signature").click();
-    cy.wait(3000);
+    cy.wait(6000);
     cy.wait("@thankyoumessage").its("response.statusCode").should("eq", 200);
 
     cy.visit("https://app.ezymigrate.com/client-email");
