@@ -138,6 +138,8 @@ export function setupAPIIntercepts() {
 
   cy.intercept("GET", `${baseURL}document/AllByType/**`).as("AllByType");
 
+  cy.intercept("GET", `${baseURL}subject/case/All/dropdown/*`).as("allsubjectcasedropdown");
+
   cy.intercept("POST", `${baseURL}visa/document`).as("visadocument");
 
   cy.intercept("POST", `${baseURL}client/SearchClient`).as("SearchClient");
@@ -165,6 +167,9 @@ export function setupAPIIntercepts() {
   cy.intercept("DELETE", `${baseURL}emailtemplate`).as("delemailtemplate");
 
   cy.intercept("DELETE", `${baseURL}imap/ClientEmail`).as("ClientEmail");
+  cy.intercept("POST", `${baseURL}imap/ClientEmail`).as("postClientEmail");
+
+  cy.intercept("POST", `${baseURL}emailqueue/EmailQueueWithBlobUrl`).as("emailqueueblocburl");
 
   cy.intercept(`${baseURL}template/All`).as("template/All");
 
@@ -182,10 +187,26 @@ export function setupAPIIntercepts() {
 
   cy.intercept(`${baseURL}temp/document/checklist/All/*`).as("checklist");
 
+  cy.intercept('GET', `${baseURL}document/checklist/All/*`).as("datachecklist");
+
+  cy.intercept('GET', `${baseURL}client/email/Subject/*`).as("clientemailsubject");
+
+  cy.intercept('POST', `${baseURL}document/checklist`).as("postdocumentchecklist");
+  cy.intercept('PUT', `${baseURL}document/checklist`).as("putdocumentchecklist");
+
+  cy.intercept('DELETE', `${baseURL}temp/document/checklistItem`).as("deletechecklistitemtemp");
+  cy.intercept('DELETE', `${baseURL}document/checklistItem`).as("deletechecklistitemnontemp");
+
   cy.intercept(
     "GET",
     `${baseURL}imap/ClientEmailHistory/00000000-0000-0000-0000-000000000000/651876e6-b0c8-4c31-aac2-2129d93a8c9b/aa5f1c18-3094-4d14-a128-484e00bb585b/0/10/1/0`
   ).as("ClientEmailHistory");
+
+  cy.intercept(
+    "GET",
+    `${baseURL}imap/ClientEmailHistory/**/0/10/1/0`
+  ).as("ClientEmailHistorynew");
+
 
   cy.intercept("POST", `${baseURL}email/visaemail`).as("visaemail");
 
@@ -197,6 +218,10 @@ export function setupAPIIntercepts() {
 
   cy.intercept("GET", `${baseURL}client/programdetail/All/*`).as(
     "programdetail/All"
+  );
+
+  cy.intercept("GET", `${baseURL}imap/ClientEmailById/**`).as(
+    "singleclientemailbyid"
   );
 
   cy.intercept("GET", `${baseURL}config/GetAllClientSource`).as(
@@ -267,6 +292,10 @@ export function setupAPIIntercepts() {
     "allbranchUsers"
   );
 
+  cy.intercept("GET", `${baseURL}users/ddl/PermisionUser/false`).as(
+    "allbranchUsersfalse"
+  );
+
   cy.intercept(
     "POST",
     `${baseURL}questionnairefilledanswer/InsertFilledAnswers`
@@ -308,6 +337,8 @@ export function setupAPIIntercepts() {
   );
 
   cy.intercept("GET", `${baseURL}users/ddl/All`).as("getallusers");
+
+  cy.intercept("GET", `${baseURL}client/GetAssessingAuth`).as("getaccessingauth");
 
   cy.intercept("GET", `${baseURL}company`).as("getcompany");
 
@@ -371,6 +402,10 @@ export function setupAPIIntercepts() {
 
   cy.intercept("POST", `${baseURL}HtmlTemplate/SetHtmlTemplate`).as(
     "SetHtmlTemplate"
+  );
+
+  cy.intercept("POST", `${baseURL}HtmlTemplate/SetAnyTemplate`).as(
+    "SetanyHtmlTemplate"
   );
 
   cy.intercept("GET", `${baseURL}users/UserSignature`).as("UserSignature");
@@ -687,6 +722,12 @@ export function setupAPIIntercepts() {
   cy.intercept("GET", `${baseURL}task/AllByUserIdPagination/***`).as(
     "completedtasks"
   );
+
+  cy.intercept("GET", `${baseURL}client/email/AllByFamily/*`).as(
+    "getclientemalbyfamily"
+  );
+
+  
 }
 
 

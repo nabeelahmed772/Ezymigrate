@@ -59,12 +59,40 @@ describe("Adding client", () => {
       if (del === "finame shuja") {
         cy.log(del);
         cy.wrap($el).find(".anticon.anticon-delete").click();
+        cy.wait("@delclient").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
         cy.wait("@SearchClient").then((interception) => {
           cy.wrap(interception.response.statusCode).should("eq", 200);
         });
+    
+        cy.wait("@getmarkedtagspotentialclient").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+        cy.wait("@visastatus").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+        cy.wait("@BranchVisaType/All").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+        cy.wait("@getallusers").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+        cy.wait("@getbranchuser").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+        cy.wait("@companyusers").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+    
       }
     });
 
+    cy.wait(1000)
+
+
+    
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[6]/span/a'
     ).click();
