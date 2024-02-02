@@ -92,22 +92,17 @@ Cypress.Commands.add("login", () => {
 //resolving promose for read file expression 
 
 // commands.js
-const fs = require('fs');
 
-Cypress.Commands.add('checkFileExistsWithPattern', (directory, pattern) => {
-  return new Cypress.Promise((resolve, reject) => {
-    fs.readdir(directory, (err, files) => {
-      if (err) {
-        reject(err);
-      } else {
-        const matchingFiles = files.filter(file => file.match(pattern));
-        if (matchingFiles.length > 0) {
-          resolve(matchingFiles[0]);
-        } else {
-          reject(`No file matching the pattern '${pattern}' found in directory '${directory}'`);
-        }
-      }
-    });
-  });
+// commands.js or support/commands.js
+Cypress.Commands.add('readDirectory', (path) => {
+  return cy.task('readDirectory', path);
 });
+
+
+
+
+
+
+
+
 

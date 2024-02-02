@@ -42,8 +42,8 @@ describe("case management", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    //deleting the client
 
+   
     cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
       var del = $el
         .find(
@@ -415,77 +415,61 @@ describe("case management", () => {
     cy.get('.pdf-file-text').invoke('text').then((pdfFileName) => {
       // Assuming the PDF file name is something like "INVOICE-2d2oi-.PDF"
       // Use a regular expression to match the expected pattern
-      const regex = /INVOICE-[a-zA-Z0-9]+-.PDF/;
+      const regex = /INVOICE-([a-zA-Z0-9]+)-.PDF/;
       expect(pdfFileName).to.match(regex);
-
+    
       // Extract the dynamic part from the PDF file name
       const dynamicPartMatch = pdfFileName.match(regex);
-    const dynamicPart = dynamicPartMatch ? dynamicPartMatch[1] : null;
+      const dynamicPart = dynamicPartMatch ? dynamicPartMatch[1] : null;
     
       // Now you can use the dynamicPart in your next scenario or assertions
       // For example, you can log it to the console
       cy.log(`Dynamic part of the PDF file name: ${dynamicPart}`);
     });
+    
 
     cy.wait(1000)
 
 
-    cy.task('deleteOldFiles', 'cypress/downloads');
-
+    
    cy.get('.pdf-file-text')
      .click()
 
     
      cy.wait("@pdfinvoicedownloads").then((interception) => {
-      expect(interception.response.statusCode).to.equal(200);
+      cy.wrap(interception.response.statusCode).should('eq',200);
      
     });
 
     cy.wait(2000)
 
+    const downloadsPath = 'cypress/downloads';
 
-   // Use the custom command to check if the file exists with a pattern
-  const pattern = /invoice-[a-zA-Z0-9]+\.pdf/;
-  cy.checkFileExistsWithPattern('cypress/downloads', pattern)
-    .then((matchingFile) => {
-      // If the file exists, proceed with assertions
-      cy.log(`File ${matchingFile} exists`);
+// Read directory and log files
+cy.readDirectory(downloadsPath).then((files) => {
+  const fileName = files.find(file => file.includes('Invoice') && file.endsWith('.pdf'));
+  if (fileName) {
+    const filePath = `${downloadsPath}/${fileName}`;
 
-      // Get the list of files in the downloads folder
-      cy.task('listDownloads', 'cypress/downloads').then((downloads) => {
-        // Sort the files by modification time in descending order
-        downloads.sort((a, b) => {
-          const statA = cy.task('fileStat', `cypress/downloads/${a}`);
-          const statB = cy.task('fileStat', `cypress/downloads/${b}`);
-          return statB.mtime - statA.mtime;
-        });
+    // Assertion that the file exists
+    expect(files).to.include(fileName);
 
-        // Take the most recently downloaded file
-        const mostRecentFile = downloads[0];
-
-        // Assuming the PDF file name is something like "INVOICE-32oi3-.PDF"
-        // Use a regular expression to match the expected pattern
-        const regex = /INVOICE-([a-zA-Z0-9]+)-.PDF/;
-
-        // Assert that the PDF file name matches the expected pattern
-        expect(mostRecentFile).to.match(regex);
-
-        // Extract the dynamic part from the PDF file name
-        const dynamicPartMatch = mostRecentFile.match(regex);
-        const dynamicPart = dynamicPartMatch ? dynamicPartMatch[1] : null;
-
-        // Now you can use the dynamicPart in your assertions
-        // For example, you can log it to the console
-        cy.log(`Dynamic part of the most recently downloaded PDF file name: ${dynamicPart}`);
-      });
-    })
-    .catch((err) => {
-      // If the file does not exist, log an error
-      cy.log(`Error: ${err}`);
+    // Delete the file using fs.unlink
+    cy.exec(`node -e "require('fs').unlinkSync('${filePath}')"`, { failOnNonZeroExit: false }).then((result) => {
+      if (result.code === 0) {
+        cy.log(`File ${fileName} deleted successfully`);
+      } else {
+        cy.log(`Failed to delete the file ${fileName}. Error code: ${result.code}`);
+      }
     });
-    cy.wait(2000)
+  } else {
+    cy.log('No matching file found in the downloads directory.');
+  }
+});
 
-   
+      
+
+      cy.wait(2000)
     cy.get('#to').clear()
   
     cy.get('#to').type('nabeeloutsourcenz1@gmail.com')
@@ -516,7 +500,7 @@ describe("case management", () => {
 
 
 
-    
+    //add assertion on email as well 
 
 
     
