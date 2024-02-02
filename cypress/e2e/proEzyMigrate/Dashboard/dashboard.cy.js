@@ -122,9 +122,9 @@ describe("DASHBOSRD", () => {
       debugger;
 
       if (uo.includes("Green Visa1")) {
-        cy.wrap($el).find(".ant-select-selection-item").click();
+        cy.wrap($el).find(".ant-select-selection-item").type('Client');
         cy.wait(3000)
-        cy.get('div[title="Awaiting Allocations"]').click()
+        cy.get('div[title="Client Awaiting Document Instructions"]').click()
         cy.wrap($el).find(".ant-btn.ant-btn-default.button-blue").click();
         cy.wait("@UpdateSubjectCaseStatus")
           .its("response.statusCode")
@@ -518,7 +518,7 @@ describe("DASHBOSRD", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.get(".ant-select-selection-item").eq(3).click();
+    cy.get(".ant-select-selection-item").eq(3).type('prep');
 
     cy.wait(3000)
 

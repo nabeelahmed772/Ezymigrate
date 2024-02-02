@@ -877,7 +877,7 @@ describe("Adding client", () => {
 
     cy.get(
       ':nth-child(1) > .form-container > .ant-form > [style="padding: 10px;"] > .ant-select > .ant-select-selector > .ant-select-selection-item'
-    ).click();
+    ).type('Client');
 
     cy.get('div[title="Client Awaiting Document Instructions"]').click({
       multiple: true,
@@ -1318,7 +1318,7 @@ describe("Adding client", () => {
 
     cy.get(
       ':nth-child(1) > .form-container > .ant-form > [style="padding: 10px;"] > .ant-select > .ant-select-selector > .ant-select-selection-item'
-    ).click();
+    ).type('Client');
 
     cy.get('div[title="Client Awaiting Document Instructions"]').click({
       multiple: true,

@@ -374,6 +374,18 @@ describe("case management", () => {
         cy.wrap(interception.response.statusCode).should("eq", 200);
       });
 
+      cy.wait("@AllBySubjectIdWithPaging").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@clientlog").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@reminder").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
       cy.wait(2000)
 
     cy.get(".ant-btn.ant-btn-primary.ant-btn-sm.button-blue")
@@ -396,7 +408,118 @@ describe("case management", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Close").click();
+    cy.get('.pdf-file-text').should('exist');
+
+    cy.wait(1000)
+
+    cy.get('.pdf-file-text').invoke('text').then((pdfFileName) => {
+      // Assuming the PDF file name is something like "INVOICE-2d2oi-.PDF"
+      // Use a regular expression to match the expected pattern
+      const regex = /INVOICE-[a-zA-Z0-9]+-.PDF/;
+      expect(pdfFileName).to.match(regex);
+
+      // Extract the dynamic part from the PDF file name
+      const dynamicPartMatch = pdfFileName.match(regex);
+    const dynamicPart = dynamicPartMatch ? dynamicPartMatch[1] : null;
+    
+      // Now you can use the dynamicPart in your next scenario or assertions
+      // For example, you can log it to the console
+      cy.log(`Dynamic part of the PDF file name: ${dynamicPart}`);
+    });
+
+    cy.wait(1000)
+
+
+    cy.task('deleteOldFiles', 'cypress/downloads');
+
+   cy.get('.pdf-file-text')
+     .click()
+
+    
+     cy.wait("@pdfinvoicedownloads").then((interception) => {
+      expect(interception.response.statusCode).to.equal(200);
+     
+    });
+
+    cy.wait(2000)
+
+
+   // Use the custom command to check if the file exists with a pattern
+  const pattern = /invoice-[a-zA-Z0-9]+\.pdf/;
+  cy.checkFileExistsWithPattern('cypress/downloads', pattern)
+    .then((matchingFile) => {
+      // If the file exists, proceed with assertions
+      cy.log(`File ${matchingFile} exists`);
+
+      // Get the list of files in the downloads folder
+      cy.task('listDownloads', 'cypress/downloads').then((downloads) => {
+        // Sort the files by modification time in descending order
+        downloads.sort((a, b) => {
+          const statA = cy.task('fileStat', `cypress/downloads/${a}`);
+          const statB = cy.task('fileStat', `cypress/downloads/${b}`);
+          return statB.mtime - statA.mtime;
+        });
+
+        // Take the most recently downloaded file
+        const mostRecentFile = downloads[0];
+
+        // Assuming the PDF file name is something like "INVOICE-32oi3-.PDF"
+        // Use a regular expression to match the expected pattern
+        const regex = /INVOICE-([a-zA-Z0-9]+)-.PDF/;
+
+        // Assert that the PDF file name matches the expected pattern
+        expect(mostRecentFile).to.match(regex);
+
+        // Extract the dynamic part from the PDF file name
+        const dynamicPartMatch = mostRecentFile.match(regex);
+        const dynamicPart = dynamicPartMatch ? dynamicPartMatch[1] : null;
+
+        // Now you can use the dynamicPart in your assertions
+        // For example, you can log it to the console
+        cy.log(`Dynamic part of the most recently downloaded PDF file name: ${dynamicPart}`);
+      });
+    })
+    .catch((err) => {
+      // If the file does not exist, log an error
+      cy.log(`Error: ${err}`);
+    });
+    cy.wait(2000)
+
+   
+    cy.get('#to').clear()
+  
+    cy.get('#to').type('nabeeloutsourcenz1@gmail.com')
+     
+    cy.get('.ant-btn.ant-btn-primary.button-blue')
+      .contains('Send')
+      .click()
+
+      cy.wait("@postClientEmail").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@emailqueueblocburl").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@invoice").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@clientlog").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@AllBySubjectIdWithPaging").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+
+
+    
+
+
+    
 
     cy.contains("View Details").click();
 
@@ -425,7 +548,7 @@ describe("case management", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.get("#paymentAmount").type("121.8");
+    cy.get("#paymentAmount").type("60.8");
 
     cy.get("#paymentDate").type(futureDate, { force: true }).type("{enter}");
 
@@ -433,9 +556,9 @@ describe("case management", () => {
 
     cy.wait(2000)
 
-    cy.get('div[title="test nabeel"]').click();
+    cy.get('div[title="test nabeel"]').eq(1).click();
 
-    cy.wait(2000)
+    cy.wait(1000)
 
     cy.contains("ADD PAYMENT").click();
 
@@ -443,7 +566,284 @@ describe("case management", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(6000);
+    cy.wait("@duplicateinvoicecheck").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@getinvoice").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@postpayment").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@clientlog").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@payment/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    
+
+    cy.wait(2000);
+
+    cy.get('.ant-btn.ant-btn-primary.button-blue')
+      .contains('SEND RECEIPT ')
+      .click()
+
+      cy.wait("@duplicateinvoicecheck").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@invoice").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@getinvoice").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@invoiceSendRecipt").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@invoicereceiptpdfhtml").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@MultiUploadWithFileName").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@emailtemplate").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+
+      cy.get('.pdf-file-text').should('exist');
+
+    cy.wait(1000)
+
+    cy.get('.pdf-file-text').invoke('text').then((pdfFileName) => {
+      // Assuming the PDF file name is something like "INVOICE-2d2oi-.PDF"
+      // Use a regular expression to match the expected pattern
+      const regex = /RECEIPT-[a-zA-Z0-9]+-.PDF/;
+      expect(pdfFileName).to.match(regex);
+
+      // Extract the dynamic part from the PDF file name
+      const dynamicPart = pdfFileName.match(/[a-zA-Z0-9]+/)[0];
+    
+      // Now you can use the dynamicPart in your next scenario or assertions
+      // For example, you can log it to the console
+      cy.log(`Dynamic part of the PDF file name: ${dynamicPart}`);
+    });
+
+    cy.wait(1000)
+
+    cy.get('.pdf-file-text')
+     .click()
+
+    
+     cy.wait("@invoicerecepitpdfhtml").then((interception) => {
+      expect(interception.response.statusCode).to.equal(200);
+      cy.writeFile('cypress/downloads/downloaded1.pdf', interception.response.body, 'binary');
+    });
+
+    cy.wait(2000)
+
+
+    cy.readFile('cypress/downloads/downloaded1.pdf', 'binary').then((pdfContent) => {
+      // Assuming the PDF file name is something like "INVOICE-2d2oi-.PDF"
+      // Use a regular expression to match the expected pattern
+      const regex = /RECEIPT-[a-zA-Z0-9]+.PDF/;
+    
+      // Assert that the PDF file name matches the expected pattern
+      expect(pdfContent).to.match(regex);
+    
+      // Extract the dynamic part from the PDF file name
+      const dynamicPart = pdfContent.match(/[a-zA-Z0-9]+/)[0];
+    
+      // Now you can use the dynamicPart in your assertions
+      // For example, you can log it to the console
+      cy.log(`Dynamic part of the downloaded PDF file name: ${dynamicPart}`);
+    });
+
+    cy.wait(2000)
+
+    cy.get('#to').clear()
+  
+    cy.get('#to').type('nabeeloutsourcenz1@gmail.com')
+     
+    cy.get('.ant-btn.ant-btn-primary.button-blue')
+      .contains('Send')
+      .click()
+
+      cy.wait("@postClientEmail").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@emailqueueblocburl").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@invoice").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@clientlog").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@payment/All").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+
+      cy.get("#paymentAmount").type("60");
+
+    cy.get("#paymentDate").type(futureDate, { force: true }).type("{enter}");
+
+    cy.get("#paymentBank").click();
+
+    cy.wait(2000)
+
+    cy.get('div[title="test nabeel"]').eq(1).click();
+
+    cy.wait(1000)
+
+    cy.contains("ADD PAYMENT AND SEND RECEIPT").click();
+
+    cy.wait("@duplicateinvoicecheck").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+
+    cy.wait("@invoice").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+
+    cy.wait("@getinvoice").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+
+    cy.wait("@postpayment").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+
+    cy.wait("@clientlog").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+
+    cy.wait("@payment/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+
+    cy.wait("@invoiceSendRecipt").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+
+    cy.wait("@invoicereceiptpdfhtml").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@MultiUploadWithFileName").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@emailtemplate").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+
+    cy.get('.pdf-file-text').should('exist');
+
+    cy.wait(1000)
+
+    cy.get('.pdf-file-text').invoke('text').then((pdfFileName) => {
+      // Assuming the PDF file name is something like "INVOICE-2d2oi-.PDF"
+      // Use a regular expression to match the expected pattern
+      const regex = /RECEIPT-[a-zA-Z0-9]+-.PDF/;
+      expect(pdfFileName).to.match(regex);
+
+      // Extract the dynamic part from the PDF file name
+      const dynamicPart = pdfFileName.match(/[a-zA-Z0-9]+/)[0];
+    
+      // Now you can use the dynamicPart in your next scenario or assertions
+      // For example, you can log it to the console
+      cy.log(`Dynamic part of the PDF file name: ${dynamicPart}`);
+    });
+
+    cy.wait(1000)
+
+    cy.get('.pdf-file-text')
+     .click()
+
+    
+     cy.wait("@invoicerecepitpdfhtml").then((interception) => {
+      expect(interception.response.statusCode).to.equal(200);
+      cy.writeFile('cypress/downloads/downloaded1.pdf', interception.response.body, 'binary');
+    });
+
+    cy.wait(2000)
+
+
+    cy.readFile('cypress/downloads/downloaded1.pdf', 'binary').then((pdfContent) => {
+      // Assuming the PDF file name is something like "INVOICE-2d2oi-.PDF"
+      // Use a regular expression to match the expected pattern
+      const regex = /RECEIPT-[a-zA-Z0-9]+.PDF/;
+    
+      // Assert that the PDF file name matches the expected pattern
+      expect(pdfContent).to.match(regex);
+    
+      // Extract the dynamic part from the PDF file name
+      const dynamicPart = pdfContent.match(/[a-zA-Z0-9]+/)[0];
+    
+      // Now you can use the dynamicPart in your assertions
+      // For example, you can log it to the console
+      cy.log(`Dynamic part of the downloaded PDF file name: ${dynamicPart}`);
+    });
+
+    cy.wait(2000)
+
+    cy.get('#to').clear()
+  
+    cy.get('#to').type('nabeeloutsourcenz1@gmail.com')
+     
+    cy.get('.ant-btn.ant-btn-primary.button-blue')
+      .contains('Send')
+      .click()
+
+      cy.wait("@postClientEmail").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@emailqueueblocburl").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@invoice").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@clientlog").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@payment/All").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+
+    
 
 
 

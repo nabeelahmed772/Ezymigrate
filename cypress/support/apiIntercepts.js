@@ -84,6 +84,12 @@ export function setupAPIIntercepts() {
 
   cy.intercept("POST", `${baseURL}payment/dailytransaction`).as("dailytran");
 
+  cy.intercept("POST", `${baseURL}invoice/SendRecipt`).as("invoiceSendRecipt");
+
+  cy.intercept("GET", `${baseURL}invoice/CheckDuplicate/*`).as("duplicateinvoicecheck");
+
+  cy.intercept("GET", `${baseURL}invoice/InvoiceReciptPDFHtmlBlob/**`).as("invoicereceiptpdfhtml");
+
   cy.intercept("POST", `${baseURL}invoice/AllBySubjectIdWithPaging`).as(
     "AllBySubjectIdWithPaging"
   );
@@ -102,11 +108,15 @@ export function setupAPIIntercepts() {
 
   cy.intercept(`${baseURL}invoice`).as("invoice");
 
+  cy.intercept('GET', `${baseURL}invoice/*`).as("getinvoice");
+
   cy.intercept(`${baseURL}document/MultiUploadWithFileName`).as(
     "MultiUploadWithFileName"
   );
 
   cy.intercept(`${baseURL}invoice/payment/All/*`).as("payment/All");
+
+  cy.intercept('POST', `${baseURL}invoice/payment`).as("postpayment");
 
   cy.intercept("GET", `${baseURL}branch/bank`).as("branch/bank");
 
@@ -159,6 +169,8 @@ export function setupAPIIntercepts() {
   cy.intercept("DELETE", `${baseURL}subject/case`).as("delcase");
 
   cy.intercept("GET", `${baseURL}emailtemplate`).as("emailtemplate");
+
+  cy.intercept("GET", `${baseURL}invoice/InvoiceReciptPDFHtml/**`).as("invoicerecepitpdfhtml");
 
   cy.intercept("POST", `${baseURL}emailtemplate`).as("postemailtemplate");
 
@@ -421,6 +433,8 @@ export function setupAPIIntercepts() {
   );
 
   cy.intercept("GET", `${baseURL}reminder/All`).as("getallreminders");
+
+  cy.intercept("GET", `${baseURL}invoice/InvoicePDFHtml/**`).as("pdfinvoicedownloads");
 
   cy.intercept("GET", `${baseURL}task/AllByUserId/**`).as("AllByUserId");
 
