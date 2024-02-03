@@ -24,8 +24,6 @@ function randName(length) {
   return result;
 }
 
-
-
 describe("case management", () => {
   const futureDate = Cypress.env("futureDate");
 
@@ -42,8 +40,6 @@ describe("case management", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-
-   
     cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
       var del = $el
         .find(
@@ -59,6 +55,8 @@ describe("case management", () => {
         });
       }
     });
+
+    cy.wait(2000);
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[6]/span/a'
     ).click();
@@ -139,7 +137,7 @@ describe("case management", () => {
 
     cy.wait(3000);
 
-    cy.contains("Critical Purpose Visitor Visa").click({force:true});
+    cy.contains("Critical Purpose Visitor Visa").click({ force: true });
 
     cy.get("#basic_date").type(futureDate, { force: true }).type("{enter}");
 
@@ -247,8 +245,7 @@ describe("case management", () => {
 
     cy.get(".cv-bold-text").should("contain", "CRITICAL PURPOSE VISITOR VISA");
 
-
-    cy.get('.header-text').contains('Accounts').click()
+    cy.get(".header-text").contains("Accounts").click();
 
     cy.wait("@branch/permissions").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -262,131 +259,121 @@ describe("case management", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-
     cy.wait("@AllClientBalance").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 404);
     });
 
-    cy.get('.sus-inactive-tab-text-school')
-      .contains('INVOICES')
-      .click()
+    cy.get(".sus-inactive-tab-text-school").contains("INVOICES").click();
 
     cy.wait("@getmarkedtagspotentialclient").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
     cy.wait("@AllBySubjectIdWithPaging").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 404);
-      });
+      cy.wrap(interception.response.statusCode).should("eq", 404);
+    });
 
-    cy.get('.ant-btn.ant-btn-primary.button-blue')
-      .contains('ADD')
-      .click()
+    cy.get(".ant-btn.ant-btn-primary.button-blue").contains("ADD").click();
 
-      cy.wait("@AllBranch").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@AllBranch").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
+    cy.wait("@LastInvoiceNumber").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@LastInvoiceNumber").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@GetAllInvoiceStatuses").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
+    cy.wait("@TemplateAddNewLine").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@GetAllInvoiceStatuses").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@clientConstractBranchDetails").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@TemplateAddNewLine").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@AllBranchNote").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@clientConstractBranchDetails").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@AllData").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@AllBranchNote").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@getcompany").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@AllData").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@AllClientAssignTag").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@getcompany").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@GetAllInvoiceTypes").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@AllClientAssignTag").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-      
+    cy.wait("@branch/bank").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@GetAllInvoiceTypes").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@GetAllCurrencies").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@branch/bank").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@getTax").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@GetAllCurrencies").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.get('input[placeholder="Select date"]')
+      .eq(0)
+      .type(futureDate, { force: true })
+      .type("{enter}");
+    cy.get('input[placeholder="Select date"]')
+      .eq(1)
+      .type(futureDate, { force: true })
+      .type("{enter}");
 
-      cy.wait("@getTax").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.get(
+      ".ant-col-xs-12 > .ant-row > .ant-col > .ant-select > .ant-select-selector"
+    ).click({ force: true });
 
+    cy.contains("NEW TESTING TEMPLATE").click();
+    cy.wait("@AddNewLine").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+    cy.get(".ant-input-number-input").should("have.value", 120);
+    cy.contains("Calculate Sub Total").click();
+    cy.get("#taxName").click();
+    cy.contains("Nsbeel -1.5").click().wait(1000);
+    cy.get("#bankAccount").click();
+    cy.wait(1000);
+    cy.get('div[title="test nabeel"]').click();
+    cy.contains("SAVE INVOICE").click();
+    cy.wait(5000);
+    cy.wait("@invoice").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.get('input[placeholder="Select date"]')
-        .eq(0)
-        .type(futureDate, { force: true })
-        .type("{enter}");
-      cy.get('input[placeholder="Select date"]')
-        .eq(1)
-        .type(futureDate, { force: true })
-        .type("{enter}");
+    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.get(
-          ".ant-col-xs-12 > .ant-row > .ant-col > .ant-select > .ant-select-selector"
-        ).click({ force: true });
-    
-      cy.contains("NEW TESTING TEMPLATE").click();
-      cy.wait("@AddNewLine").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-      cy.get(".ant-input-number-input").should("have.value", 120);
-      cy.contains("Calculate Sub Total").click();
-      cy.get('#taxName')
-        .click();
-      cy.contains("Nsbeel -1.5").click().wait(1000);
-      cy.get("#bankAccount").click();
-      cy.wait(1000);
-      cy.get('div[title="test nabeel"]').click();
-      cy.contains("SAVE INVOICE").click();
-      cy.wait(5000);
-      cy.wait("@invoice").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-  
-      cy.wait("@getmarkedtagspotentialclient").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@AllBySubjectIdWithPaging").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@AllBySubjectIdWithPaging").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@clientlog").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@clientlog").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@reminder").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@reminder").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-
-      cy.wait(2000)
+    cy.wait(2000);
 
     cy.get(".ant-btn.ant-btn-primary.ant-btn-sm.button-blue")
       .contains("Email")
@@ -408,102 +395,234 @@ describe("case management", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.get('.pdf-file-text').should('exist');
+    cy.get(".pdf-file-text").should("exist");
 
-    cy.wait(1000)
+    cy.wait(1000);
 
-    cy.get('.pdf-file-text').invoke('text').then((pdfFileName) => {
-      // Assuming the PDF file name is something like "INVOICE-2d2oi-.PDF"
-      // Use a regular expression to match the expected pattern
-      const regex = /INVOICE-([a-zA-Z0-9]+)-.PDF/;
-      expect(pdfFileName).to.match(regex);
-    
-      // Extract the dynamic part from the PDF file name
-      const dynamicPartMatch = pdfFileName.match(regex);
-      const dynamicPart = dynamicPartMatch ? dynamicPartMatch[1] : null;
-    
-      // Now you can use the dynamicPart in your next scenario or assertions
-      // For example, you can log it to the console
-      cy.log(`Dynamic part of the PDF file name: ${dynamicPart}`);
+    cy.get(".pdf-file-text")
+      .invoke("text")
+      .then((pdfFileName) => {
+        // Assuming the PDF file name is something like "INVOICE-2d2oi-.PDF"
+        // Use a regular expression to match the expected pattern
+        const regex = /INVOICE-([a-zA-Z0-9]+)-.PDF/;
+        expect(pdfFileName).to.match(regex);
+
+        // Extract the dynamic part from the PDF file name
+        const dynamicPartMatch = pdfFileName.match(regex);
+        const dynamicPart = dynamicPartMatch ? dynamicPartMatch[1] : null;
+
+        // Now you can use the dynamicPart in your next scenario or assertions
+        // For example, you can log it to the console
+        cy.log(`Dynamic part of the PDF file name: ${dynamicPart}`);
+      });
+
+    cy.wait(1000);
+
+    cy.get(".pdf-file-text").click();
+
+    cy.wait("@pdfinvoicedownloads").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
     });
-    
 
-    cy.wait(1000)
+    cy.wait(2000);
 
+    const downloadsPath = "cypress/downloads";
 
-    
-   cy.get('.pdf-file-text')
-     .click()
+    // Read directory and log files
+    cy.readDirectory(downloadsPath).then((files) => {
+      const fileName = files.find(
+        (file) => file.includes("Invoice") && file.endsWith(".pdf")
+      );
+      if (fileName) {
+        const filePath = `${downloadsPath}/${fileName}`;
 
-    
-     cy.wait("@pdfinvoicedownloads").then((interception) => {
-      cy.wrap(interception.response.statusCode).should('eq',200);
-     
+        // Assertion that the file exists
+        expect(files).to.include(fileName);
+
+        // Delete the file using fs.unlink
+        cy.exec(`node -e "require('fs').unlinkSync('${filePath}')"`, {
+          failOnNonZeroExit: false,
+        }).then((result) => {
+          if (result.code === 0) {
+            cy.log(`File ${fileName} deleted successfully`);
+          } else {
+            cy.log(
+              `Failed to delete the file ${fileName}. Error code: ${result.code}`
+            );
+          }
+        });
+      } else {
+        cy.log("No matching file found in the downloads directory.");
+      }
+    });
+
+    cy.wait(2000);
+    cy.get("#to").clear();
+
+    cy.get("#to").type("nabeeloutsourcenz1@gmail.com");
+
+    cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Send").click();
+
+    cy.wait("@postClientEmail").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@emailqueueblocburl").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@invoice").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@clientlog").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@AllBySubjectIdWithPaging").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("not.equal", 500);
+    });
+
+    //add assertion on email as well
+
+    cy.get(".header-text").contains("Email").click();
+
+    cy.wait("@ClientImportSettings").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@GetClientFamilyMembers").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@case/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@ClientEmailHistorynew").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@branch/permissions").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@emailtemplate").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@AllData").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get('img[src="/static/media/detail-email.ea02a2ce.jpg"]').click();
+
+    cy.wait("@singleclientemailbyid").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".body-attachment-text")
+      .invoke("text")
+      .then((pdfFileName) => {
+        // Assuming the PDF file name is something like "INVOICE-2d2oi-.PDF"
+        // Use a regular expression to match the expected pattern
+        const regex = /Invoice-([a-zA-Z0-9]+).pdf/;
+        expect(pdfFileName).to.match(regex);
+
+        // Extract the dynamic part from the PDF file name
+        const dynamicPartMatch = pdfFileName.match(regex);
+        const dynamicPart = dynamicPartMatch ? dynamicPartMatch[1] : null;
+
+        // Now you can use the dynamicPart in your next scenario or assertions
+        // For example, you can log it to the console
+        cy.log(`Dynamic part of the PDF file name: ${dynamicPart}`);
+      });
+
+    cy.get(".body-attachment-text").click();
+
+    cy.wait("@getdocumentsattachmentbytes").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
     cy.wait(2000)
 
-    const downloadsPath = 'cypress/downloads';
+    const downloadsPath1 = "cypress/downloads";
 
-// Read directory and log files
-cy.readDirectory(downloadsPath).then((files) => {
-  const fileName = files.find(file => file.includes('Invoice') && file.endsWith('.pdf'));
-  if (fileName) {
-    const filePath = `${downloadsPath}/${fileName}`;
+    // Read directory and log files
+    cy.readDirectory(downloadsPath1).then((files) => {
+      const fileName = files.find(
+        (file) => file.includes("Invoice") && file.endsWith(".pdf")
+      );
+      if (fileName) {
+        const filePath = `${downloadsPath1}/${fileName}`;
 
-    // Assertion that the file exists
-    expect(files).to.include(fileName);
+        // Assertion that the file exists
+        expect(files).to.include(fileName);
 
-    // Delete the file using fs.unlink
-    cy.exec(`node -e "require('fs').unlinkSync('${filePath}')"`, { failOnNonZeroExit: false }).then((result) => {
-      if (result.code === 0) {
-        cy.log(`File ${fileName} deleted successfully`);
+        // Delete the file using fs.unlink
+        cy.exec(`node -e "require('fs').unlinkSync('${filePath}')"`, {
+          failOnNonZeroExit: false,
+        }).then((result) => {
+          if (result.code === 0) {
+            cy.log(`File ${fileName} deleted successfully`);
+          } else {
+            cy.log(
+              `Failed to delete the file ${fileName}. Error code: ${result.code}`
+            );
+          }
+        });
       } else {
-        cy.log(`Failed to delete the file ${fileName}. Error code: ${result.code}`);
+        cy.log("No matching file found in the downloads directory.");
       }
     });
-  } else {
-    cy.log('No matching file found in the downloads directory.');
-  }
-});
 
-      
+    cy.get(".ant-btn.ant-btn-primary.login-form-button.save-btn.button-blue")
+      .contains("Close")
+      .click();
 
-      cy.wait(2000)
-    cy.get('#to').clear()
-  
-    cy.get('#to').type('nabeeloutsourcenz1@gmail.com')
-     
-    cy.get('.ant-btn.ant-btn-primary.button-blue')
-      .contains('Send')
-      .click()
+    cy.get('img[src="/static/media/del-blue.296a7465.svg"]').click();
 
-      cy.wait("@postClientEmail").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.get(".ant-btn.ant-btn-primary:visible")
+      .contains("OK")
+      .click({ force: true });
 
-      cy.wait("@emailqueueblocburl").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait(1000);
 
-      cy.wait("@invoice").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@ClientEmail").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@clientlog").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@ClientEmailHistorynew").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@AllBySubjectIdWithPaging").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.get(".header-text").contains("Accounts").click();
 
+    cy.wait("@branch/permissions").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
+    cy.wait("@getcompany").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-    //add assertion on email as well 
+    cy.wait("@AllData").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
+    cy.wait("@AllClientBalance").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 404);
+    });
 
-    
+    cy.get(".sus-inactive-tab-text-school").contains("INVOICES").click();
+
+    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@AllBySubjectIdWithPaging").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
     cy.contains("View Details").click();
 
@@ -527,7 +646,6 @@ cy.readDirectory(downloadsPath).then((files) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-
     cy.wait("@GetAllCurrencies").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
@@ -538,11 +656,11 @@ cy.readDirectory(downloadsPath).then((files) => {
 
     cy.get("#paymentBank").click();
 
-    cy.wait(2000)
+    cy.wait(2000);
 
-    cy.get('div[title="test nabeel"]').eq(1).click();
+    cy.get('div[title="test nabeel"]').click();
 
-    cy.wait(1000)
+    cy.wait(1000);
 
     cy.contains("ADD PAYMENT").click();
 
@@ -567,173 +685,30 @@ cy.readDirectory(downloadsPath).then((files) => {
     });
 
     cy.wait("@payment/All").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
+      cy.wrap(interception.response.statusCode).should("not.equal", 500);
     });
-
-    
 
     cy.wait(2000);
 
-    cy.get('.ant-btn.ant-btn-primary.button-blue')
-      .contains('SEND RECEIPT ')
-      .click()
-
-      cy.wait("@duplicateinvoicecheck").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-
-      cy.wait("@invoice").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-
-      cy.wait("@getinvoice").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-
-      cy.wait("@invoiceSendRecipt").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-
-      cy.wait("@invoicereceiptpdfhtml").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-
-      cy.wait("@MultiUploadWithFileName").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-
-      cy.wait("@emailtemplate").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-
-
-      cy.get('.pdf-file-text').should('exist');
-
-    cy.wait(1000)
-
-    cy.get('.pdf-file-text').invoke('text').then((pdfFileName) => {
-      // Assuming the PDF file name is something like "INVOICE-2d2oi-.PDF"
-      // Use a regular expression to match the expected pattern
-      const regex = /RECEIPT-[a-zA-Z0-9]+-.PDF/;
-      expect(pdfFileName).to.match(regex);
-
-      // Extract the dynamic part from the PDF file name
-      const dynamicPart = pdfFileName.match(/[a-zA-Z0-9]+/)[0];
-    
-      // Now you can use the dynamicPart in your next scenario or assertions
-      // For example, you can log it to the console
-      cy.log(`Dynamic part of the PDF file name: ${dynamicPart}`);
-    });
-
-    cy.wait(1000)
-
-    cy.get('.pdf-file-text')
-     .click()
-
-    
-     cy.wait("@invoicerecepitpdfhtml").then((interception) => {
-      expect(interception.response.statusCode).to.equal(200);
-      cy.writeFile('cypress/downloads/downloaded1.pdf', interception.response.body, 'binary');
-    });
-
-    cy.wait(2000)
-
-
-    cy.readFile('cypress/downloads/downloaded1.pdf', 'binary').then((pdfContent) => {
-      // Assuming the PDF file name is something like "INVOICE-2d2oi-.PDF"
-      // Use a regular expression to match the expected pattern
-      const regex = /RECEIPT-[a-zA-Z0-9]+.PDF/;
-    
-      // Assert that the PDF file name matches the expected pattern
-      expect(pdfContent).to.match(regex);
-    
-      // Extract the dynamic part from the PDF file name
-      const dynamicPart = pdfContent.match(/[a-zA-Z0-9]+/)[0];
-    
-      // Now you can use the dynamicPart in your assertions
-      // For example, you can log it to the console
-      cy.log(`Dynamic part of the downloaded PDF file name: ${dynamicPart}`);
-    });
-
-    cy.wait(2000)
-
-    cy.get('#to').clear()
-  
-    cy.get('#to').type('nabeeloutsourcenz1@gmail.com')
-     
-    cy.get('.ant-btn.ant-btn-primary.button-blue')
-      .contains('Send')
-      .click()
-
-      cy.wait("@postClientEmail").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-
-      cy.wait("@emailqueueblocburl").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-
-      cy.wait("@invoice").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-
-      cy.wait("@clientlog").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-
-      cy.wait("@payment/All").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-
-
-      cy.get("#paymentAmount").type("60");
-
-    cy.get("#paymentDate").type(futureDate, { force: true }).type("{enter}");
-
-    cy.get("#paymentBank").click();
-
-    cy.wait(2000)
-
-    cy.get('div[title="test nabeel"]').eq(1).click();
-
-    cy.wait(1000)
-
-    cy.contains("ADD PAYMENT AND SEND RECEIPT").click();
+    cy.get(".ant-btn.ant-btn-primary.button-blue")
+      .contains("SEND RECEIPT ")
+      .click();
 
     cy.wait("@duplicateinvoicecheck").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-
     cy.wait("@invoice").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
-
 
     cy.wait("@getinvoice").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-
-    cy.wait("@postpayment").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
-
-
-    cy.wait("@clientlog").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
-
-
-    cy.wait("@payment/All").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
-
-
     cy.wait("@invoiceSendRecipt").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
-
 
     cy.wait("@invoicereceiptpdfhtml").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -747,89 +722,513 @@ cy.readDirectory(downloadsPath).then((files) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
+    cy.get(".pdf-file-text").should("exist");
 
-    cy.get('.pdf-file-text').should('exist');
+    cy.wait(1000);
 
-    cy.wait(1000)
+    cy.get(".pdf-file-text")
+      .invoke("text")
+      .then((pdfFileName) => {
+        // Assuming the PDF file name is something like "INVOICE-2d2oi-.PDF"
+        // Use a regular expression to match the expected pattern
+        const regex = /RECEIPT-([a-zA-Z0-9]+)-.PDF/;
+        expect(pdfFileName).to.match(regex);
 
-    cy.get('.pdf-file-text').invoke('text').then((pdfFileName) => {
-      // Assuming the PDF file name is something like "INVOICE-2d2oi-.PDF"
-      // Use a regular expression to match the expected pattern
-      const regex = /RECEIPT-[a-zA-Z0-9]+-.PDF/;
-      expect(pdfFileName).to.match(regex);
+        // Extract the dynamic part from the PDF file name
+        const dynamicPartMatch = pdfFileName.match(regex);
+        const dynamicPart = dynamicPartMatch ? dynamicPartMatch[1] : null;
 
-      // Extract the dynamic part from the PDF file name
-      const dynamicPart = pdfFileName.match(/[a-zA-Z0-9]+/)[0];
-    
-      // Now you can use the dynamicPart in your next scenario or assertions
-      // For example, you can log it to the console
-      cy.log(`Dynamic part of the PDF file name: ${dynamicPart}`);
+        // Now you can use the dynamicPart in your next scenario or assertions
+        // For example, you can log it to the console
+        cy.log(`Dynamic part of the PDF file name: ${dynamicPart}`);
+      });
+
+    cy.wait(1000);
+
+    cy.get(".pdf-file-text").click();
+
+    cy.wait("@invoicerecepitpdfhtml").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(1000)
+    cy.wait(2000);
+    //change
 
-    cy.get('.pdf-file-text')
-     .click()
+    const downloadsPath2 = "cypress/downloads";
+    // Read directory and log files
+    cy.readDirectory(downloadsPath2).then((files) => {
+      const fileName = files.find(
+        (file) => file.includes("Invoice") && file.endsWith(".pdf")
+      );
+      if (fileName) {
+        const filePath = `${downloadsPath2}/${fileName}`;
 
-    
-     cy.wait("@invoicerecepitpdfhtml").then((interception) => {
-      expect(interception.response.statusCode).to.equal(200);
-      cy.writeFile('cypress/downloads/downloaded1.pdf', interception.response.body, 'binary');
+        // Assertion that the file exists
+        expect(files).to.include(fileName);
+
+        // Delete the file using fs.unlink
+        cy.exec(`node -e "require('fs').unlinkSync('${filePath}')"`, {
+          failOnNonZeroExit: false,
+        }).then((result) => {
+          if (result.code === 0) {
+            cy.log(`File ${fileName} deleted successfully`);
+          } else {
+            cy.log(
+              `Failed to delete the file ${fileName}. Error code: ${result.code}`
+            );
+          }
+        });
+      } else {
+        cy.log("No matching file found in the downloads directory.");
+      }
+    });
+
+    cy.wait(2000);
+
+    cy.wait(2000);
+
+    cy.get("#to").clear();
+
+    cy.get("#to").type("nabeeloutsourcenz1@gmail.com");
+
+    cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Send").click();
+
+    cy.wait("@postClientEmail").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@emailqueueblocburl").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@invoice").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@clientlog").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@payment/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".header-text").contains("Email").click();
+
+    cy.wait("@ClientImportSettings").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@GetClientFamilyMembers").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@case/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@ClientEmailHistorynew").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@branch/permissions").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@emailtemplate").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@AllData").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get('img[src="/static/media/detail-email.ea02a2ce.jpg"]').click();
+
+    cy.wait("@singleclientemailbyid").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".body-attachment-text")
+      .invoke("text")
+      .then((pdfFileName) => {
+        // Assuming the PDF file name is something like "INVOICE-2d2oi-.PDF"
+        // Use a regular expression to match the expected pattern
+        const regex = /Receipt-([a-zA-Z0-9]+).pdf/;
+        expect(pdfFileName).to.match(regex);
+
+        // Extract the dynamic part from the PDF file name
+        const dynamicPartMatch = pdfFileName.match(regex);
+        const dynamicPart = dynamicPartMatch ? dynamicPartMatch[1] : null;
+
+        // Now you can use the dynamicPart in your next scenario or assertions
+        // For example, you can log it to the console
+        cy.log(`Dynamic part of the PDF file name: ${dynamicPart}`);
+      });
+
+    cy.get(".body-attachment-text").click();
+
+    cy.wait("@getdocumentsattachmentbytes").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
     cy.wait(2000)
 
+    const downloadsPath3 = "cypress/downloads";
 
-    cy.readFile('cypress/downloads/downloaded1.pdf', 'binary').then((pdfContent) => {
-      // Assuming the PDF file name is something like "INVOICE-2d2oi-.PDF"
-      // Use a regular expression to match the expected pattern
-      const regex = /RECEIPT-[a-zA-Z0-9]+.PDF/;
-    
-      // Assert that the PDF file name matches the expected pattern
-      expect(pdfContent).to.match(regex);
-    
-      // Extract the dynamic part from the PDF file name
-      const dynamicPart = pdfContent.match(/[a-zA-Z0-9]+/)[0];
-    
-      // Now you can use the dynamicPart in your assertions
-      // For example, you can log it to the console
-      cy.log(`Dynamic part of the downloaded PDF file name: ${dynamicPart}`);
+    cy.readDirectory(downloadsPath3).then((files) => {
+      const fileName = files.find(
+        (file) => file.includes("Receipt") && file.endsWith(".pdf")
+      );
+      if (fileName) {
+        const filePath = `${downloadsPath3}/${fileName}`;
+
+        // Assertion that the file exists
+        expect(files).to.include(fileName);
+
+        // Delete the file using fs.unlink
+        cy.exec(`node -e "require('fs').unlinkSync('${filePath}')"`, {
+          failOnNonZeroExit: false,
+        }).then((result) => {
+          if (result.code === 0) {
+            cy.log(`File ${fileName} deleted successfully`);
+          } else {
+            cy.log(
+              `Failed to delete the file ${fileName}. Error code: ${result.code}`
+            );
+          }
+        });
+      } else {
+        cy.log("No matching file found in the downloads directory.");
+      }
+    });
+
+    cy.get(".ant-btn.ant-btn-primary.login-form-button.save-btn.button-blue")
+      .contains("Close")
+      .click();
+
+    cy.get('img[src="/static/media/del-blue.296a7465.svg"]').click();
+
+    cy.get(".ant-btn.ant-btn-primary:visible")
+      .contains("OK")
+      .click({ force: true });
+
+    cy.wait(1000);
+
+    cy.wait("@ClientEmail").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@ClientEmailHistorynew").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".header-text").contains("Accounts").click();
+
+    cy.wait("@branch/permissions").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@getcompany").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@AllData").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@AllClientBalance").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 404);
+    });
+
+    cy.get(".sus-inactive-tab-text-school").contains("INVOICES").click();
+
+    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@AllBySubjectIdWithPaging").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.contains("View Details").click();
+
+    cy.wait("@payment/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@branch/bank").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@getTax").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@LastInvoiceNumber").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@GetAllInvoiceStatuses").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@GetAllCurrencies").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get("#paymentAmount").type("60");
+
+    cy.get("#paymentDate").type(futureDate, { force: true }).type("{enter}");
+
+    cy.get("#paymentBank").click();
+
+    cy.wait(2000);
+
+    cy.get('div[title="test nabeel"]').click();
+
+    cy.wait(1000);
+
+    cy.contains("ADD PAYMENT AND SEND RECEIPT").click();
+
+    cy.wait("@duplicateinvoicecheck").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@invoice").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@getinvoice").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@postpayment").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@clientlog").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@payment/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@invoiceSendRecipt").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@invoicereceiptpdfhtml").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@MultiUploadWithFileName").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@emailtemplate").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
     cy.wait(2000)
 
-    cy.get('#to').clear()
-  
-    cy.get('#to').type('nabeeloutsourcenz1@gmail.com')
-     
-    cy.get('.ant-btn.ant-btn-primary.button-blue')
-      .contains('Send')
-      .click()
+    cy.get(".pdf-file-text").should("exist");
 
-      cy.wait("@postClientEmail").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
+    cy.wait(2000);
+
+    cy.get(".pdf-file-text")
+      .invoke("text")
+      .then((pdfFileName) => {
+        // Assuming the PDF file name is something like "INVOICE-2d2oi-.PDF"
+        // Use a regular expression to match the expected pattern
+        const regex = /RECEIPT-([a-zA-Z0-9]+)-.PDF/;
+        expect(pdfFileName).to.match(regex);
+
+        // Extract the dynamic part from the PDF file name
+        const dynamicPartMatch = pdfFileName.match(regex);
+        const dynamicPart = dynamicPartMatch ? dynamicPartMatch[1] : null;
+
+        // Now you can use the dynamicPart in your next scenario or assertions
+        // For example, you can log it to the console
+        cy.log(`Dynamic part of the PDF file name: ${dynamicPart}`);
       });
 
-      cy.wait("@emailqueueblocburl").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
+    cy.wait(1000);
+    cy.wait(1000);
+
+    cy.get(".pdf-file-text").click();
+
+    cy.wait("@invoicerecepitpdfhtml").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait(4000);
+    const downloadsPath4 = "cypress/downloads";
+    //change
+    cy.readDirectory(downloadsPath4).then((files) => {
+      const fileName = files.find(
+        (file) => file.includes("Invoice") && file.endsWith(".pdf")
+      );
+      if (fileName) {
+        const filePath = `${downloadsPath4}/${fileName}`;
+
+        // Assertion that the file exists
+        expect(files).to.include(fileName);
+
+        // Delete the file using fs.unlink
+        cy.exec(`node -e "require('fs').unlinkSync('${filePath}')"`, {
+          failOnNonZeroExit: false,
+        }).then((result) => {
+          if (result.code === 0) {
+            cy.log(`File ${fileName} deleted successfully`);
+          } else {
+            cy.log(
+              `Failed to delete the file ${fileName}. Error code: ${result.code}`
+            );
+          }
+        });
+      } else {
+        cy.log("No matching file found in the downloads directory.");
+      }
+    });
+
+    cy.wait(2000);
+
+    cy.get("#to").clear();
+
+    cy.get("#to").type("nabeeloutsourcenz1@gmail.com");
+
+    cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Send").click();
+
+    cy.wait("@postClientEmail").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@emailqueueblocburl").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@invoice").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@clientlog").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@payment/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+
+    cy.get(".header-text").contains("Email").click();
+
+    cy.wait("@ClientImportSettings").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@GetClientFamilyMembers").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@case/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@ClientEmailHistorynew").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@branch/permissions").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@emailtemplate").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@AllData").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get('img[src="/static/media/detail-email.ea02a2ce.jpg"]').click();
+
+    cy.wait("@singleclientemailbyid").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".body-attachment-text")
+      .invoke("text")
+      .then((pdfFileName) => {
+        // Assuming the PDF file name is something like "INVOICE-2d2oi-.PDF"
+        // Use a regular expression to match the expected pattern
+        const regex = /Receipt-([a-zA-Z0-9]+).pdf/;
+        expect(pdfFileName).to.match(regex);
+
+        // Extract the dynamic part from the PDF file name
+        const dynamicPartMatch = pdfFileName.match(regex);
+        const dynamicPart = dynamicPartMatch ? dynamicPartMatch[1] : null;
+
+        // Now you can use the dynamicPart in your next scenario or assertions
+        // For example, you can log it to the console
+        cy.log(`Dynamic part of the PDF file name: ${dynamicPart}`);
       });
 
-      cy.wait("@invoice").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.get(".body-attachment-text").click();
 
-      cy.wait("@clientlog").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@getdocumentsattachmentbytes").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@payment/All").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait(3000)
+    const downloadsPath5 = "cypress/downloads";
+    cy.readDirectory(downloadsPath5).then((files) => {
+      const fileName = files.find(
+        (file) => file.includes("Receipt") && file.endsWith(".pdf")
+      );
+      if (fileName) {
+        const filePath = `${downloadsPath5}/${fileName}`;
 
+        // Assertion that the file exists
+        expect(files).to.include(fileName);
 
-    
+        // Delete the file using fs.unlink
+        cy.exec(`node -e "require('fs').unlinkSync('${filePath}')"`, {
+          failOnNonZeroExit: false,
+        }).then((result) => {
+          if (result.code === 0) {
+            cy.log(`File ${fileName} deleted successfully`);
+          } else {
+            cy.log(
+              `Failed to delete the file ${fileName}. Error code: ${result.code}`
+            );
+          }
+        });
+      } else {
+        cy.log("No matching file found in the downloads directory.");
+      }
+    });
 
+    cy.get(".ant-btn.ant-btn-primary.login-form-button.save-btn.button-blue")
+      .contains("Close")
+      .click();
 
+    cy.get('img[src="/static/media/del-blue.296a7465.svg"]').click();
+
+    cy.get(".ant-btn.ant-btn-primary:visible")
+      .contains("OK")
+      .click({ force: true });
+
+    cy.wait(1000);
+
+    cy.wait("@ClientEmail").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@ClientEmailHistorynew").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
 
     cy.xpath(

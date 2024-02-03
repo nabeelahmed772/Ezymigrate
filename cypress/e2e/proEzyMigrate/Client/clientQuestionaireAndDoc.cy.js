@@ -402,6 +402,8 @@ describe("client questionaire and document", () => {
     cy.get("#main_checkListItems_1_name").type("testing2");
     cy.get('img[src="/static/media/add-icon.325d80ae.png"]').eq(1).click();
     cy.get("#main_checkListItems_2_name").type("testing3");
+    cy.get('img[src="/static/media/add-icon.325d80ae.png"]').eq(1).click();
+    cy.get("#main_checkListItems_3_name").type("testing4");
     cy.get(".ant-btn.ant-btn-primary.login-form-button.save-btn")
       .contains("SAVE")
       .click();
@@ -416,6 +418,44 @@ describe("client questionaire and document", () => {
   
       cy.wait(2000);
 
+      cy.wait(2000);
+
+      cy.get("tr").each(($el, index, $list) => {
+        const mo = $el.find(".ant-table-cell").text().trim();
+        cy.log(mo);
+        debugger;
+      
+        if (mo.includes("cypress automation document checklist")) {
+          cy.wrap($el).find(".anticon.anticon-edit").click();
+      
+          cy.wait(3000);
+          cy.get(".ant-row.file-delete-head").each(($el, index, $list) => {
+            const lis = $el.find('#main_checkListItems_3_name').text().trim();
+            cy.log(lis);
+            if (lis.includes('testing4')) {
+              cy.wrap($el).find('.anticon.anticon-delete').click();
+              cy.wait("@deletechecklistitemtemp").then((interception) => {
+                cy.wrap(interception.response.statusCode).should('eq', 200);
+              });
+      
+              cy.get(".ant-btn.ant-btn-primary.login-form-button.save-btn")
+                .contains("SAVE")
+                .click();
+
+                cy.wait("@checklist1").then((interception) => {
+                  cy.wrap(interception.response.statusCode).should("eq", 200);
+                });
+            
+                cy.wait("@checklist").then((interception) => {
+                  cy.wrap(interception.response.statusCode).should("eq", 200);
+                });
+            }
+          });
+        }
+      });
+
+      cy.wait(2000)
+      
       cy.get('a[href="/all-clients"]')
         .click()
 

@@ -236,6 +236,10 @@ export function setupAPIIntercepts() {
     "singleclientemailbyid"
   );
 
+  cy.intercept("GET", `${baseURL}document/GetDocumentBytesforAttachment/**`).as(
+    "getdocumentsattachmentbytes"
+  );
+
   cy.intercept("GET", `${baseURL}config/GetAllClientSource`).as(
     "GetAllClientSource"
   );
