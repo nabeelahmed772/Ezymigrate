@@ -28,24 +28,41 @@ function randName(length) {
 const sms = "211267313";
 
 // cypress/e2e/proEzyMigrate/Client/add_client.cy.js
+beforeEach(() => {
+  setupAPIIntercepts(); // Call the function to set up API intercepts
+  cy.login();
+  cy.xpath(
+    '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'
+  ).click();
+  cy.wait("@SearchClient").then((interception) => {
+    cy.wrap(interception.response.statusCode).should("eq", 200);
+  });
+  cy.wait("@getmarkedtagspotentialclient").then((interception) => {
+    cy.wrap(interception.response.statusCode).should("eq", 200);
+  });
+  cy.wait("@visastatus").then((interception) => {
+    cy.wrap(interception.response.statusCode).should("eq", 200);
+  });
+  cy.wait("@BranchVisaType/All").then((interception) => {
+    cy.wrap(interception.response.statusCode).should("eq", 200);
+  });
+  cy.wait("@getallusers").then((interception) => {
+    cy.wrap(interception.response.statusCode).should("eq", 200);
+  });
+  cy.wait("@getbranchuser").then((interception) => {
+    cy.wrap(interception.response.statusCode).should("eq", 200);
+  });
+  cy.wait("@companyusers").then((interception) => {
+    cy.wrap(interception.response.statusCode).should("eq", 200);
+  });
+});
 
 describe("Adding client", () => {
   const futureDate = Cypress.env("futureDate");
-
-  before(() => {
-    setupAPIIntercepts(); // Call the function to set up API intercepts
-    cy.login();
-  });
+  
 
   it("Add client", () => {
     cy.wait(2000);
-
-    cy.xpath(
-      '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'
-    ).click();
-    cy.wait("@SearchClient").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
 
     //deleting the client
 
@@ -66,7 +83,7 @@ describe("Adding client", () => {
         cy.wait("@SearchClient").then((interception) => {
           cy.wrap(interception.response.statusCode).should("eq", 200);
         });
-    
+
         cy.wait("@getmarkedtagspotentialclient").then((interception) => {
           cy.wrap(interception.response.statusCode).should("eq", 200);
         });
@@ -85,14 +102,11 @@ describe("Adding client", () => {
         cy.wait("@companyusers").then((interception) => {
           cy.wrap(interception.response.statusCode).should("eq", 200);
         });
-    
       }
     });
 
-    cy.wait(1000)
+    cy.wait(1000);
 
-
-    
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[6]/span/a'
     ).click();
@@ -126,7 +140,7 @@ describe("Adding client", () => {
     cy.get("#dateOfBirth").type(futureDate, { force: true }).type("{enter}");
     //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({ multiple: true, force: true })
 
-    cy.get("#dealWorth").type("12", {force:true});
+    cy.get("#dealWorth").type("12", { force: true });
     //cy.get('#countryCode').click()
     //cy.get('.body > div:nth-child(13) > div > div > div > div.rc-virtual-list > div.rc-virtual-list-holder > div > div > div.ant-select-item.ant-select-item-option.ant-select-item-option-active > div').click()
     cy.get("#mobile").type(sms);
@@ -245,11 +259,8 @@ describe("Adding client", () => {
     cy.get("#secondaryEmail").type("test@gmail.com");
     cy.get("#visaDenied > label:nth-child(1) > span.ant-radio > input").click();
     cy.get("#deniedText").type("testing");
-    cy.get('.ant-select-selection-item')
-      .eq(16)
-      .click({force:true})
-    cy.get('div[title="arsalan team member"]')
-      .click({force:true})
+    cy.get(".ant-select-selection-item").eq(16).click({ force: true });
+    cy.get('div[title="arsalan team member"]').click({ force: true });
     cy.contains("Update").click();
     cy.wait(5000);
     //cy.get('#clientSerial').should('have.value', '546')
@@ -357,12 +368,9 @@ describe("Adding client", () => {
 
     // Continue with your Cypress test steps
 
-    cy.get('.ant-select-selection-search-input')
-      .eq(4)
-      .click({force:true})
+    cy.get(".ant-select-selection-search-input").eq(4).click({ force: true });
 
-    cy.get('div[title="NEW ZEALAND"]')
-      .click()
+    cy.get('div[title="NEW ZEALAND"]').click();
 
     cy.get(".cv-top-lbtn-text").eq(0).click();
 
@@ -770,11 +778,11 @@ describe("Adding client", () => {
       .type(futureDate, { force: true })
       .type("{enter}");
 
-    cy.get('.ant-select-selection-overflow').click()
+    cy.get(".ant-select-selection-overflow").click();
 
-    cy.get('div[title="team member nabeel"]').click()
+    cy.get('div[title="team member nabeel"]').click();
 
-    cy.get('label[title="Task Description"]').click()
+    cy.get('label[title="Task Description"]').click();
 
     cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Save").click();
 
@@ -871,13 +879,11 @@ describe("Adding client", () => {
 
     //cy.get(date).click({multiple:true , force:true})
 
-  
-
     //cy.get(date).click({multiple:true , force:true})
 
     cy.get(
       ':nth-child(1) > .form-container > .ant-form > [style="padding: 10px;"] > .ant-select > .ant-select-selector > .ant-select-selection-item'
-    ).type('Client');
+    ).type("Client");
 
     cy.get('div[title="Client Awaiting Document Instructions"]').click({
       multiple: true,
@@ -944,13 +950,13 @@ describe("Adding client", () => {
       .type(futureDate, { force: true })
       .type("{enter}");
 
-    cy.get('.ant-select-selection-overflow').click()
-    
-    cy.get('div[title="team member nabeel"]').click()
-    cy.get('label[title="Task Description"]').click()
+    cy.get(".ant-select-selection-overflow").click();
+
+    cy.get('div[title="team member nabeel"]').click();
+    cy.get('label[title="Task Description"]').click();
 
     cy.get('[style="text-align: right;"] > .ant-btn > span').click();
-   
+
     cy.wait("@clientlog").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
@@ -959,7 +965,6 @@ describe("Adding client", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
     cy.wait(3000);
-
 
     //adding partner
     cy.get(
@@ -1007,11 +1012,8 @@ describe("Adding client", () => {
     //updating the partner details
     cy.get("#clientSerial").click({ force: true }).type(randomNo(40));
     cy.get("#middleName").type("middlename");
-    cy.get('.ant-select-selection-item')
-      .eq(13)
-      .click({force:true})
-    cy.get('div[title="arsalan team member"]')
-      .click({force:true})
+    cy.get(".ant-select-selection-item").eq(13).click({ force: true });
+    cy.get('div[title="arsalan team member"]').click({ force: true });
     cy.get(
       '[style="display: flex; justify-content: space-between; margin-right: 30px;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span'
     ).click();
@@ -1111,12 +1113,9 @@ describe("Adding client", () => {
     cy.get(":nth-child(2) > a > .header-bar-text-div > .header-text").click();
     cy.wait(6000);
 
-    cy.get('.ant-select-selection-search-input')
-      .eq(4)
-      .click({force:true})
+    cy.get(".ant-select-selection-search-input").eq(4).click({ force: true });
 
-    cy.get('div[title="NEW ZEALAND"]')
-      .click()
+    cy.get('div[title="NEW ZEALAND"]').click();
 
     cy.get(".cv-top-lbtn-text").eq(0).click();
 
@@ -1312,13 +1311,11 @@ describe("Adding client", () => {
 
     //cy.get(date).click({multiple:true , force:true})
 
-    
-
     //cy.get(date).click({multiple:true , force:true})
 
     cy.get(
       ':nth-child(1) > .form-container > .ant-form > [style="padding: 10px;"] > .ant-select > .ant-select-selector > .ant-select-selection-item'
-    ).type('Client');
+    ).type("Client");
 
     cy.get('div[title="Client Awaiting Document Instructions"]').click({
       multiple: true,
@@ -1360,24 +1357,22 @@ describe("Adding client", () => {
       .type(futureDate, { force: true })
       .type("{enter}");
 
-    cy.get('.ant-select-selection-overflow').click()
-    
-    cy.get('div[title="team member nabeel"]').click()
-    cy.get('label[title="Task Description"]').click()
-  
+    cy.get(".ant-select-selection-overflow").click();
+
+    cy.get('div[title="team member nabeel"]').click();
+    cy.get('label[title="Task Description"]').click();
+
     cy.get('[style="text-align: right;"] > .ant-btn > span').click();
-     
+
     cy.wait("@clientlog").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-  
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
     cy.wait("@TaskWithUsers").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
     //cy.get(date).click({multiple:true , force:true})
-
-    
 
     cy.wait(3000);
 
@@ -1532,39 +1527,6 @@ describe("Adding client", () => {
     ).click();
 
     cy.wait(5000);
+    })
 
-    cy.xpath(
-      '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'
-    ).click();
-    cy.wait(6000);
-
-    //deleting the client
-
-    cy.contains("finame shuja").scrollIntoView();
-    cy.wait(2000);
-
-    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
-      var del = $el
-        .find(
-          'span[style="font-size: 12px; cursor: pointer; color: rgba(0, 0, 0, 0.85);"]'
-        )
-        .text()
-        .trim();
-      if (del === "finame shuja") {
-        cy.log(del);
-        cy.wrap($el).find(".anticon.anticon-delete").click();
-      }
-    });
-
-    //cy.get('#root > div > div > div > section > main > div > div > div > div > div.container-ui.w-100 > div.ant-spin-nested-loading > div > div > div > div > div > div > div > div.ant-table-container > div > table > tbody > tr:nth-child(3) > td:nth-child(8) > div > span > svg').click()
-    //cy.get('#root > div > div > div > section > main > div > div > div > div > div.container-ui.w-100 > div.ant-spin-nested-loading > div > div > div > div > div > div > div > div.ant-table-container > div > table > tbody > tr:nth-child(2) > td:nth-child(8) > div > span > svg').click()
-    //cy.get('#root > div > div > div > section > main > div > div > div > div > div.container-ui.w-100 > div.ant-spin-nested-loading > div > div > div > div > div > div > div > div.ant-table-container > div > table > tbody > tr:nth-child(1) > td:nth-child(8) > div > span > svg').click()
-    //cy.wait(3000)
-    //cy.window().then(function(){
-    //cy.contains('OK').click()
-
-    //});
-    //cy.type('{enter}')
-    cy.wait(5000);
-  });
-});
+})

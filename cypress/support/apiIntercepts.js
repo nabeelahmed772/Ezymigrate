@@ -1,14 +1,30 @@
 function generateBaseURL(environment) {
+  const baseURLPrefix = getBaseURLPrefix(environment);
+
   if (environment === "production") {
-    return "https://beta-api.ezymigrate.co.nz/v1/";
+    return `${baseURLPrefix}v1/`;
   } else if (environment === "staging") {
-    return "https://uatapi.ezymigrate.co.nz/v1/";
+    return `${baseURLPrefix}v1/`;
   } else if (environment === "linux") {
-    return "https://linuxapi-stage.ezymigrate.co.nz/v1/";
+    return `${baseURLPrefix}v1/`;
   } else {
-    return "https://beta-api.ezymigrate.co.nz/v1/";
+    return `${baseURLPrefix}v1/`;
   }
 }
+
+// Helper function to get the base URL prefix based on the environment
+function getBaseURLPrefix(environment) {
+  if (environment === "production") {
+    return "https://beta-api.ezymigrate.co.nz/";
+  } else if (environment === "staging") {
+    return "https://uatapi.ezymigrate.co.nz/";
+  } else if (environment === "linux") {
+    return "https://linuxapi-stage.ezymigrate.co.nz/";
+  } else {
+    return "https://beta-api.ezymigrate.co.nz/";
+  }
+}
+
 
 export function setupAPIIntercepts() {
   const environment = Cypress.env("environment");
@@ -148,6 +164,8 @@ export function setupAPIIntercepts() {
 
   cy.intercept("GET", `${baseURL}document/AllByType/**`).as("AllByType");
 
+  cy.intercept("GET", `${baseURL}document/type/All`).as("getdocumentypeall");
+
   cy.intercept("GET", `${baseURL}subject/case/All/dropdown/*`).as("allsubjectcasedropdown");
 
   cy.intercept("POST", `${baseURL}visa/document`).as("visadocument");
@@ -272,6 +290,10 @@ export function setupAPIIntercepts() {
 
   cy.intercept("GET", `${baseURL}parentbinding/All`).as("parentbinding");
 
+  cy.intercept("GET", `${baseURL}clientemployer/All/*`).as("getclientemployer");
+
+  cy.intercept("GET", `${baseURL}client/educationalhistory/GetAllEducationalHistoryByClientId/*`).as("getclientmaineducationhistory");
+
   cy.intercept("POST", `${baseURL}questionnaire/RAddQuestionnaire`).as(
     "RAddQuestionnaire"
   );
@@ -311,11 +333,19 @@ export function setupAPIIntercepts() {
   cy.intercept("GET", `${baseURL}users/ddl/PermisionUser/false`).as(
     "allbranchUsersfalse"
   );
+  cy.intercept("GET", `${baseURL}questionnaire/GetAttachments/*`).as(
+    "getquestionaireattachmentswithid"
+  );
 
   cy.intercept(
     "POST",
     `${baseURL}questionnairefilledanswer/InsertFilledAnswers`
   ).as("InsertFilledAnswers");
+
+  cy.intercept(
+    "PUT",
+    `${baseURL}questionnairefilledanswer`
+  ).as("potentialfilledanswer");
 
   cy.intercept("POST", `${baseURL}questionnaire/WebSendQuestionnaireEmail`).as(
     "WebSendQuestionnaireEmail"
@@ -352,7 +382,13 @@ export function setupAPIIntercepts() {
     "BranchVisaType/All"
   );
 
+  cy.intercept("GET", `${baseURL}filledQuestionnaire/AllByClientId/*`).as(
+    "allfilledquestionairesbyclientid"
+  );
+
   cy.intercept("GET", `${baseURL}users/ddl/All`).as("getallusers");
+
+  cy.intercept("GET", `${baseURL}questionnaire/QuestionnaireGroup`).as("getquestonairegroup");
 
   cy.intercept("GET", `${baseURL}client/GetAssessingAuth`).as("getaccessingauth");
 
@@ -416,6 +452,14 @@ export function setupAPIIntercepts() {
     "postBranchCountryLinking"
   );
 
+  cy.intercept("POST", `${baseURL}client/Link`).as(
+    "postclientlink"
+  );
+
+
+  cy.intercept("GET", `${baseURL}client/jobhistory/All/*`).as(
+    "clientjobhistory"
+  );
   cy.intercept("POST", `${baseURL}HtmlTemplate/SetHtmlTemplate`).as(
     "SetHtmlTemplate"
   );
@@ -544,6 +588,8 @@ export function setupAPIIntercepts() {
   cy.intercept(`${baseURL}mailchimp/GetAllList`).as("mailchimp/GetAllList");
 
   cy.intercept("GET", `${baseURL}client/balance/All/*`).as("AllClientBalance");
+
+  cy.intercept("POST", `${baseURL}client/balance`).as("postclientbalance");
 
   cy.intercept("GET", `${baseURL}branch/All`).as("AllBranch");
 
@@ -744,6 +790,114 @@ export function setupAPIIntercepts() {
   cy.intercept("GET", `${baseURL}client/email/AllByFamily/*`).as(
     "getclientemalbyfamily"
   );
+
+  //cmv APis
+
+  cy.intercept("POST", `${baseURL}cmv/user/identity/SetPassword`).as(
+    "cmvsetpassword"
+  );
+
+  cy.intercept("GET", `${baseURL}cmv/clientprofile`).as(
+    "cmvclientprofile"
+  );
+
+  cy.intercept("GET", `${baseURL}cmv/clientprofile/GetClientPartner/*`).as(
+    "cmvclientprofilepartner"
+  );
+
+  cy.intercept("GET", `${baseURL}cmv/clientprofile/GetClientFamilyMembers/*`).as(
+    "cmvclientprofilefamilymembers"
+  );
+
+  cy.intercept("GET", `${baseURL}cmv/client/programdetail/All`).as(
+    "cmvclientprogramdetailsall"
+  );
+
+  cy.intercept("GET", `${baseURL}cmv/clientcase/All`).as(
+    "cmvclientcasesall"
+  );
+
+  cy.intercept("GET", `${baseURL}cmv/document/All/**`).as(
+    "cmvclientdocumentall"
+  );
+
+  cy.intercept("POST", `${baseURL}cmv/document/MultiUploadWithFileName`).as(
+    "cmvmultiuploadfilename"
+  );
+
+
+  cy.intercept("POST", `${baseURL}cmv/document`).as(
+    "cmvcpostdocument"
+  );
+
+  cy.intercept("GET", `${baseURL}cmv/document/checklist/All`).as(
+    "cmvdocumentchecklistall"
+  );
+
+  cy.intercept("GET", `${baseURL}cmv/document/checklist/Link/*`).as(
+    "cmvdocumentchecklistlink"
+  );
+
+  cy.intercept("GET", `${baseURL}cmv/clientprofile/GetBranchDetail/*`).as(
+    "cmvclientprofilebranchdetails"
+  );
+
+  cy.intercept("POST", `${baseURL}cmv/document/CheckListDocument`).as(
+    "cmvpostdocumentchecklist"
+  );
+
+  cy.intercept("GET", `${baseURL}cmv/clientprofile/GetClientLinks/**`).as(
+    "cmvclientquestionaireget"
+  );
+
+  cy.intercept("GET", `${baseURL}cmv/client/balance/All/*`).as(
+    "cmvclientbalanceall"
+  );
+
+  cy.intercept("GET", `${baseURL}cmv/client/jobhistory/All/JobStatus`).as(
+    "cmvclientjobhistory"
+  );
+
+  cy.intercept("GET", `${baseURL}cmv/clientemployer/All`).as(
+    "cmvemployerall"
+  );
+
+  cy.intercept("POST", `${baseURL}cmv/clientemployer`).as(
+    "cmvpostclientemployerall"
+  );
+
+  cy.intercept("PUT", `${baseURL}cmv/clientemployer`).as(
+    "cmvputclientemployerall"
+  );
+
+  cy.intercept("GET", `${baseURL}cmv/client/jobhistory/All`).as(
+    "cmvclientjobhistoryreal"
+  );
+
+  cy.intercept("POST", `${baseURL}cmv/client/jobhistory`).as(
+    "cmvclientpostjonbhistory"
+  );
+
+  cy.intercept("PUT", `${baseURL}cmv/client/jobhistory`).as(
+    "cmvclientputjonbhistory"
+  );
+
+  cy.intercept("GET", `${baseURL}cmv/client/educationalhistory/All`).as(
+    "cmvclienteducationhistoryall"
+  );
+  cy.intercept("POST", `${baseURL}cmv/client/educationalhistory`).as(
+    "cmvclientposteducationalhistory"
+  );
+
+  cy.intercept("PUT", `${baseURL}cmv/client/educationalhistory`).as(
+    "cmvclientputeducationalhistory"
+  );
+
+
+
+
+
+
 
   
 }

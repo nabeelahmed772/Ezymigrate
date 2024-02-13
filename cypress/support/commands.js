@@ -13,6 +13,7 @@ Cypress.Commands.add("login", () => {
 
   cy.viewport(1366, 657);
   //const sms= '211267313';
+  cy.visit(loginUrl);
 
   cy.getCookies({ log: true });
 
@@ -26,7 +27,7 @@ Cypress.Commands.add("login", () => {
 
   //cy.visit('https://app-stage.ezymigrate.co.nz/login')
 
-  cy.visit(loginUrl);
+  
 
   setupAPIIntercepts();
   cy.wait("@GetLoginPageImage").then((interception) => {

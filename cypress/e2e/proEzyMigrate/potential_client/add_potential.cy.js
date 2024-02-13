@@ -180,6 +180,7 @@ describe("potential client", () => {
     cy.wait(3000);
     cy.get(".sus-inactive-tab-text-school").eq(1).click();
     cy.wait(2000);
+    
     cy.contains("mobile testing questionare.pdf..pdf ").should("be.visible");
 
     cy.get(".sus-inactive-tab-text-school").eq(4).click();
@@ -208,7 +209,66 @@ describe("potential client", () => {
     ).click();
     cy.wait(2000);
     cy.contains("Inquiry").click();
-    cy.wait(4000);
+    cy.wait(1000);
+
+    cy.wait("@potentialclientAll").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@BranchVisaType/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@allbranchUsers").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@getclientstatus").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get('span[title="Q"]').eq(0).click()
+  
+    cy.wait("@allfilledquestionairesbyclientid").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get('div[title="mobile testing questionare"]')
+      .click()
+
+      cy.wait("@branchQuestionnaireSetting").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@BranchVisaType/All").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@GetAllCountries").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@getquestionaireattachmentswithid").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.get('#declaration').click()
+
+      cy.contains('Save').click()
+
+      cy.wait("@potentialfilledanswer").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.get('.anticon.anticon-close.ant-modal-close-icon')
+        .click()
+
+    
+
 
     cy.contains("Export").click();
     cy.wait(7000);

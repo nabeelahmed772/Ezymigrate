@@ -11,6 +11,7 @@ module.exports = defineConfig({
   projectId: "9a1sqr",
   e2e: {
     setupNodeEvents(on, config) {
+      config.experimentalOriginDependencies = true;
       experimentalStudio: true;
       on("before:browser:launch", (browser, launchOptions) => {
         console.log(launchOptions.args);
@@ -20,6 +21,7 @@ module.exports = defineConfig({
         return launchOptions;
       });
       // implement node event listeners here
+     
 
       on('task', {
         readDirectory: (path) => {

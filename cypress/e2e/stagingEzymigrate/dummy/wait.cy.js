@@ -57,6 +57,41 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
       cy.wait(3000)
 
+
+      cy.xpath(
+        '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'
+      ).click();
+
+      cy.contains('rar test').click()
+      cy.wait(5000);
+
+    cy.get('div[style="margin-left: 10px;"]').each(($el, index, $list) => {
+      var del = $el
+        .find(
+          '.black-button-text'
+        )
+        .text()
+        .trim();
+      if (del === "Area Access") {
+        cy.log(del);
+        cy.wrap($el).find('img[src="/static/media/btn-img.94b19732.svg"]').click();
+      }
+    });
+
+    cy.wait(3000)
+
+    cy.get('a:contains("Click here")').invoke('attr', 'href').then((link) => {
+      // `link` variable now contains the href attribute value
+      cy.log(link);
+      // Open the link
+      cy.visit(link);
+    });
+    
+
+
+
+
+
       cy.get('a[href="/account-settings"]').click();
 
       cy.contains("Company/Branch Level Setting").click();

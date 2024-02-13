@@ -457,7 +457,7 @@ describe("case management", () => {
     });
 
     cy.wait(2000);
-    cy.get("#to").clear();
+    //cy.get("#to").clear();
 
     cy.get("#to").type("nabeeloutsourcenz1@gmail.com");
 
@@ -787,7 +787,7 @@ describe("case management", () => {
 
     cy.wait(2000);
 
-    cy.get("#to").clear();
+    //cy.get("#to").clear();
 
     cy.get("#to").type("nabeeloutsourcenz1@gmail.com");
 
@@ -1095,7 +1095,7 @@ describe("case management", () => {
 
     cy.wait(2000);
 
-    cy.get("#to").clear();
+    //cy.get("#to").clear();
 
     cy.get("#to").type("nabeeloutsourcenz1@gmail.com");
 
@@ -1244,3 +1244,5 @@ describe("case management", () => {
     cy.wait(5000);
   });
 });
+
+

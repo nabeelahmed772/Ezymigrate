@@ -12,6 +12,7 @@ function randomNo(y) {
   return x;
 }
 
+
 const characters =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 

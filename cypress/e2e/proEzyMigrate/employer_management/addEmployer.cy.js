@@ -196,9 +196,7 @@ describe("Adding Employer", () => {
     cy.wait(2000);
 
 
-    cy.get(
-      '[style="padding: 10px;"] > .ant-select > .ant-select-selector > .ant-select-selection-item'
-    ).click({ multiple: true, force: true });
+    cy.get('.ant-select-selection-item:visible').eq(3).type('Client')
     cy.wait(2000);
     cy.get('div[title="Client Awaiting Document Instructions"]').click({
       multiple: true,
