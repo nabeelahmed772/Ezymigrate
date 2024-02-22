@@ -758,7 +758,7 @@ describe("case management", () => {
     // Read directory and log files
     cy.readDirectory(downloadsPath2).then((files) => {
       const fileName = files.find(
-        (file) => file.includes("Invoice") && file.endsWith(".pdf")
+        (file) => file.includes("Receipt") && file.endsWith(".pdf")
       );
       if (fileName) {
         const filePath = `${downloadsPath2}/${fileName}`;
@@ -1068,7 +1068,7 @@ describe("case management", () => {
     //change
     cy.readDirectory(downloadsPath4).then((files) => {
       const fileName = files.find(
-        (file) => file.includes("Invoice") && file.endsWith(".pdf")
+        (file) => file.includes("Receipt") && file.endsWith(".pdf")
       );
       if (fileName) {
         const filePath = `${downloadsPath4}/${fileName}`;

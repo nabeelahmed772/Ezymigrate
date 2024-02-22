@@ -382,6 +382,10 @@ export function setupAPIIntercepts() {
     "BranchVisaType/All"
   );
 
+  cy.intercept("GET", `${baseURL}questionnaire/QuestionnaireSetting/*`).as(
+    "getbranchquesionairesettingq"
+  );
+
   cy.intercept("GET", `${baseURL}filledQuestionnaire/AllByClientId/*`).as(
     "allfilledquestionairesbyclientid"
   );
@@ -484,9 +488,16 @@ export function setupAPIIntercepts() {
 
   cy.intercept("GET", `${baseURL}invoice/InvoicePDFHtml/**`).as("pdfinvoicedownloads");
 
-  cy.intercept("GET", `${baseURL}task/AllByUserId/**`).as("AllByUserId");
+  cy.intercept("GET", `${baseURL}task/AllByUserId`).as("AllByUserId");
 
-  cy.intercept("GET", `${baseURL}users/TimeTrackingPopUp/**`).as(
+  cy.intercept("GET", `${baseURL}task/comment/All/*`).as("getalltaskcomment");
+
+  cy.intercept("POST", `${baseURL}task/comment`).as("posttaskcomment");
+
+  cy.intercept("GET", `${baseURL}task/users/All/*`).as("getalltaskfollowers");
+
+
+  cy.intercept("GET", `${baseURL}users/TimeTrackingPopUp`).as(
     "TimeTrackingPopUp"
   );
 
@@ -771,6 +782,10 @@ export function setupAPIIntercepts() {
     "puttask"
   );
 
+  cy.intercept("POST", `${baseURL}task/users`).as(
+    "posttaskuser"
+  );
+
   cy.intercept("DELETE", `${baseURL}task`).as(
     "deletetask"
   );
@@ -783,7 +798,7 @@ export function setupAPIIntercepts() {
     "allservicetype"
   );
 
-  cy.intercept("GET", `${baseURL}task/AllByUserIdPagination/***`).as(
+  cy.intercept("GET", `${baseURL}task/AllByUserIdPagination/00000000-0000-0000-0000-000000000000/10/1`).as(
     "completedtasks"
   );
 

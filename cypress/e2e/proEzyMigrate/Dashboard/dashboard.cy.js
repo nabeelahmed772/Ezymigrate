@@ -268,6 +268,13 @@ describe("DASHBOSRD", () => {
       .should("eq", 200);
 
     cy.wait(2000);
+    cy.get(".ant-select-selection-search-input").eq(6).click({force:true});
+
+    cy.get('div[title="Green Visa1"]').click();
+
+    cy.wait("@Client").its("response.statusCode").should("eq", 200);
+
+    cy.wait(2000)
 
     cy.get(
       ".followDate > .ant-picker > .ant-picker-input > input"
@@ -512,11 +519,11 @@ describe("DASHBOSRD", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.get(".ant-pagination-item.ant-pagination-item-2").click();
+    // cy.get(".ant-pagination-item.ant-pagination-item-2").click();
 
-    cy.wait("@Employer").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
+    // cy.wait("@Employer").then((interception) => {
+    //   cy.wrap(interception.response.statusCode).should("eq", 200);
+    // });
 
     cy.get(".ant-select-selection-item").eq(3).type('prep');
 

@@ -448,6 +448,51 @@ describe("Adding Employer", () => {
     //exporting  the employer
     cy.contains("Employer Management").click();
     cy.wait(2000);
+
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var del = $el
+        .find(
+          'span[style="cursor: pointer;"]'
+        )
+        .text()
+        .trim();
+      if (del === "cy new employer") {
+        cy.log(del);
+        cy.wrap($el).find(".ant-select.ant-select-single.ant-select-show-arrow").click();
+        cy.wait("@allfilledquestionairesbyclientid").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+        cy.get('div[title="mobile testing questionare"]').click();
+        cy.wait(1000);
+        cy.wait("@branchQuestionnaireSetting").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+        cy.wait("@BranchVisaType/All").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+        cy.wait("@getbranchquesionairesettingq").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+        cy.wait("@GetAllCountries").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+        cy.wait("@getquestionaireattachmentswithid").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+        cy.get('#declaration').click()
+
+        cy.contains('Save').click()
+        cy.wait("@potentialfilledanswer").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.get('.anticon.anticon-close.ant-modal-close-icon')
+          .click()
+
+        
+      }
+    });
+
     cy.contains("Export").click();
     cy.wait(7000);
     const XLSX = require("xlsx");

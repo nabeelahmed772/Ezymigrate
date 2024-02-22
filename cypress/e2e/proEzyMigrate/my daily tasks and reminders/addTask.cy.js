@@ -73,7 +73,7 @@ describe("Adding task and reminders", () => {
 
     cy.wait(2000)
 
-    cy.get("div[style='display: flex; align-items: center; width: 100%;']").each(($el, index, $list) => {
+    cy.get('div[style="display: flex; justify-content: space-between; padding-bottom: 29px;"]').each(($el, index, $list) => {
       var del = $el
         .find(
           '.cv-normal-text'
@@ -81,7 +81,7 @@ describe("Adding task and reminders", () => {
         .text();
       if (del.includes("automation cypress task")) {
         cy.log(del);
-        cy.wrap($el).find('img[src="/static/media/del-blue.296a7465.svg"]').click();
+        cy.wrap($el).find('img').eq(4).click();
         
         cy.get('.ant-btn.ant-btn-primary.margin-right').contains('OK').click()
         cy.wait("@deletetask").then((interception) => {
@@ -145,7 +145,54 @@ describe("Adding task and reminders", () => {
 
       cy.wait(2000)
 
-      cy.get("div[style='display: flex; align-items: center; width: 100%;']").each(($el, index, $list) => {
+      cy.get('div[style="display: flex; justify-content: space-between; padding-bottom: 29px;"]').each(($el, index, $list) => {
+        var del = $el
+          .find(
+            '.cv-normal-text'
+          )
+          .text();
+        if (del.includes("automation cypress task")) {
+          cy.log(del);
+          cy.wrap($el).find('img[src="/static/media/calendar-blue.bd2feb77.svg"]').click();
+          cy.get('#basic_reschedule_date').click()
+          cy.get('.ant-picker-cell.ant-picker-cell-in-view.ant-picker-cell-today').click()
+          cy.get('.ant-btn.ant-btn-primary.task-blue').contains('SAVE').click()
+          cy.wait("@puttask").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+          cy.wait("@AllByUserId").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+        }
+      });
+
+      cy.wait(3000)
+
+
+      cy.get('div[style="display: flex; justify-content: space-between; padding-bottom: 29px;"]').each(($el, index, $list) => {
+        var del = $el
+          .find(
+            '.cv-normal-text'
+          )
+          .text();
+        if (del.includes("automation cypress task")) {
+          cy.log(del);
+          cy.wrap($el).find('img[src="/static/media/user-circle-gray.4ffc16c8.svg"]').click();
+          cy.get('#basic_add_follower').click()
+          cy.get('div[title="arsalan team member"]').click()
+          cy.get('.ant-btn.ant-btn-primary.task-blue').contains('ADD FOLLOWER').click()
+          cy.wait("@posttaskuser").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+          cy.wait("@clientlog").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+        }
+      });
+
+      cy.wait(3000)
+
+      cy.get('div[style="display: flex; justify-content: space-between; padding-bottom: 29px;"]').each(($el, index, $list) => {
         var del = $el
           .find(
             '.cv-normal-text'
@@ -167,8 +214,38 @@ describe("Adding task and reminders", () => {
 
       cy.wait(3000)
 
+      cy.get('div[style="display: flex; justify-content: space-between; padding-bottom: 29px;"]').each(($el, index, $list) => {
+        var del = $el
+          .find(
+            '.cv-normal-text'
+          )
+          .text();
+        if (del.includes("automation cypress task")) {
+          cy.log(del);
+          cy.wrap($el).find('.cv-normal-text').click();
+          
+          cy.wait("@getalltaskcomment").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 404);
+          });
+          cy.wait("@getalltaskfollowers").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+
+          cy.get('textarea').type('automation test comment by nabeel ')
+          cy.get('.ant-btn.ant-btn-primary.task-blue').contains('Comment').click()
+          cy.wait("@posttaskcomment").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+          // cy.wait("@getalltaskcomment").then((interception) => {
+          //   cy.wrap(interception.response.statusCode).should("eq", 200);
+          // });
+        }
+      });
+
+      cy.wait(3000)
+
     
-      cy.get("div[style='display: flex; align-items: center; width: 100%;']").each(($el, index, $list) => {
+      cy.get('div[style="display: flex; justify-content: space-between; padding-bottom: 29px;"]').each(($el, index, $list) => {
         var del = $el
           .find(
             '.cv-normal-text'
@@ -194,12 +271,13 @@ describe("Adding task and reminders", () => {
 
       cy.wait(3000)
 
-      cy.wait('@allservicetype').then((xhr) => {
-        if (xhr.status === 200) {
+      cy.wait('@allservicetype').then((interception) => {
+        if (interception.response.statusCode === 200) {
 
           cy.get('.ant-btn.ant-btn-primary.button-blue')
             .contains('Close')
             .click()}
+
 
             else {
 
