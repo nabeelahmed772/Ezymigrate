@@ -46,7 +46,7 @@ describe("mail chimp testing", () => {
         });
         cy.wait(2000);
 
-        cy.get("#host_name").type("fef45ea28487f8ef6709d1856ddcce8b-us21");
+        cy.get("#host_name").type("28387673ab7038bc328f17aab1db077d-us21");
 
         cy.get(".ant-btn.ant-btn-primary.button-blue").contains("SAVE").click();
 
@@ -57,7 +57,7 @@ describe("mail chimp testing", () => {
         cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
       } else {
         cy.wait(2000);
-        cy.get("#host_name").type("fef45ea28487f8ef6709d1856ddcce8b-us21");
+        cy.get("#host_name").type("28387673ab7038bc328f17aab1db077d-us21");
 
         cy.get(".ant-btn.ant-btn-primary.button-blue").contains("SAVE").click();
 
@@ -150,8 +150,12 @@ describe("mail chimp testing", () => {
       }
     });
 
+    cy.wait(2000)
+
     cy.wait("@stage").its("response.statusCode").should("eq", 200);
     cy.wait("@getAllDeals").its("response.statusCode").should("eq", 200);
+
+    
 
     cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
       const ay = $el.find("p").text().trim();
@@ -169,6 +173,8 @@ describe("mail chimp testing", () => {
       }
     });
 
+    cy.wait(2000)
+
     cy.wait("@stage").its("response.statusCode").should("eq", 200);
     cy.wait("@getAllDeals").its("response.statusCode").should("eq", 200);
 
@@ -182,12 +188,15 @@ describe("mail chimp testing", () => {
         cy.get(".ant-select-selection-item").eq(3).click();
         cy.get('div[title="outsourcenz"]').click();
         cy.get(".ant-select-selection-item").eq(4).click();
+        cy.get('.rc-virtual-list-scrollbar-thumb').scrollTo('top', { ensureScrollable: false })
         cy.get('div[title="Influencer"]').click();
         cy.contains("Save").click();
       }
     });
 
-    cy.wait("@sendGridMap").its("response.statusCode").should("eq", 200);
+    cy.wait(2000)
+
+    cy.wait("@mailchimp").its("response.statusCode").should("eq", 200);
     cy.wait("@getAllDeals").its("response.statusCode").should("eq", 200);
 
     cy.get(".contact-Head").each(($el, index, $list) => {
@@ -196,13 +205,15 @@ describe("mail chimp testing", () => {
       if (fa === "my deal") {
         cy.wrap($el).find(".icons-client").click();
         cy.wait(2000);
-        cy.get('input[type="text"]').eq(1).type("business", { force: true });
+        cy.get('#main_name').type("business", { force: true });
         cy.get("#main_winProbability").click({ force: true });
         cy.get('div[title="50"]').click({ force: true });
         cy.wait(2000);
-        cy.get('button[type="submit"]').eq(1).click({ force: true });
+        cy.get('.ant-btn.ant-btn-primary.button-blue').contains('Save').click({ force: true });
       }
     });
+
+    cy.wait(2000)
 
     cy.wait("@stage").its("response.statusCode").should("eq", 200);
     cy.wait("@getAllDeals").its("response.statusCode").should("eq", 200);
@@ -244,6 +255,7 @@ describe("mail chimp testing", () => {
         cy.wrap($el).find(".date-text").eq(1).click();
       }
     });
+    cy.wait(2000)
 
     cy.get("#main_client").should("have.value", "sufi cup");
 

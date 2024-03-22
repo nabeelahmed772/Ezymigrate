@@ -13,7 +13,54 @@ describe("Adding school", () => {
   });
   it("Add school", () => {
     cy.get('a[href="/school-management"]').click();
-    cy.wait(5000);
+    cy.wait('@getmarkedtagspotentialclient').then((interception) =>{
+      cy.wrap(interception.response.statusCode).should('eq', 200)
+    });
+    cy.wait('@programdetail').then((interception) =>{
+      cy.wrap(interception.response.statusCode).should('eq', 200)
+    });
+    
+    cy.wait('@getschooltype').then((interception) =>{
+      cy.wrap(interception.response.statusCode).should('eq', 200)
+    });
+    cy.wait('@schoolall').then((interception) =>{
+      cy.wrap(interception.response.statusCode).should('eq', 200)
+    });
+
+    cy.wait('@postschoolstudentlist').as('firstRequest').then((interception) =>{
+      cy.wrap(interception.response.statusCode).should('eq', 200)
+
+      const totalRecords = interception.response.body.totalRecords;
+      if(totalRecords >10 ){
+        cy.get('.ant-pagination-item.ant-pagination-item-2').click().then(() => {
+        cy.wait(2000)
+        
+        cy.wait('@postschoolstudentlist').as('secondRequest').then((secinterception) =>{
+          
+          cy.wrap(secinterception.response.statusCode).should('eq', 200)
+          const secondPageRequest = secinterception.request.body;
+                expect(secondPageRequest.pageNumber).to.equal(2);
+        
+        });
+      })
+        cy.get('span[title="10 / page"]').click()
+        cy.get('div[title="25 / page"]').click()
+        cy.wait(2000)
+        cy.wait('@postschoolstudentlist').then((interception) =>{
+          cy.wrap(interception.response.statusCode).should('eq', 200)
+          cy.wrap(interception.request.body.pageNumber).should('eq', 1)
+          cy.wrap(interception.request.body.pageSize).should('eq', 25)
+        });
+        
+
+    
+
+      }
+      else{
+        cy.log('there are not enough student lists which is more than 10')
+      }
+    });
+
     cy.get(":nth-child(2) > .header-bar-text-div > .header-text").click();
     cy.wait(5000);
     cy.get(".icons-client").click();

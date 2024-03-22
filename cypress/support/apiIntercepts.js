@@ -26,6 +26,7 @@ function getBaseURLPrefix(environment) {
 }
 
 
+
 export function setupAPIIntercepts() {
   const environment = Cypress.env("environment");
   const baseURL = generateBaseURL(environment);
@@ -460,6 +461,11 @@ export function setupAPIIntercepts() {
     "postclientlink"
   );
 
+  cy.intercept("PUT", `${baseURL}questionnaire/QuestionnaireMapping`).as(
+    "putquestioniaremapping"
+  );
+
+
 
   cy.intercept("GET", `${baseURL}client/jobhistory/All/*`).as(
     "clientjobhistory"
@@ -503,11 +509,11 @@ export function setupAPIIntercepts() {
 
   cy.intercept("POST", `${baseURL}reminder`).as("reminder");
 
-  cy.intercept(`${baseURL}school/*`).as("schoolget");
+  cy.intercept("GET", `${baseURL}school/*`).as("schoolget");
 
-  cy.intercept(`${baseURL}school`).as("schoolput");
+  cy.intercept("PUT", `${baseURL}school`).as("schoolput");
 
-  cy.intercept(`${baseURL}school/All/**`).as("schoolall");
+  cy.intercept("GET", `${baseURL}school/All/*`).as("schoolall");
 
   cy.intercept(`${baseURL}report/CurrentVisaExpiry`).as("VisaExpiry");
 
@@ -584,8 +590,14 @@ export function setupAPIIntercepts() {
 
   cy.intercept("POST", `${baseURL}dashboard/Student`).as("Student");
 
+  cy.intercept("POST", `${baseURL}school/studentList`).as("postschoolstudentlist");
+
   cy.intercept("GET", `${baseURL}client/programdetail/Status`).as(
     "programdetail"
+  );
+
+  cy.intercept("GET", `${baseURL}school/type`).as(
+    "getschooltype"
   );
 
   cy.intercept("POST", `${baseURL}dashboard/StudentExport`).as("StudentExport");
@@ -689,6 +701,8 @@ export function setupAPIIntercepts() {
     "deleteCompanyDocument"
   );
 
+  cy.intercept("PUT", `${baseURL}client/contract/SignedClientAgreement`).as("clientcontractagreeement");
+
   cy.intercept("GET", `${baseURL}faq/All`).as("faqAll");
 
   cy.intercept("POST", `${baseURL}faq`).as("postfaq");
@@ -774,7 +788,13 @@ export function setupAPIIntercepts() {
     "thankyoumessage"
   );
 
-  cy.intercept("GET", `${baseURL}childbinding/GetAllChildBindingByParentId/*`).as(
+  cy.intercept("GET", `${baseURL}childbinding/GetAllChildBindingByParentId/*`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers['Cache-Control'] = 'no-cache';
+      res.send();
+    });
+  }).as(
     "getparentschild"
   );
 

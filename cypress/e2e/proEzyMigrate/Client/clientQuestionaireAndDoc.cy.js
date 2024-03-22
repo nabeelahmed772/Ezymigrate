@@ -1,4 +1,4 @@
-import { setupAPIIntercepts } from '../../../support/apiIntercepts';
+import { setupAPIIntercepts } from "../../../support/apiIntercepts";
 /// <reference types="cypress" />
 Cypress.on("uncaught:exception", (err, runnable) => {
   // returning false here prevents Cypress from
@@ -34,12 +34,265 @@ describe("client questionaire and document", () => {
     cy.login();
   });
   it("client questionaire", () => {
+    cy.get('a[href="/questionnaire"]').click();
+
+    cy.wait("@GetAllQuestionnairs").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait(2000);
+
+    cy.get(".cq-list-content-row").each(($el, index, $list) => {
+      var del = $el.find(".cv-doc-text").text().trim();
+      if (del === "automation questionaire name") {
+        cy.log(del);
+        cy.wrap($el)
+          .find('img[src="/static/media/delete-blue.983ea6be.svg"]')
+          .click();
+        cy.get(".ant-btn.ant-btn-primary").contains("OK").click();
+        cy.wait("@questionnaire").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.wait("@GetAllQuestionnairs").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+      }
+    });
+
+    cy.wait(2000);
+
+    cy.get('img[src="/static/media/plus-icon.16380594.svg"]').click();
+
+    cy.wait("@parentbinding").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get("#name").type("automation questionaire name");
+
+    cy.get(".cq-btn-text").contains("Add Section").click();
+
+    cy.get("#sections_0_name").type("section one");
+
+    cy.get(".cq-btn-text").contains("Add Quesstion(s)").click();
+
+    cy.get("#sections_0_questions_0_question").type(
+      "plz enter your first name"
+    );
+
+    cy.get("#sections_0_questions_0_mappingParent").click();
+
+    cy.wait(2000);
+
+    cy.get(".rc-virtual-list-scrollbar-thumb")
+      .should("exist")
+      .scrollTo("top", { ensureScrollable: false });
+
+    cy.get('div[title="Client"]').click();
+
+    cy.wait("@getparentschild").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get("#sections_0_questions_0_mappingProperty").click();
+
+    cy.wait(2000);
+
+    cy.get(".rc-virtual-list-scrollbar-thumb")
+      .eq(1)
+      .should("exist")
+      .scrollTo("top", { ensureScrollable: false });
+
+    cy.get('div[title="FirstName"]').dblclick();
+
+    cy.get(".cq-btn-text").contains("Add Quesstion(s)").click();
+
+    cy.get("#sections_0_questions_1_question").type("plz enter your last name");
+
+    cy.get("#sections_0_questions_1_mappingParent").click();
+
+    cy.wait(2000);
+
+    cy.get(".rc-virtual-list-scrollbar-thumb")
+      .eq(2)
+      .scrollTo("top", { ensureScrollable: false });
+
+    cy.get('div[title="Client"]').eq(1).click();
+
+    cy.get('div[title="Client"]')
+      .eq(1)
+      .should("have.attr", "aria-selected", "true");
+
+    cy.wait("@getparentschild").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get("#sections_0_questions_1_mappingProperty").click();
+
+    cy.wait(2000);
+
+    cy.get(".rc-virtual-list-scrollbar-thumb")
+      .eq(3)
+      .scrollTo("top", { ensureScrollable: false });
+
+    cy.get('div[title="LastName"]').eq(1).dblclick();
+
+    //next question
+    cy.get(".cq-btn-text").contains("Add Quesstion(s)").click();
+
+    cy.get("#sections_0_questions_2_question").type("title");
+
+    cy.get("#sections_0_questions_2_mappingParent").click();
+
+    cy.wait(2000);
+
+    cy.get(".rc-virtual-list-scrollbar-thumb")
+      .eq(4)
+      .scrollTo("top", { ensureScrollable: false });
+
+    cy.get('div[title="Client"]').eq(2).click();
+
+    cy.get('div[title="Client"]')
+      .eq(2)
+      .should("have.attr", "aria-selected", "true");
+
+    cy.wait("@getparentschild").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get("#sections_0_questions_2_mappingProperty").click();
+
+    cy.wait(2000);
+
+    cy.get(".rc-virtual-list-scrollbar-thumb")
+      .eq(5)
+      .scrollTo("top", { ensureScrollable: false });
+
+    cy.get('div[title="Title"]').eq(2).dblclick();
+
+    //next question
+
+    //next question
+    cy.get(".cq-btn-text").contains("Add Quesstion(s)").click();
+
+    cy.get("#sections_0_questions_3_question").type("Email");
+
+    cy.get("#sections_0_questions_3_mappingParent").click();
+
+    cy.wait(2000);
+
+    cy.get(".rc-virtual-list-scrollbar-thumb")
+      .eq(5)
+      .scrollTo("top", { ensureScrollable: false });
+
+    cy.get('div[title="Client"]').eq(3).click();
+
+    cy.get('div[title="Client"]')
+      .eq(3)
+      .should("have.attr", "aria-selected", "true");
+
+    cy.wait("@getparentschild").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get("#sections_0_questions_3_mappingProperty").click();
+
+    cy.wait(2000);
+
+    cy.get(".rc-virtual-list-scrollbar-thumb")
+      .eq(6)
+      .scrollTo("top", { ensureScrollable: false });
+
+    cy.get('div[title="Email"]').eq(3).dblclick();
+
+    //next question
+
+    cy.get(".cq-btn-text").contains("Add Quesstion(s)").click();
+
+    cy.get("#sections_0_questions_4_question").type("DOB");
+
+    cy.get("#sections_0_questions_4_mappingParent").click();
+
+    cy.wait(2000);
+
+    cy.get(".rc-virtual-list-scrollbar-thumb")
+      .eq(6)
+      .scrollTo("top", { ensureScrollable: false });
+
+    cy.get('div[title="Client"]').eq(4).click();
+
+    cy.get('div[title="Client"]')
+      .eq(4)
+      .should("have.attr", "aria-selected", "true");
+
+    cy.wait("@getparentschild").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get("#sections_0_questions_4_mappingProperty").click();
+
+    cy.wait(2000);
+
+    cy.get(".rc-virtual-list-scrollbar-thumb")
+      .eq(7)
+      .scrollTo("top", { ensureScrollable: false });
+
+    cy.get('div[title="DOB"]').eq(4).dblclick();
+
+    cy.get("#sections_0_questions_4_answerType").click({ force: true });
+    cy.get('div[title="Date"]').click();
+
+    //next question
+
+    cy.get(".ant-btn.ant-btn-default.cq-save-btn").eq(0).click();
+
+    cy.wait("@RAddQuestionnaire").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait(2000);
+
+    cy.wait("@questionnaire/Recursive").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get(".ant-btn.ant-btn-default.cq-save-btn").eq(0).click();
+
+    cy.wait("@RUpdate").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait(2000);
+
+    cy.get('a[href="/questionnaire"]').click();
+
+    cy.wait("@GetAllQuestionnairs").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait(2000);
+
+    cy.get(".cq-list-content-row").each(($el, index, $list) => {
+      var del = $el.find(".cv-doc-text").text().trim();
+      if (del === "automation questionaire name") {
+        cy.log(del);
+        cy.wrap($el).find(".ant-checkbox-input").eq(0).click();
+
+        cy.wait("@SimpleUpdate").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.wait("@GetAllQuestionnairs").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+      }
+    });
 
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'
     ).click();
 
-    cy.wait(2000)
+    cy.wait(2000);
     cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
       var del = $el
         .find(
@@ -47,7 +300,7 @@ describe("client questionaire and document", () => {
         )
         .text()
         .trim();
-      if (del === "margalla hill") {
+      if (del === "bingo jabeel") {
         cy.log(del);
         cy.wrap($el).find(".anticon.anticon-delete").click();
         cy.wait("@delclient").then((interception) => {
@@ -57,7 +310,7 @@ describe("client questionaire and document", () => {
         cy.wait("@SearchClient").then((interception) => {
           cy.wrap(interception.response.statusCode).should("eq", 200);
         });
-    
+
         cy.wait("@getmarkedtagspotentialclient").then((interception) => {
           cy.wrap(interception.response.statusCode).should("eq", 200);
         });
@@ -76,14 +329,10 @@ describe("client questionaire and document", () => {
         cy.wait("@companyusers").then((interception) => {
           cy.wrap(interception.response.statusCode).should("eq", 200);
         });
-    
       }
     });
 
-    cy.wait(2000)
-
-    
-    
+    cy.wait(2000);
 
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[6]/span/a'
@@ -110,7 +359,7 @@ describe("client questionaire and document", () => {
     cy.get("#firstName").type("margalla");
     cy.get("#lastName").type("hill");
     cy.get("#preferredName").type("pre name");
-   
+
     cy.get(
       ":nth-child(2) > .save-button-add-client > :nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span"
     ).click();
@@ -121,7 +370,7 @@ describe("client questionaire and document", () => {
     });
 
     //adding client email draft test case
-    cy.get('.header-text').contains('Email').click()
+    cy.get(".header-text").contains("Email").click();
     cy.wait("@ClientImportSettings").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
@@ -147,9 +396,9 @@ describe("client questionaire and document", () => {
     cy.wait("@AllData").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
-    cy.wait(2000)
+    cy.wait(2000);
 
-    cy.get('.ant-tabs-tab-btn').contains('CREATE').click()
+    cy.get(".ant-tabs-tab-btn").contains("CREATE").click();
 
     cy.wait("@getclientemalbyfamily").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -170,7 +419,7 @@ describe("client questionaire and document", () => {
     cy.wait("@emailtemplate").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
-    
+
     cy.wait("@GetUserIMAP").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
@@ -179,98 +428,42 @@ describe("client questionaire and document", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(2000)
+    cy.wait(2000);
 
-    cy.get('#main_to').type('nabeeloutsourcenz@gmail.com')
+    cy.get("#main_to").type("nabeeloutsourcenz@gmail.com");
 
-    cy.get('#main_subject').type('draft main subject')
+    cy.get("#main_subject").type("draft main subject");
 
-    cy.get('.ant-btn.ant-btn-primary.login-form-button.save-btn.button-blue')
-      .contains('Save As Draft')
-      .click()
+    cy.get(".ant-btn.ant-btn-primary.login-form-button.save-btn.button-blue")
+      .contains("Save As Draft")
+      .click();
 
-      cy.wait("@postClientEmail").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@postClientEmail").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@ClientEmailHistorynew").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@ClientEmailHistorynew").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait(2000)
+    cy.wait(2000);
 
-      cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
-        var del = $el
-          .find(
-            '.draft'
-          )
-          .text()
-          .trim();
-        if (del.includes("Draft")) {
-          cy.log(del);
-          cy.wrap($el).find('img[src="/static/media/detail-email.ea02a2ce.jpg"]').click();
-          cy.wait(1000)
-        }
-      });
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var del = $el.find(".draft").text().trim();
+      if (del.includes("Draft")) {
+        cy.log(del);
+        cy.wrap($el)
+          .find('img[src="/static/media/detail-email.ea02a2ce.jpg"]')
+          .click();
+        cy.wait(1000);
+      }
+    });
 
-      cy.wait(1000)
+    cy.wait(1000);
 
-      cy.wait("@singleclientemailbyid").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-
-      cy.wait("@getclientemalbyfamily").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-  
-      cy.wait("@UserSignature").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-  
-      cy.wait("@allbranchUsersfalse").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-  
-      cy.wait("@CompanyDocumentAll").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-  
-      cy.wait("@template/All").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-      
-      cy.wait("@GetUserIMAP").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-  
-      cy.wait("@AllByType").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-
-      cy.get('#main_ccc').clear()
-
-      cy.get('.ant-btn.ant-btn-primary.login-form-button.save-btn.button-blue')
-        .contains('Send Now')
-        .click()
-
-        cy.wait("@postClientEmail").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
-        });
-
-        cy.wait("@emailqueueblocburl").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
-        });
-
-        cy.wait("@clientlog").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
-        });
-
-        cy.wait("@ClientEmailHistorynew").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
-        });
-
-        
-    cy.get('.ant-tabs-tab-btn').contains('CREATE').click()
+    cy.wait("@singleclientemailbyid").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
     cy.wait("@getclientemalbyfamily").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -291,7 +484,7 @@ describe("client questionaire and document", () => {
     cy.wait("@template/All").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
-    
+
     cy.wait("@GetUserIMAP").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
@@ -300,74 +493,128 @@ describe("client questionaire and document", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(2000)
+    cy.get("#main_ccc").clear();
 
-    cy.get('#main_to').type('nabeeloutsourcenz@gmail.com')
+    cy.get(".ant-btn.ant-btn-primary.login-form-button.save-btn.button-blue")
+      .contains("Send Now")
+      .click();
 
-    cy.get('#main_subject').type('draft main subject')
+    cy.wait("@postClientEmail").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-    cy.get('.ant-btn.ant-btn-primary.login-form-button.save-btn.button-blue')
-      .contains('Save As Draft')
-      .click()
+    cy.wait("@emailqueueblocburl").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-    cy.wait(4000)
+    cy.wait("@clientlog").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
+    cy.wait("@ClientEmailHistorynew").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@postClientEmail").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.get(".ant-tabs-tab-btn").contains("CREATE").click();
 
-      cy.wait("@ClientEmailHistorynew").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-  
-      cy.wait(2000)
+    cy.wait("@getclientemalbyfamily").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
+    cy.wait("@UserSignature").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
-        var del = $el
-          .find(
-            '.draft'
-          )
-          .text()
-          .trim();
-        if (del.includes("Draft")) {
-          cy.log(del);
-          cy.wrap($el).find('img[src="/static/media/multimedia-blue.f6e13199.svg"]').click();
-          cy.get('.ant-btn.ant-btn-default').contains('Cancel').click()
-          cy.wrap($el).find('img[src="/static/media/del-blue.296a7465.svg"]').click();
-          cy.wait(2000)
-          cy.get('.ant-btn.ant-btn-primary:visible').contains('OK').click({force:true})
-          cy.wait(1000)
-        }
-      });
+    cy.wait("@allbranchUsersfalse").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait(1000)
+    cy.wait("@CompanyDocumentAll").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@ClientEmail").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@template/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait("@ClientEmailHistorynew").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-  
-   //adding documet checklist for client testing
+    cy.wait("@GetUserIMAP").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-   cy.get('a[href="/account-settings"]').click()
-   cy.get('.sus-inactive-tab-text').contains('Company/Branch Level Setting').click()
-   cy.get('img[src="/static/media/doc-checklist.52f37436.svg"]').click();
+    cy.wait("@AllByType").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-   cy.wait("@documentCheckList").then((interception) => {
-     cy.wrap(interception.response.statusCode).should("eq", 200);
-   });
+    cy.wait(2000);
 
-   cy.wait("@checklist").then((interception) => {
-     cy.wrap(interception.response.statusCode).should("eq", 200); });
+    cy.get("#main_to").type("nabeeloutsourcenz@gmail.com");
 
-     cy.wait(2000)
+    cy.get("#main_subject").type("draft main subject");
 
-     cy.get("tr").each(($el, index, $list) => {
+    cy.get(".ant-btn.ant-btn-primary.login-form-button.save-btn.button-blue")
+      .contains("Save As Draft")
+      .click();
+
+    cy.wait(4000);
+
+    cy.wait("@postClientEmail").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@ClientEmailHistorynew").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait(2000);
+
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var del = $el.find(".draft").text().trim();
+      if (del.includes("Draft")) {
+        cy.log(del);
+        cy.wrap($el)
+          .find('img[src="/static/media/multimedia-blue.f6e13199.svg"]')
+          .click();
+        cy.get(".ant-btn.ant-btn-default").contains("Cancel").click();
+        cy.wrap($el)
+          .find('img[src="/static/media/del-blue.296a7465.svg"]')
+          .click();
+        cy.wait(2000);
+        cy.get(".ant-btn.ant-btn-primary:visible")
+          .contains("OK")
+          .click({ force: true });
+        cy.wait(1000);
+      }
+    });
+
+    cy.wait(1000);
+
+    cy.wait("@ClientEmail").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@ClientEmailHistorynew").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    //adding documet checklist for client testing
+
+    cy.get('a[href="/account-settings"]').click();
+    cy.get(".sus-inactive-tab-text")
+      .contains("Company/Branch Level Setting")
+      .click();
+    cy.get('img[src="/static/media/doc-checklist.52f37436.svg"]').click();
+
+    cy.wait("@documentCheckList").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@checklist").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait(2000);
+
+    cy.get("tr").each(($el, index, $list) => {
       const mo = $el.find(".ant-table-cell").text().trim();
       cy.log(mo);
       debugger;
@@ -377,23 +624,21 @@ describe("client questionaire and document", () => {
         cy.get(".ant-btn.ant-btn-default.button.button-blue")
           .contains("Delete")
           .click();
-          cy.wait("@checklist1").then((interception) => {
-            cy.wrap(interception.response.statusCode).should("eq", 200);
-          });
-      
-          cy.wait("@checklist").then((interception) => {
-            cy.wrap(interception.response.statusCode).should("eq", 200);
-          });
+        cy.wait("@checklist1").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.wait("@checklist").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
       }
     });
 
-   
-
     cy.wait(2000);
 
-     cy.get('img[src="/static/media/add-icon.325d80ae.png"]').click();
-     cy.get("#main_name").type("cypress automation document checklist");
-     cy.get("#main_description").type(
+    cy.get('img[src="/static/media/add-icon.325d80ae.png"]').click();
+    cy.get("#main_name").type("cypress automation document checklist");
+    cy.get("#main_description").type(
       "this is the description for the cypress document checklist automation "
     );
     cy.get('img[src="/static/media/add-icon.325d80ae.png"]').eq(1).click();
@@ -408,117 +653,113 @@ describe("client questionaire and document", () => {
       .contains("SAVE")
       .click();
 
-      cy.wait("@checklist1").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-  
-      cy.wait("@checklist").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
-  
-      cy.wait(2000);
+    cy.wait("@checklist1").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.wait(2000);
+    cy.wait("@checklist").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.get("tr").each(($el, index, $list) => {
-        const mo = $el.find(".ant-table-cell").text().trim();
-        cy.log(mo);
-        debugger;
-      
-        if (mo.includes("cypress automation document checklist")) {
-          cy.wrap($el).find(".anticon.anticon-edit").click();
-      
-          cy.wait(3000);
-          cy.get(".ant-row.file-delete-head").each(($el, index, $list) => {
-            const lis = $el.find('#main_checkListItems_3_name').text().trim();
-            cy.log(lis);
-            if (lis.includes('testing4')) {
-              cy.wrap($el).find('.anticon.anticon-delete').click();
-              cy.wait("@deletechecklistitemtemp").then((interception) => {
-                cy.wrap(interception.response.statusCode).should('eq', 200);
-              });
-      
-              cy.get(".ant-btn.ant-btn-primary.login-form-button.save-btn")
-                .contains("SAVE")
-                .click();
+    cy.wait(2000);
 
-                cy.wait("@checklist1").then((interception) => {
-                  cy.wrap(interception.response.statusCode).should("eq", 200);
-                });
-            
-                cy.wait("@checklist").then((interception) => {
-                  cy.wrap(interception.response.statusCode).should("eq", 200);
-                });
-            }
-          });
-        }
-      });
+    cy.wait(2000);
 
-      cy.wait(2000)
-      
-      cy.get('a[href="/all-clients"]')
-        .click()
+    cy.get("tr").each(($el, index, $list) => {
+      const mo = $el.find(".ant-table-cell").text().trim();
+      cy.log(mo);
+      debugger;
 
-        cy.wait("@SearchClient").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
+      if (mo.includes("cypress automation document checklist")) {
+        cy.wrap($el).find(".anticon.anticon-edit").click();
+
+        cy.wait(3000);
+        cy.get(".ant-row.file-delete-head").each(($el, index, $list) => {
+          const lis = $el.find("#main_checkListItems_3_name").text().trim();
+          cy.log(lis);
+          if (lis.includes("testing4")) {
+            cy.wrap($el).find(".anticon.anticon-delete").click();
+            cy.wait("@deletechecklistitemtemp").then((interception) => {
+              cy.wrap(interception.response.statusCode).should("eq", 200);
+            });
+
+            cy.get(".ant-btn.ant-btn-primary.login-form-button.save-btn")
+              .contains("SAVE")
+              .click();
+
+            cy.wait("@checklist1").then((interception) => {
+              cy.wrap(interception.response.statusCode).should("eq", 200);
+            });
+
+            cy.wait("@checklist").then((interception) => {
+              cy.wrap(interception.response.statusCode).should("eq", 200);
+            });
+          }
         });
+      }
+    });
 
-        cy.wait("@BranchVisaType/All").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
-        });
+    cy.wait(2000);
 
-        cy.wait("@visastatus").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
-        });
+    cy.get('a[href="/all-clients"]').click();
 
-        cy.wait("@getallusers").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
-        });
+    cy.wait("@SearchClient").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-        cy.wait("@getmarkedtagspotentialclient").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
-        });
+    cy.wait("@BranchVisaType/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-        cy.contains('margalla hill').click()
+    cy.wait("@visastatus").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-        cy.wait("@AllData").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
-        });
+    cy.wait("@getallusers").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-        cy.wait("@GetAllClientSource").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
-        });
+    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-        cy.wait("@GetAllCountries").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
-        });
+    cy.contains("margalla hill").click();
 
-        cy.wait("@getallusers").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
-        });
+    cy.wait("@AllData").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-        cy.wait("@BranchCountryLinking").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
-        });
+    cy.wait("@GetAllClientSource").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-        cy.wait("@BranchVisaType/All").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
-        });
+    cy.wait("@GetAllCountries").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-        cy.wait("@getaccessingauth").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
-        });
+    cy.wait("@getallusers").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-        cy.wait("@UserSignature").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
-        });
+    cy.wait("@BranchCountryLinking").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-        cy.wait("@SetHtmlTemplate").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
-        });
+    cy.wait("@BranchVisaType/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      
+    cy.wait("@getaccessingauth").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
+    cy.wait("@UserSignature").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@SetHtmlTemplate").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
     //adding document checklist
     cy.get(":nth-child(4) > a > .header-bar-text-div > .header-text").click({
@@ -528,8 +769,6 @@ describe("client questionaire and document", () => {
     cy.wait("@branch/permissions").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
-
-
 
     cy.wait("@DocumentView").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -565,12 +804,9 @@ describe("client questionaire and document", () => {
     cy.contains("cypress automation document checklist").click({ force: true });
     cy.wait(2000);
 
-    cy.get('.anticon.anticon-delete').eq(2).click()
+    cy.get(".anticon.anticon-delete").eq(2).click();
 
-    cy.wait("@deletechecklistitemtemp").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
-
+    cy.wait(2000);
 
     cy.get(
       ":nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span"
@@ -579,8 +815,6 @@ describe("client questionaire and document", () => {
     cy.wait("@postdocumentchecklist").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
-
-    
 
     cy.wait("@clientemailsubject").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -603,22 +837,23 @@ describe("client questionaire and document", () => {
       ":nth-child(2) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span"
     ).click();
     cy.wait(2000);
-    
-    cy.get('img[src="/static/media/edit-border-blue.a5c788a8.svg"]').click()
 
-    cy.wait(2000)
-    cy.get('.anticon.anticon-delete').eq(1).click()
+    cy.get('img[src="/static/media/edit-border-blue.a5c788a8.svg"]').click();
+
+    cy.wait(2000);
+    cy.get(".anticon.anticon-delete").eq(1).click();
 
     cy.wait("@deletechecklistitemnontemp").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.get('.ant-btn.ant-btn-primary.login-form-button.save-btn').contains('SAVE').click({force:true})
+    cy.get(".ant-btn.ant-btn-primary.login-form-button.save-btn")
+      .contains("SAVE")
+      .click({ force: true });
     cy.wait("@putdocumentchecklist").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
-    
-    
+
     cy.wait(3000);
     cy.get(".ant-space-item:visible")
       .eq(0)
@@ -642,7 +877,7 @@ describe("client questionaire and document", () => {
       ':nth-child(3) > [style="margin-top: 8px;"] > .ant-select > .ant-select-selector'
     ).click();
     cy.wait(5000);
-    cy.contains("mobile testing questionare").click();
+    cy.contains("automation questionaire name").click();
     cy.wait(5000);
     cy.get(".pc-link-text").then(function (text1) {
       cy.visit(text1.text());
@@ -650,24 +885,71 @@ describe("client questionaire and document", () => {
     });
     cy.wait(8000);
     cy.get("#clientName").type("nabeel");
-    cy.get("#sections_0_questions_0_answers_0_answer").type("test qw");
-    cy.get("#sections_0_questions_1_answers_0_answer").type("test qw2");
-    cy.get("#sections_0_questions_2_answers_0_answer")
+    cy.get("#sections_0_questions_0_answers_0_answer").type("bingo");
+    cy.get("#sections_0_questions_1_answers_0_answer").type("jabeel");
+    cy.get("#sections_0_questions_2_answers_0_answer").type("metitle");
+    cy.get("#sections_0_questions_3_answers_0_answer").type(
+      "balistan@gmail.com"
+    );
+    cy.get("#sections_0_questions_4_answers_0_answer")
       .type(futureDate, { force: true })
       .type("{enter}");
     //cy.get(date).click({multiple:true, force:true})
-    cy.get("#sections_0_questions_3_answers_0_answer").type("testing 123");
-    cy.get("#sections_0_questions_4_answers_0_answer").type("testing limk");
-    cy.get('#declaration').click()
+    // cy.get("#sections_0_questions_3_answers_0_answer").type("testing 123");
+
+    // cy.get('#declaration').click()
 
     cy.get(".ant-btn > span").click();
-    
+
     cy.wait("@thankyoumessage").its("response.statusCode").should("eq", 200);
-    cy.wait(5000)
+    cy.wait(5000);
     cy.visit("https://app.ezymigrate.com/documents");
     cy.wait(7000);
-    cy.contains("mobile testing questionare.pdf..pdf ").should("be.visible");
-    
+    cy.contains("automation questionaire name.pdf..pdf ").should("be.visible");
+
+    cy.get(".header-text").contains("Questionnaire").click();
+
+    cy.wait("@GetAllQuestionnairs")
+      .its("response.statusCode")
+      .should("eq", 200);
+    cy.wait("@GetAllCountries").its("response.statusCode").should("eq", 200);
+    cy.wait("@allfilledquestionairesbyclientid")
+      .its("response.statusCode")
+      .should("eq", 200);
+    cy.wait("@UserSignature").its("response.statusCode").should("eq", 200);
+    cy.wait("@emailtemplate").its("response.statusCode").should("eq", 200);
+
+    cy.get(".pc-text-inner-tab").click();
+
+    cy.wait("@shortlink").its("response.statusCode").should("eq", 200);
+    cy.wait("@getquestionaireattachmentswithid")
+      .its("response.statusCode")
+      .should("eq", 200);
+    cy.wait("@SetanyHtmlTemplate").its("response.statusCode").should("eq", 200);
+
+    cy.get(".ant-btn.ant-btn-primary.cq-primary-btn.button-blue")
+      .contains("Merge")
+      .click();
+
+    cy.get(".ant-btn.ant-btn-default.button").contains("Ok").click();
+
+    cy.wait("@putquestioniaremapping")
+      .its("response.statusCode")
+      .should("eq", 200);
+
+    cy.get(".header-text").contains("Client Profile").click();
+
+    cy.wait("@SetHtmlTemplate").its("response.statusCode").should("eq", 200);
+    cy.wait("@UserSignature").its("response.statusCode").should("eq", 200);
+    cy.wait("@AllData").its("response.statusCode").should("eq", 200);
+    cy.wait("@GetAllCountries").its("response.statusCode").should("eq", 200);
+    cy.wait("@allbranchUsers").its("response.statusCode").should("eq", 200);
+
+    cy.get("#firstName").should("have.value", "bingo");
+    cy.get("#lastName").should("have.value", "jabeel");
+    cy.get("#title").should("have.value", "metitle");
+    cy.get("#email").should("have.value", "balistan@gmail.com");
+
     //exporting the client
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'
@@ -684,14 +966,14 @@ describe("client questionaire and document", () => {
         const worksheet = workbook.Sheets[sheetName];
         const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-        const contactName = "margalla hill";
+        const contactName = "bingo jabeel";
         const isContactNamePresent = data.flat().includes(contactName);
 
         expect(isContactNamePresent).to.be.true;
       }
     );
     //deleting the client
-    cy.contains("margalla hill").scrollIntoView();
+    cy.contains("bingo jabeel").scrollIntoView();
     cy.wait(2000);
 
     cy.get(
@@ -712,20 +994,23 @@ describe("client questionaire and document", () => {
     });
 
     cy.wait(2000);
-    cy.get('a[href="/account-settings"]').click()
-   cy.get('.sus-inactive-tab-text').contains('Company/Branch Level Setting').click()
-   cy.get('img[src="/static/media/doc-checklist.52f37436.svg"]').click();
+    cy.get('a[href="/account-settings"]').click();
+    cy.get(".sus-inactive-tab-text")
+      .contains("Company/Branch Level Setting")
+      .click();
+    cy.get('img[src="/static/media/doc-checklist.52f37436.svg"]').click();
 
-   cy.wait("@documentCheckList").then((interception) => {
-     cy.wrap(interception.response.statusCode).should("eq", 200);
-   });
+    cy.wait("@documentCheckList").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-   cy.wait("@checklist").then((interception) => {
-     cy.wrap(interception.response.statusCode).should("eq", 200); });
+    cy.wait("@checklist").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-     cy.wait(2000)
+    cy.wait(2000);
 
-     cy.get("tr").each(($el, index, $list) => {
+    cy.get("tr").each(($el, index, $list) => {
       const mo = $el.find(".ant-table-cell").text().trim();
       cy.log(mo);
       debugger;
@@ -747,13 +1032,5 @@ describe("client questionaire and document", () => {
     });
 
     cy.wait(2000);
-
-    
-
-  })
-
-    
+  });
 });
-
-
-
