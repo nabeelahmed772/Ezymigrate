@@ -78,9 +78,13 @@ describe("Adding Employer", () => {
 
     cy.scrollTo("left");
 
+    cy.wait(3000);
+
     cy.contains("logic employer").click();
 
     //adding invoice for the employer
+
+    cy.wait(3000);
 
     cy.get(".ant-tabs-tab-btn").eq(6).contains("INVOICES").click();
 
