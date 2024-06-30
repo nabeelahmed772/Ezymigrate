@@ -235,7 +235,7 @@ export function setupAPIIntercepts() {
 
   cy.intercept(
     "GET",
-    `${baseURL}imap/ClientEmailHistory/**/0/10/1/0`
+    `${baseURL}imap/ClientEmailHistory/**/0/20/1/0`
   ).as("ClientEmailHistorynew");
 
 

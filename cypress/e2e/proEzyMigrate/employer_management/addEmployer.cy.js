@@ -344,9 +344,7 @@ describe("Adding Employer", () => {
     cy.get("#main_salesPersonId").click();
     cy.wait(1000);
     //cy.get('.ant-select-item ant-select-item-option ant-select-item-option-active').eq(1).click()
-    cy.get(
-      ".emp-froala > .letter-froala > .froala-font-arial-use > .fr-box > .fr-wrapper > .fr-element > p"
-    )
+    cy.get('.emp-froala > .letter-froala > .froala-font-arial-use > .ant-spin-nested-loading > .ant-spin-container > .fr-box > .fr-wrapper > .fr-element > p')
       .click({ multiple: true, force: true })
       .type("testing by nabeel");
     cy.contains("Save").scrollIntoView();
@@ -483,7 +481,7 @@ describe("Adding Employer", () => {
         });
         cy.get('#declaration').click()
 
-        cy.contains('Save').click()
+        cy.contains('Submit').click()
         cy.wait("@potentialfilledanswer").then((interception) => {
           cy.wrap(interception.response.statusCode).should("eq", 200);
         });

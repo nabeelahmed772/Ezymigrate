@@ -317,7 +317,7 @@ describe("account setting", () => {
 
     cy.get(".ant-select-selection-item").eq(0).click();
 
-    cy.get('div[title="2bvoutsource"]').click();
+    cy.get('div[title="2boutsource"]').click(); 
 
     cy.wait(2000)
 

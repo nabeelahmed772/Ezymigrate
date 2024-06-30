@@ -163,8 +163,8 @@ describe("Adding client", () => {
       .click({ multiple: true, force: true });
     cy.get("#occupation").type("test occupation");
     cy.get("#companyOptional").type("test");
-    cy.get(
-      '[style="width: 101%;"] > .ant-col > .letter-froala > .froala-font-arial-use > .fr-box > .fr-wrapper > .fr-element > p'
+    
+    cy.get('[style="width: 101%;"] > .ant-col > .letter-froala > .froala-font-arial-use > .ant-spin-nested-loading > .ant-spin-container > .fr-box > .fr-wrapper > .fr-element'
     ).type("test");
 
     //adding billing
@@ -199,9 +199,7 @@ describe("Adding client", () => {
 
     //medical details
     cy.get("#er").type("434");
-    cy.get(
-      '[style="width: 101%; margin-top: 40px;"] > .ant-col > .letter-froala > .froala-font-arial-use > .fr-box > .fr-wrapper > .fr-element > p'
-    ).click();
+    cy.get('[style="width: 101%; margin-top: 40px;"] > .ant-col > .letter-froala > .froala-font-arial-use > .ant-spin-nested-loading > .ant-spin-container > .fr-box > .fr-wrapper > .fr-element').click();
 
     //inz login details
 
@@ -989,15 +987,12 @@ describe("Adding client", () => {
     cy.get("#address").type("test");
     cy.get("#nationalityId").type("3540404040");
     cy.get("#occupation").type("occupation");
-    cy.get(
-      ":nth-child(2) > .ant-spin-nested-loading > .ant-spin-container > .froala-font-arial-use > .fr-box > .fr-wrapper > .fr-element > p"
-    ).type("34");
+    cy.get(':nth-child(2) > :nth-child(1) > .froala-font-arial-use > .ant-spin-nested-loading > .ant-spin-container > .fr-box > .fr-wrapper > .fr-element')
+    .type("34");
     cy.get(":nth-child(1) > .ant-radio > .ant-radio-input").click();
     cy.get("#deniedText").type("tws");
     cy.get("#er").type("test");
-    cy.get(
-      '[style="margin-top: 20px;"] > .ant-spin-nested-loading > .ant-spin-container > .froala-font-arial-use > .fr-box > .fr-wrapper > .fr-element > p'
-    ).type("test");
+    cy.get(':nth-child(1) > :nth-child(1) > .froala-font-arial-use > .ant-spin-nested-loading > .ant-spin-container > .fr-box > .fr-wrapper > .fr-element').type("test");
     cy.get("#passportNo").type("43434343");
     cy.get("#secondPassportNo").type("434343");
     cy.get("#clientNumber").type(randomNo(12));
@@ -1403,15 +1398,11 @@ describe("Adding client", () => {
     cy.get("#address").type("test");
     cy.get("#nationalityId").type("3540404040");
     cy.get("#occupation").type("occupation");
-    cy.get(
-      ":nth-child(2) > .ant-spin-nested-loading > .ant-spin-container > .froala-font-arial-use > .fr-box > .fr-wrapper > .fr-element > p"
-    ).type("34");
+    cy.get(':nth-child(2) > :nth-child(1) > .froala-font-arial-use > .ant-spin-nested-loading > .ant-spin-container > .fr-box > .fr-wrapper > .fr-element').type("34");
     cy.get(":nth-child(1) > .ant-radio > .ant-radio-input").click();
     cy.get("#deniedText").type("tws");
     cy.get("#er").type("test");
-    cy.get(
-      '[style="margin-top: 20px;"] > .ant-spin-nested-loading > .ant-spin-container > .froala-font-arial-use > .fr-box > .fr-wrapper > .fr-element > p'
-    ).type("test");
+    cy.get(':nth-child(1) > :nth-child(1) > .froala-font-arial-use > .ant-spin-nested-loading > .ant-spin-container > .fr-box > .fr-wrapper > .fr-element').type("test");
     cy.get("#passportNo").type("43434343");
     cy.get("#secondPassportNo").type("434343");
     cy.get("#clientNumber").type(randomNo(12));

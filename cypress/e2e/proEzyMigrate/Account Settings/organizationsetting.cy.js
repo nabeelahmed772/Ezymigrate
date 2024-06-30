@@ -200,7 +200,7 @@ describe("account setting", () => {
           .should("be.visible")
           .click();
 
-        cy.get(".ant-btn.ant-btn-primary.sus-add-btn").eq(2).contains("SAVE").click();
+        cy.get(".ant-btn.ant-btn-primary.sus-add-btn").contains("SAVE").click();
 
         cy.wait("@AllWithHide").then((interception) => {
           cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -260,7 +260,7 @@ describe("account setting", () => {
           .should("be.visible")
           .click();
 
-        cy.get(".ant-btn.ant-btn-primary.sus-add-btn").eq(0).contains("SAVE").click();
+        cy.get(".ant-btn.ant-btn-primary.sus-add-btn").eq(1).contains("SAVE").click();
 
         cy.wait("@putcompanyclientstatus").then((interception) => {
           cy.wrap(interception.response.statusCode).should("eq", 200);

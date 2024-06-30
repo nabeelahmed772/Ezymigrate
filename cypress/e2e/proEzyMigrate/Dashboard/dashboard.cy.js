@@ -249,7 +249,10 @@ describe("DASHBOSRD", () => {
 
     cy.wait("@Client").its("response.statusCode").should("eq", 200);
 
+    cy.wait(2000)
+
     cy.get(".ant-btn.ant-btn-default.ant-dropdown-trigger").click();
+    
 
     cy.get(
       ".ant-dropdown-menu.ant-dropdown-menu-root.ant-dropdown-menu-vertical.ant-dropdown-menu-light"

@@ -258,7 +258,7 @@ describe("potential client", () => {
 
       cy.get('#declaration').click()
 
-      cy.contains('Save').click()
+      cy.contains('Submit').click()
 
       cy.wait("@potentialfilledanswer").then((interception) => {
         cy.wrap(interception.response.statusCode).should("eq", 200);

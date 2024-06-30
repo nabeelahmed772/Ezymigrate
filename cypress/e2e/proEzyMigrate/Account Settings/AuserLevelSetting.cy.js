@@ -112,7 +112,7 @@ describe("account setting", () => {
     ).type("testing automation email template");
 
     cy.get(
-      ".ant-form-item-control-input-content > .froala-font-arial-use > .fr-box > .fr-wrapper > .fr-element > p"
+      ".fr-wrapper.show-placeholder"
     ).type(
       "description for the testing automation on the subject of the email content for template"
     );

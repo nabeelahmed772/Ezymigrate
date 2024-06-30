@@ -252,9 +252,7 @@ describe("Adding client", () => {
     cy.get("#main_salesPersonId").click();
     cy.wait(1000);
     //cy.get('.ant-select-item ant-select-item-option ant-select-item-option-active').eq(1).click()
-    cy.get(
-      ".emp-froala > .letter-froala > .froala-font-arial-use > .fr-box > .fr-wrapper > .fr-element > p"
-    )
+    cy.get('.fr-element > p')
       .click({ multiple: true, force: true })
       .type("testing by nabeel");
     cy.contains("Save").scrollIntoView();
