@@ -11,7 +11,7 @@ describe("account setting", () => {
   it("Settings", () => {
     cy.get('a[href="/account-settings"]').click();
 
-    cy.get('img[src="/static/media/signature.f768e9da.svg"]').click();
+    cy.contains('Signature').click();
 
     cy.wait("@UserSignature").its("response.statusCode").should("eq", 200);
 
@@ -25,7 +25,7 @@ describe("account setting", () => {
 
     cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
 
-    cy.get('img[src="/static/media/documents.87dcbd39.svg"]').click();
+    cy.contains('Document View').click();
 
     cy.wait("@DocumentView").its("response.statusCode").should("eq", 200);
 
@@ -39,7 +39,7 @@ describe("account setting", () => {
 
     cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
 
-    cy.get('img[src="/static/media/creative-commons.ee0ddd09.png"]').click();
+    cy.contains('Outlook Integration').click();
 
     cy.wait("@OutlookMail").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -51,7 +51,7 @@ describe("account setting", () => {
 
     cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
 
-    cy.get('img[src="/static/media/imap.b98ed5fa.svg"]').click();
+    cy.contains('IMAP').click();
 
     cy.wait("@GetUserIMAP").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -63,8 +63,7 @@ describe("account setting", () => {
 
     cy.get('a[href="/account-settings"]').click();
 
-    cy.get('img[src="/static/media/daily-mail-settings.3d918485.svg"]')
-      .eq(0)
+    cy.contains('Daily Mail Setting')
       .click();
 
     cy.wait("@UserEmailSetting").then((interception) => {
@@ -99,7 +98,7 @@ describe("account setting", () => {
 
     cy.contains("Company/Branch Level Setting").click();
 
-    cy.get('img[src="/static/media/email-content.f6c6e288.svg"]').click();
+    cy.contains('Email Content').click();
 
     cy.wait("@emailtemplate").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -185,7 +184,7 @@ describe("account setting", () => {
 
     cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
 
-    cy.get('img[src="/static/media/letter-template.425cdba4.svg"]').click();
+    cy.contains('Letter Templates').click();
 
     cy.wait("@DynamicKeys").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -311,7 +310,7 @@ describe("account setting", () => {
 
     cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
 
-    cy.get('img[src="/static/media/contract.d1118230.svg"]').click();
+    cy.contains('Contracts').click();
 
     cy.wait("@DynamicKeys").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -488,7 +487,7 @@ describe("account setting", () => {
 
     cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
 
-    cy.get('img[src="/static/media/doc-checklist.52f37436.svg"]').click();
+    cy.contains('Document Checklist').click();
 
     cy.wait("@documentCheckList").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -732,7 +731,7 @@ describe("account setting", () => {
       .scrollIntoView()
       .click();
 
-    cy.get('img[src="/static/media/api-key-icon.b6835271.png"]').eq(1).click();
+    cy.contains('API Key').eq(1).click();
 
     cy.wait("@apikeygetbyid").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);

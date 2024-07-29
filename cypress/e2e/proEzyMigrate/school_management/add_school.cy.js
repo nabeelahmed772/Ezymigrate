@@ -31,7 +31,7 @@ describe("Adding school", () => {
       cy.wrap(interception.response.statusCode).should('eq', 200)
 
       const totalRecords = interception.response.body.totalRecords;
-      if(totalRecords >10 ){
+      if(totalRecords >20 ){
         cy.get('.ant-pagination-item.ant-pagination-item-2').click().then(() => {
         cy.wait(2000)
         
@@ -43,7 +43,7 @@ describe("Adding school", () => {
         
         });
       })
-        cy.get('span[title="10 / page"]').click()
+        cy.get('span[title="20 / page"]').click()
         cy.get('div[title="25 / page"]').click()
         cy.wait(2000)
         cy.wait('@postschoolstudentlist').then((interception) =>{

@@ -818,6 +818,18 @@ export function setupAPIIntercepts() {
     "allservicetype"
   );
 
+  cy.intercept("POST", `${baseURL}servicetype`).as(
+    "postservicetype"
+  );
+
+  cy.intercept("PUT", `${baseURL}servicetype`).as(
+    "putservicetype"
+  );
+
+  cy.intercept("DELETE", `${baseURL}servicetype`).as(
+    "deleteservicetype"
+  );
+
   cy.intercept("GET", `${baseURL}task/AllByUserIdPagination/00000000-0000-0000-0000-000000000000/10/1`).as(
     "completedtasks"
   );
@@ -825,6 +837,34 @@ export function setupAPIIntercepts() {
   cy.intercept("GET", `${baseURL}client/email/AllByFamily/*`).as(
     "getclientemalbyfamily"
   );
+
+  cy.intercept("POST", `${baseURL}report/TimeTracking`).as(
+    "reportTimeTracking"
+  );
+
+  cy.intercept("GET", `${baseURL}worktype/All`).as(
+    "worktypeall"
+  );
+
+  cy.intercept("POST", `${baseURL}worktype`).as(
+    "postworktype"
+  );
+  cy.intercept("PUT", `${baseURL}worktype`).as(
+    "putworktype"
+  );
+  cy.intercept("DELETE", `${baseURL}worktype`).as(
+    "deleteworktype"
+  );
+
+  cy.intercept("GET", `${baseURL}visatype/price/All`).as(
+    "visatypepriceall"
+  );
+  cy.intercept("POST", `${baseURL}visatype/price`).as(
+    "postvisatypepriceall"
+  );
+
+
+
 
   //cmv APis
 

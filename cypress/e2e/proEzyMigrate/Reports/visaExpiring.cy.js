@@ -23,15 +23,25 @@ describe("Reports", () => {
 
     cy.contains("CURRENT VISA EXPIRY").click();
 
-    cy.wait("@VisaExpiry").then((interception) => {
+    cy.wait("@VisaExpiry").as('firstRequest').then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
+
+      const count= interception.response.body.count
+      if(count > 20){
+        cy.get(".ant-pagination-item.ant-pagination-item-2").click();
+        cy.wait("@VisaExpiry").as('secondRequest').then((secondinterception) => {
+          cy.wrap(secondinterception.response.statusCode).should("eq", 200);
+
+          const secondpageRequest= secondinterception.request.body;
+          expect(secondpageRequest.pageNumber).to.equal(2);
+        });
+
+      }
     });
 
-    cy.get(".ant-pagination-item.ant-pagination-item-2").click();
+    
 
-    cy.wait("@VisaExpiry").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
+   
 
     cy.get(".ant-btn.ant-btn-default.button-blue").contains("Export").click();
 
@@ -87,15 +97,22 @@ describe("Reports", () => {
 
     cy.contains("DOCUMENT CHECKLIST").click();
 
-    cy.wait("@reportDocumentCheckList").then((interception) => {
+    cy.wait("@reportDocumentCheckList").as('firstRequest').then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
+
+      const Count= interception.response.body.count
+      if(Count > 20){
+        cy.get(".ant-pagination-item.ant-pagination-item-2").click();
+
+        cy.wait("@reportDocumentCheckList").as('secondRequest').then((sicinterception) => {
+          cy.wrap(sicinterception.response.statusCode).should("eq", 200);
+        });
+
+
+      }
     });
 
-    cy.get(".ant-pagination-item.ant-pagination-item-2").click();
-
-    cy.wait("@reportDocumentCheckList").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
+  
 
     cy.contains("SERVICE AGREEMENT").click();
 
@@ -198,5 +215,230 @@ describe("Reports", () => {
     cy.wait("@Visa").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
+
+    cy.get('.header-text').contains('Time Tracking').click()
+
+    cy.wait("@BranchVisaType/All").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@allservicetype").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@visastatus").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@getallusers").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get('.ant-btn.ant-btn-default.button-blue')
+      .contains('Show')
+      .click()
+
+     cy.wait("@reportTimeTracking").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.get('a[href="/time-tracking"]').click()
+
+
+      cy.wait("@worktypeall").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+        
+      });
+
+      cy.wait(3000)
+
+      cy.get('.ant-table-row.ant-table-row-level-0').each(
+        ($el, index, $list) => {
+        var ge = $el.find('td').text();
+
+        if(ge.includes('cypress automation')){
+          cy.wrap($el).find('img[src="/static/media/delete-blue.983ea6be.svg"]').click()
+          cy.get('.ant-btn.ant-btn-primary').contains('OK').click()
+          cy.wait("@worktypeall").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+    
+          cy.wait("@deleteworktype").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+
+        }
+      })
+
+      cy.get('img[src="/static/media/plus-icon.16380594.svg"]').click()
+
+      cy.get('.ant-input.profile-input').type('cypress automation')
+
+      cy.get('.ant-btn.ant-btn-primary').contains('Save').click()
+
+      cy.wait("@worktypeall").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.wait("@postworktype").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.get('.ant-table-row.ant-table-row-level-0').each(
+        ($el, index, $list) => {
+        var ge = $el.find('td').text();
+
+        if(ge.includes('cypress automation')){
+          cy.wrap($el).find('img[src="/static/media/edit-border-blue.a5c788a8.svg"]').click()
+          cy.get('.ant-btn.ant-btn-primary').contains('Save').click()
+          cy.wait("@worktypeall").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+    
+          cy.wait("@putworktype").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+
+        }
+      })
+
+
+      cy.wait(3000)
+
+      cy.get('.ant-table-row.ant-table-row-level-0').each(
+        ($el, index, $list) => {
+        var ge = $el.find('td').text();
+
+        if(ge.includes('cypress automation')){
+          cy.wrap($el).find('img[src="/static/media/delete-blue.983ea6be.svg"]').click()
+          cy.get('.ant-btn.ant-btn-primary').contains('OK').click()
+          cy.wait("@worktypeall").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+    
+          cy.wait("@deleteworktype").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+
+        }
+      })
+
+      cy.wait(3000)
+
+      cy.contains('VISA TYPE PRICE').click()
+
+
+      cy.wait("@visatypepriceall").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+
+      cy.get('img[src="/static/media/edit-border-blue.a5c788a8.svg"]').eq(0).click()
+      cy.get('.ant-btn.ant-btn-default.button-blue')
+        .contains('Update')
+        .click()
+
+      
+      
+
+        cy.wait("@visatypepriceall").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.wait("@postvisatypepriceall").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+    
+
+        cy.contains('SERVICE TYPE').click()
+
+        cy.wait("@allservicetype").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.wait(2000)
+
+        cy.get('.ant-table-row.ant-table-row-level-0').each(
+          ($el, index, $list) => {
+          var ge = $el.find('td').text();
+  
+          if(ge.includes('cypress automation')){
+            cy.wrap($el).find('img[src="/static/media/delete-blue.983ea6be.svg"]').click()
+            cy.get('.ant-btn.ant-btn-primary').contains('OK').click()
+            cy.wait("@allservicetype").then((interception) => {
+              cy.wrap(interception.response.statusCode).should("eq", 200);
+            });
+      
+            cy.wait("@deleteservicetype").then((interception) => {
+              cy.wrap(interception.response.statusCode).should("eq", 200);
+            });
+  
+          }
+        })
+  
+
+        cy.get('img[src="/static/media/plus-icon.16380594.svg"]').click()
+
+        cy.get('.ant-input.profile-input').type('cypress automation')
+        cy.get('.profile-input-border').eq(1).type('2')
+        cy.get('.profile-input-border').eq(2).type('2')
+  
+        cy.get('.ant-btn.ant-btn-primary').contains('OK').click()
+  
+        cy.wait("@allservicetype").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+  
+        cy.wait("@postservicetype").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.get('.ant-table-row.ant-table-row-level-0').each(
+          ($el, index, $list) => {
+          var ge = $el.find('td').text();
+  
+          if(ge.includes('cypress automation')){
+            cy.wrap($el).find('img[src="/static/media/edit-border-blue.a5c788a8.svg"]').click()
+            cy.get('.ant-btn.ant-btn-primary').contains('OK').click()
+            cy.wait("@allservicetype").then((interception) => {
+              cy.wrap(interception.response.statusCode).should("eq", 200);
+            });
+      
+            cy.wait("@putservicetype").then((interception) => {
+              cy.wrap(interception.response.statusCode).should("eq", 200);
+            });
+  
+          }
+        })
+  
+  
+        cy.wait(3000)
+
+        
+
+      cy.get('.ant-table-row.ant-table-row-level-0').each(
+        ($el, index, $list) => {
+        var ge = $el.find('td').text();
+
+        if(ge.includes('cypress automation')){
+          cy.wrap($el).find('img[src="/static/media/delete-blue.983ea6be.svg"]').click()
+          cy.get('.ant-btn.ant-btn-primary').contains('OK').click()
+          cy.wait("@allservicetype").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+    
+          cy.wait("@deleteservicetype").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+
+        }
+      })
+
+      cy.wait(3000)
+  
+
+
+
+
   });
 });

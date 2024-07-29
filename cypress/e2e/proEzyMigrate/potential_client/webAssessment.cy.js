@@ -173,7 +173,7 @@ describe("Web Assessment ", () => {
       force: true,
     });
     cy.get("#sections_0_questions_11_answers_0_answer").type("testing ");
-    cy.contains("Save").click();
+    cy.contains("Submit").click();
     cy.wait(4000);
     cy.visit("https://app.ezymigrate.com/web-inquiry-detailed");
     cy.wait(4000);
