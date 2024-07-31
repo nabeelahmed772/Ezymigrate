@@ -602,7 +602,7 @@ describe("client questionaire and document", () => {
     cy.get(".sus-inactive-tab-text")
       .contains("Company/Branch Level Setting")
       .click();
-    cy.get('img[src="/static/media/doc-checklist.52f37436.svg"]').click();
+    cy.contains('Document Checklist').click();
 
     cy.wait("@documentCheckList").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -663,7 +663,7 @@ describe("client questionaire and document", () => {
 
     cy.wait(2000);
 
-    cy.wait(2000);
+    cy.wait(3000);
 
     cy.get("tr").each(($el, index, $list) => {
       const mo = $el.find(".ant-table-cell").text().trim();
@@ -847,6 +847,8 @@ describe("client questionaire and document", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
+    
+
     cy.get(".ant-btn.ant-btn-primary.login-form-button.save-btn")
       .contains("SAVE")
       .click({ force: true });
@@ -998,7 +1000,7 @@ describe("client questionaire and document", () => {
     cy.get(".sus-inactive-tab-text")
       .contains("Company/Branch Level Setting")
       .click();
-    cy.get('img[src="/static/media/doc-checklist.52f37436.svg"]').click();
+    cy.contains('Document Checklist').click();
 
     cy.wait("@documentCheckList").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -1032,5 +1034,31 @@ describe("client questionaire and document", () => {
     });
 
     cy.wait(2000);
+
+    cy.get('a[href="/questionnaire"]').click();
+
+    cy.wait("@GetAllQuestionnairs").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait(2000);
+
+    cy.get(".cq-list-content-row").each(($el, index, $list) => {
+      var del = $el.find(".cv-doc-text").text().trim();
+      if (del === "automation questionaire name") {
+        cy.log(del);
+        cy.wrap($el)
+          .find('img[src="/static/media/delete-blue.983ea6be.svg"]')
+          .click();
+        cy.get(".ant-btn.ant-btn-primary").contains("OK").click();
+        cy.wait("@questionnaire").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.wait("@GetAllQuestionnairs").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+      }
+    });
   });
 });

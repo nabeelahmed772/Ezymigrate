@@ -731,7 +731,7 @@ describe("account setting", () => {
       .scrollIntoView()
       .click();
 
-    cy.contains('API Key').eq(1).click();
+    cy.get('arrow-round-cont').eq(17).click();
 
     cy.wait("@apikeygetbyid").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);

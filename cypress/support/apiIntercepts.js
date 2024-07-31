@@ -107,7 +107,13 @@ export function setupAPIIntercepts() {
 
   cy.intercept("GET", `${baseURL}invoice/InvoiceReciptPDFHtmlBlob/**`).as("invoicereceiptpdfhtml");
 
-  cy.intercept("POST", `${baseURL}invoice/AllBySubjectIdWithPaging`).as(
+  cy.intercept("POST", `${baseURL}invoice/AllBySubjectIdWithPaging`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers['Cache-Control'] = 'no-cache';
+      res.send();
+    });
+  }).as(
     "AllBySubjectIdWithPaging"
   );
 
@@ -214,9 +220,21 @@ export function setupAPIIntercepts() {
 
   cy.intercept(`${baseURL}template/documentCheckList`).as("documentCheckList");
 
-  cy.intercept(`${baseURL}temp/document/checklist`).as("checklist1");
+  cy.intercept(`${baseURL}temp/document/checklist`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers['Cache-Control'] = 'no-cache';
+      res.send();
+    });
+  }).as("checklist1");
 
-  cy.intercept(`${baseURL}temp/document/checklist/All/*`).as("checklist");
+  cy.intercept(`${baseURL}temp/document/checklist/All/*`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers['Cache-Control'] = 'no-cache';
+      res.send();
+    });
+  }).as("checklist");
 
   cy.intercept('GET', `${baseURL}document/checklist/All/*`).as("datachecklist");
 
