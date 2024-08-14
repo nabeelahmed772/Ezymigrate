@@ -14,6 +14,7 @@ describe("account setting", () => {
     cy.wait("@accountlogout").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
+    
 
     cy.wait("@GetLoginPageImage").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
