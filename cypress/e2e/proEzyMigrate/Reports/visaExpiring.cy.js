@@ -333,7 +333,7 @@ describe("Reports", () => {
       });
 
 
-      cy.get('img[src="/static/media/edit-border-blue.a5c788a8.svg"]').eq(0).click()
+      cy.get('img[src="/static/media/edit-border-blue.a5c788a8.svg"]').eq(0).click({force:true})
       cy.get('.ant-btn.ant-btn-default.button-blue')
         .contains('Update')
         .click()

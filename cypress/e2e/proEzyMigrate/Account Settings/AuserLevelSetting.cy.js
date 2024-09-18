@@ -29,11 +29,11 @@ describe("account setting", () => {
 
     cy.wait("@DocumentView").its("response.statusCode").should("eq", 200);
 
-    cy.get(".ant-checkbox-input").click();
+    cy.get(".ant-checkbox-input").eq(1).click();
 
     cy.wait("@users/DocumentView").its("response.statusCode").should("eq", 200);
 
-    cy.get(".ant-checkbox-input").click();
+    cy.get(".ant-checkbox-input").eq(1).click();
 
     cy.wait("@users/DocumentView").its("response.statusCode").should("eq", 200);
 
@@ -698,7 +698,7 @@ describe("account setting", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.get(".ant-checkbox-input").eq(0).click();
+    cy.get(".ant-checkbox-input").eq(1).click();
 
     cy.wait("@putBranchCCAndBCCImportSetting").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);

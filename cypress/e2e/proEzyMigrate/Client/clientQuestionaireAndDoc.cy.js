@@ -262,7 +262,7 @@ describe("client questionaire and document", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(2000);
+    cy.wait(4000);
 
     cy.get('a[href="/questionnaire"]').click();
 
@@ -270,7 +270,7 @@ describe("client questionaire and document", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(2000);
+    cy.wait(4000);
 
     cy.get(".cq-list-content-row").each(($el, index, $list) => {
       var del = $el.find(".cv-doc-text").text().trim();
@@ -287,6 +287,8 @@ describe("client questionaire and document", () => {
         });
       }
     });
+
+    cy.wait(2000)
 
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'

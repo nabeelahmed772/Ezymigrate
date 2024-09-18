@@ -280,8 +280,7 @@ describe("Adding client", () => {
       .type(futureDate, { force: true })
       .type("{enter}");
     cy.get(
-      "#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(2) > form > div.denied-cont > div.ant-form-item > div > div > div > div > button > span"
-    ).click();
+      '.ant-btn.ant-btn-default.button-blue').eq(1).click();
     cy.wait(5000);
 
     //updating the medical details
@@ -298,8 +297,7 @@ describe("Adding client", () => {
     //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
     cy.get("#xrayExpiryDate").type(futureDate, { force: true }).type("{enter}");
     cy.get(
-      "#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(3) > form > div.denied-cont > div.ant-form-item > div > div > div > div > button > span"
-    ).click();
+      '.ant-btn.ant-btn-default.button-blue').eq(2).click();
     cy.wait(5000);
 
     //adding police certificate
@@ -322,8 +320,7 @@ describe("Adding client", () => {
 
     cy.get("#passportNo").type("5");
     cy.get(
-      "#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(4) > form > div:nth-child(1) > div.ant-form-item > div > div > div > div > button > span"
-    ).click();
+      '.ant-btn.ant-btn-default.button-blue').eq(3).click();
     cy.wait(5000);
 
     //updating acessing authorties
@@ -331,16 +328,14 @@ describe("Adding client", () => {
     //updating inz login details
     cy.get("#clientNumber").click({ force: true }).type(randomNo(12));
     cy.get(
-      "#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(5) > form > div.denied-cont > div.ant-form-item > div > div > div > div > button > span"
-    ).click();
+      '.ant-btn.ant-btn-default.button-blue').eq(4).click();
     cy.wait(5000);
     //updating NZQA login details
 
     //updating billing address
     cy.get("#flat").click({ force: true }).type("flat");
     cy.get(
-      "#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(7) > form > div.denied-cont > div.ant-form-item > div > div > div > div > button > span"
-    ).click();
+      '.ant-btn.ant-btn-default.button-blue').eq(6).click();
     cy.wait(5000);
 
     //adding visa of client
@@ -587,7 +582,7 @@ describe("Adding client", () => {
 
     cy.wait(2000);
 
-    cy.get(".ant-checkbox-input").eq(0).click();
+    cy.get(".ant-checkbox-input").eq(1).click();
 
     cy.get(".anticon.anticon-ellipsis").eq(1).click();
 
@@ -620,7 +615,7 @@ describe("Adding client", () => {
 
     cy.get('img[src="/static/media/link-visa.4925a6d1.svg"]').eq(0).click();
 
-    cy.get(".ant-checkbox-input").eq(3).click();
+    cy.get(".ant-checkbox-input").eq(4).click();
 
     cy.get(".ant-btn.ant-btn-primary").contains("OK").click();
 
@@ -674,7 +669,7 @@ describe("Adding client", () => {
 
     cy.get('img[src="/static/media/multimedia-blue.f6e13199.svg"]').click();
 
-    cy.get(".ant-checkbox-input").eq(2).click();
+    cy.get(".ant-checkbox-input").eq(3).click();
 
     cy.get(".ant-btn.ant-btn-primary").contains("OK").click({ force: true });
 
@@ -760,7 +755,7 @@ describe("Adding client", () => {
 
     cy.get('img[src="/static/media/link-visa.4925a6d1.svg"]').click();
 
-    cy.get(".ant-checkbox-input").eq(1).click();
+    cy.get(".ant-checkbox-input").eq(2).click();
 
     cy.get(".ant-btn.ant-btn-primary").eq(3).click();
 
@@ -1010,8 +1005,7 @@ describe("Adding client", () => {
     cy.get(".ant-select-selection-item").eq(13).click({ force: true });
     cy.get('div[title="arsalan team member"]').click({ force: true });
     cy.get(
-      '[style="display: flex; justify-content: space-between; margin-right: 30px;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span'
-    ).click();
+      '.ant-btn.ant-btn-default.button-blue').eq(0).click();
     cy.wait(5000);
 
     //updating the current visa info
@@ -1025,8 +1019,7 @@ describe("Adding client", () => {
     cy.get("#visaText").type("test visa");
     //cy.get('#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(2) > form > div.denied-cont > div.ant-form-item > div > div > div > div > button > span').click()
     cy.get(
-      ':nth-child(2) > .ant-form > [style="justify-content: space-between; align-items: center;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span'
-    ).click();
+      '.ant-btn.ant-btn-default.button-blue').eq(1).click();
 
     cy.wait(5000);
 
@@ -1044,9 +1037,7 @@ describe("Adding client", () => {
     //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
     //cy.get('#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(3) > form > div.denied-cont > div.ant-form-item > div > div > div > div > button > span').click()
     cy.get(
-      ':nth-child(3) > .ant-form > [style="justify-content: space-between; align-items: center;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span'
-    ).click();
-
+      '.ant-btn.ant-btn-default.button-blue').eq(2).click();
     cy.wait(5000);
 
     //adding police certificate
@@ -1072,9 +1063,7 @@ describe("Adding client", () => {
     cy.get("#passportNo").type("5");
     //cy.get('#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(4) > form > div:nth-child(1) > div.ant-form-item > div > div > div > div > button > span').click()
     cy.get(
-      ':nth-child(3) > [style="justify-content: space-between; align-items: center;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span'
-    ).click();
-
+      '.ant-btn.ant-btn-default.button-blue').eq(3).click();
     cy.wait(5000);
 
     //updating acessing authorties
@@ -1084,8 +1073,7 @@ describe("Adding client", () => {
     //cy.get('#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(5) > form > div.denied-cont > div.ant-form-item > div > div > div > div > button > span').click()
     //cy.get(':nth-child(3) > [style="justify-content: space-between; align-items: center;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span').click()
     cy.get(
-      ':nth-child(5) > .ant-form > [style="justify-content: space-between; align-items: center;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span'
-    ).click();
+      '.ant-btn.ant-btn-default.button-blue').eq(4).click();
 
     cy.wait(5000);
     //updating NZQA login details
@@ -1094,8 +1082,7 @@ describe("Adding client", () => {
     cy.get("#flat").click({ force: true }).type("flat");
     //cy.get('#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(7) > form > div.denied-cont > div.ant-form-item > div > div > div > div > button > span').click()
     cy.get(
-      ':nth-child(7) > .ant-form > [style="justify-content: space-between; align-items: center;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span'
-    ).click();
+      '.ant-btn.ant-btn-default.button-blue').eq(6).click();
 
     cy.wait(5000);
 
@@ -1424,8 +1411,7 @@ describe("Adding client", () => {
     cy.get("#clientSerial").click({ force: true }).type(randomNo(40));
     cy.get("#middleName").type("middlename");
     cy.get(
-      '[style="display: flex; justify-content: space-between; margin-right: 30px;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span'
-    ).click();
+      '.ant-btn.ant-btn-default.button-blue').eq(0).click();
     cy.wait(5000);
 
     //updating the current visa info
@@ -1439,8 +1425,7 @@ describe("Adding client", () => {
     cy.get("#visaText").type("test visa");
     //cy.get('#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(2) > form > div.denied-cont > div.ant-form-item > div > div > div > div > button > span').click()
     cy.get(
-      ':nth-child(2) > .ant-form > [style="justify-content: space-between; align-items: center;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span'
-    ).click();
+      '.ant-btn.ant-btn-default.button-blue').eq(1).click();
 
     cy.wait(5000);
 
@@ -1458,8 +1443,7 @@ describe("Adding client", () => {
     //cy.get(date).and('have.class', 'ant-picker-cell ant-picker-cell-in-view').click({multiple:true, force: true })
     //cy.get('#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(3) > form > div.denied-cont > div.ant-form-item > div > div > div > div > button > span').click()
     cy.get(
-      ':nth-child(3) > .ant-form > [style="justify-content: space-between; align-items: center;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span'
-    ).click();
+      '.ant-btn.ant-btn-default.button-blue').eq(2).click();
 
     cy.wait(5000);
 
@@ -1491,8 +1475,7 @@ describe("Adding client", () => {
     cy.get("#passportNo").type("5");
     //cy.get('#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(4) > form > div:nth-child(1) > div.ant-form-item > div > div > div > div > button > span').click()
     cy.get(
-      ':nth-child(3) > [style="justify-content: space-between; align-items: center;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span'
-    ).click();
+      '.ant-btn.ant-btn-default.button-blue').eq(3).click();
 
     cy.wait(5000);
 
@@ -1503,8 +1486,7 @@ describe("Adding client", () => {
     //cy.get('#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(5) > form > div.denied-cont > div.ant-form-item > div > div > div > div > button > span').click()
     //cy.get(':nth-child(3) > [style="justify-content: space-between; align-items: center;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span').click()
     cy.get(
-      ':nth-child(5) > .ant-form > [style="justify-content: space-between; align-items: center;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span'
-    ).click();
+      '.ant-btn.ant-btn-default.button-blue').eq(4).click();
 
     cy.wait(5000);
     //updating NZQA login details
@@ -1514,8 +1496,7 @@ describe("Adding client", () => {
 
     //cy.get('#root > div > div > div > section > main > div > div > div > div:nth-child(2) > div.page-container > div.profile-container > div.content-width-close-sidebar > div > div.profile-additional-box > div:nth-child(7) > form > div.denied-cont > div.ant-form-item > div > div > div > div > button > span').click()
     cy.get(
-      ':nth-child(7) > .ant-form > [style="justify-content: space-between; align-items: center;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span'
-    ).click();
+      '.ant-btn.ant-btn-default.button-blue').eq(6).click();
 
     cy.wait(5000);
     })
