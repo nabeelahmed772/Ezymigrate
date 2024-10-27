@@ -264,7 +264,7 @@ describe("potential client", () => {
     cy.get(
       ":nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-select > .ant-select-selector > .ant-select-selection-item"
     ).click();
-    cy.contains("potential clinet signtaturee").click();
+    cy.contains("potential clinet signtaturee").click({force:true});
     cy.wait(8000);
     cy.contains("Generate Contract Link").click();
     cy.wait(9000);
@@ -310,7 +310,7 @@ describe("potential client", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.contains("Select sales person").click({ force: true });
+    cy.contains("Select processing person").click({ force: true });
 
     cy.get('div[title="Owner nabeel"]').click();
 

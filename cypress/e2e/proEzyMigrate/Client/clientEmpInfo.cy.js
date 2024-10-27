@@ -147,9 +147,8 @@ describe("Adding client", () => {
     cy.get("#main_email").type("test123@gmail.com");
     cy.get("#main_contact_no").type("03420811293");
 
-    cy.get(
-      ':nth-child(11) > [style="padding-left: 4px; padding-right: 4px;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-select > .ant-select-selector > .ant-select-selection-item'
-    ).click();
+    cy.get('span[title="Select job sector"]'
+    ).eq(1).click();
     cy.wait(2000);
     //need to fix later
     cy.get('div[title="Administrative"]').click({

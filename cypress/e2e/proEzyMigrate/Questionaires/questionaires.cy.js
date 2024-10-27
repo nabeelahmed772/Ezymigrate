@@ -120,7 +120,7 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(2000)
+    cy.wait(4000)
 
     cy.get(".cq-list-content-row").each(($el, index, $list) => {
       var del = $el.find(".cv-doc-text").text().trim();
@@ -138,15 +138,7 @@ describe("custom questionaires", () => {
       }
     });
 
-    cy.get(".ant-checkbox-input").eq(1).click();
-
-    cy.wait("@SimpleUpdate").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
-
-    cy.wait("@GetAllQuestionnairs").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
+    cy.wait(2000)
 
     cy.get(".ant-checkbox-input").eq(2).click();
 
@@ -158,6 +150,8 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
+    cy.wait(2000)
+
     cy.get(".ant-checkbox-input").eq(3).click();
 
     cy.wait("@SimpleUpdate").then((interception) => {
@@ -168,7 +162,21 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
+    cy.wait(2000)
+
     cy.get(".ant-checkbox-input").eq(4).click();
+
+    cy.wait("@SimpleUpdate").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@GetAllQuestionnairs").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait(2000)
+
+    cy.get(".ant-checkbox-input").eq(5).click();
 
     cy.wait("@SimpleUpdate").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -302,7 +310,7 @@ describe("custom questionaires", () => {
       .click();
     cy.wait(3000);
 
-    cy.get(".ant-select-selection-search-input").eq(6).click();
+    cy.get(".ant-select-selection-search-input").eq(7).click({force:true});
 
     cy.get('div[title="tag 3 "]').click();
 

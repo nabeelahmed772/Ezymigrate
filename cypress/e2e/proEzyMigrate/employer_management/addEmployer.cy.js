@@ -76,9 +76,8 @@ describe("Adding Employer", () => {
 
     cy.get("#main_mobile").type(sms);
     cy.get("#main_website > :nth-child(2) > .ant-input").type("test website");
-    cy.get(
-      ':nth-child(11) > [style="padding-left: 4px; padding-right: 4px;"] > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-select > .ant-select-selector > .ant-select-selection-item'
-    ).click();
+    cy.get('span[title="Select job sector"]'
+    ).eq(1).click();
     cy.wait(2000);
     //need to fix later
     cy.get('div[title="Administrative"]').click({

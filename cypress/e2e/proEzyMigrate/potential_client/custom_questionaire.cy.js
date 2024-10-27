@@ -103,7 +103,7 @@ describe("potential client", () => {
       .contains("Move To Employer")
       .click();
     cy.wait(3000);
-    cy.get(".ant-select-selection-search-input").eq(6).click();
+    cy.get(".ant-select-selection-search-input").eq(7).click();
 
     cy.get('div[title="tag 3 "]').click();
 
@@ -203,7 +203,7 @@ describe("potential client", () => {
     cy.get(".quesitonnaire-action-buttons").contains("Move To Client").click();
     cy.wait(3000);
 
-    cy.get(".ant-select-selection-search-input").eq(6).click();
+    cy.get(".ant-select-selection-search-input").eq(7).click();
 
     cy.get('div[title="tag 3 "]').click();
 
@@ -301,7 +301,7 @@ describe("potential client", () => {
       .click();
     cy.wait(3000);
 
-    cy.get(".ant-select-selection-search-input").eq(6).click();
+    cy.get(".ant-select-selection-search-input").eq(7).click();
 
     cy.get('div[title="tag 3 "]').click();
 
