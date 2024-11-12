@@ -11,7 +11,7 @@ describe("account setting", () => {
   it("Settings", () => {
     cy.get('a[href="/account-settings"]').click();
 
-    cy.contains('Signature').click();
+    cy.contains("Signature").click();
 
     cy.wait("@UserSignature").its("response.statusCode").should("eq", 200);
 
@@ -25,7 +25,7 @@ describe("account setting", () => {
 
     cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
 
-    cy.contains('Document View').click();
+    cy.contains("Document View").click();
 
     cy.wait("@DocumentView").its("response.statusCode").should("eq", 200);
 
@@ -39,7 +39,7 @@ describe("account setting", () => {
 
     cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
 
-    cy.contains('Outlook Integration').click();
+    cy.contains("Outlook Integration").click();
 
     cy.wait("@OutlookMail").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -51,7 +51,7 @@ describe("account setting", () => {
 
     cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
 
-    cy.contains('IMAP').click();
+    cy.contains("IMAP").click();
 
     cy.wait("@GetUserIMAP").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -63,8 +63,7 @@ describe("account setting", () => {
 
     cy.get('a[href="/account-settings"]').click();
 
-    cy.contains('Daily Mail Setting')
-      .click();
+    cy.contains("Daily Mail Setting").click();
 
     cy.wait("@UserEmailSetting").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -98,7 +97,7 @@ describe("account setting", () => {
 
     cy.contains("Company/Branch Level Setting").click();
 
-    cy.contains('Email Content').click();
+    cy.contains("Email Content").click();
 
     cy.wait("@emailtemplate").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -110,9 +109,7 @@ describe("account setting", () => {
       ".ant-col-18 > .ant-form-item-control-input > .ant-form-item-control-input-content > #emailType"
     ).type("testing automation email template");
 
-    cy.get(
-      ".fr-wrapper.show-placeholder"
-    ).type(
+    cy.get(".fr-wrapper.show-placeholder").type(
       "description for the testing automation on the subject of the email content for template"
     );
 
@@ -184,7 +181,7 @@ describe("account setting", () => {
 
     cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
 
-    cy.contains('Letter Templates').click();
+    cy.contains("Letter Templates").click();
 
     cy.wait("@DynamicKeys").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -310,7 +307,7 @@ describe("account setting", () => {
 
     cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
 
-    cy.contains('Contracts').click();
+    cy.contains("Contracts").click();
 
     cy.wait("@DynamicKeys").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -487,7 +484,7 @@ describe("account setting", () => {
 
     cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
 
-    cy.contains('Document Checklist').click();
+    cy.contains("Document Checklist").click();
 
     cy.wait("@documentCheckList").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -731,7 +728,7 @@ describe("account setting", () => {
       .scrollIntoView()
       .click();
 
-    cy.get('arrow-round-cont').eq(17).click();
+    cy.get("arrow-round-cont").eq(17).click();
 
     cy.wait("@apikeygetbyid").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -890,5 +887,264 @@ describe("account setting", () => {
     cy.wait("@faqAll").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
+
+    cy.get('span[style="margin-left: 20px;"]')
+      .contains("Client Profile Setting")
+      .click();
+
+    cy.wait("@showhideclientprofilesetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+      const personalInfo = interception.response.body.clientProfileSetting.find(
+        function(setting) {
+            return setting.type === "Personal Information";
+        }
+    );
+    if (personalInfo && !personalInfo.status) {
+      // If status is true, click once
+      cy.get('label[style="padding: 10px; margin-left: 0px; width: 185px;"]')
+        .eq(0)
+        .click();
+
+    cy.wait("@putshowhideclientprofilesetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@showhideclientprofilesetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+  } else if (personalInfo && personalInfo.status) {
+      // If status is false, click twice with a delay in between
+      cy.get('label[style="padding: 10px; margin-left: 0px; width: 185px;"]')
+        .eq(0)
+        .click();
+
+    cy.wait("@putshowhideclientprofilesetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@showhideclientprofilesetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+      cy.wait(1000); // Wait 1000 ms (1 second) before the second click
+      cy.get('label[style="padding: 10px; margin-left: 0px; width: 185px;"]')
+        .eq(0)
+        .click();
+
+    cy.wait("@putshowhideclientprofilesetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@showhideclientprofilesetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+  }
+    });
+
+   
+
+    cy.wait(1000);
+
+    cy.get(".ant-input.ant-input-lg").type("sufi cup");
+
+    cy.get(".search-client-card-cont").each(($el, index, $list) => {
+      const uo = $el.find("span").text().trim();
+      cy.log(uo);
+      debugger;
+
+      if (uo.includes("nabeeloutsourcenzhard@gmail.com")) {
+        cy.wrap($el).find(".date-text").eq(1).click();
+      }
+    });
+
+    cy.wait("@getallusers").its("response.statusCode").should("eq", 200);
+
+    cy.wait("@AllData").its("response.statusCode").should("eq", 200);
+
+    cy.wait("@UserSignature").its("response.statusCode").should("eq", 200);
+
+    cy.wait("@SetHtmlTemplate").its("response.statusCode").should("eq", 200);
+
+    cy.get(".ant-tabs-nav-operations-hidden")
+      .should("exist")
+      .then(($element) => {
+        // Use JavaScript to modify the element's style
+        cy.window().then((win) => {
+          win.document.querySelector(
+            ".ant-tabs-nav-operations-hidden"
+          ).style.position = "static";
+        });
+      });
+
+    cy.contains("Personal Information").should("not.be.visible");
+
+    cy.get('.profile-down-arrow-icon').eq(2).click()
+
+    cy.wait("@putuserclientprofilesetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@showhideclientprofilesetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@getuserclientprofilesetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@AllData").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait(2000)
+
+    
+    cy.get('.profile-down-arrow-icon').eq(2).click()
+
+    cy.wait("@putuserclientprofilesetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@showhideclientprofilesetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@getuserclientprofilesetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@AllData").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get('a[href="/account-settings"]').click();
+
+    cy.contains("Company/Branch Level Setting").click();
+
+    cy.get('span[style="margin-left: 20px;"]')
+      .contains("Client Profile Setting")
+      .click();
+
+    cy.wait("@showhideclientprofilesetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.get('label[style="padding: 10px; margin-left: 0px; width: 185px;"]')
+      .eq(0)
+      .click();
+
+    cy.wait("@putshowhideclientprofilesetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@showhideclientprofilesetting").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait(1000);
+
+    cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
+
+    cy.get('span[style="margin-left: 20px;"]')
+      .contains("Client Profile Custom Fields")
+      .click();
+
+      cy.wait("@getcustomfield").then((interception) => {
+        cy.wrap(interception.response.statusCode).should("eq", 200);
+      });
+
+      cy.get('#fieldFor').click()
+
+      cy.contains('Personal Information').click()
+
+      cy.get('#fieldType').click()
+
+      cy.contains('Textbox').click()
+
+      cy.get('#fieldName').type('cypress field automation')
+
+      cy.get('#fieldData').type('description data')
+
+      cy.get('.ant-btn.ant-btn-primary.button-blue')
+        .contains('Save')
+        .click()
+
+
+
+        cy.wait("@getcustomfield").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+
+        cy.wait("@postcustomfield").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.wait(2000)
+
+        cy.get(".ant-table-row.ant-table-row-level-0").each(
+          ($el, index, $list) => {
+            var ge = $el.find('.ant-table-cell.ant-table-cell-row-hover').eq(1).text().trim();
+    
+            debugger;
+            console.log(ge);
+            if (ge.includes("cypress field automation")) {
+              cy.wrap($el).find(".anticon.anticon-edit").click();
+              cy.get('#fieldName').type(' 1')
+              cy.get('.ant-btn.ant-btn-primary.button-blue')
+                .contains('Save')
+                .click()
+
+                cy.wait("@getcustomfield").then((interception) => {
+                  cy.wrap(interception.response.statusCode).should("eq", 200);
+                });
+        
+        
+                cy.wait("@putcustomfield").then((interception) => {
+                  cy.wrap(interception.response.statusCode).should("eq", 200);
+                });
+              
+            }
+          }
+        );
+
+        cy.wait(2000)
+
+        
+
+        cy.get(".ant-table-row.ant-table-row-level-0").each(
+          ($el, index, $list) => {
+            var ge = $el.find('.ant-table-cell.ant-table-cell-row-hover').eq(1).text().trim();
+    
+            debugger;
+            console.log(ge);
+            if (ge.includes("cypress field automation 1")) {
+              cy.wrap($el).find('img[src="/static/media/delete-blue.983ea6be.svg"]').click();
+
+                cy.wait("@getcustomfield").then((interception) => {
+                  cy.wrap(interception.response.statusCode).should("eq", 200);
+                });
+        
+        
+                cy.wait("@delcustomfield").then((interception) => {
+                  cy.wrap(interception.response.statusCode).should("eq", 200);
+                });
+              
+            }
+          }
+        );
+
+        cy.wait(2000)
+
+        cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
+
+
+
+
+
+
+
+
+
   });
 });

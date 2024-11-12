@@ -57,6 +57,7 @@ describe("account template", () => {
     // cy.contains('Client Analytics').should('be.visible')
 
     // cy.wait(2000)
+    
 
     cy.get(".ant-menu-title-content").eq(4).click();
 

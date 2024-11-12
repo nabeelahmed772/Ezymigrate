@@ -10,6 +10,7 @@ Cypress.Commands.add("login", () => {
 
   const loginUrl = Cypress.env(environment).loginUrl;
   const password = Cypress.env(environment).password;
+  const email = Cypress.env(environment).email;
 
   cy.viewport(1366, 657);
   //const sms= '211267313';
@@ -33,9 +34,7 @@ Cypress.Commands.add("login", () => {
   cy.wait("@GetLoginPageImage").then((interception) => {
     cy.wrap(interception.response.statusCode).should("eq", 200);
   });
-  cy.get("#userName > .profile-input-login").type(
-    "rananabeelahmed772@gmail.com"
-  );
+  cy.get("#userName > .profile-input-login").type(email);
 
   cy.get("#password > .profile-input-login").type(password);
 

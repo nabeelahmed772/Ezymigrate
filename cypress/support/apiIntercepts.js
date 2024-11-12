@@ -165,7 +165,13 @@ export function setupAPIIntercepts() {
     "UpdateClientSimple"
   );
 
-  cy.intercept("GET", `${baseURL}client/AllData/*`).as("AllData");
+  cy.intercept("GET", `${baseURL}client/AllData/*`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers['Cache-Control'] = 'no-cache';
+      res.send();
+    });
+  }).as("AllData");
 
   cy.intercept("POST", `${baseURL}document`).as("document");
 
@@ -880,6 +886,88 @@ export function setupAPIIntercepts() {
   cy.intercept("POST", `${baseURL}visatype/price`).as(
     "postvisatypepriceall"
   );
+
+  cy.intercept("GET", `${baseURL}branch/ShowHideClientProfileSetting`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers['Cache-Control'] = 'no-cache';
+      res.send();
+    });
+  }).as(
+    "showhideclientprofilesetting"
+  );
+
+  cy.intercept("PUT", `${baseURL}branch/ShowHideClientProfileSetting`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers['Cache-Control'] = 'no-cache';
+      res.send();
+    });
+  }).as(
+    "putshowhideclientprofilesetting"
+  );
+
+  cy.intercept("GET", `${baseURL}branch/CustomFeild`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers['Cache-Control'] = 'no-cache';
+      res.send();
+    });
+  }).as(
+    "getcustomfield"
+  );
+
+  cy.intercept("POST", `${baseURL}branch/CustomFeild`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers['Cache-Control'] = 'no-cache';
+      res.send();
+    });
+  }).as(
+    "postcustomfield"
+  );
+
+  cy.intercept("PUT", `${baseURL}branch/CustomFeild`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers['Cache-Control'] = 'no-cache';
+      res.send();
+    });
+  }).as(
+    "putcustomfield"
+  );
+
+  cy.intercept("DELETE", `${baseURL}branch/CustomFeild`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers['Cache-Control'] = 'no-cache';
+      res.send();
+    });
+  }).as(
+    "delcustomfield"
+  );
+
+  cy.intercept("PUT", `${baseURL}users/ClientProfileSetting`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers['Cache-Control'] = 'no-cache';
+      res.send();
+    });
+  }).as(
+    "putuserclientprofilesetting"
+  );
+
+  cy.intercept("GET", `${baseURL}users/ClientProfileSetting/*`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers['Cache-Control'] = 'no-cache';
+      res.send();
+    });
+  }).as(
+    "getuserclientprofilesetting"
+  );
+
+  
 
 
 
