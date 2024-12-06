@@ -44,9 +44,17 @@ beforeEach(() => {
 
 describe("Web Assessment ", () => {
   const futureDate = Cypress.env("futureDate");
+  const environment = Cypress.env('environment')
+  const envConfig = Cypress.env(environment)
+  const baseURL = envConfig.baseURL;
   it("Web Inquiry link detailed", () => {
+   
     cy.contains("Web Inquiry Link (Detailed)").click();
     cy.wait(4000);
+    cy.log(`Environment: ${environment}`);
+
+    cy.log(`Environment Config: ${JSON.stringify(envConfig)}`);
+    cy.log(`Base URL: ${baseURL}`);
     cy.get(".pc-link-text").then(function (text2) {
       cy.visit(text2.text());
     });
@@ -119,7 +127,7 @@ describe("Web Assessment ", () => {
     //   })
     //   cy.wait(2000)
 
-    cy.visit("https://app.ezymigrate.com/web-inquiry-link-detailed");
+    cy.visit(`${baseURL}web-inquiry-link-detailed`);
     cy.get(":nth-child(2) > .header-bar-text-div > .header-text").click();
     cy.get(".sus-inactive-tab-text").click();
     cy.get(
@@ -175,7 +183,7 @@ describe("Web Assessment ", () => {
     cy.get("#sections_0_questions_11_answers_0_answer").type("testing ");
     cy.contains("Submit").click();
     cy.wait(4000);
-    cy.visit("https://app.ezymigrate.com/web-inquiry-detailed");
+    cy.visit(`${baseURL}web-inquiry-detailed`);
     cy.wait(4000);
     cy.get(
       '[style="display: flex; margin-top: 3px;"] > .pc-add-btn > .sus-modal-button-text'
@@ -396,7 +404,7 @@ describe("Web Assessment ", () => {
     cy.get(".ant-btn > span").click();
     cy.wait("@thankyoumessage").its("response.statusCode").should("eq", 200);
     cy.wait(3000)
-    cy.visit("https://app.ezymigrate.com/web-assessment");
+    cy.visit(`${baseURL}web-assessment`);
     cy.wait(4000);
     cy.get(".sus-inactive-tab-text").click();
     cy.wait(8000);
@@ -647,7 +655,7 @@ describe("Web Assessment ", () => {
     cy.get(".ant-btn > span").click();
     cy.wait("@thankyoumessage").its("response.statusCode").should("eq", 200);
     cy.wait(3000)
-    cy.visit("https://app.ezymigrate.com/web-assessment");
+    cy.visit(`${baseURL}web-assessment`);
     cy.wait(4000);
     cy.get(
       '[style="display: flex; margin-top: 3px;"] > .pc-add-btn > .sus-modal-button-text'

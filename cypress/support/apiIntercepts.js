@@ -1,4 +1,4 @@
-function generateBaseURL(environment) {
+export function generateBaseURL(environment) {
   const baseURLPrefix = getBaseURLPrefix(environment);
 
   if (environment === "production") {
@@ -13,7 +13,7 @@ function generateBaseURL(environment) {
 }
 
 // Helper function to get the base URL prefix based on the environment
-function getBaseURLPrefix(environment) {
+export function getBaseURLPrefix(environment) {
   if (environment === "production") {
     return "https://beta-api.ezymigrate.co.nz/";
   } else if (environment === "staging") {
@@ -24,8 +24,6 @@ function getBaseURLPrefix(environment) {
     return "https://beta-api.ezymigrate.co.nz/";
   }
 }
-
-
 
 export function setupAPIIntercepts() {
   const environment = Cypress.env("environment");
@@ -103,19 +101,21 @@ export function setupAPIIntercepts() {
 
   cy.intercept("POST", `${baseURL}invoice/SendRecipt`).as("invoiceSendRecipt");
 
-  cy.intercept("GET", `${baseURL}invoice/CheckDuplicate/*`).as("duplicateinvoicecheck");
+  cy.intercept("GET", `${baseURL}invoice/CheckDuplicate/*`).as(
+    "duplicateinvoicecheck"
+  );
 
-  cy.intercept("GET", `${baseURL}invoice/InvoiceReciptPDFHtmlBlob/**`).as("invoicereceiptpdfhtml");
+  cy.intercept("GET", `${baseURL}invoice/InvoiceReciptPDFHtmlBlob/**`).as(
+    "invoicereceiptpdfhtml"
+  );
 
   cy.intercept("POST", `${baseURL}invoice/AllBySubjectIdWithPaging`, (req) => {
     req.reply((res) => {
       // Add Cache-Control header to prevent caching
-      res.headers['Cache-Control'] = 'no-cache';
+      res.headers["Cache-Control"] = "no-cache";
       res.send();
     });
-  }).as(
-    "AllBySubjectIdWithPaging"
-  );
+  }).as("AllBySubjectIdWithPaging");
 
   cy.intercept(`${baseURL}invoice/LastInvoiceNumber`).as("LastInvoiceNumber");
 
@@ -131,7 +131,7 @@ export function setupAPIIntercepts() {
 
   cy.intercept(`${baseURL}invoice`).as("invoice");
 
-  cy.intercept('GET', `${baseURL}invoice/*`).as("getinvoice");
+  cy.intercept("GET", `${baseURL}invoice/*`).as("getinvoice");
 
   cy.intercept(`${baseURL}document/MultiUploadWithFileName`).as(
     "MultiUploadWithFileName"
@@ -139,13 +139,54 @@ export function setupAPIIntercepts() {
 
   cy.intercept(`${baseURL}invoice/payment/All/*`).as("payment/All");
 
-  cy.intercept('POST', `${baseURL}invoice/payment`).as("postpayment");
+  cy.intercept("POST", `${baseURL}invoice/payment`).as("postpayment");
 
-  cy.intercept("GET", `${baseURL}branch/bank`).as("branch/bank");
+  cy.intercept("GET", `${baseURL}branch/bank`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("branch/bank");
+
+  cy.intercept("POST", `${baseURL}branch/bank`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("postbranch/bank");
+
+  cy.intercept("DELETE", `${baseURL}branch/bank`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("deletebranch/bank");
 
   cy.intercept("GET", `${baseURL}invoice/template/All`).as("getTemplate");
 
-  cy.intercept("GET", `${baseURL}branch/tax/All`).as("getTax");
+  cy.intercept("POST", `${baseURL}branch/tax`, (req) => {
+    req.reply((res) => {
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("postTax");
+
+  cy.intercept("DELETE", `${baseURL}branch/tax`, (req) => {
+    req.reply((res) => {
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("deleteTax");
+
+  cy.intercept("GET", `${baseURL}branch/tax/All`, (req) => {
+    req.reply((res) => {
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("getTax");
 
   cy.intercept("POST", `${baseURL}client`).as("client");
 
@@ -168,7 +209,7 @@ export function setupAPIIntercepts() {
   cy.intercept("GET", `${baseURL}client/AllData/*`, (req) => {
     req.reply((res) => {
       // Add Cache-Control header to prevent caching
-      res.headers['Cache-Control'] = 'no-cache';
+      res.headers["Cache-Control"] = "no-cache";
       res.send();
     });
   }).as("AllData");
@@ -179,12 +220,31 @@ export function setupAPIIntercepts() {
 
   cy.intercept("GET", `${baseURL}document/type/All`).as("getdocumentypeall");
 
-  cy.intercept("GET", `${baseURL}subject/case/All/dropdown/*`).as("allsubjectcasedropdown");
+  cy.intercept("GET", `${baseURL}subject/case/All/dropdown/*`).as(
+    "allsubjectcasedropdown"
+  );
 
   cy.intercept("POST", `${baseURL}visa/document`).as("visadocument");
+  
+   
+  
+  Cypress.Commands.add('interceptSearchClient', () => {
+    cy.intercept(
+    {
+    method: 'POST',
+    url: `${baseURL}client/SearchClient`,
+    },
+    (req) => {
+    req.reply((res) => {
+    res.headers['Cache-Control'] = 'no-cache';
+    res.send(); // Ensures no cached response
+    });
+    }
+    ).as('SearchClient');
+    });
+    
 
-  cy.intercept("POST", `${baseURL}client/SearchClient`).as("SearchClient");
-
+  
   cy.intercept("GET", `${baseURL}emailimport/ClientImportSettings/*`).as(
     "ClientImportSettings"
   );
@@ -199,20 +259,78 @@ export function setupAPIIntercepts() {
 
   cy.intercept("DELETE", `${baseURL}subject/case`).as("delcase");
 
-  cy.intercept("GET", `${baseURL}emailtemplate`).as("emailtemplate");
+  cy.intercept("GET", `${baseURL}emailtemplate`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("emailtemplate");
 
-  cy.intercept("GET", `${baseURL}invoice/InvoiceReciptPDFHtml/**`).as("invoicerecepitpdfhtml");
+  cy.intercept("GET", `${baseURL}invoice/InvoiceReciptPDFHtml/**`).as(
+    "invoicerecepitpdfhtml"
+  );
 
-  cy.intercept("POST", `${baseURL}emailtemplate`).as("postemailtemplate");
+  cy.intercept("POST", `${baseURL}emailtemplate`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("postemailtemplate");
 
-  cy.intercept("PUT", `${baseURL}emailtemplate`).as("putemailtemplate");
+  cy.intercept("PUT", `${baseURL}emailtemplate`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("putemailtemplate");
 
-  cy.intercept("DELETE", `${baseURL}emailtemplate`).as("delemailtemplate");
+  cy.intercept("DELETE", `${baseURL}emailtemplate`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("delemailtemplate");
 
   cy.intercept("DELETE", `${baseURL}imap/ClientEmail`).as("ClientEmail");
   cy.intercept("POST", `${baseURL}imap/ClientEmail`).as("postClientEmail");
 
-  cy.intercept("POST", `${baseURL}emailqueue/EmailQueueWithBlobUrl`).as("emailqueueblocburl");
+  cy.intercept("POST", `${baseURL}emailqueue/EmailQueueWithBlobUrl`).as(
+    "emailqueueblocburl"
+  );
+
+  cy.intercept("POST", `${baseURL}email/ClientBulkEmail`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as(
+    "bulkclientemail"
+  );
+
+  cy.intercept("POST", `${baseURL}email/SendBulkEmail`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as(
+    "emailbulksendemail"
+  );
+
+  cy.intercept("POST", `${baseURL}email/PotentialClientBulkEmail`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as(
+    "potentialcleintbulkemail"
+  );
 
   cy.intercept(`${baseURL}template/All`).as("template/All");
 
@@ -229,7 +347,7 @@ export function setupAPIIntercepts() {
   cy.intercept(`${baseURL}temp/document/checklist`, (req) => {
     req.reply((res) => {
       // Add Cache-Control header to prevent caching
-      res.headers['Cache-Control'] = 'no-cache';
+      res.headers["Cache-Control"] = "no-cache";
       res.send();
     });
   }).as("checklist1");
@@ -237,31 +355,39 @@ export function setupAPIIntercepts() {
   cy.intercept(`${baseURL}temp/document/checklist/All/*`, (req) => {
     req.reply((res) => {
       // Add Cache-Control header to prevent caching
-      res.headers['Cache-Control'] = 'no-cache';
+      res.headers["Cache-Control"] = "no-cache";
       res.send();
     });
   }).as("checklist");
 
-  cy.intercept('GET', `${baseURL}document/checklist/All/*`).as("datachecklist");
+  cy.intercept("GET", `${baseURL}document/checklist/All/*`).as("datachecklist");
 
-  cy.intercept('GET', `${baseURL}client/email/Subject/*`).as("clientemailsubject");
+  cy.intercept("GET", `${baseURL}client/email/Subject/*`).as(
+    "clientemailsubject"
+  );
 
-  cy.intercept('POST', `${baseURL}document/checklist`).as("postdocumentchecklist");
-  cy.intercept('PUT', `${baseURL}document/checklist`).as("putdocumentchecklist");
+  cy.intercept("POST", `${baseURL}document/checklist`).as(
+    "postdocumentchecklist"
+  );
+  cy.intercept("PUT", `${baseURL}document/checklist`).as(
+    "putdocumentchecklist"
+  );
 
-  cy.intercept('DELETE', `${baseURL}temp/document/checklistItem`).as("deletechecklistitemtemp");
-  cy.intercept('DELETE', `${baseURL}document/checklistItem`).as("deletechecklistitemnontemp");
+  cy.intercept("DELETE", `${baseURL}temp/document/checklistItem`).as(
+    "deletechecklistitemtemp"
+  );
+  cy.intercept("DELETE", `${baseURL}document/checklistItem`).as(
+    "deletechecklistitemnontemp"
+  );
 
   cy.intercept(
     "GET",
     `${baseURL}imap/ClientEmailHistory/00000000-0000-0000-0000-000000000000/651876e6-b0c8-4c31-aac2-2129d93a8c9b/aa5f1c18-3094-4d14-a128-484e00bb585b/0/10/1/0`
   ).as("ClientEmailHistory");
 
-  cy.intercept(
-    "GET",
-    `${baseURL}imap/ClientEmailHistory/**/0/20/1/0`
-  ).as("ClientEmailHistorynew");
-
+  cy.intercept("GET", `${baseURL}imap/ClientEmailHistory/**/0/20/1/0`).as(
+    "ClientEmailHistorynew"
+  );
 
   cy.intercept("POST", `${baseURL}email/visaemail`).as("visaemail");
 
@@ -317,7 +443,10 @@ export function setupAPIIntercepts() {
 
   cy.intercept("GET", `${baseURL}clientemployer/All/*`).as("getclientemployer");
 
-  cy.intercept("GET", `${baseURL}client/educationalhistory/GetAllEducationalHistoryByClientId/*`).as("getclientmaineducationhistory");
+  cy.intercept(
+    "GET",
+    `${baseURL}client/educationalhistory/GetAllEducationalHistoryByClientId/*`
+  ).as("getclientmaineducationhistory");
 
   cy.intercept("POST", `${baseURL}questionnaire/RAddQuestionnaire`).as(
     "RAddQuestionnaire"
@@ -358,6 +487,11 @@ export function setupAPIIntercepts() {
   cy.intercept("GET", `${baseURL}users/ddl/PermisionUser/false`).as(
     "allbranchUsersfalse"
   );
+
+  cy.intercept("GET", `${baseURL}users/UserSignature
+`).as(
+    "getusersignature"
+  );
   cy.intercept("GET", `${baseURL}questionnaire/GetAttachments/*`).as(
     "getquestionaireattachmentswithid"
   );
@@ -367,10 +501,9 @@ export function setupAPIIntercepts() {
     `${baseURL}questionnairefilledanswer/InsertFilledAnswers`
   ).as("InsertFilledAnswers");
 
-  cy.intercept(
-    "PUT",
-    `${baseURL}questionnairefilledanswer`
-  ).as("potentialfilledanswer");
+  cy.intercept("PUT", `${baseURL}questionnairefilledanswer`).as(
+    "potentialfilledanswer"
+  );
 
   cy.intercept("POST", `${baseURL}questionnaire/WebSendQuestionnaireEmail`).as(
     "WebSendQuestionnaireEmail"
@@ -417,9 +550,13 @@ export function setupAPIIntercepts() {
 
   cy.intercept("GET", `${baseURL}users/ddl/All`).as("getallusers");
 
-  cy.intercept("GET", `${baseURL}questionnaire/QuestionnaireGroup`).as("getquestonairegroup");
+  cy.intercept("GET", `${baseURL}questionnaire/QuestionnaireGroup`).as(
+    "getquestonairegroup"
+  );
 
-  cy.intercept("GET", `${baseURL}client/GetAssessingAuth`).as("getaccessingauth");
+  cy.intercept("GET", `${baseURL}client/GetAssessingAuth`).as(
+    "getaccessingauth"
+  );
 
   cy.intercept("GET", `${baseURL}company`).as("getcompany");
 
@@ -441,20 +578,40 @@ export function setupAPIIntercepts() {
     "searchpotential"
   );
 
-  cy.intercept("GET", `${baseURL}users/DocumentView`).as("DocumentView");
-  cy.intercept("PUT", `${baseURL}users/DocumentView`).as("users/DocumentView");
+  cy.intercept("GET", `${baseURL}users/DocumentView`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("DocumentView");
+  cy.intercept("PUT", `${baseURL}users/DocumentView`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("users/DocumentView");
 
   cy.intercept(`${baseURL}OutlookMail`).as("OutlookMail");
 
   cy.intercept(`${baseURL}users/GetUserIMAP`).as("GetUserIMAP");
 
-  cy.intercept("GET", `${baseURL}users/UserEmailSetting`).as(
-    "UserEmailSetting"
-  );
+  cy.intercept("GET", `${baseURL}users/UserEmailSetting`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("UserEmailSetting");
 
-  cy.intercept("PUT", `${baseURL}users/UserEmailSetting`).as(
-    "UserEmailSetting1"
-  );
+  cy.intercept("PUT", `${baseURL}users/UserEmailSetting`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("UserEmailSetting1");
 
   cy.intercept(
     "GET",
@@ -465,7 +622,13 @@ export function setupAPIIntercepts() {
     "potentialclientAll"
   );
 
-  cy.intercept("GET", `${baseURL}potentialclient/markedtags/All/*`).as(
+  cy.intercept("GET", `${baseURL}potentialclient/markedtags/All/*`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as(
     "getmarkedtagspotentialclient"
   );
 
@@ -481,15 +644,11 @@ export function setupAPIIntercepts() {
     "postBranchCountryLinking"
   );
 
-  cy.intercept("POST", `${baseURL}client/Link`).as(
-    "postclientlink"
-  );
+  cy.intercept("POST", `${baseURL}client/Link`).as("postclientlink");
 
   cy.intercept("PUT", `${baseURL}questionnaire/QuestionnaireMapping`).as(
     "putquestioniaremapping"
   );
-
-
 
   cy.intercept("GET", `${baseURL}client/jobhistory/All/*`).as(
     "clientjobhistory"
@@ -506,7 +665,7 @@ export function setupAPIIntercepts() {
 
   cy.intercept("PUT", `${baseURL}users/UserSignature`).as("putUserSignature");
 
-  cy.intercept("GET", `${baseURL}emailimport/IMAPImportSettings`).as(
+  cy.intercept("GET", `${baseURL}emailimport/IMAPImportSettings/*`).as(
     "IMAPImportSettings"
   );
 
@@ -516,7 +675,9 @@ export function setupAPIIntercepts() {
 
   cy.intercept("GET", `${baseURL}reminder/All`).as("getallreminders");
 
-  cy.intercept("GET", `${baseURL}invoice/InvoicePDFHtml/**`).as("pdfinvoicedownloads");
+  cy.intercept("GET", `${baseURL}invoice/InvoicePDFHtml/**`).as(
+    "pdfinvoicedownloads"
+  );
 
   cy.intercept("GET", `${baseURL}task/AllByUserId`).as("AllByUserId");
 
@@ -525,7 +686,6 @@ export function setupAPIIntercepts() {
   cy.intercept("POST", `${baseURL}task/comment`).as("posttaskcomment");
 
   cy.intercept("GET", `${baseURL}task/users/All/*`).as("getalltaskfollowers");
-
 
   cy.intercept("GET", `${baseURL}users/TimeTrackingPopUp`).as(
     "TimeTrackingPopUp"
@@ -541,7 +701,9 @@ export function setupAPIIntercepts() {
 
   cy.intercept(`${baseURL}report/CurrentVisaExpiry`).as("VisaExpiry");
 
-  cy.intercept(`${baseURL}report/CurrentVisaExpiryExport`).as("VisaExpiryExport");
+  cy.intercept(`${baseURL}report/CurrentVisaExpiryExport`).as(
+    "VisaExpiryExport"
+  );
 
   cy.intercept(`${baseURL}report/ClientEmployerExport`).as(
     "ClientEmployerExport"
@@ -614,15 +776,15 @@ export function setupAPIIntercepts() {
 
   cy.intercept("POST", `${baseURL}dashboard/Student`).as("Student");
 
-  cy.intercept("POST", `${baseURL}school/studentList`).as("postschoolstudentlist");
+  cy.intercept("POST", `${baseURL}school/studentList`).as(
+    "postschoolstudentlist"
+  );
 
   cy.intercept("GET", `${baseURL}client/programdetail/Status`).as(
     "programdetail"
   );
 
-  cy.intercept("GET", `${baseURL}school/type`).as(
-    "getschooltype"
-  );
+  cy.intercept("GET", `${baseURL}school/type`).as("getschooltype");
 
   cy.intercept("POST", `${baseURL}dashboard/StudentExport`).as("StudentExport");
 
@@ -649,7 +811,19 @@ export function setupAPIIntercepts() {
     "clientConstractBranchDetails"
   );
 
-  cy.intercept("GET", `${baseURL}branch/note/All`).as("AllBranchNote");
+  cy.intercept("GET", `${baseURL}branch/note/All`, (req) => {
+    req.reply((res) => {
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("AllBranchNote");
+
+  cy.intercept("GET", `${baseURL}payment/source/All`, (req) => {
+    req.reply((res) => {
+      res.headers["Cache-Control"] = "no=cache";
+      res.send();
+    });
+  }).as("Allpaymentsource");
 
   cy.intercept("GET", `${baseURL}client/AssignTag/All/*`).as(
     "AllClientAssignTag"
@@ -725,7 +899,9 @@ export function setupAPIIntercepts() {
     "deleteCompanyDocument"
   );
 
-  cy.intercept("PUT", `${baseURL}client/contract/SignedClientAgreement`).as("clientcontractagreeement");
+  cy.intercept("PUT", `${baseURL}client/contract/SignedClientAgreement`).as(
+    "clientcontractagreeement"
+  );
 
   cy.intercept("GET", `${baseURL}faq/All`).as("faqAll");
 
@@ -755,6 +931,10 @@ export function setupAPIIntercepts() {
     "putcompanyvisastatus"
   );
 
+  cy.intercept("POST", `${baseURL}company/visastatus`).as(
+    "postcompanyvisastatus"
+  );
+
   cy.intercept("PUT", `${baseURL}company/visastatus/Hide`).as(
     "putvisastatushide"
   );
@@ -763,12 +943,32 @@ export function setupAPIIntercepts() {
     "putcompanyclientstatus"
   );
 
+  cy.intercept("POST", `${baseURL}company/clientstatus/potentialclient`).as(
+    "postcompanyclientstatus"
+  );
+
+  cy.intercept("POST", `${baseURL}client/filenote/FileNotespdfAll`,
+    (req) => {
+      req.reply((res) => {
+        // Add Cache-Control header to prevent caching
+        res.headers["Cache-Control"] = "no-cache";
+        res.send();
+      });
+    }
+  ).as(
+    "clientfileNotesAll"
+  );
+
   cy.intercept("GET", `${baseURL}openAI/UserMaxToken`).as(
     "openAI/UserMaxToken"
   );
 
   cy.intercept("DELETE", `${baseURL}BranchCountryLinking`).as(
     "deleteBranchCountryLinking"
+  );
+
+  cy.intercept("Get", `${baseURL}client/SearchClientMain/*`).as(
+    "searchingclient"
   );
 
   cy.intercept("GET", `${baseURL}user/identity/Logout`).as("accountlogout");
@@ -804,59 +1004,45 @@ export function setupAPIIntercepts() {
   cy.intercept("POST", `${baseURL}user/identity/ChangeBranchInToken`).as(
     "changebranchtoken"
   );
-  cy.intercept("POST", `${baseURL}questionnaire/ShortLink`).as(
-    "shortlink"
-  );
+  cy.intercept("POST", `${baseURL}questionnaire/ShortLink`).as("shortlink");
 
-  cy.intercept("GET", `${baseURL}questionnaire/QuestionnaireMessageSetting/*`).as(
-    "thankyoumessage"
-  );
+  cy.intercept(
+    "GET",
+    `${baseURL}questionnaire/QuestionnaireMessageSetting/*`
+  ).as("thankyoumessage");
 
-  cy.intercept("GET", `${baseURL}childbinding/GetAllChildBindingByParentId/*`, (req) => {
-    req.reply((res) => {
-      // Add Cache-Control header to prevent caching
-      res.headers['Cache-Control'] = 'no-cache';
-      res.send();
-    });
-  }).as(
-    "getparentschild"
-  );
+  cy.intercept(
+    "GET",
+    `${baseURL}childbinding/GetAllChildBindingByParentId/*`,
+    (req) => {
+      req.reply((res) => {
+        // Add Cache-Control header to prevent caching
+        res.headers["Cache-Control"] = "no-cache";
+        res.send();
+      });
+    }
+  ).as("getparentschild");
 
-  cy.intercept("PUT", `${baseURL}task`).as(
-    "puttask"
-  );
+  cy.intercept("PUT", `${baseURL}task`).as("puttask");
 
-  cy.intercept("POST", `${baseURL}task/users`).as(
-    "posttaskuser"
-  );
+  cy.intercept("POST", `${baseURL}task/users`).as("posttaskuser");
 
-  cy.intercept("DELETE", `${baseURL}task`).as(
-    "deletetask"
-  );
+  cy.intercept("DELETE", `${baseURL}task`).as("deletetask");
 
-  cy.intercept("PUT", `${baseURL}task/CompleteTask`).as(
-    "completedtask"
-  );
+  cy.intercept("PUT", `${baseURL}task/CompleteTask`).as("completedtask");
 
-  cy.intercept("GET", `${baseURL}servicetype/All`).as(
-    "allservicetype"
-  );
+  cy.intercept("GET", `${baseURL}servicetype/All`).as("allservicetype");
 
-  cy.intercept("POST", `${baseURL}servicetype`).as(
-    "postservicetype"
-  );
+  cy.intercept("POST", `${baseURL}servicetype`).as("postservicetype");
 
-  cy.intercept("PUT", `${baseURL}servicetype`).as(
-    "putservicetype"
-  );
+  cy.intercept("PUT", `${baseURL}servicetype`).as("putservicetype");
 
-  cy.intercept("DELETE", `${baseURL}servicetype`).as(
-    "deleteservicetype"
-  );
+  cy.intercept("DELETE", `${baseURL}servicetype`).as("deleteservicetype");
 
-  cy.intercept("GET", `${baseURL}task/AllByUserIdPagination/00000000-0000-0000-0000-000000000000/10/1`).as(
-    "completedtasks"
-  );
+  cy.intercept(
+    "GET",
+    `${baseURL}task/AllByUserIdPagination/00000000-0000-0000-0000-000000000000/10/1`
+  ).as("completedtasks");
 
   cy.intercept("GET", `${baseURL}client/email/AllByFamily/*`).as(
     "getclientemalbyfamily"
@@ -866,111 +1052,86 @@ export function setupAPIIntercepts() {
     "reportTimeTracking"
   );
 
-  cy.intercept("GET", `${baseURL}worktype/All`).as(
-    "worktypeall"
-  );
+  cy.intercept("GET", `${baseURL}worktype/All`).as("worktypeall");
 
-  cy.intercept("POST", `${baseURL}worktype`).as(
-    "postworktype"
-  );
-  cy.intercept("PUT", `${baseURL}worktype`).as(
-    "putworktype"
-  );
-  cy.intercept("DELETE", `${baseURL}worktype`).as(
-    "deleteworktype"
-  );
+  cy.intercept("POST", `${baseURL}worktype`).as("postworktype");
+  cy.intercept("PUT", `${baseURL}worktype`).as("putworktype");
+  cy.intercept("DELETE", `${baseURL}worktype`).as("deleteworktype");
 
-  cy.intercept("GET", `${baseURL}visatype/price/All`).as(
-    "visatypepriceall"
-  );
-  cy.intercept("POST", `${baseURL}visatype/price`).as(
-    "postvisatypepriceall"
-  );
+  cy.intercept("GET", `${baseURL}visatype/price/All`).as("visatypepriceall");
+  cy.intercept("POST", `${baseURL}visatype/price`).as("postvisatypepriceall");
 
-  cy.intercept("GET", `${baseURL}branch/ShowHideClientProfileSetting`, (req) => {
-    req.reply((res) => {
-      // Add Cache-Control header to prevent caching
-      res.headers['Cache-Control'] = 'no-cache';
-      res.send();
-    });
-  }).as(
-    "showhideclientprofilesetting"
-  );
+  cy.intercept(
+    "GET",
+    `${baseURL}branch/ShowHideClientProfileSetting`,
+    (req) => {
+      req.reply((res) => {
+        // Add Cache-Control header to prevent caching
+        res.headers["Cache-Control"] = "no-cache";
+        res.send();
+      });
+    }
+  ).as("showhideclientprofilesetting");
 
-  cy.intercept("PUT", `${baseURL}branch/ShowHideClientProfileSetting`, (req) => {
-    req.reply((res) => {
-      // Add Cache-Control header to prevent caching
-      res.headers['Cache-Control'] = 'no-cache';
-      res.send();
-    });
-  }).as(
-    "putshowhideclientprofilesetting"
-  );
+  cy.intercept(
+    "PUT",
+    `${baseURL}branch/ShowHideClientProfileSetting`,
+    (req) => {
+      req.reply((res) => {
+        // Add Cache-Control header to prevent caching
+        res.headers["Cache-Control"] = "no-cache";
+        res.send();
+      });
+    }
+  ).as("putshowhideclientprofilesetting");
 
   cy.intercept("GET", `${baseURL}branch/CustomFeild`, (req) => {
     req.reply((res) => {
       // Add Cache-Control header to prevent caching
-      res.headers['Cache-Control'] = 'no-cache';
+      res.headers["Cache-Control"] = "no-cache";
       res.send();
     });
-  }).as(
-    "getcustomfield"
-  );
+  }).as("getcustomfield");
 
   cy.intercept("POST", `${baseURL}branch/CustomFeild`, (req) => {
     req.reply((res) => {
       // Add Cache-Control header to prevent caching
-      res.headers['Cache-Control'] = 'no-cache';
+      res.headers["Cache-Control"] = "no-cache";
       res.send();
     });
-  }).as(
-    "postcustomfield"
-  );
+  }).as("postcustomfield");
 
   cy.intercept("PUT", `${baseURL}branch/CustomFeild`, (req) => {
     req.reply((res) => {
       // Add Cache-Control header to prevent caching
-      res.headers['Cache-Control'] = 'no-cache';
+      res.headers["Cache-Control"] = "no-cache";
       res.send();
     });
-  }).as(
-    "putcustomfield"
-  );
+  }).as("putcustomfield");
 
   cy.intercept("DELETE", `${baseURL}branch/CustomFeild`, (req) => {
     req.reply((res) => {
       // Add Cache-Control header to prevent caching
-      res.headers['Cache-Control'] = 'no-cache';
+      res.headers["Cache-Control"] = "no-cache";
       res.send();
     });
-  }).as(
-    "delcustomfield"
-  );
+  }).as("delcustomfield");
 
   cy.intercept("PUT", `${baseURL}users/ClientProfileSetting`, (req) => {
     req.reply((res) => {
       // Add Cache-Control header to prevent caching
-      res.headers['Cache-Control'] = 'no-cache';
+      res.headers["Cache-Control"] = "no-cache";
       res.send();
     });
-  }).as(
-    "putuserclientprofilesetting"
-  );
+  }).as("putuserclientprofilesetting");
 
   cy.intercept("GET", `${baseURL}users/ClientProfileSetting/*`, (req) => {
     req.reply((res) => {
       // Add Cache-Control header to prevent caching
-      res.headers['Cache-Control'] = 'no-cache';
+      res.headers["Cache-Control"] = "no-cache";
       res.send();
     });
-  }).as(
-    "getuserclientprofilesetting"
-  );
-
-  
-
-
-
+  }).as("getuserclientprofilesetting");
 
   //cmv APis
 
@@ -978,25 +1139,22 @@ export function setupAPIIntercepts() {
     "cmvsetpassword"
   );
 
-  cy.intercept("GET", `${baseURL}cmv/clientprofile`).as(
-    "cmvclientprofile"
-  );
+  cy.intercept("GET", `${baseURL}cmv/clientprofile`).as("cmvclientprofile");
 
   cy.intercept("GET", `${baseURL}cmv/clientprofile/GetClientPartner/*`).as(
     "cmvclientprofilepartner"
   );
 
-  cy.intercept("GET", `${baseURL}cmv/clientprofile/GetClientFamilyMembers/*`).as(
-    "cmvclientprofilefamilymembers"
-  );
+  cy.intercept(
+    "GET",
+    `${baseURL}cmv/clientprofile/GetClientFamilyMembers/*`
+  ).as("cmvclientprofilefamilymembers");
 
   cy.intercept("GET", `${baseURL}cmv/client/programdetail/All`).as(
     "cmvclientprogramdetailsall"
   );
 
-  cy.intercept("GET", `${baseURL}cmv/clientcase/All`).as(
-    "cmvclientcasesall"
-  );
+  cy.intercept("GET", `${baseURL}cmv/clientcase/All`).as("cmvclientcasesall");
 
   cy.intercept("GET", `${baseURL}cmv/document/All/**`).as(
     "cmvclientdocumentall"
@@ -1006,10 +1164,7 @@ export function setupAPIIntercepts() {
     "cmvmultiuploadfilename"
   );
 
-
-  cy.intercept("POST", `${baseURL}cmv/document`).as(
-    "cmvcpostdocument"
-  );
+  cy.intercept("POST", `${baseURL}cmv/document`).as("cmvcpostdocument");
 
   cy.intercept("GET", `${baseURL}cmv/document/checklist/All`).as(
     "cmvdocumentchecklistall"
@@ -1039,9 +1194,7 @@ export function setupAPIIntercepts() {
     "cmvclientjobhistory"
   );
 
-  cy.intercept("GET", `${baseURL}cmv/clientemployer/All`).as(
-    "cmvemployerall"
-  );
+  cy.intercept("GET", `${baseURL}cmv/clientemployer/All`).as("cmvemployerall");
 
   cy.intercept("POST", `${baseURL}cmv/clientemployer`).as(
     "cmvpostclientemployerall"
@@ -1073,14 +1226,4 @@ export function setupAPIIntercepts() {
   cy.intercept("PUT", `${baseURL}cmv/client/educationalhistory`).as(
     "cmvclientputeducationalhistory"
   );
-
-
-
-
-
-
-
-  
 }
-
-

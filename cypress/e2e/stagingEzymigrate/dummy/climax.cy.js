@@ -1,3 +1,5 @@
+
+
 Cypress.on('uncaught:exception', (err, runnable) => {
     // returning false here prevents Cypress from
     // failing the test
@@ -26,16 +28,24 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     const date = 'td[title="2023-02-05"]';
     const sms= '211267313';
     const user_name ='nabeeloutsourcenzhard@gmail.com';
-    const password = 'nabeel@123';
+    const password = 'Nabeel@123';
     const futureDate ='25/03/2023';
     describe('potential client', () => {
+      
+
         it('Add potential', () => {
+
+           cy.intercept('GET', 'https://beta-api.ezymigrate.co.nz/v1/company/BranchVisaType/All/f918a441-a5e4-44bd-9e4c-0c96144445c5').as('branchtype')
+            cy.intercept('GET', 'https://beta-api.ezymigrate.co.nz/v1/company/visastatus/All').as('visatatud')
+            cy.intercept('GET', 'https://beta-api.ezymigrate.co.nz/v1/users/ddl/All').as('allusers')
+            cy.intercept('POST', 'https://beta-api.ezymigrate.co.nz/v1/client/SearchClient').as('searchclient')
+            cy.intercept('GET', 'https://beta-api.ezymigrate.co.nz/v1/potentialclient/markedtags/All/*').as('tags')
       
       
           //cy.intercept('POST','https://beta-api.ezymigrate.co.nz/v1/dashboardbi/AccountAnalytics').as('load')
           
-          cy.visit('https://app-stage.ezymigrate.co.nz/login')
-          //cy.visit('https://app.ezymigrate.com/login')
+          //cy.visit('https://app-stage.ezymigrate.co.nz/login')
+          cy.visit('https://app.ezymigrate.com/login')
       
           cy.getCookies({log:true})
       
@@ -57,6 +67,46 @@ Cypress.on('uncaught:exception', (err, runnable) => {
           cy.wait(9000)
           
             cy.contains('Client Analytics').should('be.visible')
+
+            cy.get('a[href="/all-clients"]').click()
+           
+            cy.wait('@branchtype').its("response.statusCode").should('eq', 200)
+            cy.wait('@visatatud').its("response.statusCode").should('eq', 200)
+            cy.wait('@allusers').its("response.statusCode").should('eq', 200)
+            cy.wait('@searchclient').then((nil)=>{
+              expect(nil.response.statusCode).to.eq(200)
+              cy.log('before first request count',nil.response.body.count)
+              cy.log('first api response body', JSON.stringify(nil.response.body.items))
+            })
+            cy.wait('@tags').its("response.statusCode").should('eq', 200)
+
+            cy.wait(2000)
+
+            cy.get('#first_name').type('sufi').type('{enter}')
+
+            cy.wait(2000)
+
+            cy.wait('@searchclient').then((interception)=>{
+              expect(interception.response.statusCode).to.eq(200)
+              cy.log('body',interception.response.body.count)
+              console.log('body',interception.response.body.count)
+              cy.log('without body',interception.response.count)
+              console.log('without body',interception.response.count)
+              cy.log('first api response body', JSON.stringify(interception.response.body.items))
+              if(interception.response.body.count=== 0){
+                cy.log('you can add new client here')
+              }else if(interception.response.body.count > 0){
+                cy.log('you can search your client')
+
+              }
+            })
+
+
+
+
+
+
+
             cy.xpath('//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[7]/div/span').click()
             cy.wait(2000)
             cy.contains('Web Assessment').click()

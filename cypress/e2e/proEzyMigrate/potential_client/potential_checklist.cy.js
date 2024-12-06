@@ -137,6 +137,7 @@ describe("potential client", () => {
     cy.wait(2000)
 
     cy.contains("SAVE INVOICE").click();
+    
 
     cy.wait("@invoice").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);

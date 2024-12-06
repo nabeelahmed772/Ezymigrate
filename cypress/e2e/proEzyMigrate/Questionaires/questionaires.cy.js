@@ -40,7 +40,7 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(2000)
+    cy.wait(2000);
 
     cy.get(".cq-list-content-row").each(($el, index, $list) => {
       var del = $el.find(".cv-doc-text").text().trim();
@@ -60,7 +60,7 @@ describe("custom questionaires", () => {
       }
     });
 
-    cy.wait(2000)
+    cy.wait(2000);
 
     cy.get('img[src="/static/media/plus-icon.16380594.svg"]').click();
 
@@ -100,7 +100,7 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(2000)
+    cy.wait(2000);
 
     cy.wait("@questionnaire/Recursive").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -112,7 +112,7 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(2000)
+    cy.wait(2000);
 
     cy.get('a[href="/questionnaire"]').click();
 
@@ -120,7 +120,7 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(4000)
+    cy.wait(4000);
 
     cy.get(".cq-list-content-row").each(($el, index, $list) => {
       var del = $el.find(".cv-doc-text").text().trim();
@@ -138,7 +138,7 @@ describe("custom questionaires", () => {
       }
     });
 
-    cy.wait(2000)
+    cy.wait(2000);
 
     cy.get(".ant-checkbox-input").eq(2).click();
 
@@ -150,7 +150,7 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(2000)
+    cy.wait(2000);
 
     cy.get(".ant-checkbox-input").eq(3).click();
 
@@ -162,7 +162,7 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(2000)
+    cy.wait(2000);
 
     cy.get(".ant-checkbox-input").eq(4).click();
 
@@ -174,7 +174,7 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(2000)
+    cy.wait(2000);
 
     cy.get(".ant-checkbox-input").eq(5).click();
 
@@ -247,6 +247,52 @@ describe("custom questionaires", () => {
 
     cy.wait("@getmarkedtagspotentialclient").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
+      const marketTags = interception.response.body.items;
+      const tag3 = marketTags.find((marketTags) => marketTags.name === "tag 3");
+      if (!tag3) {
+        cy.get('a[href="/account-settings"]').click();
+        cy.get(".sus-inactive-tab-text")
+          .contains("Company/Branch Level Setting")
+          .click();
+
+        cy.get('span[style="margin-left: 20px;"]')
+          .contains("Client Tags")
+          .click();
+        cy.wait("@getmarkedtagspotentialclient").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.get(".icons-client").click();
+
+        cy.get("#main_name").type("tag 3");
+
+        cy.get(".ant-btn.ant-btn-primary.form-btn").contains("Save").click();
+
+        cy.wait("@postmarkedtags").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.wait("@getmarkedtagspotentialclient").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.wait(5000);
+
+        cy.xpath(
+          '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[7]/div/span'
+        ).click();
+        cy.wait(2000);
+        cy.contains("Custom Questionnaires").click();
+        cy.wait(2000);
+        cy.wait("@GetAllQuestionnairs").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+    
+        cy.wait("@filledquestionnaire").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+    
+      }
     });
     cy.get(":nth-child(1) > .ant-select > .ant-select-selector").click();
     cy.wait(2000);
@@ -287,8 +333,6 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-   
-
     cy.wait("@thankyoumessage").its("response.statusCode").should("eq", 200);
 
     cy.visit("https://app.ezymigrate.com/potential-client-questionnaire");
@@ -310,7 +354,7 @@ describe("custom questionaires", () => {
       .click();
     cy.wait(3000);
 
-    cy.get(".ant-select-selection-search-input").eq(7).click({force:true});
+    cy.get(".ant-select-selection-search-input").eq(7).click({ force: true });
 
     cy.get('div[title="tag 3 "]').click();
 
@@ -533,7 +577,7 @@ describe("custom questionaires", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(2000)
+    cy.wait(2000);
 
     cy.get(".cq-list-content-row").each(($el, index, $list) => {
       var del = $el.find(".cv-doc-text").text().trim();

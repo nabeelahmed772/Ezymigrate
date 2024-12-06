@@ -13,6 +13,7 @@ Cypress.Commands.add("login", () => {
   const email = Cypress.env(environment).email;
 
   cy.viewport(1366, 657);
+  
   //const sms= '211267313';
   cy.visit(loginUrl);
 
@@ -96,6 +97,19 @@ Cypress.Commands.add("login", () => {
 // commands.js or support/commands.js
 Cypress.Commands.add('readDirectory', (path) => {
   return cy.task('readDirectory', path);
+});
+
+Cypress.Commands.add("waitForRequest", (alias, validate) => {
+  return new Cypress.Promise((resolve) => {
+    const checkRequest = () => {
+      cy.get(`${alias}.all`).then((requests) => {
+        const match = requests.find(validate);
+        if (match) resolve(match);
+        else setTimeout(checkRequest, 50); // Retry every 50ms
+      });
+    };
+    checkRequest();
+  });
 });
 
 

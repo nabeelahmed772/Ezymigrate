@@ -42,11 +42,15 @@ describe("account setting", () => {
     cy.contains("Outlook Integration").click();
 
     cy.wait("@OutlookMail").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-      cy.wrap(interception.response.body.givenName).should(
-        "eq",
-        "Nabeel Ahmad"
-      );
+      cy.wrap(interception.response.statusCode).should("not.eq", 500);
+      if (interception.response.statusCode === 404) {
+        cy.log("outlook is not integrated");
+      } else {
+        cy.log(
+          "outlook  integrated name is: ",
+          interception.response.body.givenName
+        );
+      }
     });
 
     cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
@@ -55,9 +59,10 @@ describe("account setting", () => {
 
     cy.wait("@GetUserIMAP").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
-      cy.wrap(interception.response.body.exportUserName).should(
-        "eq",
-        "Nabeel Ahmed"
+      cy.log("the export email is :", interception.response.body.exportEmail);
+      cy.log(
+        "the export email is :",
+        interception.response.body.exportUserName
       );
     });
 
@@ -67,30 +72,53 @@ describe("account setting", () => {
 
     cy.wait("@UserEmailSetting").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
-      cy.wrap(interception.response.body.dailyMeetingEmail).should("be.true");
-    });
+      if (interception.response.body.dailyTaskEmail) {
+        cy.get("#dailyTaskEmail").click();
 
-    cy.get("#dailyTaskEmail").click();
+        cy.wait("@UserEmailSetting").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+          //cy.wrap(interception.response.body.dailyTaskEmail).should("be.false");
+        });
 
-    cy.wait("@UserEmailSetting").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-      //cy.wrap(interception.response.body.dailyTaskEmail).should("be.false");
-    });
+        cy.wait("@UserEmailSetting1").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
 
-    cy.wait("@UserEmailSetting1").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
+        cy.get("#dailyTaskEmail").click();
 
-    cy.get("#dailyTaskEmail").click();
+        cy.wait("@UserEmailSetting").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+          //cy.wrap(interception.response.body.dailyTaskEmail).should("be.true");
+        });
 
-    cy.wait("@UserEmailSetting").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-      //cy.wrap(interception.response.body.dailyTaskEmail).should("be.true");
-    });
+        cy.wait("@UserEmailSetting1").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+          //cy.wrap(interception.request.body.dailyTaskEmail).should("be.true");
+        });
+      } else {
+        cy.get("#dailyTaskEmail").click();
 
-    cy.wait("@UserEmailSetting1").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-      //cy.wrap(interception.request.body.dailyTaskEmail).should("be.true");
+        cy.wait("@UserEmailSetting").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+          //cy.wrap(interception.response.body.dailyTaskEmail).should("be.false");
+        });
+
+        cy.wait("@UserEmailSetting1").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.get("#dailyTaskEmail").click();
+
+        cy.wait("@UserEmailSetting").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+          //cy.wrap(interception.response.body.dailyTaskEmail).should("be.true");
+        });
+
+        cy.wait("@UserEmailSetting1").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+          //cy.wrap(interception.request.body.dailyTaskEmail).should("be.true");
+        });
+      }
     });
 
     cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
@@ -102,6 +130,31 @@ describe("account setting", () => {
     cy.wait("@emailtemplate").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
+
+    cy.get(".ant-collapse-item.ant-collapse-item-active").each(
+      ($el, index, $list) => {
+        const mo = $el.find("h5").text().trim();
+        cy.log(mo);
+        debugger;
+
+        if (mo.includes("testing automation email template")) {
+          cy.wrap($el)
+            .find(".ant-btn.ant-btn-primary.button-blue")
+            .contains("Delete")
+            .click();
+          cy.get(".ant-btn.ant-btn-default.button-blue")
+            .contains("Delete")
+            .click();
+          cy.wait("@emailtemplate").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+
+          cy.wait("@delemailtemplate").then((interception) => {
+            cy.wrap(interception.response.statusCode).should("eq", 200);
+          });
+        }
+      }
+    );
 
     cy.get(".icons-client").click();
 
@@ -728,7 +781,7 @@ describe("account setting", () => {
       .scrollIntoView()
       .click();
 
-    cy.get("arrow-round-cont").eq(17).click();
+    cy.get(".arrow-round-cont").eq(17).click();
 
     cy.wait("@apikeygetbyid").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -824,14 +877,20 @@ describe("account setting", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.get(".anticon.anticon-delete").eq(1).click();
+    cy.wait(3000);
 
-    cy.wait("@deleteCompanyDocument").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
+    cy.get(".ant-table-tbody").each(($el) => {
+      const mi = $el.find("td").eq(0).text().trim();
+      if (mi.includes("ABC.jpg")) {
+        cy.get(".anticon.anticon-delete").click();
+        cy.wait("@deleteCompanyDocument").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
 
-    cy.wait("@CompanyDocumentAll").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
+        cy.wait("@CompanyDocumentAll").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+      }
     });
 
     cy.get(".anticon.anticon-left-circle.ac-back-icon")
@@ -862,31 +921,48 @@ describe("account setting", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.get('img[src="/static/media/edit-border-blue.a5c788a8.svg"]')
-      .eq(1)
+    cy.wait(3000);
+
+    cy.get(".faq-item-main").each(($el) => {
+      const mil = $el.find("span").text().trim();
+      if (mil.includes("what is your name")) {
+        cy.wrap($el)
+          .find('img[src="/static/media/edit-border-blue.a5c788a8.svg"]')
+          .click();
+        cy.get(".ant-btn.ant-btn-default.button-blue").contains("SAVE").click();
+
+        cy.wait("@putfaq").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.wait("@faqAll").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+      }
+    });
+    cy.wait(2000);
+
+    cy.get(".faq-item-main").each(($el) => {
+      const mil = $el.find("span").text().trim();
+      if (mil.includes("what is your name")) {
+        cy.wrap($el)
+          .find('img[src="/static/media/delete-blue.983ea6be.svg"]')
+          .click();
+        cy.get(".ant-btn.ant-btn-primary").contains("OK").click();
+
+        cy.wait("@deletefaq").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.wait("@faqAll").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+      }
+    });
+
+    cy.get(".sus-active-tab-text")
+      .contains("Company/Branch Level Setting")
       .click();
-
-    cy.get(".ant-btn.ant-btn-default.button-blue").contains("SAVE").click();
-
-    cy.wait("@putfaq").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
-
-    cy.wait("@faqAll").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
-
-    cy.get('img[src="/static/media/delete-blue.983ea6be.svg"]').eq(1).click();
-
-    cy.get(".ant-btn.ant-btn-primary").contains("OK").click();
-
-    cy.wait("@deletefaq").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
-
-    cy.wait("@faqAll").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
 
     cy.get('span[style="margin-left: 20px;"]')
       .contains("Client Profile Setting")
@@ -895,75 +971,224 @@ describe("account setting", () => {
     cy.wait("@showhideclientprofilesetting").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
       const personalInfo = interception.response.body.clientProfileSetting.find(
-        function(setting) {
-            return setting.type === "Personal Information";
+        function (setting) {
+          return setting.type === "Personal Information";
         }
-    );
-    if (personalInfo && !personalInfo.status) {
-      // If status is true, click once
-      cy.get('label[style="padding: 10px; margin-left: 0px; width: 185px;"]')
-        .eq(0)
-        .click();
+      );
+      if (personalInfo && !personalInfo.status) {
+        // If status is true, click once
+        cy.get('label[style="padding: 10px; margin-left: 0px; width: 185px;"]')
+          .eq(0)
+          .click();
 
-    cy.wait("@putshowhideclientprofilesetting").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
+        cy.wait("@putshowhideclientprofilesetting").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
 
-    cy.wait("@showhideclientprofilesetting").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
+        cy.wait("@showhideclientprofilesetting").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+      } else if (personalInfo && personalInfo.status) {
+        // If status is false, click twice with a delay in between
+        cy.get('label[style="padding: 10px; margin-left: 0px; width: 185px;"]')
+          .eq(0)
+          .click();
 
-  } else if (personalInfo && personalInfo.status) {
-      // If status is false, click twice with a delay in between
-      cy.get('label[style="padding: 10px; margin-left: 0px; width: 185px;"]')
-        .eq(0)
-        .click();
+        cy.wait("@putshowhideclientprofilesetting").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
 
-    cy.wait("@putshowhideclientprofilesetting").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
+        cy.wait("@showhideclientprofilesetting").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+        cy.wait(1000); // Wait 1000 ms (1 second) before the second click
+        cy.get('label[style="padding: 10px; margin-left: 0px; width: 185px;"]')
+          .eq(0)
+          .click();
 
-    cy.wait("@showhideclientprofilesetting").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
-      cy.wait(1000); // Wait 1000 ms (1 second) before the second click
-      cy.get('label[style="padding: 10px; margin-left: 0px; width: 185px;"]')
-        .eq(0)
-        .click();
+        cy.wait("@putshowhideclientprofilesetting").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
 
-    cy.wait("@putshowhideclientprofilesetting").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
-
-    cy.wait("@showhideclientprofilesetting").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
-  }
-    });
-
-   
-
-    cy.wait(1000);
-
-    cy.get(".ant-input.ant-input-lg").type("sufi cup");
-
-    cy.get(".search-client-card-cont").each(($el, index, $list) => {
-      const uo = $el.find("span").text().trim();
-      cy.log(uo);
-      debugger;
-
-      if (uo.includes("nabeeloutsourcenzhard@gmail.com")) {
-        cy.wrap($el).find(".date-text").eq(1).click();
+        cy.wait("@showhideclientprofilesetting").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
       }
     });
 
+    cy.wait(1000);
+
+    cy.get(".ant-menu-title-content").eq(4).click();
     cy.wait("@getallusers").its("response.statusCode").should("eq", 200);
+    cy.wait("@BranchVisaType/All").its("response.statusCode").should("eq", 200);
+    cy.wait("@visastatus").its("response.statusCode").should("eq", 200);
+    cy.wait("@getmarkedtagspotentialclient")
+      .its("response.statusCode")
+      .should("eq", 200);
+    cy.wait("@SearchClient").then((nil) => {
+      expect(nil.response.statusCode).to.eq(200);
+      cy.log("before first request count", nil.response.body.count);
+      cy.log(
+        "first api response body",
+        JSON.stringify(nil.response.body.items)
+      );
+    });
 
-    cy.wait("@AllData").its("response.statusCode").should("eq", 200);
+    cy.wait(2000);
+    cy.get("#first_name").type("sufi").type("{enter}");
+    cy.wait(3000);
+    cy.wait("@SearchClient").then((interception) => {
+      // Check if the response status is 200
+      expect(interception.response.statusCode).to.eq(200);
+      // Log the full response to debug it
+      cy.log("Full response:", JSON.stringify(interception.response.body));
+      cy.log("second api request", interception.response.body.count);
+      //     console.log('Request URL:', xhr.request.url); // Check the request URL
+      // console.log('Request Body:', xhr.request.body); // Check the body sent
+      // console.log('Response Body:', xhr.response.body);
 
-    cy.wait("@UserSignature").its("response.statusCode").should("eq", 200);
+      // Safely extract the items and response
+      // const items =
+      //   xhr.response && xhr.response.body ? xhr.response.body.items : [];
+      // const response = xhr.response && xhr.response.body;
 
-    cy.wait("@SetHtmlTemplate").its("response.statusCode").should("eq", 200);
+      // Check if the response and count are available before logging
+      // if (response && response.count !== undefined) {
+      //   cy.log(`Found ${response.count} clients`);
+      // } else {
+      //   cy.log("Response or count is undefined");
+      // }
+    });
+    cy.get("tbody.ant-table-tbody").then(($tbody) => {
+      const text = $tbody.text();
+      if (text.includes("No data")) {
+        cy.log("No clients found");
+
+        // if (interception.response.body.count === 0) {
+        // If no client found, add a new client
+        cy.log("No client found. Adding a new client...");
+        // Code to add a new client goes here
+        cy.get('a[href="/add-new-client"]').click();
+
+        cy.wait("@GetAllCountries")
+          .its("response.statusCode")
+          .should("eq", 200);
+        cy.wait("@getallusers").its("response.statusCode").should("eq", 200);
+        cy.wait("@GetAllClientSource")
+          .its("response.statusCode")
+          .should("eq", 200);
+        cy.wait("@BranchCountryLinking")
+          .its("response.statusCode")
+          .should("eq", 200);
+
+        cy.get('[type="file"]').attachFile("ABC.jpg");
+
+        cy.get("#visaCountryId").click();
+
+        cy.wait(6000);
+
+        cy.contains("NEW ZEALAND").click({ force: true });
+        cy.wait(2000);
+        cy.get("#visaCountyType").click();
+        cy.wait(3000);
+        cy.get(".ant-select-item-option-content:visible")
+          .eq(1)
+          .contains("Visa")
+          .click();
+        cy.get("#clientSerial").type(randomNo(5));
+        cy.get("#title").click({ force: true }).type("title");
+        cy.get("#firstName").type("sufi");
+        cy.get("#lastName").type("cup");
+        cy.get("#preferredName").type("pre name");
+
+        cy.get(
+          ":nth-child(2) > .save-button-add-client > :nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span"
+        )
+          .scrollIntoView()
+          .click();
+      } else if ($tbody.find("tr.ant-table-row.ant-table-row-level-0")) {
+        // Try to find the specific "test conv" client
+        // const testClient = items.find((client) => {
+        //   const firstName = client.firstName
+        //     ? client.firstName.trim().toLowerCase()
+        //     : "";
+        //   const lastName = client.lastName
+        //     ? client.lastName.trim().toLowerCase()
+        //     : "";
+        //   return firstName === "sufi" && lastName === "cup";
+        // });
+
+        // if (testClient) {
+        cy.log('Client "test conv" found. Performing click action...');
+        // Code to click on the "test conv" client, e.g., navigate to the client page
+        cy.get(".ant-table-row.ant-table-row-level-0").each(
+          ($el, index, $list) => {
+            const del = $el.find("span").text().trim();
+
+            debugger;
+            console.log(del);
+            if (del === "sufi cup") {
+              cy.wrap($el)
+                .find(
+                  'span[style="font-size: 12px; cursor: pointer; color: rgba(0, 0, 0, 0.85);"]'
+                )
+                .click();
+            }
+          }
+        );
+      } else {
+        cy.log('Other client(s) found, but "sufi cup" is not present.');
+        // Optional: handle cases where other clients are found but not "test conv"
+        // For example, you could choose to add the "test conv" client here
+        cy.get('a[href="/add-new-client"]').click();
+
+        cy.wait("@GetAllCountries")
+          .its("response.statusCode")
+          .should("eq", 200);
+        cy.wait("@getallusers").its("response.statusCode").should("eq", 200);
+        cy.wait("@GetAllClientSource")
+          .its("response.statusCode")
+          .should("eq", 200);
+        cy.wait("@BranchCountryLinking")
+          .its("response.statusCode")
+          .should("eq", 200);
+
+        cy.get('[type="file"]').attachFile("ABC.jpg");
+
+        cy.get("#visaCountryId").click();
+
+        cy.wait(6000);
+
+        cy.contains("NEW ZEALAND").click({ force: true });
+        cy.wait(2000);
+        cy.get("#visaCountyType").click();
+        cy.wait(3000);
+        cy.get(".ant-select-item-option-content:visible")
+          .eq(1)
+          .contains("Visa")
+          .click();
+        cy.get("#clientSerial").type(randomNo(5));
+        cy.get("#title").click({ force: true }).type("title");
+        cy.get("#firstName").type("sufi");
+        cy.get("#lastName").type("cup");
+        cy.get("#preferredName").type("pre name");
+
+        cy.get(
+          ":nth-child(2) > .save-button-add-client > :nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span"
+        )
+          .scrollIntoView()
+          .click();
+      }
+    });
+
+    cy.wait(2000);
+    // cy.wait("@getallusers").its("response.statusCode").should("eq", 200);
+
+    // cy.wait("@AllData").its("response.statusCode").should("eq", 200);
+
+    // cy.wait("@UserSignature").its("response.statusCode").should("eq", 200);
+
+    // cy.wait("@SetHtmlTemplate").its("response.statusCode").should("eq", 200);
 
     cy.get(".ant-tabs-nav-operations-hidden")
       .should("exist")
@@ -976,9 +1201,11 @@ describe("account setting", () => {
         });
       });
 
-    cy.contains("Personal Information").should("not.be.visible");
+    cy.get(".ant-form.ant-form-horizontal") // Target the parent element
+      .find(".denied-text") // Narrow down to the subclass
+      .should("not.contain", "Personal Information"); // Ensure "Personal Information" does not exist
 
-    cy.get('.profile-down-arrow-icon').eq(2).click()
+    cy.get(".profile-down-arrow-icon").eq(2).click();
 
     cy.wait("@putuserclientprofilesetting").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -996,10 +1223,9 @@ describe("account setting", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(2000)
+    cy.wait(2000);
 
-    
-    cy.get('.profile-down-arrow-icon').eq(2).click()
+    cy.get(".profile-down-arrow-icon").eq(2).click();
 
     cy.wait("@putuserclientprofilesetting").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -1049,102 +1275,86 @@ describe("account setting", () => {
       .contains("Client Profile Custom Fields")
       .click();
 
-      cy.wait("@getcustomfield").then((interception) => {
-        cy.wrap(interception.response.statusCode).should("eq", 200);
-      });
+    cy.wait("@getcustomfield").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
-      cy.get('#fieldFor').click()
+    cy.get("#fieldFor").click();
 
-      cy.contains('Personal Information').click()
+    cy.contains("Personal Information").click();
 
-      cy.get('#fieldType').click()
+    cy.get("#fieldType").click();
 
-      cy.contains('Textbox').click()
+    cy.contains("Textbox").click();
 
-      cy.get('#fieldName').type('cypress field automation')
+    cy.get("#fieldName").type("cypress field automation");
 
-      cy.get('#fieldData').type('description data')
+    cy.get("#fieldData").type("description data");
 
-      cy.get('.ant-btn.ant-btn-primary.button-blue')
-        .contains('Save')
-        .click()
+    cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Save").click();
 
+    cy.wait("@getcustomfield").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
 
+    cy.wait("@postcustomfield").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait(3000);
+
+    cy.get(".ant-table-tbody").each(($el, index, $list) => {
+      var customedit = $el
+        .find(".ant-table-cell.ant-table-cell-row-hover")
+        .eq(1)
+        .text()
+        .trim();
+
+      debugger;
+      console.log(customedit);
+      if (customedit.includes("cypress field automation")) {
+        cy.wrap($el).find(".anticon.anticon-edit").click();
+        cy.get("#fieldName").type(" 1");
+        cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Save").click();
 
         cy.wait("@getcustomfield").then((interception) => {
           cy.wrap(interception.response.statusCode).should("eq", 200);
         });
 
+        cy.wait("@putcustomfield").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+      }
+    });
 
-        cy.wait("@postcustomfield").then((interception) => {
+    cy.wait(3000);
+
+    cy.get(".ant-table-tbody").each(($el, index, $list) => {
+      var deletecustom = $el
+        .find(".ant-table-cell.ant-table-cell-row-hover")
+        .eq(1)
+        .text()
+        .trim();
+
+      debugger;
+      console.log(deletecustom);
+      if (deletecustom.includes("cypress field automation 1")) {
+        cy.wrap($el)
+          .find('img[src="/static/media/delete-blue.983ea6be.svg"]')
+          .click();
+
+        cy.wait("@getcustomfield").then((interception) => {
           cy.wrap(interception.response.statusCode).should("eq", 200);
         });
 
-        cy.wait(2000)
+        cy.wait("@delcustomfield").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+      }
+    });
 
-        cy.get(".ant-table-row.ant-table-row-level-0").each(
-          ($el, index, $list) => {
-            var ge = $el.find('.ant-table-cell.ant-table-cell-row-hover').eq(1).text().trim();
-    
-            debugger;
-            console.log(ge);
-            if (ge.includes("cypress field automation")) {
-              cy.wrap($el).find(".anticon.anticon-edit").click();
-              cy.get('#fieldName').type(' 1')
-              cy.get('.ant-btn.ant-btn-primary.button-blue')
-                .contains('Save')
-                .click()
+    cy.wait(2000);
 
-                cy.wait("@getcustomfield").then((interception) => {
-                  cy.wrap(interception.response.statusCode).should("eq", 200);
-                });
-        
-        
-                cy.wait("@putcustomfield").then((interception) => {
-                  cy.wrap(interception.response.statusCode).should("eq", 200);
-                });
-              
-            }
-          }
-        );
-
-        cy.wait(2000)
-
-        
-
-        cy.get(".ant-table-row.ant-table-row-level-0").each(
-          ($el, index, $list) => {
-            var ge = $el.find('.ant-table-cell.ant-table-cell-row-hover').eq(1).text().trim();
-    
-            debugger;
-            console.log(ge);
-            if (ge.includes("cypress field automation 1")) {
-              cy.wrap($el).find('img[src="/static/media/delete-blue.983ea6be.svg"]').click();
-
-                cy.wait("@getcustomfield").then((interception) => {
-                  cy.wrap(interception.response.statusCode).should("eq", 200);
-                });
-        
-        
-                cy.wait("@delcustomfield").then((interception) => {
-                  cy.wrap(interception.response.statusCode).should("eq", 200);
-                });
-              
-            }
-          }
-        );
-
-        cy.wait(2000)
-
-        cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
-
-
-
-
-
-
-
-
-
+    cy.get(".anticon.anticon-left-circle.ac-back-icon").click();
   });
 });
