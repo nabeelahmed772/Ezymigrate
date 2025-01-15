@@ -9,6 +9,7 @@ describe("account setting", () => {
   const futureDate = Cypress.env("futureDate");
 
   it("Settings", () => {
+    
     cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Logout").click();
 
     cy.wait("@accountlogout").then((interception) => {
