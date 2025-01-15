@@ -14,6 +14,7 @@ Cypress.Commands.add("login", () => {
 
   cy.viewport(1366, 657);
   
+  
   //const sms= '211267313';
   cy.visit(loginUrl);
 
