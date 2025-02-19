@@ -46,6 +46,7 @@ describe("account template", () => {
 
     cy.get(".ant-tabs-tab-btn").contains("Settings").click();
 
+    cy.wait(3000)
     cy.wait("@branch/bank").then((bank) => {
       cy.wrap(bank.response.statusCode).should("eq", 200);
       if (bank.response.body.count === 0) {
