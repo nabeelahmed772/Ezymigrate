@@ -149,6 +149,14 @@ export function setupAPIIntercepts() {
     });
   }).as("branch/bank");
 
+  cy.intercept("POST", `${baseURL}invoice/InvoiceGraph`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("postinvoicegraph");
+
   cy.intercept("POST", `${baseURL}branch/bank`, (req) => {
     req.reply((res) => {
       // Add Cache-Control header to prevent caching
@@ -187,6 +195,27 @@ export function setupAPIIntercepts() {
       res.send();
     });
   }).as("getTax");
+
+  cy.intercept("POST", `${baseURL}client/Students`, (req) => {
+    req.reply((res) => {
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("postclientstudents");
+
+  cy.intercept("POST", `${baseURL}invoice/school`, (req) => {
+    req.reply((res) => {
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("postinvoiceschool");
+
+  cy.intercept("PUT", `${baseURL}invoice/school`, (req) => {
+    req.reply((res) => {
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("putinvoiceschool");
 
   cy.intercept("POST", `${baseURL}client`).as("client");
 
@@ -396,6 +425,8 @@ export function setupAPIIntercepts() {
   cy.intercept("POST", `${baseURL}client/programdetail`).as("programdetail");
 
   cy.intercept("PUT", `${baseURL}client/programdetail`).as("putprogramdetail");
+
+  cy.intercept("DELETE", `${baseURL}client/programdetail`).as("deleteprogramdetail");
 
   cy.intercept("GET", `${baseURL}client/programdetail/All/*`).as(
     "programdetail/All"
@@ -785,6 +816,7 @@ export function setupAPIIntercepts() {
   );
 
   cy.intercept("GET", `${baseURL}school/type`).as("getschooltype");
+  cy.intercept("GET", `${baseURL}commission/reminder/All/*`).as("getallcommissionreminder");
 
   cy.intercept("POST", `${baseURL}dashboard/StudentExport`).as("StudentExport");
 
@@ -817,6 +849,20 @@ export function setupAPIIntercepts() {
       res.send();
     });
   }).as("AllBranchNote");
+
+  cy.intercept("GET", `${baseURL}invoice/School/AllWithPaging/**`, (req) => {
+    req.reply((res) => {
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("invoicegetpagingall");
+
+  cy.intercept("GET", `${baseURL}invoice/School/*`, (req) => {
+    req.reply((res) => {
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("getinvoiceschool");
 
   cy.intercept("GET", `${baseURL}payment/source/All`, (req) => {
     req.reply((res) => {

@@ -29,6 +29,7 @@ describe("case management", () => {
 
   before(() => {
     setupAPIIntercepts(); // Call the function to set up API intercepts
+    cy.interceptSearchClient();
     cy.login();
   });
 
@@ -347,7 +348,7 @@ describe("case management", () => {
     cy.get(".ant-input-number-input").should("have.value", 120);
     cy.contains("Calculate Sub Total").click();
     cy.get("#taxName").click();
-    cy.contains("Nsbeel -1.5").click().wait(1000);
+    cy.contains("Nsbeel-1.5").click().wait(1000);
     cy.get("#bankAccount").click();
     cy.wait(1000);
     cy.get('div[title="test nabeel"]').click();

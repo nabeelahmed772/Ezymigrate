@@ -30,6 +30,7 @@ const sms = "211267313";
 // cypress/e2e/proEzyMigrate/Client/add_client.cy.js
 beforeEach(() => {
   setupAPIIntercepts(); // Call the function to set up API intercepts
+  cy.interceptSearchClient();
   cy.login();
   cy.xpath(
     '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'
@@ -433,11 +434,11 @@ describe("Adding client", () => {
 
     cy.get("#schoolType").click();
 
-    cy.get('div[title="Secondary"]').click({ multiple: true, force: true });
+    cy.get('div[title="Highschool"]').click({ multiple: true, force: true });
 
     cy.get("#school").click();
 
-    cy.get('div[title="new secondary"]').click({ multiple: true, force: true });
+    cy.get('div[title="test school name"]').click({ multiple: true, force: true });
 
     cy.wait(2000);
 
@@ -445,7 +446,7 @@ describe("Adding client", () => {
 
     cy.wait(3000);
 
-    cy.get('div[title="bsic level"]').click({ multiple: true, force: true });
+    cy.get('div[title="first level"]').click({ multiple: true, force: true });
 
     cy.get("#program").type("program no");
 
@@ -739,6 +740,8 @@ describe("Adding client", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
+    cy.wait(2000)
+
     cy.get('img[src="/static/media/file-notes-blue.87f6a9f6.svg"]').click();
 
     cy.get(".fr-element.fr-view").eq(1).type(" test again");
@@ -752,6 +755,8 @@ describe("Adding client", () => {
     cy.wait("@putfilenote").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
+
+    cy.wait(2000)
 
     cy.get('img[src="/static/media/link-visa.4925a6d1.svg"]').click();
 

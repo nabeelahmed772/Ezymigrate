@@ -33,11 +33,13 @@ describe("Adding client", () => {
   const futureDate = Cypress.env("futureDate");
 
   before(() => {
+    
     setupAPIIntercepts(); // Call the function to set up API intercepts
     cy.login();
   });
   
   it("Add client", () => {
+    cy.interceptSearchClient();
 
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'

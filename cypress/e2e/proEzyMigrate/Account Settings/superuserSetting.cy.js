@@ -99,6 +99,7 @@ describe("account setting", () => {
 
     cy.wait("@companyuserowner").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
+      cy.wrap(interception.response.body.count).as("userCount")
     });
 
     cy.wait("@companyuserstorage").then((interception) => {
@@ -123,6 +124,21 @@ describe("account setting", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
+
+    cy.get('@userCount').then((user) =>{
+    if(user>1){
+    cy.get('input[placeholder="Password"]').eq(0).type("Nabeel@123");
+
+    cy.get('input[placeholder="Confirm Password"]').eq(0).type("Nabeel@123");
+
+    cy.get(".ant-btn.ant-btn-primary.sus-save-btn")
+      .contains("CHANGE PASSWORD")
+      .click();
+
+    cy.wait("@changepassword").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    })
+  }else if(user=1){
     cy.get('input[placeholder="Password"]').type("Nabeel@123");
 
     cy.get('input[placeholder="Confirm Password"]').type("Nabeel@123");
@@ -133,7 +149,12 @@ describe("account setting", () => {
 
     cy.wait("@changepassword").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
+    })
+
+  }else{
+    cy.log("No user found");
+  }
+  })
 
     cy.get('a[href="/super-user-setting?activeTab=add-branch"]').click();
 
@@ -238,7 +259,7 @@ describe("account setting", () => {
         .then((value) => {
           cy.log(value);
 
-          if (value.includes("sales person")) {
+          if (value.includes("yetanother")) {
             cy.wrap($el)
               .find(".ant-btn.ant-btn-primary.sus-save-btn")
               .contains("GIVE ACCESS")

@@ -31,6 +31,7 @@ const sms = "211267313";
 // cypress/e2e/proEzyMigrate/Client/add_client.cy.js
 beforeEach(() => {
   setupAPIIntercepts(); // Call the function to set up API intercepts
+  cy.interceptSearchClient();
   cy.login();
   cy.xpath(
     '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'
@@ -512,7 +513,7 @@ describe("Adding client", () => {
   
     
     
-    cy.origin('https://checkmyvisa.io', (win) => {
+    cy.origin('https://checkmyvisa.io', () => {
       const checkmyvisapass = Cypress.env("checkmyvisapass");
      
 

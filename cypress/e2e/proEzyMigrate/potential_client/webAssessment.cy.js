@@ -185,9 +185,17 @@ describe("Web Assessment ", () => {
     cy.wait(4000);
     cy.visit(`${baseURL}web-inquiry-detailed`);
     cy.wait(4000);
-    cy.get(
-      '[style="display: flex; margin-top: 3px;"] > .pc-add-btn > .sus-modal-button-text'
+
+    cy.get('tr[style="background-color: rgb(255, 255, 255);"]').each(($el)=>{
+
+      const name = $el.find('.report-table-content-text').eq(0).text().trim()
+      if(name === 'first name web basic'){
+        cy.wrap($el).find('[style="display: flex; margin-top: 3px;"] > .pc-add-btn > .sus-modal-button-text'
     ).click();
+      }
+    })
+    
+      
     cy.wait(7000);
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[5]/span/a'
