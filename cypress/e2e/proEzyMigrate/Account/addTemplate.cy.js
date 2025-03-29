@@ -337,7 +337,7 @@ describe("account template", () => {
 
         cy.get('.ant-input.ant-input-lg').type('sufi')
         cy.wait(3000)
-        cy.wait('@searchingclient').then((interception)=>{
+        cy.wait('@mainpostclientsearch').then((interception)=>{
           expect(interception.response.statusCode).to.eq(200);
           const searchclient= interception.response.body.clients;
           let clientfoundsearch = false; 

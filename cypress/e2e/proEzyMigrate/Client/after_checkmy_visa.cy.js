@@ -332,7 +332,7 @@ describe("Adding client", () => {
         cy.wrap(interception.response.statusCode).should("eq", 200);
       });
   
-      cy.get(".ant-select-selector").eq(6).click();
+      cy.get(".ant-select-selector").eq(5).click();
   
       cy.get('div[title="mobile testing questionare"]').click();
   

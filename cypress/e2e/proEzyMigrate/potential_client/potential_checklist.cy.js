@@ -115,7 +115,7 @@ describe("potential client", () => {
       .type("{enter}");
     cy.contains("Invoice Template")
       .get(".ant-select-selection-search")
-      .eq(6)
+      .eq(5)
       .click();
 
     cy.contains("NEW TESTING TEMPLATE").click();
@@ -342,11 +342,11 @@ describe("potential client", () => {
 
     cy.get(".anticon.anticon-minus-circle").eq(0).click();
 
-    cy.get(".ant-select-selection-search-input").eq(9).click();
+    cy.get(".ant-select-selection-search-input").eq(8).click();
 
     cy.get('div[title="Nabeel Ahmed"]').eq(1).click();
 
-    cy.get(".ant-select-selection-search-input").eq(10).click({ force: true });
+    cy.get(".ant-select-selection-search-input").eq(9).click({ force: true });
 
     cy.wait(2000);
 

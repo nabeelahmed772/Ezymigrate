@@ -62,9 +62,9 @@ describe("account setting", () => {
 
     cy.wait(1000);
 
-    cy.get(".ant-select-selection-item").eq(3).click();
+    cy.get(".ant-select-selection-item").eq(2).click();
 
-    cy.get(".ant-select-selection-item").eq(3).type("bh");
+    cy.get(".ant-select-selection-item").eq(2).type("bh");
 
     cy.contains("BHUTAN").click();
 
@@ -180,7 +180,7 @@ describe("account setting", () => {
     });
 
     cy.wait(2000);
-    cy.get(".ant-select-selection-item").eq(3).click();
+    cy.get(".ant-select-selection-item").eq(2).click();
 
     cy.get('.ant-select-item-option-content').contains('NEW ZEALAND').click();
 

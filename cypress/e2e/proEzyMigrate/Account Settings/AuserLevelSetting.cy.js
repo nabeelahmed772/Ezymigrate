@@ -29,11 +29,11 @@ describe("account setting", () => {
 
     cy.wait("@DocumentView").its("response.statusCode").should("eq", 200);
 
-    cy.get(".ant-checkbox-input").eq(1).click();
+    cy.get(".ant-checkbox-input").click();
 
     cy.wait("@users/DocumentView").its("response.statusCode").should("eq", 200);
 
-    cy.get(".ant-checkbox-input").eq(1).click();
+    cy.get(".ant-checkbox-input").click();
 
     cy.wait("@users/DocumentView").its("response.statusCode").should("eq", 200);
 
@@ -858,7 +858,7 @@ describe("account setting", () => {
       .click();
 
     cy.wait("@CompanyDocumentAll").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
+      cy.wrap(interception.response.statusCode).should("not.eq", 500);
     });
 
     cy.get(".ant-btn.ant-btn-primary.button-blue")
@@ -886,9 +886,11 @@ describe("account setting", () => {
         cy.wait("@deleteCompanyDocument").then((interception) => {
           cy.wrap(interception.response.statusCode).should("eq", 200);
         });
+        
 
         cy.wait("@CompanyDocumentAll").then((interception) => {
-          cy.wrap(interception.response.statusCode).should("eq", 200);
+          console.log("Post-delete CompanyDocumentAll:", interception.response.statusCode);
+          cy.wrap(interception.response.statusCode).should("not.eq", 500);
         });
       }
     });

@@ -86,7 +86,7 @@ describe("DASHBOSRD", () => {
       });
 
       cy.get('.ant-select-selection-search-input')
-      .eq(4)
+      .eq(3)
       .click({force:true})
     cy.get('div[title="PAKISTAN"]').click();
     cy.wait(4000);
@@ -100,7 +100,7 @@ describe("DASHBOSRD", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.get(".ant-select-selection-item").eq(4).click();
+    cy.get(".ant-select-selection-item").eq(3).click();
 
     cy.get('div[title="Green Visa1"]').click();
 
@@ -185,7 +185,7 @@ describe("DASHBOSRD", () => {
       .its("response.statusCode")
       .should("eq", 200);
 
-    cy.get(".ant-select-selection-search-input").eq(6).click();
+    cy.get(".ant-select-selection-search-input").eq(5).click();
 
     cy.get('div[title="Green Visa1"]').click();
 
@@ -243,7 +243,7 @@ describe("DASHBOSRD", () => {
       .its("response.statusCode")
       .should("eq", 200);
 
-    cy.get(".ant-select-selection-search-input").eq(6).click();
+    cy.get(".ant-select-selection-search-input").eq(5).click();
 
     cy.get('div[title="Green Visa1"]').click();
 
@@ -271,7 +271,7 @@ describe("DASHBOSRD", () => {
       .should("eq", 200);
 
     cy.wait(2000);
-    cy.get(".ant-select-selection-search-input").eq(6).click({force:true});
+    cy.get(".ant-select-selection-search-input").eq(5).click({force:true});
 
     cy.get('div[title="Green Visa1"]').click();
 
@@ -293,7 +293,7 @@ describe("DASHBOSRD", () => {
       .its("response.statusCode")
       .should("eq", 200);
 
-    cy.get(".ant-select-selection-search-input").eq(6).click({ force: true });
+    cy.get(".ant-select-selection-search-input").eq(5).click({ force: true });
 
     cy.get('div[title="Green Visa1"]').click({ force: true });
 
@@ -309,7 +309,7 @@ describe("DASHBOSRD", () => {
 
     cy.wait("@Priority").its("response.statusCode").should("eq", 200);
 
-    cy.get(".ant-select-selection-search-input").eq(6).click({ force: true });
+    cy.get(".ant-select-selection-search-input").eq(5).click({ force: true });
 
     cy.get('div[title="Green Visa1"]').click({ force: true });
 
@@ -471,7 +471,7 @@ describe("DASHBOSRD", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.get(".ant-select-selection-search-input").eq(5).click();
+    cy.get(".ant-select-selection-search-input").eq(4).click();
 
     cy.get('div[title="Start"]').click({ force: true });
 
@@ -528,7 +528,7 @@ describe("DASHBOSRD", () => {
     //   cy.wrap(interception.response.statusCode).should("eq", 200);
     // });
 
-    cy.get(".ant-select-selection-item").eq(3).type('prep');
+    cy.get(".ant-select-selection-item").eq(2).type('prep');
 
     cy.wait(3000)
 
@@ -564,7 +564,7 @@ describe("DASHBOSRD", () => {
         const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
         const Name = "supplier emp";
-        const isContactNamePresent = data.flat().includes(Name);
+        const isContactNamePresent = data.flat().some((cell) => cell && cell.toString().trim().toLowerCase() === Name.toLowerCase());
 
         expect(isContactNamePresent).to.be.true;
       }

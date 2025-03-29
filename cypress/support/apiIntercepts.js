@@ -540,6 +540,12 @@ export function setupAPIIntercepts() {
     "WebSendQuestionnaireEmail"
   );
 
+  cy.intercept("POST", `${baseURL}client/SearchClientMain`).as(
+    "mainpostclientsearch"
+  );
+
+  
+
   cy.intercept(
     "GET",
     "https://app.ezymigrate.com/AgreementBuilder/Thanks.htm"
@@ -935,7 +941,12 @@ export function setupAPIIntercepts() {
     "putbranchQuestionnaireSetting"
   );
 
-  cy.intercept("GET", `${baseURL}company/document/All`).as(
+  cy.intercept("GET", `${baseURL}company/document/All`, (req) => {
+    req.reply((res) => {
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as(
     "CompanyDocumentAll"
   );
 

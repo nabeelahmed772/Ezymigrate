@@ -210,17 +210,17 @@ describe("Reports", () => {
 
     cy.get(".ant-picker-input").eq(1).type(futureDate).type("{enter}");
 
-    cy.get(".ant-select-selection-search-input").eq(4).click({force:true});
+    cy.get(".ant-select-selection-search-input").eq(3).click({force:true});
 
     cy.get('div[title="NEW ZEALAND"]').click()
 
     cy.wait(2000)
 
-    cy.get(".ant-select-selection-search-input").eq(5).click({force:true});
+    cy.get(".ant-select-selection-search-input").eq(4).click({force:true});
 
     cy.get('div[title="Appeal - IPT"]').click({force:true});
 
-    cy.get(".ant-select-selection-search-input").eq(7).click({force:true});
+    cy.get(".ant-select-selection-search-input").eq(6).click({force:true});
 
     cy.get('div[title="Active"]').click({force:true});
 
@@ -384,8 +384,10 @@ describe("Reports", () => {
         cy.wrap(interception.response.statusCode).should("eq", 200);
       });
 
+      cy.wait(2000)
 
-      cy.get('img[src="/static/media/edit-border-blue.a5c788a8.svg"]').eq(0).click({force:true})
+
+      cy.get('img[src="/static/media/edit-border-blue.a5c788a8.svg"]').eq(1).click({force:true})
       cy.get('.ant-btn.ant-btn-default.button-blue')
         .contains('Update')
         .click()
@@ -416,7 +418,7 @@ describe("Reports", () => {
   
           if(ge.includes('cypress automation')){
             cy.wrap($el).find('img[src="/static/media/delete-blue.983ea6be.svg"]').click()
-            cy.get('.ant-btn.ant-btn-primary').contains('OK').click()
+            cy.get('.ant-btn.ant-btn-primar:visibley').contains('OK').click()
             cy.wait("@allservicetype").then((interception) => {
               cy.wrap(interception.response.statusCode).should("eq", 200);
             });
@@ -429,13 +431,13 @@ describe("Reports", () => {
         })
   
 
-        cy.get('img[src="/static/media/plus-icon.16380594.svg"]').click()
+        cy.get('img[src="/static/media/plus-icon.16380594.svg"]').eq(1).click()
 
-        cy.get('.ant-input.profile-input').type('cypress automation')
+        cy.get('.ant-input.profile-input').eq(1).type('cypress automation')
         cy.get('.profile-input-border').eq(1).type('2')
         cy.get('.profile-input-border').eq(2).type('2')
   
-        cy.get('.ant-btn.ant-btn-primary').contains('OK').click()
+        cy.get('.ant-btn.ant-btn-primary:visible').contains('OK').click({force:true})
   
         cy.wait("@allservicetype").then((interception) => {
           cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -451,7 +453,7 @@ describe("Reports", () => {
   
           if(ge.includes('cypress automation')){
             cy.wrap($el).find('img[src="/static/media/edit-border-blue.a5c788a8.svg"]').click()
-            cy.get('.ant-btn.ant-btn-primary').contains('OK').click()
+            cy.get('.ant-btn.ant-btn-primary:visible').contains('OK').click()
             cy.wait("@allservicetype").then((interception) => {
               cy.wrap(interception.response.statusCode).should("eq", 200);
             });
@@ -474,7 +476,7 @@ describe("Reports", () => {
 
         if(ge.includes('cypress automation')){
           cy.wrap($el).find('img[src="/static/media/delete-blue.983ea6be.svg"]').click()
-          cy.get('.ant-btn.ant-btn-primary').contains('OK').click()
+          cy.get('.ant-btn.ant-btn-primary:visible').contains('OK').click()
           cy.wait("@allservicetype").then((interception) => {
             cy.wrap(interception.response.statusCode).should("eq", 200);
           });

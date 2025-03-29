@@ -412,7 +412,7 @@ describe("client questionaire and document", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@allbranchUsersfalse").then((interception) => {
+    cy.wait("@allbranchUsers").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
@@ -475,7 +475,7 @@ describe("client questionaire and document", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@allbranchUsersfalse").then((interception) => {
+    cy.wait("@allbranchUsers").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
@@ -527,7 +527,7 @@ describe("client questionaire and document", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@allbranchUsersfalse").then((interception) => {
+    cy.wait("@allbranchUsers").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 

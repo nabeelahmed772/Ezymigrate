@@ -77,7 +77,7 @@ describe("deals", () => {
 
     cy.contains("PIPELINE").should("be.visible");
 
-    cy.get(".ant-select-selection-search-input").eq(4).click();
+    cy.get(".ant-select-selection-search-input").eq(3).click();
 
     //cy.contains("first pipeline").should("be.visible");
 
@@ -186,7 +186,7 @@ describe("deals", () => {
         cy.wrap($el)
           .find('img[src="/static/media/link-visa.4925a6d1.svg"]')
           .click();
-        cy.get(".ant-select-selection-item").eq(3).click();
+        cy.get(".ant-select-selection-item").eq(2).click();
         cy.get('div[title="BackendDev"]').click();
         cy.contains("Save").click();
       }
@@ -218,7 +218,7 @@ describe("deals", () => {
 
     cy.contains("PIPELINE").should("be.visible");
 
-    cy.get(".ant-select-selection-search-input").eq(4).click();
+    cy.get(".ant-select-selection-search-input").eq(3).click();
 
     cy.wait(2000)
 
@@ -388,7 +388,7 @@ describe("deals", () => {
 
     cy.contains("PIPELINE").should("be.visible");
 
-    cy.get(".ant-select-selection-search-input").eq(4).click();
+    cy.get(".ant-select-selection-search-input").eq(3).click();
 
     cy.contains("my deal").should("be.visible").click();
 
@@ -628,7 +628,7 @@ describe("deals", () => {
 
     cy.wait("@getAllDeals").its("response.statusCode").should("eq", 200);
 
-    cy.get(".ant-select-selection-search-input").eq(4).click();
+    cy.get(".ant-select-selection-search-input").eq(3).click();
 
     cy.contains("my deal").click();
 
@@ -926,7 +926,7 @@ describe("deals", () => {
 
     cy.wait("@getAllDeals").its("response.statusCode").should("eq", 200);
 
-    cy.get(".ant-select-selection-search-input").eq(4).click();
+    cy.get(".ant-select-selection-search-input").eq(3).click();
 
     cy.contains("my deal").click();
 

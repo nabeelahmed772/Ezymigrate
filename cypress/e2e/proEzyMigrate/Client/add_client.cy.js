@@ -258,7 +258,7 @@ describe("Adding client", () => {
     cy.get("#secondaryEmail").type("test@gmail.com");
     cy.get("#visaDenied > label:nth-child(1) > span.ant-radio > input").click();
     cy.get("#deniedText").type("testing");
-    cy.get(".ant-select-selection-item").eq(16).click({ force: true });
+    cy.get(".ant-select-selection-item").eq(15).click({ force: true });
     cy.get('div[title="arsalan team member"]').click({ force: true });
     cy.contains("Update").click();
     cy.wait(5000);
@@ -362,7 +362,7 @@ describe("Adding client", () => {
 
     // Continue with your Cypress test steps
 
-    cy.get(".ant-select-selection-search-input").eq(4).click({ force: true });
+    cy.get(".ant-select-selection-search-input").eq(3).click({ force: true });
 
     cy.get('div[title="NEW ZEALAND"]').click();
 
@@ -476,7 +476,9 @@ describe("Adding client", () => {
 
     //updating the admission
 
-    cy.get(".anticon.anticon-down").eq(3).click();
+    cy.wait(2000)
+
+    cy.get(".anticon.anticon-down").eq(2).click();
 
     cy.get("#visaApproveDate")
       .type(futureDate, { force: true })
@@ -583,7 +585,7 @@ describe("Adding client", () => {
 
     cy.wait(2000);
 
-    cy.get(".ant-checkbox-input").eq(1).click();
+    cy.get(".ant-checkbox-input").eq(0).click();
 
     cy.get(".anticon.anticon-ellipsis").eq(1).click();
 
@@ -616,7 +618,7 @@ describe("Adding client", () => {
 
     cy.get('img[src="/static/media/link-visa.4925a6d1.svg"]').eq(0).click();
 
-    cy.get(".ant-checkbox-input").eq(4).click();
+    cy.get(".ant-checkbox-input").eq(3).click();
 
     cy.get(".ant-btn.ant-btn-primary").contains("OK").click();
 
@@ -670,7 +672,7 @@ describe("Adding client", () => {
 
     cy.get('img[src="/static/media/multimedia-blue.f6e13199.svg"]').click();
 
-    cy.get(".ant-checkbox-input").eq(3).click();
+    cy.get(".ant-checkbox-input").eq(2).click();
 
     cy.get(".ant-btn.ant-btn-primary").contains("OK").click({ force: true });
 
@@ -760,7 +762,7 @@ describe("Adding client", () => {
 
     cy.get('img[src="/static/media/link-visa.4925a6d1.svg"]').click();
 
-    cy.get(".ant-checkbox-input").eq(2).click();
+    cy.get(".ant-checkbox-input").eq(1).click();
 
     cy.get(".ant-btn.ant-btn-primary").eq(3).click();
 
@@ -1007,7 +1009,7 @@ describe("Adding client", () => {
     //updating the partner details
     cy.get("#clientSerial").click({ force: true }).type(randomNo(40));
     cy.get("#middleName").type("middlename");
-    cy.get(".ant-select-selection-item").eq(13).click({ force: true });
+    cy.get(".ant-select-selection-item").eq(12).click({ force: true });
     cy.get('div[title="arsalan team member"]').click({ force: true });
     cy.get(
       '.ant-btn.ant-btn-default.button-blue').eq(0).click();
@@ -1100,7 +1102,7 @@ describe("Adding client", () => {
     cy.get(":nth-child(2) > a > .header-bar-text-div > .header-text").click();
     cy.wait(6000);
 
-    cy.get(".ant-select-selection-search-input").eq(4).click({ force: true });
+    cy.get(".ant-select-selection-search-input").eq(3).click({ force: true });
 
     cy.get('div[title="NEW ZEALAND"]').click();
 

@@ -27,6 +27,7 @@ function randName(length) {
 
 describe("custom questionaires", () => {
   const futureDate = Cypress.env("futureDate");
+  
 
   before(() => {
     setupAPIIntercepts(); // Call the function to set up API intercepts
@@ -34,6 +35,7 @@ describe("custom questionaires", () => {
   });
 
   it("custom questionaires", () => {
+    cy.interceptSearchClient();
     cy.get('a[href="/questionnaire"]').click();
 
     cy.wait("@GetAllQuestionnairs").then((interception) => {
@@ -82,7 +84,7 @@ describe("custom questionaires", () => {
 
     cy.get("#sections_0_questions_1_question").type("plz enter Date of birth");
 
-    cy.get(".ant-select-selection-item").eq(4).click();
+    cy.get(".ant-select-selection-item").eq(3).click();
 
     cy.get('div[title="Date"]').click();
 
@@ -140,6 +142,18 @@ describe("custom questionaires", () => {
 
     cy.wait(2000);
 
+    cy.get(".ant-checkbox-input").eq(1).click();
+
+    cy.wait("@SimpleUpdate").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait("@GetAllQuestionnairs").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
+
+    cy.wait(2000);
+
     cy.get(".ant-checkbox-input").eq(2).click();
 
     cy.wait("@SimpleUpdate").then((interception) => {
@@ -165,18 +179,6 @@ describe("custom questionaires", () => {
     cy.wait(2000);
 
     cy.get(".ant-checkbox-input").eq(4).click();
-
-    cy.wait("@SimpleUpdate").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
-
-    cy.wait("@GetAllQuestionnairs").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
-
-    cy.wait(2000);
-
-    cy.get(".ant-checkbox-input").eq(5).click();
 
     cy.wait("@SimpleUpdate").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
@@ -248,7 +250,7 @@ describe("custom questionaires", () => {
     cy.wait("@getmarkedtagspotentialclient").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
       const marketTags = interception.response.body.items;
-      const tag3 = marketTags.find((marketTags) => marketTags.name === "tag 3");
+      const tag3 = marketTags.find((marketTags) => marketTags.name === "tag 3 ");
       if (!tag3) {
         cy.get('a[href="/account-settings"]').click();
         cy.get(".sus-inactive-tab-text")
@@ -354,7 +356,7 @@ describe("custom questionaires", () => {
       .click();
     cy.wait(3000);
 
-    cy.get(".ant-select-selection-search-input").eq(7).click({ force: true });
+    cy.get(".ant-select-selection-search-input").eq(6).click({ force: true });
 
     cy.get('div[title="tag 3 "]').click();
 
