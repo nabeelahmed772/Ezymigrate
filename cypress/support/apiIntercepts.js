@@ -733,8 +733,21 @@ export function setupAPIIntercepts() {
   cy.intercept("GET", `${baseURL}school/*`).as("schoolget");
 
   cy.intercept("PUT", `${baseURL}school`).as("schoolput");
+  cy.intercept("DELETE", `${baseURL}school`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("deleteschool");
 
-  cy.intercept("GET", `${baseURL}school/All/*`).as("schoolall");
+  cy.intercept("GET", `${baseURL}school/All/*`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("schoolall");
 
   cy.intercept(`${baseURL}report/CurrentVisaExpiry`).as("VisaExpiry");
 

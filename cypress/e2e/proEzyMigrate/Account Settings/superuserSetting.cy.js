@@ -335,7 +335,7 @@ describe("account setting", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait(2000)
+    cy.wait(4000)
 
 
     cy.get(".ant-select-selection-item").eq(0).click();

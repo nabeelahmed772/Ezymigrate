@@ -9,6 +9,7 @@ describe("account setting", () => {
   const futureDate = Cypress.env("futureDate");
 
   it("Settings", () => {
+    cy.interceptSearchClient();
     cy.get('a[href="/account-settings"]').click();
 
     cy.contains("Signature").click();
