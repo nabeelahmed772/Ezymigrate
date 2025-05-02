@@ -11,23 +11,33 @@ describe("Adding school", () => {
   before(() => {
     setupAPIIntercepts(); // Call the function to set up API intercepts
     cy.login();
+    function generateSchoolName() {
+      const baseName = "Cypress School";
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+      const randomSuffix = Array.from({ length: 5 }, () =>
+        chars[Math.floor(Math.random() * chars.length)]
+      ).join("");
+      return `${baseName} ${randomSuffix}`;
+    }
+    
+    const uniqueSchoolName = generateSchoolName();
+    Cypress.env("randSchoolName", uniqueSchoolName);
+    
   });
   it("Add school", () => {
     cy.interceptSearchClient();
     cy.get('a[href="/school-management"]').click();
-    cy.wait("@getmarkedtagspotentialclient").then((interception) => {
+    cy.wait(["@getmarkedtagspotentialclient",
+      "@programdetail",
+      "@getschooltype",
+      "@schoolall"
+    ])
+      .then((interception) => {
+        interception.forEach((interception) =>{
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
-    cy.wait("@programdetail").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
-
-    cy.wait("@getschooltype").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
-    cy.wait("@schoolall").then((interception) => {
-      cy.wrap(interception.response.statusCode).should("eq", 200);
-    });
+  });
+    
 
     cy.wait("@postschoolstudentlist")
       .as("firstRequest")
@@ -83,17 +93,24 @@ describe("Adding school", () => {
       cy.log(`Found ${count} "test school name"`)
       if (count===0) return; 
       cy.get('tr').each(($row)=>{
-        const text = $row.text();
+        const text = $row.text().trim();
         if(text.includes('test school name')){
-          cy.wrap($row).within(()=>{
-            cy.get('.anticon.anticon-delete').click()
-
-          })
-          cy.get('.ant-btn.ant-btn-default.button').click()
-          cy.wait(2000)
-          cy.wait('@deleteschool').then((interception)=>{
+          cy.wrap($row).find('.anticon.anticon-delete').click()
+            cy.get('.ant-btn.ant-btn-default.button').click()
+            cy.wait(2000)
+            cy.wait('@deleteschool').then((interception)=>{
+            const res = interception.response.body;  
             cy.wrap(interception.response.statusCode).should('eq', 200)
+            if(res.response===false){
+              cy.log('school cant be deleted')
+              return;
+            }
+            cy.wait(2000)
+            deleteAlltestSchools();
           })
+
+          
+          
 
         }
 
