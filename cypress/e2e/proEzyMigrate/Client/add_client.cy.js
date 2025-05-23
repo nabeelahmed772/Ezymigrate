@@ -566,15 +566,18 @@ describe("Adding client", () => {
     cy.wait(6000);
     cy.get(":nth-child(4) > a > .header-bar-text-div > .header-text").click();
     cy.wait(6000);
-    cy.contains("Contract-Signed-PDF.pdf ").should("be.visible");
+    cy.contains("Contract-Signed-PDF").should("be.visible");
     cy.contains("Add Document").click();
     cy.get('input[type="file"]').attachFile("sample.pdf");
+    cy.wait("@MultiUploadWithFileName").then((interception) => {
+      cy.wrap(interception.response.statusCode).should("eq", 200);
+    });
     cy.get(".ant-btn.ant-btn-primary.button-blue").contains("Upload").click();
     cy.wait("@clientlog").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
-    cy.wait("@document").then((interception) => {
+    cy.wait("@savedocumentapi").then((interception) => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
     cy.wait("@AllByType").then((interception) => {

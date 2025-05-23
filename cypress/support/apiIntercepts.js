@@ -243,9 +243,25 @@ export function setupAPIIntercepts() {
     });
   }).as("AllData");
 
+  
+
+  cy.intercept("POST", `${baseURL}document/SaveDocumentWithData`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("savedocumentapi");
+
   cy.intercept("POST", `${baseURL}document`).as("document");
 
-  cy.intercept("GET", `${baseURL}document/AllByType/**`).as("AllByType");
+  cy.intercept("GET", `${baseURL}document/AllByType/**`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("AllByType");
 
   cy.intercept("GET", `${baseURL}document/type/All`).as("getdocumentypeall");
 
