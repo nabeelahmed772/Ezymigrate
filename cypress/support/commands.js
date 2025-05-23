@@ -41,7 +41,7 @@ Cypress.Commands.add("login", () => {
   cy.get("#password > .profile-input-login").type(password);
 
   cy.get(".sus-modal-button-text").click();
-
+  cy.wait(1000)
   
 
   cy.contains("Client Analytics").should("be.visible");
