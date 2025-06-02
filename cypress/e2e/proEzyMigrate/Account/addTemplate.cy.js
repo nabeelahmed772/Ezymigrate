@@ -46,7 +46,7 @@ describe("account template", () => {
 
     cy.get(".ant-tabs-tab-btn").contains("Settings").click();
 
-    cy.wait(3000)
+    cy.wait(3000);
     cy.wait("@branch/bank").then((bank) => {
       cy.wrap(bank.response.statusCode).should("eq", 200);
       if (bank.response.body.count === 0) {
@@ -208,21 +208,23 @@ describe("account template", () => {
     cy.get(".ant-tabs-tab-btn").eq(0).click();
 
     cy.wait("@getTemplate").then((temp) => {
+      const triangleitem = temp.response.body.items;
       cy.wrap(temp.response.statusCode).should("not.eq", 500);
       if (temp.response.statusCode === 200) {
         cy.wait("@getTax").its("response.statusCode").should("eq", 200);
+      }
+      if (
+        triangleitem.some((triangleitem) => triangleitem.name === "trianlge")
+      ) {
+        cy.get('input[placeholder="Enter Name"]')
+          .invoke("val")
+          .should("not.be.empty");
       }
     });
 
     cy.wait(2000);
 
-    cy.get(".ant-col.ant-col-xs-16")
-      .eq(1)
-      .then(($antcol) => {
-        if (
-          $antcol.find(".ant-col.ant-col-offset-1.ant-col-xs-23").length > 0
-        ) {
-          cy.get('input[placeholder="Enter Name"]').and("not.have.value", ""); //ensure its not empty
+    //ensure its not empty
           cy.get(".ant-col.ant-col-offset-1.ant-col-xs-23").each(
             ($el, index, $list) => {
               var ge = $el.find('input[type="text"]').val();
@@ -235,8 +237,8 @@ describe("account template", () => {
               }
             }
           );
-        }
-      });
+        
+      
 
     cy.wait(3000);
     cy.contains("ADD TEMPLATE").scrollIntoView();
@@ -335,25 +337,35 @@ describe("account template", () => {
 
         cy.wait(1000);
 
-        cy.get('.ant-input.ant-input-lg').type('sufi')
-        cy.wait(3000)
-        cy.wait('@mainpostclientsearch').then((interception)=>{
+        cy.get(".ant-input.ant-input-lg").type("sufi");
+        cy.wait(3000);
+        cy.wait("@mainpostclientsearch").then((interception) => {
           expect(interception.response.statusCode).to.eq(200);
-          const searchclient= interception.response.body.clients;
-          let clientfoundsearch = false; 
+          const searchclient = interception.response.body.clients;
+          let clientfoundsearch = false;
           searchclient.forEach((searchclient) => {
-            if(searchclient.firstName==='sufi' && searchclient.lastName==='cup' && searchclient.memberType==='Client'){
+            if (
+              searchclient.firstName === "sufi" &&
+              searchclient.lastName === "cup" &&
+              searchclient.memberType === "Client"
+            ) {
               clientfoundsearch = true;
-              cy.log('found client', `${searchclient.firstName} ${searchclient.lastName}`);
-              const namePattern = new RegExp(`^${searchclient.firstName} ${searchclient.lastName}(?: \\- \\d+)?$`);
-            
-              cy.contains('.ant-select-item-option-content span', namePattern).click()
+              cy.log(
+                "found client",
+                `${searchclient.firstName} ${searchclient.lastName}`
+              );
+              const namePattern = new RegExp(
+                `^${searchclient.firstName} ${searchclient.lastName}(?: \\- \\d+)?$`
+              );
+
+              cy.contains(
+                ".ant-select-item-option-content span",
+                namePattern
+              ).click();
             }
-            
-            
           });
-          if(!clientfoundsearch){
-            cy.log('automation clients not found')
+          if (!clientfoundsearch) {
+            cy.log("automation clients not found");
             cy.log('Other client(s) found, but "sufi cup" is not present.');
             // Optional: handle cases where other clients are found but not "test conv"
             // For example, you could choose to add the "test conv" client here
@@ -397,9 +409,8 @@ describe("account template", () => {
             )
               .scrollIntoView()
               .click();
-          
           }
-        })
+        });
 
         // cy.pause();
 
@@ -508,51 +519,51 @@ describe("account template", () => {
         //         }
         //       }
         //     );
-          // } //else {
-          //   cy.log('Other client(s) found, but "sufi cup" is not present.');
-          //   // Optional: handle cases where other clients are found but not "test conv"
-          //   // For example, you could choose to add the "test conv" client here
-          //   cy.get('a[href="/add-new-client"]').click();
+        // } //else {
+        //   cy.log('Other client(s) found, but "sufi cup" is not present.');
+        //   // Optional: handle cases where other clients are found but not "test conv"
+        //   // For example, you could choose to add the "test conv" client here
+        //   cy.get('a[href="/add-new-client"]').click();
 
-          //   cy.wait("@GetAllCountries")
-          //     .its("response.statusCode")
-          //     .should("eq", 200);
-          //   cy.wait("@getallusers")
-          //     .its("response.statusCode")
-          //     .should("eq", 200);
-          //   cy.wait("@GetAllClientSource")
-          //     .its("response.statusCode")
-          //     .should("eq", 200);
-          //   cy.wait("@BranchCountryLinking")
-          //     .its("response.statusCode")
-          //     .should("eq", 200);
+        //   cy.wait("@GetAllCountries")
+        //     .its("response.statusCode")
+        //     .should("eq", 200);
+        //   cy.wait("@getallusers")
+        //     .its("response.statusCode")
+        //     .should("eq", 200);
+        //   cy.wait("@GetAllClientSource")
+        //     .its("response.statusCode")
+        //     .should("eq", 200);
+        //   cy.wait("@BranchCountryLinking")
+        //     .its("response.statusCode")
+        //     .should("eq", 200);
 
-          //   cy.get('[type="file"]').attachFile("ABC.jpg");
+        //   cy.get('[type="file"]').attachFile("ABC.jpg");
 
-          //   cy.get("#visaCountryId").click();
+        //   cy.get("#visaCountryId").click();
 
-          //   cy.wait(6000);
+        //   cy.wait(6000);
 
-          //   cy.contains("NEW ZEALAND").click({ force: true });
-          //   cy.wait(2000);
-          //   cy.get("#visaCountyType").click();
-          //   cy.wait(3000);
-          //   cy.get(".ant-select-item-option-content:visible")
-          //     .eq(1)
-          //     .contains("Visa")
-          //     .click();
-          //   cy.get("#clientSerial").type(randomNo(5));
-          //   cy.get("#title").click({ force: true }).type("title");
-          //   cy.get("#firstName").type("sufi");
-          //   cy.get("#lastName").type("cup");
-          //   cy.get("#preferredName").type("pre name");
+        //   cy.contains("NEW ZEALAND").click({ force: true });
+        //   cy.wait(2000);
+        //   cy.get("#visaCountyType").click();
+        //   cy.wait(3000);
+        //   cy.get(".ant-select-item-option-content:visible")
+        //     .eq(1)
+        //     .contains("Visa")
+        //     .click();
+        //   cy.get("#clientSerial").type(randomNo(5));
+        //   cy.get("#title").click({ force: true }).type("title");
+        //   cy.get("#firstName").type("sufi");
+        //   cy.get("#lastName").type("cup");
+        //   cy.get("#preferredName").type("pre name");
 
-          //   cy.get(
-          //     ":nth-child(2) > .save-button-add-client > :nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span"
-          //   )
-          //     .scrollIntoView()
-          //     .click();
-          // }
+        //   cy.get(
+        //     ":nth-child(2) > .save-button-add-client > :nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-btn > span"
+        //   )
+        //     .scrollIntoView()
+        //     .click();
+        // }
         // });
       });
 
@@ -827,14 +838,11 @@ describe("account template", () => {
     cy.wait(2000);
     //cy.get('.anticon.anticon-delete').click()
     cy.wait(2000);
+     cy.get('input[placeholder="Enter Name"]')
+          .invoke("val")
+          .should("not.be.empty");
 
-    cy.get(".ant-col.ant-col-xs-16")
-      .eq(1)
-      .then(($antcol) => {
-        if (
-          $antcol.find(".ant-col.ant-col-offset-1.ant-col-xs-23").length > 0
-        ) {
-          cy.get('input[placeholder="Enter Name"]').and("not.have.value", ""); //ensure its not empty
+     //ensure its not empty
           cy.get(".ant-col.ant-col-offset-1.ant-col-xs-23").each(
             ($el, index, $list) => {
               var ge = $el.find('input[type="text"]').val();
@@ -847,7 +855,6 @@ describe("account template", () => {
               }
             }
           );
-        }
-      });
+       
   });
 });

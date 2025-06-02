@@ -35,11 +35,11 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
         it('Add potential', () => {
 
-           cy.intercept('GET', 'https://beta-api.ezymigrate.co.nz/v1/company/BranchVisaType/All/f918a441-a5e4-44bd-9e4c-0c96144445c5').as('branchtype')
-            cy.intercept('GET', 'https://beta-api.ezymigrate.co.nz/v1/company/visastatus/All').as('visatatud')
-            cy.intercept('GET', 'https://beta-api.ezymigrate.co.nz/v1/users/ddl/All').as('allusers')
-            cy.intercept('POST', 'https://beta-api.ezymigrate.co.nz/v1/client/SearchClient').as('searchclient')
-            cy.intercept('GET', 'https://beta-api.ezymigrate.co.nz/v1/potentialclient/markedtags/All/*').as('tags')
+          //  cy.intercept('GET', 'https://beta-api.ezymigrate.co.nz/v1/company/BranchVisaType/All/f918a441-a5e4-44bd-9e4c-0c96144445c5').as('branchtype')
+          //   cy.intercept('GET', 'https://beta-api.ezymigrate.co.nz/v1/company/visastatus/All').as('visatatud')
+          //   cy.intercept('GET', 'https://beta-api.ezymigrate.co.nz/v1/users/ddl/All').as('allusers')
+          //   cy.intercept('POST', 'https://beta-api.ezymigrate.co.nz/v1/client/SearchClient').as('searchclient')
+          //   cy.intercept('GET', 'https://beta-api.ezymigrate.co.nz/v1/potentialclient/markedtags/All/*').as('tags')
       
       
           //cy.intercept('POST','https://beta-api.ezymigrate.co.nz/v1/dashboardbi/AccountAnalytics').as('load')
@@ -67,6 +67,29 @@ Cypress.on('uncaught:exception', (err, runnable) => {
           cy.wait(9000)
           
             cy.contains('Client Analytics').should('be.visible')
+
+            cy.get('a[href="/account-settings"]').click()
+            cy.contains('span', 'Outlook Integration').click()
+            cy.wait(3000)
+           cy.window().then((win) => {
+  cy.stub(win, 'open').callsFake((url) => {
+    // Instead of going to Microsoft, simulate what would happen after successful login
+    win.location.href = 'https://app.ezymigrate.com/outlook-integration?code=fake_code';
+  });
+});
+
+// Step 2: Click ADD ACCOUNT (which normally opens Microsoft login)
+cy.contains('button', 'ADD ACCOUNT').click();
+
+// Step 3: Assert redirected to integration page
+cy.url().should('include', '/outlook-integration');
+
+        
+
+    cy.wait(6000)
+    cy.pause()
+
+
 
             cy.get('a[href="/all-clients"]').click()
            

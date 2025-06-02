@@ -173,7 +173,13 @@ export function setupAPIIntercepts() {
     });
   }).as("deletebranch/bank");
 
-  cy.intercept("GET", `${baseURL}invoice/template/All`).as("getTemplate");
+  cy.intercept("GET", `${baseURL}invoice/template/All`, (req) => {
+    req.reply((res) => {
+      // Add Cache-Control header to prevent caching
+      res.headers["Cache-Control"] = "no-cache";
+      res.send();
+    });
+  }).as("getTemplate");
 
   cy.intercept("POST", `${baseURL}branch/tax`, (req) => {
     req.reply((res) => {

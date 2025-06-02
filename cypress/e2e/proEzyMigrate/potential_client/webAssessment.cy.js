@@ -48,6 +48,7 @@ describe("Web Assessment ", () => {
   const envConfig = Cypress.env(environment)
   const baseURL = envConfig.baseURL;
   it("Web Inquiry link detailed", () => {
+    
    
     cy.contains("Web Inquiry Link (Detailed)").click();
     cy.wait(4000);
