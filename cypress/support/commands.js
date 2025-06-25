@@ -1,5 +1,5 @@
 
-import { setupAPIIntercepts } from "./apiIntercepts";
+import { setupAPIIntercepts } from "./apiIntercepts"; 
 
 Cypress.Commands.add("login", () => {
   const environment = Cypress.env("environment");

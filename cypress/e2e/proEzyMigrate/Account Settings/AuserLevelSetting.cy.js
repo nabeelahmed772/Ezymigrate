@@ -1282,6 +1282,31 @@ describe("account setting", () => {
       cy.wrap(interception.response.statusCode).should("eq", 200);
     });
 
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
+      var deletecustom = $el
+        .find(".ant-table-cell")
+        .eq(1)
+        .text()
+        .trim();
+
+      debugger;
+      console.log(deletecustom);
+      if (deletecustom.includes("cypress field automation 1")) {
+        cy.wrap($el)
+          .find('img[src="/static/media/delete-blue.983ea6be.svg"]')
+          .click();
+
+        cy.wait("@getcustomfield").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+
+        cy.wait("@delcustomfield").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+      }
+    });
+
+    cy.wait(2000);
     cy.get("#fieldFor").click();
 
     cy.contains("Personal Information").click();
@@ -1306,15 +1331,15 @@ describe("account setting", () => {
 
     cy.wait(3000);
 
-    cy.get(".ant-table-tbody").each(($el, index, $list) => {
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
       var customedit = $el
-        .find(".ant-table-cell.ant-table-cell-row-hover")
+        .find(".ant-table-cell")
         .eq(1)
         .text()
         .trim();
 
       debugger;
-      console.log(customedit);
+      cy.log(customedit);
       if (customedit.includes("cypress field automation")) {
         cy.wrap($el).find(".anticon.anticon-edit").click();
         cy.get("#fieldName").type(" 1");
@@ -1332,9 +1357,9 @@ describe("account setting", () => {
 
     cy.wait(3000);
 
-    cy.get(".ant-table-tbody").each(($el, index, $list) => {
+    cy.get(".ant-table-row.ant-table-row-level-0").each(($el, index, $list) => {
       var deletecustom = $el
-        .find(".ant-table-cell.ant-table-cell-row-hover")
+        .find(".ant-table-cell")
         .eq(1)
         .text()
         .trim();

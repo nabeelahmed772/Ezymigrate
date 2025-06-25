@@ -29,6 +29,8 @@ export function setupAPIIntercepts() {
   const environment = Cypress.env("environment");
   const baseURL = generateBaseURL(environment);
 
+  
+
   cy.intercept(`${baseURL}admin/EzyMigrateSettings/GetLoginPageImage`).as(
     "GetLoginPageImage"
   );

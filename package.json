@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "addTemplate": "npx cypress run --browser chrome --spec cypress/e2e/proEzyMigrate/Account/addTemplate.cy.js"
   },
   "keywords": [],
   "author": "",
@@ -12,7 +13,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "cypress": "^14.4.0",
+    "cypress": "^14.4.1",
     "cypress-file-upload": "^5.0.8",
     "cypress-xpath": "^2.0.1",
     "dotenv": "^16.3.1"

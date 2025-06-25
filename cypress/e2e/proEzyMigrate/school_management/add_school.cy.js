@@ -719,7 +719,7 @@ describe("Adding school", () => {
         cy.wrap(interception.response.statusCode).should("eq", 200);
       });
 
-      cy.get(".ant-table-row.ant-table-row-level-0").each(
+      cy.get(".ant-tabsle-row.ant-table-row-level-0").each(
         ($el, index, $list) => {
           var del = $el
             .find(

@@ -36,6 +36,7 @@ describe("account template", () => {
 
   it("Add template", () => {
     cy.get(".ant-menu-title-content").eq(4).click();
+  
 
     cy.xpath(
       '//*[@id="root"]/div/div/div/section/section/aside/div/ul/li[9]/span/a'
