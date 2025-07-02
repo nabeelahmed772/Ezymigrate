@@ -3,9 +3,8 @@ const fs = require("fs");
 module.exports = defineConfig({
   defaultCommandTimeout: 17000,
   requestTimeout: 20000,
-  
-
   projectId: "9a1sqr",
+
   e2e: {
     setupNodeEvents(on, config) {
       config.experimentalOriginDependencies = true;
@@ -25,6 +24,13 @@ module.exports = defineConfig({
           return fs.promises.readdir(path);
         },
       });
+    },
+  },
+
+  component: {
+    devServer: {
+      framework: "react",
+      bundler: "webpack",
     },
   },
 });
